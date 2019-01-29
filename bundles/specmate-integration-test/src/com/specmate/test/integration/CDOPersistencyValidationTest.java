@@ -1,20 +1,23 @@
 package com.specmate.test.integration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Test;
 
 import com.mifmif.common.regex.Generex;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.RequirementsFactory;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChange;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.validation.ConnectionValidator;
@@ -30,10 +33,10 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testIDValidCharacters() {
+	public void testIDValidCharacters() throws Exception {
 		try {
 			ITransaction t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 
 			t.doAndCommit(new IChange<Object>() {
@@ -46,13 +49,13 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			t.close();
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			fail(e.getMessage());
 		}
 	}
 
 	@Test
-	public void testIDInvalidCharacters() {
+	public void testIDInvalidCharacters() throws Exception {
 		Generex generex = new Generex("test-[^a-zA-Z_0-9\\-]_case");
 		generex.setSeed(System.currentTimeMillis());
 		ITransaction t = null;
@@ -60,7 +63,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 		for (int i = 0; i < 10; i++) {
 			try {
 				t = persistency.openTransaction();
-				t.resetValidarors();
+				t.clearValidators();
 				t.addValidator(new IDValidator());
 				Resource r = t.getResource();
 				t.doAndCommit(new IChange<Object>() {
@@ -74,7 +77,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					}
 				});
 				fail("Invalid id not detected");
-			} catch (SpecmateException | SpecmateValidationException e) {
+			} catch (SpecmateValidationException e) {
 				// All OK
 			} finally {
 				if (t != null) {
@@ -85,12 +88,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testIDEmptyNull() {
+	public void testIDEmptyNull() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -102,7 +105,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Null id not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -112,12 +115,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testIDEmptyString() {
+	public void testIDEmptyString() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -130,7 +133,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Empty id not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			t.close();
@@ -138,12 +141,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testIDEmptySpace() {
+	public void testIDEmptySpace() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -156,7 +159,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Space id not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			t.close();
@@ -164,12 +167,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testNameNull() {
+	public void testNameNull() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -181,7 +184,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Null folder name not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -191,12 +194,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testNameEmptyString() {
+	public void testNameEmptyString() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -209,7 +212,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Empty folder name not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -219,12 +222,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testNameSpace() {
+	public void testNameSpace() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -237,7 +240,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Space folder name not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -247,12 +250,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testNameInvalidChars() {
+	public void testNameInvalidChars() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -265,7 +268,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Invalid name not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -275,12 +278,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testUniqueID() {
+	public void testUniqueID() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -299,7 +302,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					return null;
 				}
 			});
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			fail(e.getCause().getMessage());
 		} finally {
 			if (t != null) {
@@ -309,12 +312,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testUniqueIDUnderSameParent() {
+	public void testUniqueIDUnderSameParent() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -338,7 +341,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Add the same node twice in tree");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -348,12 +351,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testSameIDinDifferentBranch() {
+	public void testSameIDinDifferentBranch() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -377,7 +380,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					return null;
 				}
 			});
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			fail("Siblings can have children with the same id");
 		} finally {
 			if (t != null) {
@@ -387,12 +390,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testAddIdenticalObject() {
+	public void testAddIdenticalObject() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -418,7 +421,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					return null;
 				}
 			});
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			fail(e.getMessage());
 		} finally {
 			if (t != null) {
@@ -429,12 +432,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testUniqueIDinSameBranch() {
+	public void testUniqueIDinSameBranch() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -462,7 +465,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could add the same node twice in tree");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -472,31 +475,114 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testTopLevelFolder() {
+	public void testTopLevelFolderNew() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
+			t.addValidator(new TopLevelValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
 				public Object doChange() throws SpecmateException {
-					Folder parent = BaseFactory.eINSTANCE.createFolder();
-					parent.setId("parent");
-					Folder child1 = BaseFactory.eINSTANCE.createFolder();
-					child1.setId("child1");
-					Folder child2 = BaseFactory.eINSTANCE.createFolder();
-					child2.setId("child2");
+					Folder child = BaseFactory.eINSTANCE.createFolder();
+					child.setId("child");
 
-					parent.getContents().add(child1);
-					parent.getContents().add(child2);
-					r.getContents().add(parent);
+					Folder project = (Folder) r.getContents().get(0);
+					Folder topLevelFolder = (Folder) project.getContents().get(0);
+					assertTrue(topLevelFolder.getContents().add(child)); // Adding a folder to top-level is allowed.
+					assertTrue(project.getContents().add(child)); // Adding a folder to a project is not allowed.
+					return null;
+				}
+			});
+			fail("Top level folder violation not detected");
+		} catch (SpecmateValidationException e) {
+			// All OK
+		} finally {
+			if (t != null) {
+				t.close();
+			}
+		}
+	}
+
+	@Test
+	public void testTopLevelFolderChange() throws Exception {
+		ITransaction t = null;
+
+		try {
+			t = persistency.openTransaction();
+			t.clearValidators();
+			t.addValidator(new TopLevelValidator());
+			Resource r = t.getResource();
+			t.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					Folder project = (Folder) r.getContents().get(0);
+					Folder topLevelFolder = (Folder) project.getContents().get(0);
+					topLevelFolder.setName("Changing not allowed");
+					return null;
+				}
+			});
+			fail("Top level folder violation not detected");
+		} catch (SpecmateValidationException e) {
+			// All OK
+		} finally {
+			if (t != null) {
+				t.close();
+			}
+		}
+	}
+
+	@Test
+	public void testTopLevelFolderDelete() throws Exception {
+		ITransaction t = null;
+
+		try {
+			t = persistency.openTransaction();
+			t.clearValidators();
+			t.addValidator(new TopLevelValidator());
+			Resource r = t.getResource();
+			t.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					Folder project = (Folder) r.getContents().get(0);
+					project.getContents().remove(0);
+					return null;
+				}
+			});
+			// top-level folders can still be deleted, see comment in TopLevelValidator
+			// fail("Top level folder violation not detected");
+		} catch (SpecmateValidationException e) {
+			// All OK
+		} finally {
+			if (t != null) {
+				t.close();
+			}
+		}
+	}
+
+	@Test
+	public void testLibraryFolderDelete() throws Exception {
+		ITransaction t = null;
+
+		try {
+			t = persistency.openTransaction();
+			t.clearValidators();
+			Resource r = t.getResource();
+			t.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					Folder library = BaseFactory.eINSTANCE.createFolder();
+					library.setId("lib");
+					library.setLibrary(true);
+					Folder project = (Folder) r.getContents().get(0);
+					project.getContents().add(library);
 					return null;
 
 				}
 			});
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			fail(e.getMessage());
 		} finally {
 			if (t != null) {
@@ -506,24 +592,31 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new TopLevelValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
 				public Object doChange() throws SpecmateException {
-					Folder child3 = BaseFactory.eINSTANCE.createFolder();
-					child3.setId("child3");
-
 					Folder project = (Folder) r.getContents().get(0);
-					Folder topLevelFolder = (Folder) project.getContents().get(0);
-					assertTrue(topLevelFolder.getContents().add(child3)); // This is allowed
-					assertTrue(project.getContents().add(child3)); // This not
+
+					Folder library = null;
+					for (EObject o : project.getContents()) {
+						if (o instanceof Folder) {
+							Folder f = (Folder) o;
+							if (f.isLibrary()) {
+								library = f;
+							}
+						}
+
+					}
+					assertNotNull(library);
+					SpecmateEcoreUtil.detach(library);
 					return null;
 				}
 			});
-			fail("Top level folder violation not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+			fail("Library folder violation not detected");
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -533,12 +626,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testTextLengthTooLong() {
+	public void testTextLengthTooLong() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new TextLengthValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -555,7 +648,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could add object with too large text content");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -565,12 +658,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testMissingSourceTarget() {
+	public void testMissingSourceTarget() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -584,7 +677,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could store connection without source or target");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -594,12 +687,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testMissingSource() {
+	public void testMissingSource() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -618,7 +711,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could store connection without source");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			assertTrue(e.getMessage().contains("source"));
 		} finally {
 			if (t != null) {
@@ -628,12 +721,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testMissingTarget() {
+	public void testMissingTarget() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -652,7 +745,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could store connection without target");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			assertTrue(e.getMessage().contains("target"));
 		} finally {
 			if (t != null) {
@@ -662,12 +755,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testConnection() {
+	public void testConnection() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -690,7 +783,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					return null;
 				}
 			});
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			fail(e.getCause().getMessage());
 		} finally {
 			if (t != null) {

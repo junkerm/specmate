@@ -19,7 +19,7 @@ import org.eclipse.emf.cdo.common.revision.delta.CDOSetFeatureDelta;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.persistency.event.EChangeKind;
 
 public abstract class DeltaProcessor {
@@ -48,7 +48,6 @@ public abstract class DeltaProcessor {
 		for (CDORevisionKey key : data.getChangedObjects()) {
 			if (key instanceof CDORevisionDelta) {
 				CDORevisionDelta delta = (CDORevisionDelta) key;
-				// System.out.println(delta.getEClass().getName());
 				for (CDOFeatureDelta fDelta : delta.getFeatureDeltas()) {
 					processDelta(delta.getID(), fDelta, delta.getEClass().getName());
 				}

@@ -329,6 +329,15 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getFolder_Library() {
+		return (EAttribute)folderEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIPositionable() {
 		return iPositionableEClass;
 	}
@@ -540,6 +549,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		iSpecmateModelObjectEClass = createEClass(ISPECMATE_MODEL_OBJECT);
 
 		folderEClass = createEClass(FOLDER);
+		createEAttribute(folderEClass, FOLDER__LIBRARY);
 
 		iPositionableEClass = createEClass(IPOSITIONABLE);
 		createEAttribute(iPositionableEClass, IPOSITIONABLE__POSITION);
@@ -624,6 +634,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		initEClass(iSpecmateModelObjectEClass, ISpecmateModelObject.class, "ISpecmateModelObject", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(folderEClass, Folder.class, "Folder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getFolder_Library(), ecorePackage.getEBoolean(), "library", null, 0, 1, Folder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iPositionableEClass, IPositionable.class, "IPositionable", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIPositionable_Position(), ecorePackage.getEInt(), "position", null, 0, 1, IPositionable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

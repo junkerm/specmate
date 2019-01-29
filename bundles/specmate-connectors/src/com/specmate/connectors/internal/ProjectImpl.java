@@ -18,16 +18,16 @@ import com.specmate.connectors.config.ProjectConfigService;
 
 @Component(service = IProject.class, configurationPid = ProjectConfigService.PROJECT_CONFIG_FACTORY_PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class ProjectImpl implements IProject {
-	private String name = null;
+	private String id = null;
 	private IRequirementsSource connector = null;
 	private IExportService exporter = null;
 	private List<String> libraryFolders = null;
 
 	@Activate
 	public void activate(Map<String, Object> properties) {
-		Object obj = properties.get(ProjectConfigService.KEY_PROJECT_NAME);
+		Object obj = properties.get(ProjectConfigService.KEY_PROJECT_ID);
 		if (obj != null && obj instanceof String) {
-			this.name = (String) properties.get(ProjectConfigService.KEY_PROJECT_NAME);
+			this.id = (String) properties.get(ProjectConfigService.KEY_PROJECT_ID);
 		}
 
 		obj = properties.get(IProjectConfigService.KEY_PROJECT_LIBRARY_FOLDERS);
@@ -37,12 +37,12 @@ public class ProjectImpl implements IProject {
 	}
 
 	@Override
-	public String getName() {
-		return name;
+	public String getID() {
+		return id;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setID(String id) {
+		this.id = id;
 	}
 
 	@Reference(name = "connector")

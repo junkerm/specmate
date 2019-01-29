@@ -4,7 +4,7 @@ import java.sql.Connection;
 
 import org.osgi.service.component.annotations.Component;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.dbprovider.api.IDBProvider;
 import com.specmate.dbprovider.api.migration.IAttributeToSQLMapper;
 import com.specmate.dbprovider.api.migration.IObjectToSQLMapper;

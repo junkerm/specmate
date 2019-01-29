@@ -5,7 +5,7 @@
 
 	export class Operation  {
 
-		___nsuri: string = "http://specmate.com/20181108/model/batch";
+		___nsuri: string = "http://specmate.com/20181210/model/batch";
 		public url: string;
 		public className: string = "Operation";
 		public static className: string = "Operation";

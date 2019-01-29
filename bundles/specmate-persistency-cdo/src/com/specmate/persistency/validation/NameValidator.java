@@ -7,9 +7,10 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.INamed;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.event.EChangeKind;
 
@@ -44,23 +45,25 @@ public class NameValidator extends ValidatorBase implements IChangeListener {
 	}
 
 	private void validateName(Object objName, EObject obj) throws SpecmateValidationException {
+		String id = SpecmateEcoreUtil.getID(obj);
+		String msg = (id != null) ? "Object with id " + id + ": " : "";
 		if (objName == null) {
-			throw new SpecmateValidationException("Name is undefined.", getValidatorName(), null);
+			throw new SpecmateValidationException(msg + "Name is undefined.", getValidatorName(), null);
 		}
 
 		if (!(objName instanceof String)) {
-			throw new SpecmateValidationException("Name is not a string.", getValidatorName(), null);
+			throw new SpecmateValidationException(msg + "Name is not a string.", getValidatorName(), null);
 		}
 
 		String name = (String) objName;
 
 		if (name.trim().length() == 0) {
-			throw new SpecmateValidationException("Name is empty.", getValidatorName(), null);
+			throw new SpecmateValidationException(msg + "Name is empty.", getValidatorName(), null);
 		}
 
 		Matcher m = inValidNameChars.matcher(name);
 		if (m.find()) {
-			throw new SpecmateValidationException("Name contains an invalid character: " + name.charAt(m.start()),
+			throw new SpecmateValidationException(msg + "Name contains an invalid character: " + name.charAt(m.start()),
 					getValidatorName(), getObjectName(obj));
 		}
 	}

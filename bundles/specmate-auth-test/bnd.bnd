@@ -55,7 +55,6 @@ Test-Cases: \
 	jul.to.slf4j;version='[1.7.12,1.7.13)',\
 	log4j.over.slf4j;version='[1.7.12,1.7.13)',\
 	lpg.runtime.java;version='[2.0.17,2.0.18)',\
-	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
 	org.apache.felix.gogo.command;version='[0.10.0,0.10.1)',\
 	org.apache.felix.gogo.runtime;version='[0.10.0,0.10.1)',\
 	org.apache.felix.gogo.shell;version='[0.10.0,0.10.1)',\
@@ -97,7 +96,6 @@ Test-Cases: \
 	org.glassfish.jersey.media.jersey-media-sse;version='[2.17.0,2.17.1)',\
 	org.json;version=snapshot,\
 	org.slf4j.api;version='[1.7.2,1.7.3)',\
-	slf4j.api;version='[1.7.12,1.7.13)',\
 	specmate-common;version=snapshot,\
 	specmate-config;version=snapshot,\
 	specmate-config-api;version=snapshot,\
@@ -119,4 +117,20 @@ Test-Cases: \
 	org.apache.servicemix.bundles.lucene-queries;version='[7.2.0,7.2.1)',\
 	org.apache.servicemix.bundles.lucene-queryparser;version='[7.2.0,7.2.1)',\
 	org.apache.servicemix.bundles.lucene-sandbox;version='[7.2.0,7.2.1)',\
-	specmate-search;version=snapshot
+	specmate-search;version=snapshot,\
+	com.google.guava;version='[21.0.0,21.0.1)',\
+	org.apache.commons.lang3;version='[3.5.0,3.5.1)',\
+	slf4j.api;version='[1.7.25,1.7.26)',\
+	com.diffplug.osgi.extension.sun.misc;version='[0.0.0,0.0.1)',\
+	io.prometheus.simpleclient;version='[0.4.0,0.4.1)',\
+	io.prometheus.simpleclient_common;version='[0.4.0,0.4.1)',\
+	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)',\
+	io.prometheus.simpleclient_servlet;version='[0.4.0,0.4.1)',\
+	org.eclipse.emf.cdo.net4j;version='[4.1.400,4.1.401)',\
+	org.eclipse.emf.cdo.server.net4j;version='[4.1.300,4.1.301)',\
+	org.eclipse.jetty.osgi-servlet-api;version='[3.1.0,3.1.1)',\
+	org.eclipse.net4j;version='[4.5.0,4.5.1)',\
+	org.eclipse.net4j.tcp;version='[4.1.400,4.1.401)',\
+	specmate-administration;version=snapshot,\
+	specmate-metrics;version=snapshot,\
+	specmate-persistency-cdo;version=snapshot

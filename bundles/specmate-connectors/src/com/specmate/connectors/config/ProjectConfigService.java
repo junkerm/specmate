@@ -13,17 +13,19 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.config.api.IConfigService;
 import com.specmate.connectors.api.Configurable;
 import com.specmate.connectors.api.IProjectConfigService;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.validation.TopLevelValidator;
 
 /**
  * Service that configures connectors, exporters and top-level library folders
@@ -44,22 +46,21 @@ public class ProjectConfigService implements IProjectConfigService {
 	private IPersistencyService persistencyService;
 
 	@Activate
-	public void activate() throws SpecmateException, SpecmateValidationException {
-		String[] projectsNames = configService.getConfigurationPropertyArray(KEY_PROJECT_NAMES);
-		if (projectsNames == null) {
+	public void activate() throws SpecmateException {
+		String[] projectsIDs = configService.getConfigurationPropertyArray(KEY_PROJECT_IDS);
+		if (projectsIDs == null) {
 			return;
 		}
 
-		configureProjects(projectsNames);
+		configureProjects(projectsIDs);
 	}
 
 	@Override
-	public void configureProjects(String[] projectsNames) throws SpecmateException, SpecmateValidationException {
-		for (int i = 0; i < projectsNames.length; i++) {
-
-			String projectName = projectsNames[i];
+	public void configureProjects(String[] projectsIDs) throws SpecmateException {
+		for (int i = 0; i < projectsIDs.length; i++) {
+			String projectID = projectsIDs[i];
 			try {
-				String projectPrefix = PROJECT_PREFIX + projectsNames[i];
+				String projectPrefix = PROJECT_PREFIX + projectID;
 
 				Configurable connector = createConnector(projectPrefix);
 				if (connector != null) {
@@ -69,29 +70,30 @@ public class ProjectConfigService implements IProjectConfigService {
 				if (exporter != null) {
 					configureConfigurable(exporter);
 				}
-				ensureProjectFolder(projectName);
-				configureProject(projectName, connector, exporter);
-				bootstrapProjectLibrary(projectName);
-			} catch (SpecmateException | SpecmateValidationException e) {
-				this.logService.log(LogService.LOG_ERROR, "Could not create project " + projectName, e);
+
+				ensureProjectFolder(projectID);
+				configureProject(projectID, connector, exporter);
+				bootstrapProjectLibrary(projectID);
+			} catch (SpecmateException e) {
+				this.logService.log(LogService.LOG_ERROR, "Could not create project " + projectID, e);
 			}
 		}
 	}
 
-	private void ensureProjectFolder(String projectName) throws SpecmateException, SpecmateValidationException {
+	private void ensureProjectFolder(String projectID) throws SpecmateException {
 		ITransaction trans = null;
 
 		try {
 			trans = this.persistencyService.openTransaction();
 			EList<EObject> projects = trans.getResource().getContents();
 
-			EObject obj = SpecmateEcoreUtil.getEObjectWithId(projectName, projects);
+			EObject obj = SpecmateEcoreUtil.getEObjectWithId(projectID, projects);
 			if (obj == null || !(obj instanceof Folder)) {
 
 				trans.doAndCommit(() -> {
 					Folder folder = BaseFactory.eINSTANCE.createFolder();
-					folder.setName(projectName);
-					folder.setId(projectName);
+					folder.setName(projectID);
+					folder.setId(projectID);
 					projects.add(folder);
 					return null;
 				});
@@ -102,13 +104,12 @@ public class ProjectConfigService implements IProjectConfigService {
 				trans.close();
 			}
 		}
-
 	}
 
 	/**
 	 * Configures a single project with a given connector and exporter description
 	 */
-	private void configureProject(String projectName, Configurable connector, Configurable exporter)
+	private void configureProject(String projectID, Configurable connector, Configurable exporter)
 			throws SpecmateException {
 		String exporterFilter;
 		if (exporter != null) {
@@ -116,10 +117,16 @@ public class ProjectConfigService implements IProjectConfigService {
 		} else {
 			exporterFilter = "(" + KEY_EXPORTER_ID + "= NO_ID)";
 		}
-		String connectorFilter = "(" + KEY_CONNECTOR_ID + "=" + connector.getConfig().get(KEY_CONNECTOR_ID) + ")";
+
+		String connectorFilter;
+		if (connector != null) {
+			connectorFilter = "(" + KEY_CONNECTOR_ID + "=" + connector.getConfig().get(KEY_CONNECTOR_ID) + ")";
+		} else {
+			connectorFilter = "(" + KEY_CONNECTOR_ID + "= NO_ID)";
+		}
 
 		Hashtable<String, Object> projectConfig = new Hashtable<String, Object>();
-		projectConfig.put(KEY_PROJECT_NAME, projectName);
+		projectConfig.put(KEY_PROJECT_ID, projectID);
 
 		// Set the target of the 'exporter' reference in the Project.
 		// This ensures that the right exporter will be bound to the project.
@@ -129,7 +136,7 @@ public class ProjectConfigService implements IProjectConfigService {
 		// This ensures that the right connector will be bound to the project.
 		projectConfig.put("connector.target", connectorFilter);
 
-		String projectLibraryKey = PROJECT_PREFIX + projectName + KEY_PROJECT_LIBRARY;
+		String projectLibraryKey = PROJECT_PREFIX + projectID + KEY_PROJECT_LIBRARY;
 		String[] libraryFolders = configService.getConfigurationPropertyArray(projectLibraryKey);
 		if (libraryFolders != null) {
 			projectConfig.put(KEY_PROJECT_LIBRARY_FOLDERS, libraryFolders);
@@ -162,7 +169,7 @@ public class ProjectConfigService implements IProjectConfigService {
 	private void configureConfigurable(Configurable configurable) {
 		try {
 			OSGiUtil.configureFactory(configAdmin, configurable.getPid(), configurable.getConfig());
-		} catch (Exception e) {
+		} catch (SpecmateException e) {
 			this.logService.log(LogService.LOG_ERROR, "Failed attempt to configure " + configurable.getPid()
 					+ " with config " + OSGiUtil.configDictionaryToString(configurable.getConfig()), e);
 		}
@@ -192,19 +199,21 @@ public class ProjectConfigService implements IProjectConfigService {
 	}
 
 	/** Creates top-level library folders, if necessary */
-	private void bootstrapProjectLibrary(String projectName) throws SpecmateException, SpecmateValidationException {
+	private void bootstrapProjectLibrary(String projectID) throws SpecmateException {
 		ITransaction trans = null;
 
 		try {
 			trans = this.persistencyService.openTransaction();
+			trans.removeValidator(TopLevelValidator.class.getName());
 			EList<EObject> projects = trans.getResource().getContents();
 			if (projects == null || projects.size() == 0) {
 				return;
 			}
 
-			EObject obj = SpecmateEcoreUtil.getEObjectWithName(projectName, projects);
+			EObject obj = SpecmateEcoreUtil.getEObjectWithId(projectID, projects);
 			if (obj == null || !(obj instanceof Folder)) {
-				throw new SpecmateException("Expected project " + projectName + " not found in database");
+				throw new SpecmateInternalException(ErrorCode.CONFIGURATION,
+						"Expected project " + projectID + " not found in database");
 			}
 
 			trans.doAndCommit(new LibraryFolderUpdater((Folder) obj));
@@ -225,8 +234,8 @@ public class ProjectConfigService implements IProjectConfigService {
 
 		@Override
 		public Object doChange() throws SpecmateException {
-			String projectName = projectFolder.getName();
-			String projectLibraryKey = PROJECT_PREFIX + projectName + KEY_PROJECT_LIBRARY;
+			String projectID = projectFolder.getId();
+			String projectLibraryKey = PROJECT_PREFIX + projectID + KEY_PROJECT_LIBRARY;
 			String[] libraryFolders = configService.getConfigurationPropertyArray(projectLibraryKey);
 			if (libraryFolders != null) {
 				for (int i = 0; i < libraryFolders.length; i++) {
@@ -241,6 +250,7 @@ public class ProjectConfigService implements IProjectConfigService {
 					if (obj == null) {
 						libraryFolder = BaseFactory.eINSTANCE.createFolder();
 						libraryFolder.setId(projectLibraryId);
+						libraryFolder.setLibrary(true);
 						projectFolder.getContents().add(libraryFolder);
 					} else {
 						assert (obj instanceof Folder);

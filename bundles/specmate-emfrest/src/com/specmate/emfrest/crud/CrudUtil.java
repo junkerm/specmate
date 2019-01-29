@@ -15,7 +15,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateAuthorizationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.ISpecmateModelObject;
@@ -25,10 +28,9 @@ import com.specmate.rest.RestResult;
 public class CrudUtil {
 	private static final String CONTENTS = "contents";
 
-	public static RestResult<?> create(Object parent, EObject toAddObj, String userName) {
-
+	public static RestResult<?> create(Object parent, EObject toAddObj, String userName) throws SpecmateException {
 		if (toAddObj != null && !isProjectModificationRequestAuthorized(parent, toAddObj, true)) {
-			return new RestResult<Object>(Response.Status.UNAUTHORIZED, null, userName);
+			throw new SpecmateAuthorizationException("User " + userName + " is not authorized to create elements.");
 		}
 
 		EObject toAdd = toAddObj;
@@ -46,10 +48,9 @@ public class CrudUtil {
 		return new RestResult<>(Response.Status.OK, toAdd, userName);
 	}
 
-	public static RestResult<?> update(Object target, EObject update, String userName) {
-
+	public static RestResult<?> update(Object target, EObject update, String userName) throws SpecmateException {
 		if (update != null && !isProjectModificationRequestAuthorized(target, update, true)) {
-			return new RestResult<Object>(Response.Status.UNAUTHORIZED, null, userName);
+			throw new SpecmateAuthorizationException("User " + userName + " is not authorized to update elements.");
 		}
 		EObject theTarget = (EObject) target;
 		EObject theObj = update;
@@ -76,7 +77,7 @@ public class CrudUtil {
 			throws SpecmateException {
 
 		EObject original = (EObject) target;
-		ISpecmateModelObject copy = filteredCopy(childrenCopyBlackList, original);
+		IContainer copy = filteredCopy(childrenCopyBlackList, original);
 		IContainer parent = (IContainer) original.eContainer();
 		setUniqueCopyId(copy, parent);
 		parent.getContents().add(copy);
@@ -84,8 +85,8 @@ public class CrudUtil {
 		return new RestResult<>(Response.Status.OK, target);
 	}
 
-	private static ISpecmateModelObject filteredCopy(List<Class<? extends IContainer>> avoidRecurse, EObject original) {
-		ISpecmateModelObject copy = (ISpecmateModelObject) EcoreUtil.copy(original);
+	private static IContainer filteredCopy(List<Class<? extends IContainer>> avoidRecurse, EObject original) {
+		IContainer copy = (IContainer) EcoreUtil.copy(original);
 		List<IContentElement> retain = copy.getContents().stream()
 				.filter(el -> !avoidRecurse.stream().anyMatch(avoid -> avoid.isAssignableFrom(el.getClass())))
 				.collect(Collectors.toList());
@@ -94,8 +95,9 @@ public class CrudUtil {
 		return copy;
 	}
 
-	private static void setUniqueCopyId(ISpecmateModelObject copy, IContainer parent) {
+	private static void setUniqueCopyId(IContainer copy, IContainer parent) {
 		EList<IContentElement> contents = parent.getContents();
+
 		// Change ID
 		String newID = SpecmateEcoreUtil.getIdForChild(parent, copy.eClass());
 		copy.setId(newID);
@@ -122,7 +124,7 @@ public class CrudUtil {
 			SpecmateEcoreUtil.detach((EObject) target);
 			return new RestResult<>(Response.Status.OK, target, userName);
 		} else {
-			throw new SpecmateException("Attempt to delete non EObject.");
+			throw new SpecmateInternalException(ErrorCode.REST_SERVICE, "Attempt to delete non EObject.");
 		}
 	}
 

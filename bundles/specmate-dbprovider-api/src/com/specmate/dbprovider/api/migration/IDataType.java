@@ -1,6 +1,6 @@
 package com.specmate.dbprovider.api.migration;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 
 /**
  * This interface defines methods that help to represent the permissible data

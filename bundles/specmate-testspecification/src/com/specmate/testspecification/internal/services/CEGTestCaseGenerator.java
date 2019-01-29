@@ -29,7 +29,9 @@ import org.sat4j.tools.GateTranslator;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.specmate.common.AssertUtil;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IModelConnection;
@@ -388,13 +390,13 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			pushCEGStructure(translator);
 			var2EvalMap = pushEvaluations(evaluations, translator, maxSat, maxVar);
 		} catch (ContradictionException c) {
-			throw new SpecmateException(c);
+			throw new SpecmateInternalException(ErrorCode.TESTGENERATION, c);
 		}
 		try {
 			int[] model = maxSat.findModel();
 			return extractEnabledEvaluations(var2EvalMap, model);
 		} catch (TimeoutException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.TESTGENERATION, e);
 		}
 	}
 
@@ -467,14 +469,15 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			NodeEvaluation filled = new NodeEvaluation();
 			int[] model = solver.findModel();
 			if (model == null) {
-				throw new SpecmateException("Could not determine consistent test values.");
+				throw new SpecmateInternalException(ErrorCode.TESTGENERATION,
+						"Could not determine consistent test values.");
 			}
 			for (int v : model) {
 				setModelValue(evaluation, filled, v);
 			}
 			return filled;
 		} catch (TimeoutException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.TESTGENERATION, e);
 		}
 	}
 
@@ -501,7 +504,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			pushCEGStructure(translator);
 			pushEvaluation(evaluation, translator);
 		} catch (ContradictionException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.TESTGENERATION, e);
 		}
 		return translator;
 	}
@@ -552,7 +555,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			CEGNode cegNode = (CEGNode) node;
 			if (cegNode.getCondition().trim().startsWith("=")) {
 				String variable = cegNode.getVariable();
-				if(!multiMap.containsKey(variable)) {
+				if (!multiMap.containsKey(variable)) {
 					multiMap.put(variable, new HashSet<CEGNode>());
 				}
 				multiMap.get(variable).add(cegNode);

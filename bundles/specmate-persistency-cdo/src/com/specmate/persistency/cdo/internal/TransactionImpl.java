@@ -1,6 +1,7 @@
 package com.specmate.persistency.cdo.internal;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +17,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.common.exception.SpecmateValidationException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.INamed;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -29,6 +32,7 @@ import com.specmate.persistency.validation.ConnectionValidator;
 import com.specmate.persistency.validation.IDValidator;
 import com.specmate.persistency.validation.NameValidator;
 import com.specmate.persistency.validation.TextLengthValidator;
+import com.specmate.persistency.validation.TopLevelValidator;
 import com.specmate.rest.RestResult;
 
 /**
@@ -64,6 +68,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		this.validators.add(new NameValidator());
 		this.validators.add(new TextLengthValidator());
 		this.validators.add(new ConnectionValidator());
+		this.validators.add(new TopLevelValidator());
 		this.validatorsEnabled = true;
 	}
 
@@ -76,15 +81,16 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		logService.log(LogService.LOG_DEBUG, "Transaction closed: " + transaction.getViewID());
 	}
 
-	private <T> void commit(T object) throws SpecmateException, SpecmateValidationException {
+	private <T> void commit(T object) throws SpecmateException {
 		if (!isActive()) {
-			throw new SpecmateException("Attempt to commit but transaction is not active");
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY,
+					"Attempt to commit but transaction is not active.");
 		}
 		if (!isDirty()) {
 			return;
 		}
 		if (statusService != null && statusService.getCurrentStatus().isReadOnly()) {
-			throw new SpecmateException("Attempt to commit when in read-only mode");
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Attempt to commit when in read-only mode.");
 		}
 		try {
 			List<CDOIDAndVersion> detachedObjects;
@@ -94,26 +100,23 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				for (CDOIDAndVersion id : detachedObjects) {
 					SpecmateEcoreUtil.unsetAllReferences(transaction.getObject(id.getID()));
 				}
-			} catch (SpecmateException s) {
-				transaction.rollback();
-				logService.log(LogService.LOG_ERROR, "Error during commit, transaction rolled back");
-				throw s;
 			} catch (SpecmateValidationException s) {
 				transaction.rollback();
-				logService.log(LogService.LOG_ERROR, "Error during commit, transaction rolled back");
+				logService.log(LogService.LOG_ERROR, "Error during commit due to invalid data.", s);
 				throw s;
 			}
 			setMetadata(object, detachedObjects);
 			transaction.commit();
 		} catch (CommitException e) {
 			transaction.rollback();
-			logService.log(LogService.LOG_ERROR, "Error during commit, transaction rolled back");
-			throw new SpecmateException("Error during commit, transaction rolled back", e);
+			logService.log(LogService.LOG_ERROR, "Error during commit, transaction rolled back.", e);
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Error during commit, transaction rolled back.",
+					e);
 		}
 	}
 
 	@Override
-	public <T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException {
+	public <T> T doAndCommit(IChange<T> change) throws SpecmateException {
 		int maxAttempts = 10;
 		boolean success = false;
 		int attempts = 1;
@@ -125,11 +128,11 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 			try {
 				commit(result);
-			} catch (SpecmateException e) {
+			} catch (SpecmateInternalException e) {
 				try {
 					Thread.sleep(attempts * 50);
 				} catch (InterruptedException ie) {
-					throw new SpecmateException("Interrupted during commit.", ie);
+					throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Interrupted during commit.", ie);
 				}
 				attempts += 1;
 				continue;
@@ -137,7 +140,8 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			success = true;
 		}
 		if (!success) {
-			throw new SpecmateException("Could not commit after " + attempts + " attempts.");
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY,
+					"Could not commit after " + attempts + " attempts.");
 		}
 		return result;
 	}
@@ -195,7 +199,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		return names.toString();
 	}
 
-	private void notifyListeners() throws SpecmateException, SpecmateValidationException {
+	private void notifyListeners() throws SpecmateValidationException {
 		CDOChangeSetData data = transaction.getChangeSetData();
 		DeltaProcessor processor = new DeltaProcessor(data) {
 
@@ -288,7 +292,18 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	}
 
 	@Override
-	public void resetValidarors() {
+	public void removeValidator(String clazz) {
+		Iterator<IChangeListener> it = this.validators.iterator();
+		while (it.hasNext()) {
+			IChangeListener v = it.next();
+			if (v.getClass().getName().equals(clazz)) {
+				it.remove();
+			}
+		}
+	}
+
+	@Override
+	public void clearValidators() {
 		this.validators.clear();
 	}
 

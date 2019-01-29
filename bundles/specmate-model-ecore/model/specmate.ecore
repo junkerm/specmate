@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://specmate.com/20181108/model" nsPrefix="com.specmate.model">
-  <eSubpackages name="base" nsURI="http://specmate.com/20181108/model/base" nsPrefix="com.specmate.model.basemodel">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://specmate.com/20181210/model" nsPrefix="com.specmate.model">
+  <eSubpackages name="base" nsURI="http://specmate.com/20181210/model/base" nsPrefix="com.specmate.model.basemodel">
     <eClassifiers xsi:type="ecore:EClass" name="INamed" abstract="true" interface="true">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://specmate.com/form_meta">
@@ -37,7 +37,9 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ISpecmateModelObject" abstract="true"
         interface="true" eSuperTypes="#//base/IContainer #//base/ITracingElement"/>
-    <eClassifiers xsi:type="ecore:EClass" name="Folder" eSuperTypes="#//base/ISpecmateModelObject"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Folder" eSuperTypes="#//base/ISpecmateModelObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="library" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IPositionable" abstract="true" interface="true">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eClassifiers>
@@ -71,7 +73,7 @@
           eType="#//base/ITracingElement" eOpposite="#//base/ITracingElement/tracesTo"/>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="requirements" nsURI="http://specmate.com/20181108/model/requirements"
+  <eSubpackages name="requirements" nsURI="http://specmate.com/20181210/model/requirements"
       nsPrefix="com.specmate.model.requirements">
     <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//base/ISpecmateModelObject #//base/IExternal">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfTests" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -135,7 +137,7 @@
       </eStructuralFeatures>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="testspecification" nsURI="http://specmate.com/20181108/model/testspecification"
+  <eSubpackages name="testspecification" nsURI="http://specmate.com/20181210/model/testspecification"
       nsPrefix="com.specmate.model.testspecification">
     <eClassifiers xsi:type="ecore:EClass" name="TestSpecification" eSuperTypes="#//base/IContainer"/>
     <eClassifiers xsi:type="ecore:EClass" name="TestSpecificationSkeleton" eSuperTypes="#//base/INamed">
@@ -177,7 +179,7 @@
           upperBound="-1" eType="#//testspecification/TestParameter"/>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="processes" nsURI="http://specmate.com/20181108/model/processes"
+  <eSubpackages name="processes" nsURI="http://specmate.com/20181210/model/processes"
       nsPrefix="com.specmate.model.processes">
     <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//base/IContainer"/>
     <eClassifiers xsi:type="ecore:EClass" name="ProcessNode" abstract="true" eSuperTypes="#//base/IModelNode"/>
@@ -210,7 +212,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="ProcessStart" eSuperTypes="#//processes/ProcessNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="ProcessEnd" eSuperTypes="#//processes/ProcessNode"/>
   </eSubpackages>
-  <eSubpackages name="history" nsURI="http://specmate.com/20181108/model/history"
+  <eSubpackages name="history" nsURI="http://specmate.com/20181210/model/history"
       nsPrefix="com.specmate.model.processes">
     <eClassifiers xsi:type="ecore:EClass" name="History">
       <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
@@ -236,13 +238,41 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDelete" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="administration" nsURI="http://specmate.com/20181108/model/administration"
+  <eSubpackages name="administration" nsURI="http://specmate.com/20181210/model/administration"
       nsPrefix="com.specmate.model.administration">
     <eClassifiers xsi:type="ecore:EClass" name="Status">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProblemDetail">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ecode" eType="#//administration/ErrorCode"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="detail" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="instance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="ErrorCode">
+      <eLiterals name="noSuchService" value="10"/>
+      <eLiterals name="methodNotAllowed" value="20"/>
+      <eLiterals name="inMaintenanceMode" value="30"/>
+      <eLiterals name="invalidData" value="40"/>
+      <eLiterals name="validator" value="41"/>
+      <eLiterals name="noAuthorization" value="50"/>
+      <eLiterals name="internalProblem" value="100"/>
+      <eLiterals name="userSession" value="101"/>
+      <eLiterals name="configuration" value="102"/>
+      <eLiterals name="persistency" value="103"/>
+      <eLiterals name="migration" value="104"/>
+      <eLiterals name="seralization" value="105"/>
+      <eLiterals name="restService" value="106"/>
+      <eLiterals name="scheduler" value="107"/>
+      <eLiterals name="hpProxy" value="108"/>
+      <eLiterals name="jira" value="109"/>
+      <eLiterals name="metrics" value="110"/>
+      <eLiterals name="search" value="111"/>
+      <eLiterals name="testgeneration" value="112" literal="testgeneration"/>
+      <eLiterals name="trello" value="113"/>
+    </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="batch" nsURI="http://specmate.com/20181108/model/batch" nsPrefix="com.specmate.model.batch">
+  <eSubpackages name="batch" nsURI="http://specmate.com/20181210/model/batch" nsPrefix="com.specmate.model.batch">
     <eClassifiers xsi:type="ecore:EClass" name="BatchOperation">
       <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
           eType="#//batch/Operation" containment="true"/>

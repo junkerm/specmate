@@ -25,8 +25,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateAuthorizationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.internal.RestServiceProvider;
 import com.specmate.emfrest.internal.auth.AuthorizationHeader;
@@ -34,6 +35,9 @@ import com.specmate.emfrest.internal.auth.Secured;
 import com.specmate.metrics.IHistogram;
 import com.specmate.metrics.IMetricsService;
 import com.specmate.metrics.ITimer;
+import com.specmate.model.administration.AdministrationFactory;
+import com.specmate.model.administration.ErrorCode;
+import com.specmate.model.administration.ProblemDetail;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 import com.specmate.rest.RestResult;
@@ -133,57 +137,102 @@ public abstract class SpecmateResource {
 
 	private Object handleRequest(String serviceName, RestServiceChecker checkRestService,
 			RestServiceExcecutor<?> executeRestService, boolean commitTransaction) {
+
 		SortedSet<IRestService> services = serviceProvider.getAllRestServices(serviceName);
-		if (services.isEmpty()) {
-			logService.log(LogService.LOG_ERROR, "No suitable service found.");
-			return Response.status(Status.NOT_FOUND).build();
-		}
+
 		for (IRestService service : services) {
-			if (checkRestService.checkIfApplicable(service)) {
-				if (commitTransaction && statusService.getCurrentStatus().isReadOnly()
-						&& !(service instanceof IStatusService)) {
-					logService.log(LogService.LOG_ERROR, "Attempt to access writing resource when in read-only mode");
-					return Response.status(Status.FORBIDDEN).build();
-				}
+			if (!checkRestService.checkIfApplicable(service)) {
+				continue;
+			}
 
-				IHistogram histogram;
-				ITimer timer = null;
+			if (commitTransaction && statusService.getCurrentStatus().isReadOnly()
+					&& !(service instanceof IStatusService)) {
+				logService.log(LogService.LOG_ERROR, "Attempt to access writing resource when in read-only mode");
+
+				Status status = Status.SERVICE_UNAVAILABLE;
+				ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+				pd.setStatus(status.getStatusCode());
+				pd.setEcode(ErrorCode.IN_MAINTENANCE_MODE);
+
+				return Response.status(status).entity(pd).build();
+			}
+
+			IHistogram histogram;
+			ITimer timer = null;
+			try {
+				histogram = metricsService.createHistogram(service.getServiceName(),
+						"Service time for service " + service.getServiceName());
+				timer = histogram.startTimer();
+			} catch (SpecmateException e) {
+				logService.log(LogService.LOG_ERROR, "Could not obtain metric.", e);
+			}
+
+			try {
+
+				RestResult<?> result;
+
 				try {
-					histogram = metricsService.createHistogram(service.getServiceName(),
-							"Service time for service " + service.getServiceName());
-					timer = histogram.startTimer();
+					if (commitTransaction) {
+						result = transaction.doAndCommit(() -> executeRestService.executeRestService(service));
+						return result.getResponse();
+					} else {
+						result = executeRestService.executeRestService(service);
+						return result.getResponse();
+					}
+				} catch (SpecmateValidationException e) {
+					transaction.rollback();
+
+					logService.log(LogService.LOG_ERROR, e.getMessage());
+
+					Status status = Status.BAD_REQUEST;
+					ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+					pd.setStatus(status.getStatusCode());
+					pd.setEcode(e.getErrorcode());
+					pd.setDetail(e.getValidatorName());
+					pd.setInstance(e.getValidatedObjectName());
+
+					return Response.status(status).entity(pd).build();
+				} catch (SpecmateAuthorizationException e) {
+					transaction.rollback();
+					logService.log(LogService.LOG_ERROR, e.getMessage());
+
+					Status status = Status.UNAUTHORIZED;
+					ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+					pd.setStatus(status.getStatusCode());
+					pd.setEcode(e.getErrorcode());
+					pd.setDetail(e.getMessage());
+
+					return Response.status(status).entity(pd).build();
+
 				} catch (SpecmateException e) {
-					logService.log(LogService.LOG_ERROR, "Could not obtain metric.", e);
+					transaction.rollback();
+					logService.log(LogService.LOG_ERROR, e.getMessage());
+
+					Status status = Status.INTERNAL_SERVER_ERROR;
+					ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+					pd.setStatus(status.getStatusCode());
+					pd.setEcode(e.getErrorcode());
+					pd.setDetail(e.getMessage());
+
+					return Response.status(status).entity(pd).build();
 				}
 
-				try {
-
-					RestResult<?> result;
-
-					try {
-						if (commitTransaction) {
-							result = transaction.doAndCommit(() -> executeRestService.executeRestService(service));
-							return result.getResponse();
-						} else {
-							result = executeRestService.executeRestService(service);
-							return result.getResponse();
-						}
-					} catch (SpecmateException e) {
-						logService.log(LogService.LOG_ERROR, e.getMessage());
-						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-					} catch (SpecmateValidationException e) {
-						logService.log(LogService.LOG_ERROR, e.getMessage());
-						return Response.status(Status.BAD_REQUEST).build();
-					}
-
-				} finally {
-					if (timer != null) {
-						timer.observeDuration();
-					}
+			} finally {
+				if (timer != null) {
+					timer.observeDuration();
 				}
 			}
 		}
-		return Response.status(Status.NOT_FOUND).build();
+
+		logService.log(LogService.LOG_ERROR, "No suitable service found.");
+
+		Status status = Status.NOT_FOUND;
+		ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+		pd.setStatus(status.getStatusCode());
+		pd.setEcode(ErrorCode.NO_SUCH_SERVICE);
+		pd.setDetail(serviceName);
+
+		return Response.status(status).entity(pd).build();
 	}
 
 	@Path("/{id:[^_][^/]*(?=/)}")
@@ -192,7 +241,14 @@ public abstract class SpecmateResource {
 		EObject object = SpecmateEcoreUtil.getEObjectWithId(name, objects);
 		if (object == null) {
 			logService.log(LogService.LOG_ERROR, "Resource not found:" + httpRequest.getRequestURL());
-			return Response.status(Status.NOT_FOUND).build();
+
+			Status status = Status.NOT_FOUND;
+			ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+			pd.setStatus(status.getStatusCode());
+			// pd.setType(EErrorCode.NS.toString());
+			pd.setDetail(httpRequest.getRequestURI());
+
+			return Response.status(status).entity(pd).build();
 		} else {
 			InstanceResource resource = resourceContext.getResource(InstanceResource.class);
 			resource.setModelInstance(object);
