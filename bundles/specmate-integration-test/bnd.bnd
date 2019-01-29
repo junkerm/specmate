@@ -6,7 +6,9 @@ Test-Cases: \
 	com.specmate.test.integration.CDOPersistencyShutdownTest,\
 	com.specmate.test.integration.ProjectConfigServiceTest,\
 	com.specmate.test.integration.CDOPersistencyValidationTest,\
-	com.specmate.test.integration.ErrorResponsesTest
+	com.specmate.test.integration.ErrorResponsesTest,\
+	com.specmate.test.integration.NLPServiceTest,\
+	com.specmate.test.integration.ModelGenerationTest
 -buildpath: \
 	biz.aQute.launcher,\
 	specmate-persistency-api;version=latest,\

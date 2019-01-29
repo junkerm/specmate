@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import javax.ws.rs.core.Response.Status;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.osgi.service.log.LogService;
@@ -30,6 +31,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	static final String REST_ENDPOINT = "http://localhost:8088/services/rest";
 	static final String NSURI_KEY = EMFJsonSerializer.KEY_NSURI;
 	static final String ECLASS = EMFJsonSerializer.KEY_ECLASS;
+	static final String URL = EMFJsonSerializer.KEY_URI;
 	static IView view;
 	static LogService logService;
 	static RestClient restClient;
@@ -427,6 +429,14 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 
 	protected JSONObject getObject(String... segments) {
 		return getObject(Status.OK.getStatusCode(), segments);
+	}
+
+	protected JSONArray getContent(String... segments) {
+		String retrieveUrl = listUrl(segments);
+		RestResult<JSONArray> result = restClient.getList(retrieveUrl);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		JSONArray content = result.getPayload();
+		return content;
 	}
 
 	protected void deleteObject(String... segments) {
