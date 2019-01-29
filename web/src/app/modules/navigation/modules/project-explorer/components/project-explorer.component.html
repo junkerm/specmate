@@ -1,5 +1,5 @@
 <div class="input-group input-group-sm">
-    <input #searchBox class="form-control" type="search" (keyup)="search(searchBox.value)" />
+    <input #searchBox class="form-control form-control-sm" type="search" (keyup)="search(searchBox.value)" />
     <div class="input-group-append">
         <span class="input-group-text">
             <i class="fa fa-search"></i>
@@ -12,7 +12,7 @@
             <ng-template ngbTabContent>
                 <element-tree *ngFor="let element of rootElements;" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="true"></element-tree> 
                 <li *ngIf="canLoadMoreProjectFolders">
-                    <button (click)="loadMoreProjectFolders()" class="btn btn-outline-primary">
+                    <button (click)="loadMoreProjectFolders()" class="btn btn-sm btn-outline-primary">
                         <i class="fa fa-ellipsis-v"></i>&nbsp;{{'loadMore' | translate}}
                     </button>
                 </li>       
@@ -22,7 +22,7 @@
             <ng-template ngbTabContent>
                 <element-tree *ngFor="let element of rootLibraries;" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="true" [library]="true"></element-tree>        
                 <li *ngIf="canLoadMoreLibraryFolders">
-                    <button (click)="loadMoreLibraryFolders()" class="btn btn-outline-primary">
+                    <button (click)="loadMoreLibraryFolders()" class="btn btn-sm btn-outline-primary">
                         <i class="fa fa-ellipsis-v"></i>&nbsp;{{'loadMore' | translate}}
                     </button>
                 </li>

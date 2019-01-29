@@ -1,8 +1,8 @@
 <span [formGroup]="formGroup">
     <div class="input-group input-group-sm">
-        <input formControlName="name" type="text" class="form-control parameter-input" />
+        <input formControlName="name" type="text" class="form-control form-control-sm parameter-input" />
         <div class="input-group-append">
-            <button title="Delete parameter" class="btn btn-outline-danger" [class.disabled]="!deleteColumnEnabled" (click)="deleteParameter()"><i class="fa fa-trash"></i></button>
+            <button title="Delete parameter" class="btn btn-sm btn-outline-danger" [class.disabled]="!deleteColumnEnabled" (click)="deleteParameter()"><i class="fa fa-trash"></i></button>
         </div>
     </div>
 </span>

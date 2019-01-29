@@ -1,11 +1,9 @@
 <div *ngIf="modelHistoryEntries" class="card">
   <h5 class="card-header">
     {{'Changes' | translate}}
-    <div class="input-group input-group-sm">
-      <button id="simplehistory-expand-button" type="button" class="btn btn-secondary pull-right" (click)="isCollapsed = !isCollapsed"
-        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i
-          *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
-    </div>
+    <button id="simplehistory-expand-button" type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed"
+      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i
+        *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
   </h5>
   <ul class="list-group list-group-flush" *ngIf="!isCollapsed">
     <li *ngFor="let entry of modelHistoryEntries" class="list-group-item">

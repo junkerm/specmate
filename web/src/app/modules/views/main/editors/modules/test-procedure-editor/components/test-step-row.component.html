@@ -5,17 +5,17 @@
     <td>{{getPosition(testStep)}}</td>
     <td>
         <div class="input-group input-group-sm">
-            <input formControlName="description" type="text" class="form-control" />
+            <input formControlName="description" type="text" class="form-control form-control-sm" />
         </div>
     </td>
     <td>
         <div class="input-group input-group-sm">
-            <input formControlName="expectedOutcome" type="text" class="form-control" />
+            <input formControlName="expectedOutcome" type="text" class="form-control form-control-sm" />
         </div>
     </td>
     <td>
         <div class="input-group input-group-sm">
-            <select [(ngModel)]="selectedTestParameter" [ngModelOptions]="{standalone: true}" class="form-control">
+            <select [(ngModel)]="selectedTestParameter" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
                 <option [ngValue]="undefined"></option>
                 <option *ngFor="let parameter of testParameters" [ngValue]="parameter">{{parameter.name}}</option>
             </select>
@@ -23,7 +23,7 @@
     </td>
     <td>
         <div class="input-group input-group-sm">
-            <button title="{{'delete' | translate}}" (click)="delete()" class="btn btn-outline-danger"><i class="fa fa-trash"
+            <button title="{{'delete' | translate}}" (click)="delete()" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"
                     aria-hidden="true"></i></button>
         </div>
     </td>

@@ -1,7 +1,7 @@
 <li *ngIf="element && showElement">
     <div #treeElement class="scroll-anchor"></div>
     <span>
-        <button id="projectexplorer-expand-{{element['extId'] ? element['extId'] + ': ' : ''}}{{element.name}}" type="button" (click)="toggle()" (keydown)="handleKey($event, false);" title="{{'expand' | translate}}" class="btn expand" [style.visibility]="canExpand ? 'visible' : 'hidden'">
+        <button id="projectexplorer-expand-{{element['extId'] ? element['extId'] + ': ' : ''}}{{element.name}}" type="button" (click)="toggle()" (keydown)="handleKey($event, false);" title="{{'expand' | translate}}" class="btn btn-sm expand" [style.visibility]="canExpand ? 'visible' : 'hidden'">
             <i *ngIf="!expanded" class="fa fa-plus-square-o" aria-hidden="true"></i>
             <i *ngIf="expanded" class="fa fa-minus-square-o" aria-hidden="true"></i>
         </button>
@@ -16,7 +16,7 @@
     <ul *ngIf="expanded && canExpand">
         <element-tree #treeItem *ngFor="let childElement of contents" [baseUrl]="childElement.url" [parent]="element" [currentElement]="currentElement" [withExpand]="true" [library]="library" class="element-tree"></element-tree>
         <li *ngIf="canLoadMore">
-            <button (click)="loadMore()" class="btn btn btn-outline-primary">
+            <button (click)="loadMore()" class="btn btn-sm btn-outline-primary">
                 <i class="fa fa-ellipsis-v"></i>&nbsp;{{'loadMore' | translate}}
             </button>
         </li>

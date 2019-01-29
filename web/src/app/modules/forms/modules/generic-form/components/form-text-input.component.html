@@ -1,6 +1,6 @@
 <div [formGroup]="form" [ngClass]="{'has-danger': form.controls[meta.name].invalid, 'has-success': form.controls[meta.name].valid}" class="form-group" style="width: 100%">
     <label for="{{'ceg-details-' + meta.name + '-input'}}"><span class="data-item-title">{{meta.shortDesc | translate}}: </span></label>
-    <input [formControlName]="meta.name" [ngClass]="{'form-control-danger': form.controls[meta.name].invalid, 'form-control-success': form.controls[meta.name].valid}" type="text" class="form-control" placeholder="{{meta.shortDesc}}" id="{{'properties-' + meta.name + '-textfield'}}"
+    <input [formControlName]="meta.name" [ngClass]="{'form-control-danger': form.controls[meta.name].invalid, 'form-control-success': form.controls[meta.name].valid}" type="text" class="form-control form-control-sm" placeholder="{{meta.shortDesc}}" id="{{'properties-' + meta.name + '-textfield'}}"
     />
 
     <div class="form-control-feedback">

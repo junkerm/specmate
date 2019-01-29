@@ -19,7 +19,7 @@
                         <i class="fa fa-user"></i>
                     </span>
                 </div>
-                <input [(ngModel)]="username" id="login-username-textfield" name="" class="form-control" placeholder="{{'username' | translate}}"
+                <input [(ngModel)]="username" id="login-username-textfield" name="" class="form-control form-control-sm" placeholder="{{'username' | translate}}"
                     type="text">
             </div>
         </div>
@@ -30,7 +30,7 @@
                         <i class="fa fa-lock"></i>
                     </span>
                 </div>
-                <input [(ngModel)]="password" id="login-password-textfield" class="form-control" placeholder="{{'password' | translate}}"
+                <input [(ngModel)]="password" id="login-password-textfield" class="form-control form-control-sm" placeholder="{{'password' | translate}}"
                     type="password">
             </div>
         </div>
@@ -42,7 +42,7 @@
                     </span>
                 </div>
                 <div ngbDropdown class="d-inline-block input-group-append" #projectDropdown>
-                    <button class="btn btn-outline-primary" id="login-project-dropdown" ngbDropdownToggle>
+                    <button class="btn btn-sm btn-outline-primary" id="login-project-dropdown" ngbDropdownToggle>
                         {{project ? project : ('project' | translate)}}
                     </button>
                     <div ngbDropdownMenu aria-labelledby="projectDropdown">
@@ -52,20 +52,18 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="input-group input-group-sm">
-                <button id="login-button" title="{{'login' | translate}}" [ngClass]="{'disabled': !canLogin || isAuthenticating, 'waiting': isAuthenticating, 'not-allowed': !canLogin, 'btn-outline-primary': !canLogin, 'btn-primary': canLogin}"
-                    (click)="authenticate()" class="btn">
-                    <ng-container *ngIf="isAuthenticating">
-                        <i class="fa fa-circle-o-notch fa-spin"></i>
-                    </ng-container>
-                    <ng-container *ngIf="!isAuthenticating">
-                        <i class="fa fa-sign-in"></i>&nbsp;{{'login' | translate}}
-                    </ng-container>
-                </button>
-                <span id="login-language-dropdown" class="pull-right">
-                    <language-chooser></language-chooser>
-                </span>
-            </div>
+            <button id="login-button" title="{{'login' | translate}}" [ngClass]="{'disabled': !canLogin || isAuthenticating, 'waiting': isAuthenticating, 'not-allowed': !canLogin, 'btn-outline-primary': !canLogin, 'btn-primary': canLogin}"
+                (click)="authenticate()" class="btn btn-sm">
+                <ng-container *ngIf="isAuthenticating">
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                </ng-container>
+                <ng-container *ngIf="!isAuthenticating">
+                    <i class="fa fa-sign-in"></i>&nbsp;{{'login' | translate}}
+                </ng-container>
+            </button>
+            <span id="login-language-dropdown" class="pull-right">
+                <language-chooser></language-chooser>
+            </span>
         </div>
     </div>
     <div class="col-md-5"></div>

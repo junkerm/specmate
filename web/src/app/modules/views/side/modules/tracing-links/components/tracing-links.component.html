@@ -2,7 +2,7 @@
   <h5 class="card-header">
     {{'Traces' | translate}}
     <div class="input-group input-group-sm">
-      <button id="traces-expand-button" type="button" class="btn btn-secondary pull-right" (click)="isCollapsed = !isCollapsed"
+      <button id="traces-expand-button" type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed"
         [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i
           *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
     </div>
@@ -15,7 +15,7 @@
     <div class="form-group">
       <label for="reqtypeahead">{{'addARequirement' | translate}}:</label>
 
-      <input #reqtypeahead id="traces-addrequirement-textfield" type="text" class="form-control" editable="false"
+      <input #reqtypeahead id="traces-addrequirement-textfield" type="text" class="form-control form-control-sm" editable="false"
         placeholder="{{'searchRequirements' | translate}}" [ngbTypeahead]="search" [resultTemplate]="rt" (selectItem)="selectItem($event, reqtypeahead)" />
 
       <span *ngIf="searching">{{'searching' | translate}}...</span>
@@ -31,7 +31,7 @@
             <td style="text-align:right">
 
               <div class="input-group input-group-sm">
-                <button title="{{'delete' | translate}}" (click)="delete(trace)" class="btn btn-outline-danger"><i
+                <button title="{{'delete' | translate}}" (click)="delete(trace)" class="btn btn-sm btn-outline-danger"><i
                     class="fa fa-trash" aria-hidden="true"></i></button>
               </div>
             </td>

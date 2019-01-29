@@ -7,14 +7,14 @@
     </td>
     <td>
         <div class="input-group input-group-sm">
-            <button title="{{'delete' | translate}}" class="btn btn-outline-danger" (click)="delete()"><i class="fa fa-trash"></i></button>
+            <button title="{{'delete' | translate}}" class="btn btn-sm btn-outline-danger" (click)="delete()"><i class="fa fa-trash"></i></button>
         </div>
     </td>
     <td>
         <div class="input-group input-group-sm">
-            <button *ngIf="!(testProcedure)" title="{{'createTestProcedure' | translate}}" class="btn btn-outline-primary"
+            <button *ngIf="!(testProcedure)" title="{{'createTestProcedure' | translate}}" class="btn btn-sm btn-outline-primary"
                 (click)="createTestProcedure()"><i class="fa fa-plus"></i>&nbsp;{{'createTestProcedure' | translate}}</button>
-            <button *ngIf="testProcedure" [navigationTarget]="testProcedure" class="btn btn-outline-primary"><i class="fa fa-list-ol"
+            <button *ngIf="testProcedure" [navigationTarget]="testProcedure" class="btn btn-sm btn-outline-primary"><i class="fa fa-list-ol"
                     aria-hidden="true"></i></button>
         </div>
     </td>
