@@ -26,21 +26,35 @@
                     <th *ngFor="let input of inputParameters">
                         <test-parameter-form [testParameter]="input"></test-parameter-form>
                     </th>
-                    <th><button title="{{'addInputColumn' | translate}}" class="btn btn-sm btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
+                    <th>
+                        <div class="input-group input-group-sm">
+                            <button title="{{'addInputColumn' | translate}}" class="btn btn-outline-primary" (click)="addInputColumn()"><i
+                                    class="fa fa-plus"></i></button>
+                        </div>
+                    </th>
                     <th *ngFor="let output of outputParameters">
                         <test-parameter-form [testParameter]="output"></test-parameter-form>
                     </th>
-                    <th><button title="{{'addOutputColumn' | translate}}" class="btn btn-sm btn-outline-primary" (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
+                    <th>
+                        <div class="input-group input-group-sm">
+                            <button title="{{'addOutputColumn' | translate}}" class="btn btn-outline-primary" (click)="addOutputColumn()"><i
+                                    class="fa fa-plus"></i></button>
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <tbody [dragula]="test-cases-bag" [(dragulaModel)]="contents">
                 <ng-container *ngFor="let testCase of sortedContents">
-                    <tr test-case-row class="test-case-row" [class.test-case-inconsistent]="!testCase.consistent" *ngIf="isTestCase(testCase)" [testCase]="testCase"></tr>
+                    <tr test-case-row class="test-case-row" [class.test-case-inconsistent]="!testCase.consistent" *ngIf="isTestCase(testCase)"
+                        [testCase]="testCase"></tr>
                 </ng-container>
             </tbody>
         </table>
     </div>
     <div class="card-footer">
-        <button title="{{'createTestCase' | translate}}" class="btn btn-sm btn-outline-primary" (click)="addTestCaseRow()"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createTestCase' | translate}}</button>
+        <div class="input-group input-group-sm">
+            <button title="{{'createTestCase' | translate}}" class="btn btn-outline-primary" (click)="addTestCaseRow()"><i
+                    class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createTestCase' | translate}}</button>
+        </div>
     </div>
 </div>

@@ -1,13 +1,18 @@
 <div *ngIf="visible" class="card">
     <h5 class="card-header">
         {{'ErrorsandWarnings' | translate}}
-        <button id="linksactions-expand-button" type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
+
+        <div class="input-group input-group-sm">
+            <button id="linksactions-expand-button" type="button" class="btn btn-secondary pull-right" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i
+                    *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
+        </div>
     </h5>
     <div class="card-body" *ngIf="!isCollapsed">
         <table *ngIf="warnings.length > 0" class="table">
             <colgroup>
-                <col width="50%"/>
-                <col width="50%"/>
+                <col width="50%" />
+                <col width="50%" />
             </colgroup>
             <thead>
                 <tr>
@@ -21,5 +26,5 @@
             {{'NoWarnings'|translate}}.
         </span>
     </div>
-    
+
 </div>

@@ -1,1 +1,4 @@
-<button title="{{buttonTitle | translate}}" class="btn btn-sm btn-outline-primary" [ngClass]="{'disabled': !canExport}" (click)="pushTestProcedure()"><i class="fa fa-cloud-upload"></i>&nbsp;{{'exportTestprocedure' | translate}}</button>
+<div class="input-group input-group-sm">
+    <button title="{{buttonTitle | translate}}" class="btn btn-outline-primary" [ngClass]="{'disabled': !canExport}"
+        (click)="pushTestProcedure()"><i class="fa fa-cloud-upload"></i>&nbsp;{{'exportTestprocedure' | translate}}</button>
+</div>

@@ -1,9 +1,13 @@
 <div class="card">
   <h5 class="card-header">
     {{'Traces' | translate}}
-    <button id="traces-expand-button" type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
-    </h5>
-  <div class="card-body" [ngbCollapse]="isCollapsed" >
+    <div class="input-group input-group-sm">
+      <button id="traces-expand-button" type="button" class="btn btn-secondary pull-right" (click)="isCollapsed = !isCollapsed"
+        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i
+          *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
+    </div>
+  </h5>
+  <div class="card-body" [ngbCollapse]="isCollapsed">
     <ng-template #rt let-r="result">
       <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;<span *ngIf="r.extId">{{r['extId']}}:&nbsp;</span>{{r.name}}
     </ng-template>
@@ -11,8 +15,8 @@
     <div class="form-group">
       <label for="reqtypeahead">{{'addARequirement' | translate}}:</label>
 
-      <input #reqtypeahead id="traces-addrequirement-textfield" type="text" class="form-control" editable="false" placeholder="{{'searchRequirements' | translate}}" [ngbTypeahead]="search"
-        [resultTemplate]="rt" (selectItem)="selectItem($event, reqtypeahead)" />
+      <input #reqtypeahead id="traces-addrequirement-textfield" type="text" class="form-control" editable="false"
+        placeholder="{{'searchRequirements' | translate}}" [ngbTypeahead]="search" [resultTemplate]="rt" (selectItem)="selectItem($event, reqtypeahead)" />
 
       <span *ngIf="searching">{{'searching' | translate}}...</span>
       <div class="invalid-feedback" *ngIf="searchFailed">{{'sorrySuggestionsCouldNotBeLoaded' | translate}}.</div>
@@ -25,7 +29,11 @@
               <tracing-link [traceProxy]="trace"></tracing-link>
             </td>
             <td style="text-align:right">
-              <button title="{{'delete' | translate}}" (click)="delete(trace)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+
+              <div class="input-group input-group-sm">
+                <button title="{{'delete' | translate}}" (click)="delete(trace)" class="btn btn-outline-danger"><i
+                    class="fa fa-trash" aria-hidden="true"></i></button>
+              </div>
             </td>
         </table>
       </li>

@@ -4,18 +4,27 @@
     </td>
     <td>{{getPosition(testStep)}}</td>
     <td>
-        <input formControlName="description" type="text" class="form-control form-control-sm" />
+        <div class="input-group input-group-sm">
+            <input formControlName="description" type="text" class="form-control" />
+        </div>
     </td>
     <td>
-        <input formControlName="expectedOutcome" type="text" class="form-control form-control-sm" />
+        <div class="input-group input-group-sm">
+            <input formControlName="expectedOutcome" type="text" class="form-control" />
+        </div>
     </td>
     <td>
-        <select [(ngModel)]="selectedTestParameter" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+        <div class="input-group input-group-sm">
+            <select [(ngModel)]="selectedTestParameter" [ngModelOptions]="{standalone: true}" class="form-control">
                 <option [ngValue]="undefined"></option>
                 <option *ngFor="let parameter of testParameters" [ngValue]="parameter">{{parameter.name}}</option>
-        </select>
+            </select>
+        </div>
     </td>
     <td>
-        <button title="{{'delete' | translate}}" (click)="delete()" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+        <div class="input-group input-group-sm">
+            <button title="{{'delete' | translate}}" (click)="delete()" class="btn btn-outline-danger"><i class="fa fa-trash"
+                    aria-hidden="true"></i></button>
+        </div>
     </td>
 </ng-container>
