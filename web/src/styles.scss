@@ -1,4 +1,8 @@
-// @import "node_modules/bootswatch/dist/sandstone/variables";
-@import "node_modules/bootstrap/scss/bootstrap";
-// @import "node_modules/bootswatch/dist/sandstone/bootswatch";
+// @import "~bootswatch/dist/sandstone/variables";
+@import "~bootstrap/scss/bootstrap";
+// @import "~bootswatch/dist/sandstone/bootswatch";
+
+$flag-icon-css-path: '~flag-icon-css/flags' !default;
+@import "~flag-icon-css/sass/flag-icon";
+
 @import "./assets/scss/specmate.extensions.scss";

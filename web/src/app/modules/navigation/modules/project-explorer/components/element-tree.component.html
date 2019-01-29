@@ -5,7 +5,7 @@
             <i *ngIf="!expanded" class="fa fa-plus-square-o" aria-hidden="true"></i>
             <i *ngIf="expanded" class="fa fa-minus-square-o" aria-hidden="true"></i>
         </button>
-        <button type="button" *ngIf="!hasLink" type="button" (click)="toggle()" (keydown)="handleKey($event, true);" title="{{element.name}}">
+        <button type="button" *ngIf="!hasLink" type="button" (click)="toggle()" (keydown)="handleKey($event, true);" title="{{element.name}}" class="btn btn-sm">
             <icon-selector [model]="element" [expanded]="expanded && withExpand"></icon-selector>&nbsp;{{element.name}}
         </button>
         <a *ngIf="hasLink" id="{{element['extId'] ? element['extId'] + ': ' : ''}}{{element.name}}" [navigationTarget]="element" (keydown)="handleKey($event, true);" class="treeLink btn btn-sm" [ngClass]="isActive ? 'btn-primary fg-white' : ''">
