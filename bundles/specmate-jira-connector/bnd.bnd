@@ -35,7 +35,7 @@
 	joda-time;version=2.9,\
 	com.atlassian.sal.api;version=3.0,\
 	slf4j.api;version=1.7,\
-	com.google.guava;version=18.0,\
+	com.google.guava;version=21.0,\
 	javax.ws.rs-api,\
 	osgi.cmpn,\
 	osgi.core,\
