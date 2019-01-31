@@ -3,11 +3,20 @@ package com.specmate.modelgeneration;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 
+import com.specmate.nlp.matcher.AndMatcher;
+import com.specmate.nlp.matcher.AnyMatcher;
+import com.specmate.nlp.matcher.ChildrenSequenceMatcher;
+import com.specmate.nlp.matcher.ConstituentTypeMatcher;
+import com.specmate.nlp.matcher.CoveredTextMatcher;
+import com.specmate.nlp.matcher.ExactlyOneConsumer;
+import com.specmate.nlp.matcher.IConstituentTreeMatcher;
+import com.specmate.nlp.matcher.MatchResult;
+import com.specmate.nlp.matcher.SequenceMatcher;
+import com.specmate.nlp.matcher.ZeroOrMoreConsumer;
 import com.specmate.nlp.util.NLPUtil;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
@@ -16,20 +25,22 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 /**
  * Matches the patterns, which are used to detect causality, to the sentences
- * 
+ *
  * @author Andreas Wehrle
- * 
+ *
  */
 public class PatternMatcher {
+
 	/**
-	 * Method splits the sentences into the cause and the effect if it matches one
-	 * pattern
-	 * 
+	 * Method splits the sentences into the cause and the effect if it matches
+	 * one pattern
+	 *
 	 * @param sentence
 	 *            sentence to split
 	 * @param jCas
 	 *            NLPTagged text
-	 * @return array with two elements. First element: cause, second element:effect
+	 * @return array with two elements. First element: cause, second
+	 *         element:effect
 	 */
 	public String[] detectCauseAndEffect(Sentence sentence, JCas jCas) {
 		String cause = "";
@@ -55,18 +66,28 @@ public class PatternMatcher {
 			effect = sentenceText.substring(0, posIf - 1);
 		}
 
-		if (matchPattern1_1(sentence, jCas)) {
-			int posComma = sentenceText.indexOf(",");
-			for (Token constituent : JCasUtil.selectCovered(jCas, Token.class, sentence)) {
-				if (constituent.getPosValue().equals(",")
-						&& constituent.getParent().getType().getShortName().equals("S")
-						&& constituent.getParent().getCoveredText().equals(sentence.getCoveredText())) {
-					posComma = constituent.getBegin() - sentence.getBegin();
-				}
-			}
-			cause = sentenceText.substring(3, posComma);
-			effect = sentenceText.substring(posComma + 2, sentenceText.length() - 1);
+		IConstituentTreeMatcher pattern1_1 = buildMatcher1_1(jCas);
+		MatchResult matchResult = pattern1_1.match(NLPUtil.getSentenceConstituents(jCas).get(0));
+		if (matchResult.isMatch()) {
+			cause = matchResult.getMatchGroupAsText("cause");
+			effect = matchResult.getMatchGroupAsText("effect");
 		}
+		// if (matchPattern1_1(sentence, jCas)) {
+		// int posComma = sentenceText.indexOf(",");
+		// for (Token constituent : JCasUtil.selectCovered(jCas, Token.class,
+		// sentence)) {
+		// if (constituent.getPosValue().equals(",")
+		// && constituent.getParent().getType().getShortName().equals("S")
+		// &&
+		// constituent.getParent().getCoveredText().equals(sentence.getCoveredText()))
+		// {
+		// posComma = constituent.getBegin() - sentence.getBegin();
+		// }
+		// }
+		// cause = sentenceText.substring(3, posComma);
+		// effect = sentenceText.substring(posComma + 2, sentenceText.length() -
+		// 1);
+		// }
 		if (matchPattern1_2(sentence, jCas)) {
 			int posIf = sentenceText.indexOf("if");
 
@@ -168,41 +189,56 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 1.1: If-sentences(starting with if)
-	 * 
+	 * Detect if the sentence matches pattern 1.1: If-sentences(starting with
+	 * if)
+	 *
 	 * @param sentence
 	 * @param jCas
 	 * @return
 	 */
-	public boolean matchPattern1_1(Sentence sentence, JCas jCas) {
-		String text = sentence.getCoveredText();
-		int positionComma = -1;
-		List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
-		List<Constituent> verbPhrases = JCasUtil.selectCovered(jCas, Constituent.class, sentence).stream().filter(c -> c.getConstituentType().contentEquals("VP")).collect(Collectors.toList());;
-		for (Token token : pos) {
-			if (token.getPosValue().equals(",")) {
-				positionComma = token.getBegin();
-			}
-		}
-		if (text.startsWith("If")) {
-			boolean start = false;
-			boolean end = false;
-			for (Constituent vp : verbPhrases) {
-				if (vp.getEnd() <= positionComma) {
-					start = true;
-				}
-				if (vp.getBegin() >= positionComma) {
-					end = true;
-				}
-			}
-			return start && end;
-		}
-		return false;
+	public IConstituentTreeMatcher buildMatcher1_1(JCas jCas) {
+		return new ChildrenSequenceMatcher(new SequenceMatcher(Arrays.asList(
+				new ExactlyOneConsumer(jCas,
+						new AndMatcher(new ConstituentTypeMatcher("SBAR"),
+								new CoveredTextMatcher("If\\s*(.*)", "cause"))),
+				new ZeroOrMoreConsumer(jCas, new CoveredTextMatcher(",")),
+				new ZeroOrMoreConsumer(jCas, new ConstituentTypeMatcher("ADVP")),
+				new ZeroOrMoreConsumer(jCas, new AnyMatcher(), "effect"))));
 	}
+	// public boolean matchPattern1_1(Sentence sentence, JCas jCas) {
+	// String text = sentence.getCoveredText();
+	// int positionComma = -1;
+	// List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
+	// List<Constituent> verbPhrases = JCasUtil.selectCovered(jCas,
+	// Constituent.class, sentence).stream()
+	// .filter(c ->
+	// c.getConstituentType().contentEquals("VP")).collect(Collectors.toList());
+	// ;
+	// for (Token token : pos) {
+	// if (token.getPosValue().equals(",")) {
+	// positionComma = token.getBegin();
+	// }
+	// }
+	// if (text.startsWith("If")) {
+	// boolean start = false;
+	// boolean end = false;
+	// for (Constituent vp : verbPhrases) {
+	// if (vp.getEnd() <= positionComma) {
+	// start = true;
+	// }
+	// if (vp.getBegin() >= positionComma) {
+	// end = true;
+	// }
+	// }
+	// return start && end;
+	// }
+	// return false;
+	// }
 
 	/**
-	 * Detect if the sentence matches pattern 1.2: If-sentences(if in the middle)
-	 * 
+	 * Detect if the sentence matches pattern 1.2: If-sentences(if in the
+	 * middle)
+	 *
 	 * @param sentence
 	 * @param jCas
 	 * @return
@@ -230,9 +266,9 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 1.3: If-sentences(starting with if)
-	 * and effect introduced with then
-	 * 
+	 * Detect if the sentence matches pattern 1.3: If-sentences(starting with
+	 * if) and effect introduced with then
+	 *
 	 * @param sentence
 	 * @param jCas
 	 * @return
@@ -246,9 +282,9 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 2.1: If-sentences with 'when' instead
-	 * of 'if'(starting with when)
-	 * 
+	 * Detect if the sentence matches pattern 2.1: If-sentences with 'when'
+	 * instead of 'if'(starting with when)
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -281,9 +317,9 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 2.2: If-sentences with 'when' instead
-	 * of 'if'(when in the middle)
-	 * 
+	 * Detect if the sentence matches pattern 2.2: If-sentences with 'when'
+	 * instead of 'if'(when in the middle)
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -312,9 +348,9 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 2.3: If-sentences with 'when' instead
-	 * of 'if'(starting with when) and effect introduced with then
-	 * 
+	 * Detect if the sentence matches pattern 2.3: If-sentences with 'when'
+	 * instead of 'if'(starting with when) and effect introduced with then
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -330,7 +366,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 3: because
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -351,7 +387,7 @@ public class PatternMatcher {
 
 	/**
 	 * Return the cause and effect of a sentence matching pattern 3: because
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -379,7 +415,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 4: for this reason
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -404,8 +440,9 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 4: for this reason
-	 * 
+	 * Return the cause and effect of a sentence matching pattern 4: for this
+	 * reason
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -435,7 +472,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 5: as a result
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -461,7 +498,7 @@ public class PatternMatcher {
 
 	/**
 	 * Return the cause and effect of a sentence matching pattern 5: as a result
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -491,7 +528,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 6: due to
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -512,7 +549,7 @@ public class PatternMatcher {
 
 	/**
 	 * Return the cause and effect of a sentence matching pattern 6: due to
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -540,7 +577,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 7: owing to
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -558,7 +595,7 @@ public class PatternMatcher {
 
 	/**
 	 * Return the cause and effect of a sentence matching pattern 7: owing to
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -583,7 +620,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 8: provided that
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -602,8 +639,9 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 8: provided that
-	 * 
+	 * Return the cause and effect of a sentence matching pattern 8: provided
+	 * that
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -630,7 +668,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 9: have something to do
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -649,9 +687,9 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 9: have something
-	 * to do
-	 * 
+	 * Return the cause and effect of a sentence matching pattern 9: have
+	 * something to do
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -686,7 +724,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 10: a lot to do
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -700,8 +738,9 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 10: a lot to do
-	 * 
+	 * Return the cause and effect of a sentence matching pattern 10: a lot to
+	 * do
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -721,7 +760,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 11: so that
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -736,7 +775,7 @@ public class PatternMatcher {
 
 	/**
 	 * Return the cause and effect of a sentence matching pattern 11: so that
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -752,7 +791,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 12: in order that
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -771,8 +810,9 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 12: in order that
-	 * 
+	 * Return the cause and effect of a sentence matching pattern 12: in order
+	 * that
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -798,7 +838,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 13: although
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -818,7 +858,7 @@ public class PatternMatcher {
 
 	/**
 	 * Return the cause and effect of a sentence matching pattern 13: although
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -845,7 +885,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 14: even though
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -864,8 +904,9 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 14: even though
-	 * 
+	 * Return the cause and effect of a sentence matching pattern 14: even
+	 * though
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -892,7 +933,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 15: in the case that
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -911,9 +952,9 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 15: in the case
-	 * that
-	 * 
+	 * Return the cause and effect of a sentence matching pattern 15: in the
+	 * case that
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -940,7 +981,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 16: on condition that
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -959,9 +1000,9 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 16: on condition
-	 * that
-	 * 
+	 * Return the cause and effect of a sentence matching pattern 16: on
+	 * condition that
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -988,7 +1029,7 @@ public class PatternMatcher {
 
 	/**
 	 * Detect if the sentence matches pattern 17: supposing that
-	 * 
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
@@ -1007,8 +1048,9 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 17: supposing that
-	 * 
+	 * Return the cause and effect of a sentence matching pattern 17: supposing
+	 * that
+	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text

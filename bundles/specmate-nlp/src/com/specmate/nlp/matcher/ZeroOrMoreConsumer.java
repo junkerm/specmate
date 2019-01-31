@@ -3,23 +3,26 @@ package com.specmate.nlp.matcher;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
 public class ZeroOrMoreConsumer implements IConstituentConsumingMatcher {
 
 	private IConstituentTreeMatcher matcher;
-	private List<Annotation> consumed = new ArrayList<>();
+	private List<Annotation> consumedAnnorations = new ArrayList<>();
 	private String name;
+	private JCas jCas;
 
-	public ZeroOrMoreConsumer(IConstituentTreeMatcher matcher, String name) {
+	public ZeroOrMoreConsumer(JCas jCas, IConstituentTreeMatcher matcher, String name) {
 		this.matcher = matcher;
-		this.name=name;
+		this.name = name;
+		this.jCas = jCas;
 	}
-	
-	public ZeroOrMoreConsumer(IConstituentTreeMatcher matcher) {
-		this(matcher,null);
+
+	public ZeroOrMoreConsumer(JCas jCas, IConstituentTreeMatcher matcher) {
+		this(jCas, matcher, null);
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -28,13 +31,12 @@ public class ZeroOrMoreConsumer implements IConstituentConsumingMatcher {
 		this.name = name;
 	}
 
-
 	@Override
 	public boolean consume(Annotation annotation) {
 		MatchResult result = matcher.match(annotation);
 		boolean matched = result.isMatch();
-		if(matched){
-			consumed.add(annotation);
+		if (matched) {
+			consumedAnnorations.add(annotation);
 		}
 		return matched;
 	}
@@ -42,15 +44,17 @@ public class ZeroOrMoreConsumer implements IConstituentConsumingMatcher {
 	@Override
 	public MatchResult getMatchResult() {
 		MatchResult result = new MatchResult(true);
-		if(name!=null){
-			result.addMatchGroup(name, consumed);
+		if (name != null) {
+			int begin = consumedAnnorations.get(0).getBegin();
+			int end = consumedAnnorations.get(consumedAnnorations.size() - 1).getEnd();
+			result.addMatchGroup(name, jCas.getDocumentText().substring(begin, end));
 		}
 		return result;
 	}
 
 	@Override
 	public void consumeEmpty() {
-		
+
 	}
 
 }

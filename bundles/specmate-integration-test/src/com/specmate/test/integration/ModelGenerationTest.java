@@ -21,9 +21,13 @@ public class ModelGenerationTest extends EmfRestTest {
 
 	@Test
 	public void testModelGeneration() {
-		String text = "If Specmate detects an error or the user has no login, a warning window is shown and Specmate makes a sound.";
+		String text = "If Specmate detects an error or the user has no login, Specmate shows a warning window and makes a sound.";
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
+		checkResultingModel(generated);
 
+	}
+
+	private void checkResultingModel(JSONArray generated) {
 		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
 			return obj.getString(ECLASS).equals(CEGNode.class.getSimpleName())
 					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName()).equals("Specmate")
@@ -43,9 +47,9 @@ public class ModelGenerationTest extends EmfRestTest {
 
 		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
 			return obj.getString(ECLASS).equals(CEGNode.class.getSimpleName())
-					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName())
-							.equals("a warning window")
-					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName()).equals("is shown")
+					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName()).equals("Specmate")
+					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName())
+							.equals("shows a warning window")
 					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__TYPE.getName()).equals("OR")
 					&& obj.getString(URL).equals(
 							"iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-1");
@@ -95,7 +99,6 @@ public class ModelGenerationTest extends EmfRestTest {
 					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName()).getString(URL)
 							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-4");
 		}));
-
 	}
 
 	private JSONArray generateCEGWithModelRequirementsText(String text) {

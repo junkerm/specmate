@@ -21,7 +21,7 @@ public class NLPUtil {
 		private String constituentTypeName;
 
 		public String getName() {
-			return constituentTypeName;
+			return this.constituentTypeName;
 		}
 
 		private ConstituentType(String name) {
@@ -74,12 +74,10 @@ public class NLPUtil {
 		return JCasUtil.select(jCas, Sentence.class);
 	}
 
-	public static List<Constituent> getSentenceConstituents(JCas jCas){
-		return getSentences(jCas).stream()
-		.map(s -> JCasUtil.selectCovered(Constituent.class, s).stream()
-					.filter(c -> c.getConstituentType().contentEquals("S"))
-					.findFirst())
-		.flatMap(o -> o.isPresent() ? Stream.of(o.get()) : Stream.empty())
-		.collect(Collectors.toList());
+	public static List<Constituent> getSentenceConstituents(JCas jCas) {
+		return getSentences(jCas).stream().map(s -> JCasUtil.selectCovered(Constituent.class, s).stream()
+				.filter(c -> c.getConstituentType().contentEquals("S") || c.getConstituentType().contentEquals("SBAR"))
+				.findFirst()).flatMap(o -> o.isPresent() ? Stream.of(o.get()) : Stream.empty())
+				.collect(Collectors.toList());
 	}
 }
