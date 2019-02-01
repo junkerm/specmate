@@ -161,6 +161,15 @@ export class SpecmateDataService {
         return this.deleteElementServer(url);
     }
 
+    public async clearModel(nodes: IContainer[], connections: IContainer[], compoundId = Id.uuid): Promise<void> {
+        for (let i = connections.length - 1; i >= 0; i--) {
+            await this.deleteElement(connections[i].url, true, compoundId);
+        }
+        for (let i = nodes.length - 1; i >= 0; i--) {
+            await this.deleteElement(nodes[i].url, true, compoundId);
+        }
+    }
+
     public sanitizeContentPositions(elements: IPositionable[], update: boolean, compoundId?: string): void {
         if (!compoundId) {
             compoundId = Id.uuid;

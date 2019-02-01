@@ -6,6 +6,8 @@ import { ConfirmationModal } from '../../../../notification/modules/modals/servi
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Requirement } from '../../../../../model/Requirement';
+import { SelectedElementService } from '../../../../views/side/modules/selected-element/services/selected-element.service';
+import { ElementProvider } from '../../../../views/main/editors/modules/graphical-editor/providers/properties/element-provider';
 
 @Component({
     moduleId: module.id.toString(),
@@ -50,18 +52,32 @@ export class CegModelGeneratorButton {
 
     constructor(private dataService: SpecmateDataService,
         private modal: ConfirmationModal,
-        private navigator: NavigatorService,
-        private translate: TranslateService) { }
+        private translate: TranslateService,
+        private selectedElementService: SelectedElementService) { }
 
     public async generate(): Promise<void> {
         if (!this.enabled) {
             return;
         }
-        this.modal.openOkCancel(this.translate.instant('CEGGenerator.confirm'), this.translate.instant('CEGGenerator.confirmationTitle'))
-            .then(() => this.dataService.performOperations(this.model.url, 'generateModel'))
-            .then(() => this.dataService.deleteCachedContent(this.model.url))
-            .then(() => this.dataService.readContents(this.model.url, false))
-            .catch(() => { });
+
+        try {
+            await this.modal.
+                openOkCancel(this.translate.instant('CEGGenerator.confirm'), this.translate.instant('CEGGenerator.confirmationTitle'));
+            await this.selectedElementService.deselect();
+            this.selectedElementService.deselect();
+            const contents = await this.dataService.readContents(this.model.url);
+            let elementProvider = new ElementProvider(this.model, contents);
+            await this.dataService.commit(this.translate.instant('save'));
+            await this.dataService.clearModel(elementProvider.nodes, elementProvider.connections);
+            await this.dataService.commit(this.translate.instant('save'));
+            await this.dataService.performOperations(this.model.url, 'generateModel');
+            await this.dataService.deleteCachedContent(this.model.url);
+            await this.dataService.readElement(this.model.url, false);
+            await this.dataService.readContents(this.model.url, false);
+            this.selectedElementService.select(this.model);
+        } catch (e) {
+            throw e;
+        }
     }
 
     public get enabled(): boolean {

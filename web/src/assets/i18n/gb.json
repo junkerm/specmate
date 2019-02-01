@@ -1,8 +1,8 @@
 {
 	"Action": "Action",
 	"CEGGenerator": {
-		"confirm": "Generating a Cause-Effect-Model will clear the current model.",
-		"confirmationTitle": "Generate Cause-Effect-Model",
+		"confirm": "Generate Cause-Effect-Model",
+		"confirmationTitle": "Generate Cause-Effect-Model and overwrite existing model?",
 		"generate": "Generate Model (experimental)"
 	},
 	"Cause-EffectModels": "Cause-Effect Models",
