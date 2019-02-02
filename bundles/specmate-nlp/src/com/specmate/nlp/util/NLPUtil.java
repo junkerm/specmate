@@ -2,6 +2,7 @@ package com.specmate.nlp.util;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -73,11 +74,15 @@ public class NLPUtil {
 	public static Collection<Sentence> getSentences(JCas jCas) {
 		return JCasUtil.select(jCas, Sentence.class);
 	}
+	
+	public static Optional<Constituent> getSentenceConstituent(JCas jCas, Sentence sentence) {
+		return JCasUtil.selectCovered(Constituent.class, sentence).stream()
+		.filter(c -> c.getConstituentType().contentEquals("S") || c.getConstituentType().contentEquals("SBAR"))
+		.findFirst();
+	}
 
 	public static List<Constituent> getSentenceConstituents(JCas jCas) {
-		return getSentences(jCas).stream().map(s -> JCasUtil.selectCovered(Constituent.class, s).stream()
-				.filter(c -> c.getConstituentType().contentEquals("S") || c.getConstituentType().contentEquals("SBAR"))
-				.findFirst()).flatMap(o -> o.isPresent() ? Stream.of(o.get()) : Stream.empty())
+		return getSentences(jCas).stream().map(s -> getSentenceConstituent(jCas,s) ).flatMap(o -> o.isPresent() ? Stream.of(o.get()) : Stream.empty())
 				.collect(Collectors.toList());
 	}
 }

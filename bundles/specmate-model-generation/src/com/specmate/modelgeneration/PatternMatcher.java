@@ -3,10 +3,13 @@ package com.specmate.modelgeneration;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.nlp.matcher.AndMatcher;
 import com.specmate.nlp.matcher.AnyMatcher;
 import com.specmate.nlp.matcher.ChildrenSequenceMatcher;
@@ -41,11 +44,19 @@ public class PatternMatcher {
 	 *            NLPTagged text
 	 * @return array with two elements. First element: cause, second
 	 *         element:effect
+	 * @throws SpecmateInternalException 
 	 */
-	public String[] detectCauseAndEffect(Sentence sentence, JCas jCas) {
+	public String[] detectCauseAndEffect(Sentence sentence, JCas jCas) throws SpecmateInternalException {
+		String sentenceText = sentence.getCoveredText();
+		Optional<Constituent> optSentenceConstituent = NLPUtil.getSentenceConstituent(jCas, sentence);
+		if(!optSentenceConstituent.isPresent()) {
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "Could not find sentence constituent for sentence: "  + sentenceText);
+		}
+		Constituent sentenceConstituent = optSentenceConstituent.get();
+		
 		String cause = "";
 		String effect = "";
-		String sentenceText = sentence.getCoveredText();
+
 
 		if (matchPattern2_1(sentence, jCas)) {
 			int posComma = sentenceText.indexOf(",");
@@ -67,7 +78,7 @@ public class PatternMatcher {
 		}
 
 		IConstituentTreeMatcher pattern1_1 = buildMatcher1_1(jCas);
-		MatchResult matchResult = pattern1_1.match(NLPUtil.getSentenceConstituents(jCas).get(0));
+		MatchResult matchResult = pattern1_1.match(sentenceConstituent);
 		if (matchResult.isMatch()) {
 			cause = matchResult.getMatchGroupAsText("cause");
 			effect = matchResult.getMatchGroupAsText("effect");

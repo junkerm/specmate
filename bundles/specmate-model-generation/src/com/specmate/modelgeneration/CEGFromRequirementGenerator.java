@@ -10,6 +10,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
@@ -83,8 +84,9 @@ public class CEGFromRequirementGenerator {
 	 *            CEGModel to add nodes/connections
 	 * @param nodes
 	 *            list of all nodes in the graph
+	 * @throws SpecmateInternalException 
 	 */
-	public void detectCausality(Sentence sentence, JCas jCas, CEGModel model, LinkedList<CEGNode> nodes) {
+	public void detectCausality(Sentence sentence, JCas jCas, CEGModel model, LinkedList<CEGNode> nodes) throws SpecmateInternalException {
 		String cause = "";
 		String effect = "";
 		String[] causeEffectArray = patternMatcher.detectCauseAndEffect(sentence, jCas);
