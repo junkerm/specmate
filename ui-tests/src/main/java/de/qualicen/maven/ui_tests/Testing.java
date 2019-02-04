@@ -37,15 +37,15 @@ public class Testing {
 		//driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		driver.get("http://localhost:8080/");
 		
-		//LoginElements login = new LoginElements(driver); //creating object of class LoginElements
+		LoginElements login = new LoginElements(driver); //creating object of class LoginElements
 		
 		//method calls
-		/*login.username("username");
+		login.username("username");
 		login.password("password");
 		login.changeToEnglish();
 		login.changeToGerman();
 		login.changeToProject("test-data");
-		login.login(); */
+		login.login(); 
 		
 		//close browser
 		//driver.close();
