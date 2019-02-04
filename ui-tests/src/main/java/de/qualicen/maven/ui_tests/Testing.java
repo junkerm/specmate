@@ -44,7 +44,7 @@ public class Testing {
 		login.password("password");
 		login.changeToEnglish();
 		login.changeToGerman();
-		login.changeToProject("test-data");
+		login.changeToProject("project-test-data");
 		login.login(); 
 		
 		//close browser

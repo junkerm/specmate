@@ -14,7 +14,7 @@ public class LoginElements {
 	By login = By.id("login-button");
 	By language = By.id("language-dropdown");
 	By german = By.id("language-de");
-	By english = By.id("language-en");
+	By english = By.id("language-gb");
 	By project = By.id("login-project-dropdown"); 
 	
 	
