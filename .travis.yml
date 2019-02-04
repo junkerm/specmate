@@ -22,7 +22,7 @@ script:
 - cd ../bundles && ./gradlew --no-daemon check
 - cd ../bundles && ./gradlew --no-daemon export
 - cd ../bundles && ./gradlew tasks
-- cd ../bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar
+- cd ../bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &
 - sleep 2
 - cd ui-tests/ && mvn compile && mvn exec:java -Dexec.mainClass="de.qualicen.maven.ui_tests.Testing"
 after_success:
