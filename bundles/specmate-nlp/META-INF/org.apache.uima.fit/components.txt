@@ -14,3 +14,4 @@ classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpLemmatizerTrainer.xml
 classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpSentenceTrainer.xml
 classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpLemmatizer.xml
 classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpNamedEntityRecognizerTrainer.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/maltparser/MaltParser.xml

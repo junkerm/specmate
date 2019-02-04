@@ -14,6 +14,7 @@ import org.apache.uima.jcas.JCas;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 
 public class NLPUtil {
 	enum ConstituentType {
@@ -22,11 +23,11 @@ public class NLPUtil {
 		private String constituentTypeName;
 
 		public String getName() {
-			return this.constituentTypeName;
+			return constituentTypeName;
 		}
 
 		private ConstituentType(String name) {
-			this.constituentTypeName = name;
+			constituentTypeName = name;
 		}
 	}
 
@@ -58,6 +59,16 @@ public class NLPUtil {
 		return builder.toString();
 	}
 
+	public static String printDependencies(JCas jcas) {
+		Collection<Dependency> dependencies = JCasUtil.select(jcas, Dependency.class);
+		StringJoiner builder = new StringJoiner("\n");
+		for (Dependency dep : dependencies) {
+			builder.add(dep.getGovernor().getCoveredText() + " <--" + dep.getDependencyType() + "-- "
+					+ dep.getDependent().getCoveredText());
+		}
+		return builder.toString();
+	}
+
 	private static void printConstituent(Constituent con, StringJoiner joiner) {
 		joiner.add("(").add(con.getConstituentType());
 		for (FeatureStructure fs : con.getChildren()) {
@@ -74,15 +85,15 @@ public class NLPUtil {
 	public static Collection<Sentence> getSentences(JCas jCas) {
 		return JCasUtil.select(jCas, Sentence.class);
 	}
-	
+
 	public static Optional<Constituent> getSentenceConstituent(JCas jCas, Sentence sentence) {
 		return JCasUtil.selectCovered(Constituent.class, sentence).stream()
-		.filter(c -> c.getConstituentType().contentEquals("S") || c.getConstituentType().contentEquals("SBAR"))
-		.findFirst();
+				.filter(c -> c.getConstituentType().contentEquals("S") || c.getConstituentType().contentEquals("SBAR"))
+				.findFirst();
 	}
 
 	public static List<Constituent> getSentenceConstituents(JCas jCas) {
-		return getSentences(jCas).stream().map(s -> getSentenceConstituent(jCas,s) ).flatMap(o -> o.isPresent() ? Stream.of(o.get()) : Stream.empty())
-				.collect(Collectors.toList());
+		return getSentences(jCas).stream().map(s -> getSentenceConstituent(jCas, s))
+				.flatMap(o -> o.isPresent() ? Stream.of(o.get()) : Stream.empty()).collect(Collectors.toList());
 	}
 }

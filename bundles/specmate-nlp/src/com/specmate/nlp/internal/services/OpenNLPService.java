@@ -18,6 +18,7 @@ import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.nlp.api.INLPService;
 
+import de.tudarmstadt.ukp.dkpro.core.maltparser.MaltParser;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpParser;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
@@ -45,20 +46,23 @@ public class OpenNLPService implements INLPService {
 		AnalysisEngineDescription segmenter = null;
 		AnalysisEngineDescription posTagger = null;
 		AnalysisEngineDescription parser = null;
+		AnalysisEngineDescription dependencyParser = null;
 
 		try {
+			logService.log(LogService.LOG_INFO, "Starting up Open NLP Service.");
 			segmenter = createEngineDescription(OpenNlpSegmenter.class, OpenNlpSegmenter.PARAM_LANGUAGE, "en");
 			posTagger = createEngineDescription(OpenNlpPosTagger.class, OpenNlpPosTagger.PARAM_LANGUAGE, "en",
 					OpenNlpPosTagger.PARAM_VARIANT, "maxent");
+			dependencyParser = createEngineDescription(MaltParser.class, MaltParser.PARAM_LANGUAGE, "en",
+					MaltParser.PARAM_IGNORE_MISSING_FEATURES, true);
 			parser = createEngineDescription(OpenNlpParser.class, OpenNlpParser.PARAM_PRINT_TAGSET, true,
 					OpenNlpParser.PARAM_LANGUAGE, "en", OpenNlpParser.PARAM_WRITE_PENN_TREE, true,
 					OpenNlpParser.PARAM_WRITE_POS, true);
-			engine = createEngine(createEngineDescription(segmenter, posTagger, parser));
-			// logService.log(org.osgi.service.log.LogService.LOG_DEBUG,
-			// "OpenNLP NLP service started");
+			engine = createEngine(createEngineDescription(segmenter, posTagger, dependencyParser, parser));
+			logService.log(org.osgi.service.log.LogService.LOG_INFO, "OpenNLP NLP service started");
 		} catch (Throwable e) {
-			// logService.log(LogService.LOG_ERROR, "OpenNLP NLP service failed
-			// when starting. Reason: " + e.getMessage());
+			logService.log(LogService.LOG_ERROR,
+					"OpenNLP NLP service failed  when starting. Reason: " + e.getMessage());
 			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM,
 					"OpenNLP NLP service failed when starting. Reason: " + e.getMessage());
 		}
@@ -68,8 +72,7 @@ public class OpenNLPService implements INLPService {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see
-	 * com.specmate.testspecification.internal.services.NLPTagger#tagText(java.
+	 * @see com.specmate.testspecification.internal.services.NLPTagger#tagText(java.
 	 * lang. String)
 	 */
 	@Override

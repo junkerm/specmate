@@ -27,6 +27,16 @@ import com.specmate.nlp.util.NLPUtil;
 
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
+/* FIXME: This should better be made a unit test as it
+would run faster. Currently the DKPRO resources are not assembled correclty
+for unit testing, hence it only works as integration test*/
+
+/**
+ * Tests for the NLP Service
+ *
+ * @author junkerm
+ *
+ */
 public class NLPServiceTest {
 
 	@Test
@@ -43,6 +53,13 @@ public class NLPServiceTest {
 		Assert.assertEquals(
 				"If (IN) the (DT) tool (NN) detects (VBZ) an (DT) error (NN) , (,) it (PRP) shows (VBZ) a (DT) warning (NN) window (NN) . (.)",
 				posString);
+
+		String depString = NLPUtil.printDependencies(result);
+		Assert.assertEquals("detects <--mark-- If\n" + "tool <--det-- the\n" + "detects <--nsubj-- tool\n"
+				+ "shows <--advcl-- detects\n" + "error <--det-- an\n" + "detects <--dobj-- error\n"
+				+ "shows <--punct-- ,\n" + "shows <--nsubj-- it\n" + "shows <--ROOT-- shows\n" + "window <--det-- a\n"
+				+ "window <--nn-- warning\n" + "shows <--dobj-- window\n" + "shows <--punct-- .", depString);
+
 	}
 
 	@Test

@@ -21,10 +21,9 @@ public class ModelGenerationTest extends EmfRestTest {
 
 	@Test
 	public void testModelGeneration() {
-		String text = "If Specmate detects an error or the user has no login, Specmate shows a warning window and makes a sound.";
+		String text = "If Specmate detects an error or the user has no login, it shows a warning window and makes a sound.";
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated);
-
 	}
 
 	private void checkResultingModel(JSONArray generated) {

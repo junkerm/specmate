@@ -1,7 +1,6 @@
 package com.specmate.modelgeneration;
 
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
@@ -18,7 +17,7 @@ import com.specmate.rest.RestResult;
 
 /**
  * Service to create automatic a CEGModel from a requirement
- * 
+ *
  * @author Andreas Wehrle
  *
  */
@@ -34,8 +33,8 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	}
 
 	@Override
-	public boolean canPost(Object object2, Object object) {
-		return object2 instanceof CEGModel;
+	public boolean canPost(Object target, Object toPost) {
+		return target instanceof CEGModel;
 	}
 
 	@Override
@@ -53,7 +52,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 	/**
 	 * Add the nodes and connections to the model extracted from the text
-	 * 
+	 *
 	 * @param model
 	 *            CEGModel
 	 * @param requirement
@@ -61,7 +60,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	 */
 	private CEGModel generateModelFromDescription(CEGModel model, Requirement requirement) throws SpecmateException {
 		String text = model.getModelRequirements();
-		if(text==null || StringUtils.isEmpty(text)){
+		if (text == null || StringUtils.isEmpty(text)) {
 			return model;
 		}
 		text = new PersonalPronounsReplacer(tagger).replacePronouns(text);
