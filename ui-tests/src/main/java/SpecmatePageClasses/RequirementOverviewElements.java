@@ -13,6 +13,8 @@ public class RequirementOverviewElements {
 	By createModel = By.id("requirement-createmodel-button");
 	By createProcess = By.id("requirement-createprocess-button");
 	By createTestSpec = By.id("requirement-createtestspec-button");
+	By createModelRequirement = By.id("requirement-createprocess-button");
+	By modelInputField = By.id("");
 	
 	//Pop-Up Elements and their locators
 	By discard = By.id("popup-accept-button");
@@ -21,6 +23,13 @@ public class RequirementOverviewElements {
 	public RequirementOverviewElements(WebDriver driver1) {
 		
 		this.driver = driver1; 
+	}
+	
+	public void createModelFromRequirement(String modelName){
+		//first enter name of the model 
+		driver.findElement(modelInputField).sendKeys(modelName);
+		//second click on create model
+		driver.findElement(createModelRequirement).click();
 	}
 	
 	/**click on button to create new ceg-model*/

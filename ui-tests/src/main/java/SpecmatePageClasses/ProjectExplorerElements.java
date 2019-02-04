@@ -7,12 +7,13 @@ import org.openqa.selenium.WebDriver;
 public class ProjectExplorerElements {
 	WebDriver driver;
 	
+	
 	public ProjectExplorerElements(WebDriver driver1) {
 		
 		this.driver = driver1; //constructor
 		
 	}
-
+	
 	/**open element <name> in the editor or in detailed view
 	 *an element can be a requirement, a model or a test specification*/
 	public void open(String name) {
