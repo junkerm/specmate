@@ -18,6 +18,9 @@
                 </ul>
             </li>
         </ng-container>
+        <li *ngIf="canGenerateCEGModel"  class="list-group-item">
+            <ceg-model-generator-button [model]="element" [requirement]="requirement"></ceg-model-generator-button>
+        </li>
         <li *ngIf="canGenerateTestSpecifications" class="list-group-item">
             <test-specification-generator-button [model]="element"></test-specification-generator-button>
         </li>

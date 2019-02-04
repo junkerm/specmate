@@ -26,9 +26,7 @@
 
 - Obtain the latest Specmate relase from the download page.
 
-- Unzip Specmate to a folder of your choice.
-
-- On Windows run start.bat, on Linux/Mac run start.sh
+- run java -jar prod-specmate-all.jar --configurationFile /path/to/config/file
 
 ## Configuration
 Specmate is configured via the file specmate-config.properties. You can obtain a sample configuration file from [here](https://github.com/junkerm/specmate/blob/develop/bundles/specmate-config/config/specmate-config.properties).
@@ -174,7 +172,15 @@ When choosing the *Delete* tool you are able to remove certain elements from the
 You have the ability to reorder the elements in the editor when you select the *Move* tool from the toolbox. 
   
 On the right side of the editor you can change the name of the model and add a description. You can also add a description for every node in the model. Under the column *Links & Actions* you can go back to the requirement, see the description of the requirment, for which you currently creating a model. 
+
+The column *Traces* shows all requirements which are connected with the selected node/step. Furthermore you can add requirements by searching for them in the search field. Both the ID as well as the name of the requirement can be searched. 
+The displayed requirements can then be added to the selected node/step by clicking on them. 
+Added requirements can be deleted by clicking on the corresponding trash can. 
+When changes are made to the model afterwards, you have a better overview of the regression tests which need to be adjusted when you see the connected requirements.  
 Links to already generated test specifiactions are also shown. In the last column *Change History* you can view which user made changes to the graph. If there are any erorrs in the created model, Specmate will display them above the *Change History* column. 
+ 
+
+ 
 
 ## Generating a Test-Case-Specification
 
@@ -187,7 +193,7 @@ The specification consists of multiple test cases, where each test case has a sp
 A test case assigns each variable a value. In certain test cases Specmate leaves the value of a variable blank. If this is the case, the variable is not restricted to a certain value.
 The generation of the specification follows the rules of Liggesmeyer. The application of these rules lead to a optimal relation between test coverage and number of test cases. 
 
-The nodes which are in the *Input* column are variables which represent the causes from the model. Below the *Output* column you find the variables which represent the effects. 
+The nodes which are in the *Input* column are variables which represent the causes from the model. Below the *Output* column you find the variables which represent the effects. Further input and output variables can also be added or existing ones deleted.
 
 You are also able to delete a test case when pressing the trashcan icon of the specific test case.
 If you want to add test cases manually, you can press the *Create test case* button at the bottom. 
@@ -197,6 +203,7 @@ The order of the test cases can be changed by drag and drop.
 
 ## Creating a Test-Procedure
 From each test case you can create a test procedure. Here you can define all necessary steps for the specific test case. 
+When modelling a CEG the Test-Procedure needs to be generated manually. Generating a Test-Case-Specifaction from a process diagram leads to automatically created Test-Procedures. 
 You can add another step by pressing the *Create test step* button. At each step of the test procedure you are able to reference parameters from the created model. The parameters from the model can be set to a specific value in the *Parameter Mappings*. 
 When the creation of a test procedure is finished, you can export it with the button on the right. 
 You can also open and edit a test procedure which is already created, by clicking on it in the project Explorer or in the Requirements overview. Furthermore you have the ability to mark a test procedure as a regression test. 

@@ -695,7 +695,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 			 "longDesc", "",
 			 "required", "false",
 			 "type", "longText",
-			 "rows", "8",
+			 "rows", "5",
 			 "position", "100"
 		   });
 	}

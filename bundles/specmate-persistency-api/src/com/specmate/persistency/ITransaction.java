@@ -44,7 +44,9 @@ public interface ITransaction extends IView {
 
 	public void addValidator(IChangeListener v);
 
-	public void resetValidarors();
+	public void removeValidator(String clazz);
+
+	public void clearValidators();
 
 	public void enableValidators(boolean enable);
 }
