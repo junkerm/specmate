@@ -80,7 +80,7 @@ public class Testing {
 		commonControl.save();
 		
 		// Create Test specification
-		
+		cegEditor.generateTestSpecification();
 		
 		//close browser
 		//driver.close();

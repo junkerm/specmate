@@ -28,9 +28,18 @@ public class CEGEditorElements {
 	By TypeAND = By.id("type-AND");
 	By TypeOR = By.id("type-OR");
 	
+	// Links & Actions
+	By generateTestSpec = By.id("generatetestspec-button");
+	
 	//Pop-Up Elements and their locators
 	By accept = By.id("popup-accept-button");
 	By cancel = By.id("popup-dismiss-button");
+	
+	// Generates a test specification within the CEG Editor
+	public void generateTestSpecification () {
+		driver.findElement(generateTestSpec).click();
+	}
+	
 	
 	public CEGEditorElements(WebDriver driver, Actions builder) { //constructor
 		
