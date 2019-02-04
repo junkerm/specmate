@@ -113,6 +113,10 @@ export class AdditionalInformationService {
         return Type.is(this.element, TestSpecification);
     }
 
+    public get canGenerateCEGModel(): boolean {
+        return Type.is(this.element, CEGModel);
+    }
+
     private isModel(element: IContainer): boolean {
         return Type.is(element, CEGModel) || Type.is(element, Process);
     }

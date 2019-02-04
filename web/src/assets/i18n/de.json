@@ -1,5 +1,10 @@
 {
 	"Action": "Aktion",
+	"CEGGenerator": {
+		"confirm": "Ursache-Wirkungs-Modell erstellen",
+		"confirmationTitle": "Ursache-Wirkungs-Modell erstellen und vorhandenes Modell überschreiben?",
+		"generate": "Modell generieren (experimentell)"
+	},
 	"Cause-EffectModels": "Ursache-Wirkungs-Modelle",
 	"Changed": "Verändert",
 	"ChangedTo": "geändert nach",

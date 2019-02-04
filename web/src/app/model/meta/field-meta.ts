@@ -27,7 +27,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static IID: FieldMetaItem[] = [
@@ -46,7 +46,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static IContainer: FieldMetaItem[] = [
@@ -63,7 +63,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static ISpecmateModelObject: FieldMetaItem[] = [
@@ -80,7 +80,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static Folder: FieldMetaItem[] = [
@@ -97,7 +97,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static IPositionable: FieldMetaItem[] = [
@@ -118,7 +118,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static IModelConnection: FieldMetaItem[] = [
@@ -135,7 +135,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static IModelNode: FieldMetaItem[] = [
@@ -152,7 +152,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static ITracingElement: FieldMetaItem[] = [
@@ -171,7 +171,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static CEGModel: FieldMetaItem[] = [
@@ -188,8 +188,16 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
+		},			{
+			name: "modelRequirements",
+			shortDesc: 'Model Requirements',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '5',
+			position: '110'		
 		}	];
 	public static CEGNode: FieldMetaItem[] = [
 			{
@@ -229,7 +237,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		},			{
 			name: "negate",
@@ -252,7 +260,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static TestSpecificationSkeleton: FieldMetaItem[] = [
@@ -278,7 +286,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static TestCase: FieldMetaItem[] = [
@@ -295,7 +303,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static ParameterAssignment: FieldMetaItem[] = [
@@ -312,7 +320,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static TestProcedure: FieldMetaItem[] = [
@@ -329,7 +337,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		},			{
 			name: "isRegressionTest",
@@ -352,7 +360,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static Process: FieldMetaItem[] = [
@@ -369,7 +377,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static ProcessNode: FieldMetaItem[] = [
@@ -386,7 +394,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static ProcessStep: FieldMetaItem[] = [
@@ -403,7 +411,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		},			{
 			name: "expectedOutcome",
@@ -427,7 +435,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static ProcessConnection: FieldMetaItem[] = [
@@ -437,7 +445,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		},			{
 			name: "condition",
@@ -461,7 +469,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static ProcessEnd: FieldMetaItem[] = [
@@ -478,7 +486,7 @@ export class MetaInfo {
 			longDesc: '',
 			required: false,
 			type: 'longText',
-			rows: '8',
+			rows: '5',
 			position: '100'		
 		}	];
 	public static History: FieldMetaItem[] = [

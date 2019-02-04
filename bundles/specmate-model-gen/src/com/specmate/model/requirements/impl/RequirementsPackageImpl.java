@@ -266,6 +266,15 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getCEGModel_ModelRequirements() {
+		return (EAttribute)cegModelEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getCEGNode() {
 		return cegNodeEClass;
 	}
@@ -364,6 +373,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		createEAttribute(requirementEClass, REQUIREMENT__PLATFORM);
 
 		cegModelEClass = createEClass(CEG_MODEL);
+		createEAttribute(cegModelEClass, CEG_MODEL__MODEL_REQUIREMENTS);
 
 		cegNodeEClass = createEClass(CEG_NODE);
 		createEAttribute(cegNodeEClass, CEG_NODE__TYPE);
@@ -427,6 +437,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEAttribute(getRequirement_Platform(), ecorePackage.getEString(), "platform", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cegModelEClass, CEGModel.class, "CEGModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCEGModel_ModelRequirements(), ecorePackage.getEString(), "modelRequirements", null, 0, 1, CEGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cegNodeEClass, CEGNode.class, "CEGNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCEGNode_Type(), this.getNodeType(), "type", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -457,6 +468,17 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 */
 	protected void createForm_metaAnnotations() {
 		String source = "http://specmate.com/form_meta";	
+		addAnnotation
+		  (getCEGModel_ModelRequirements(), 
+		   source, 
+		   new String[] {
+			 "shortDesc", "Model Requirements",
+			 "longDesc", "",
+			 "required", "false",
+			 "type", "longText",
+			 "rows", "5",
+			 "position", "110"
+		   });	
 		addAnnotation
 		  (cegNodeEClass, 
 		   source, 
