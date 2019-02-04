@@ -39,9 +39,9 @@
 	osgi.identity;filter:='(osgi.identity=specmate-trello-connector)',\
 	osgi.identity;filter:='(osgi.identity=specmate-auth-api)',\
 	osgi.identity;filter:='(osgi.identity=specmate-auth)',\
-	bnd.identity;id='specmate-jira-connector',\
-	bnd.identity;id='specmate-nlp',\
-	bnd.identity;id='specmate-model-generation'
+	osgi.identity;filter:='(osgi.identity=specmate-jira-connector)',\
+	osgi.identity;filter:='(osgi.identity=specmate-nlp)',\
+	osgi.identity;filter:='(osgi.identity=specmate-model-generation)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -169,23 +169,30 @@
 	org.apache.commons.lang3;version='[3.5.0,3.5.1)',\
 	slf4j.api;version='[1.7.25,1.7.26)',\
 	com.ibm.icu;version='[63.1.0,63.1.1)',\
-	com.sun.jersey.core;version='[1.19.0,1.19.1)',\
-	com.sun.jersey.jersey-server;version='[1.19.0,1.19.1)',\
 	io.reactivex.rxjava2.rxjava;version='[2.2.3,2.2.4)',\
 	it.unimi.dsi.fastutil;version='[8.2.2,8.2.3)',\
-	javax.el;version='[2.2.0,2.2.1)',\
 	javax.money.api;version='[1.0.1,1.0.2)',\
-	javax.ws.rs.jsr311-api;version='[1.1.1,1.1.2)',\
 	joda-time;version='[2.10.1,2.10.2)',\
 	org.apache.commons.commons-compress;version='[1.18.0,1.18.1)',\
 	org.apache.commons.commons-pool2;version='[2.6.0,2.6.1)',\
 	org.apache.commons.lang;version='[2.6.0,2.6.1)',\
-	org.apache.commons.logging;version='[1.2.0,1.2.1)',\
 	org.apache.ivy;version='[2.4.0,2.4.1)',\
 	org.apache.opennlp.tools;version='[1.9.1,1.9.2)',\
 	org.reactivestreams.reactive-streams;version='[1.0.2,1.0.3)',\
 	specmate-model-generation;version=snapshot,\
-	specmate-nlp;version=snapshot
+	specmate-nlp;version=snapshot,\
+	com.atlassian.fugue;version='[2.7.0,2.7.1)',\
+	com.atlassian.sal.api;version='[3.0.7,3.0.8)',\
+	com.atlassian.util.concurrent.atlassian-util-concurrent;version='[3.0.0,3.0.1)',\
+	org.apache.commons.codec;version='[1.10.0,1.10.1)',\
+	org.apache.commons.logging;version='[1.1.1,1.1.2)',\
+	org.apache.httpcomponents.httpasyncclient;version='[4.1.3,4.1.4)',\
+	org.apache.httpcomponents.httpclient;version='[4.5.3,4.5.4)',\
+	org.apache.httpcomponents.httpcore;version='[4.4.6,4.4.7)',\
+	org.apache.servicemix.bundles.jcip-annotations;version='[1.0.0,1.0.1)',\
+	org.apache.servicemix.bundles.spring-beans;version='[4.1.7,4.1.8)',\
+	org.apache.servicemix.bundles.spring-core;version='[4.1.7,4.1.8)',\
+	org.codehaus.jettison.jettison;version='[1.1.0,1.1.1)'
 
 -runproperties: \
 	jetty.http.port=8080,\

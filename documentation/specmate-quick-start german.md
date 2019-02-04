@@ -26,9 +26,7 @@
 
 - Besorgen Sie sich die neueste Version von Specmate auf der Download-Seite.
 
-- Entpacken Sie Specmate in einen Ordner Ihrer Wahl.
-
-- Unter Windows führen Sie start.bat aus, unter Linux/Mac führen Sie start.sh aus.
+- Führen Sie java -jar prod-specmate-all.jar --configurationFile /pfad/zur/config/datei aus
 
 ## Konfiguration
 Specmate wird über die Datei specmate-config.properties konfiguriert. Eine Beispiel-Konfigurationsdatei erhalten Sie [hier](https://github.com/junkerm/specmate/blob/develop/bundles/specmate-config/config/specmate-config.properties).
