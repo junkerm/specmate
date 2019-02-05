@@ -24,6 +24,7 @@ import { TracingLinksModule } from '../views/side/modules/tracing-links/tracing-
 import { SpecmateComponent } from './components/specmate.component';
 import { SpecmateRoutingModule } from './routing/specmate-routing.module';
 import { ErrorsWarningsModule } from '../views/side/modules/errors-warnings/errors-warnings.module';
+import { DragulaModule } from 'ng2-dragula';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -34,7 +35,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     SpecmateRoutingModule,
     NavigationBarModule,
-    AngularSplitModule,
+    AngularSplitModule.forRoot(),
+    DragulaModule.forRoot(),
     ProjectExplorerModule,
     PropertiesEditorModule,
     HistoryViewModule,
