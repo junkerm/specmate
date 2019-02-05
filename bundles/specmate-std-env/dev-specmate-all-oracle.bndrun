@@ -48,7 +48,7 @@
 	osgi.identity;filter:='(osgi.identity=specmate-jira-connector)',\
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-oracle)',\
 	osgi.identity;filter:='(osgi.identity=specmate-nlp)',\
-	osgi.identity;filter:='(osgi.identity=specmate-model-generation')'
+	osgi.identity;filter:='(osgi.identity=specmate-model-generation)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -223,3 +223,4 @@
 	Workspace,\
 	Local
 -runvm: -Xmx6000m, -Djdk.crypto.KeyAgreement.legacyKDF=true
+-runprogramargs: --configurationFile C:\\AZ_DATEN\\Specmate-Tests\\0.2.12\\specmate-config-all.properties
