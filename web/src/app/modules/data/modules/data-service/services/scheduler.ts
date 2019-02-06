@@ -133,7 +133,9 @@ export class Scheduler {
     private getLastStoredValue(url: string): IContainer {
         let commands: Command[] = this.getCommands(url);
         if (commands && commands.length > 0) {
-            return commands[commands.length - 1].newValue;
+            const lastStoredValue = commands[commands.length - 1].newValue;
+            lastStoredValue.url = url;
+            return lastStoredValue;
         }
         return undefined;
     }
