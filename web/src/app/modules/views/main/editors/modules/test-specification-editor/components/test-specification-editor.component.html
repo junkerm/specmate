@@ -43,7 +43,7 @@
                     </th>
                 </tr>
             </thead>
-            <tbody dragula="TEST_CASES" [(dragulaModel)]="contents">
+            <tbody [dragula]="dndBagName" [(dragulaModel)]="contents">
                 <ng-container *ngFor="let testCase of sortedContents">
                     <tr test-case-row class="test-case-row" [class.test-case-inconsistent]="!testCase.consistent" *ngIf="isTestCase(testCase)"
                         [testCase]="testCase"></tr>

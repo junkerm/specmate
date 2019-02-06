@@ -34,6 +34,8 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
         return Sort.sortArray(this.contents);
     }
 
+    public dndBagName = 'DND_BAG';
+
     constructor(
         dataService: SpecmateDataService,
         navigator: NavigatorService,
@@ -42,11 +44,22 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
         private dragulaService: DragulaService,
         translate: TranslateService) {
         super(dataService, navigator, route, modal, translate);
-
-        this.dragulaService.drop().subscribe((value: any) => this.onDropModel(value.slice(1)));
+        // this.dragulaService.drop(this.dndBagName).subscribe((args) => this.onDrop(args));
+        this.dragulaService.dropModel(this.dndBagName)
+            .subscribe(({sourceIndex, targetIndex}) => this.onDropModel(sourceIndex, targetIndex));
     }
 
-    private onDropModel(value: any): void {
+    private onDropModel(sourceIndex: number, targetIndex: number): void {
+        const source = this.relevantElements[sourceIndex];
+        const target = this.relevantElements[targetIndex];
+        const sourceContentIndex = this.contents.indexOf(source);
+        const targetContentIndex = this.contents.indexOf(target);
+        this.contents.splice(targetContentIndex, 0, this.contents.splice(sourceContentIndex, 1)[0]);
+        this.sanitizeContentPositions(true);
+    }
+
+    private onDrop(args: any): void {
+        console.log(args);
         this.sanitizeContentPositions(true);
     }
 
