@@ -23,7 +23,7 @@
                         <!-- Actions -->
                     </th>
                     <th class="test-procedure-header">{{'TestProcedure' | translate}}</th>
-                    <th *ngFor="let input of inputParameters">
+                    <th *ngFor="let input of inputParameters" class="parameter-input">
                         <test-parameter-form [testParameter]="input"></test-parameter-form>
                     </th>
                     <th>
@@ -32,7 +32,7 @@
                                     class="fa fa-plus"></i></button>
                         </div>
                     </th>
-                    <th *ngFor="let output of outputParameters">
+                    <th *ngFor="let output of outputParameters" class="parameter-input">
                         <test-parameter-form [testParameter]="output"></test-parameter-form>
                     </th>
                     <th>

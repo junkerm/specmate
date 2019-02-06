@@ -1,10 +1,15 @@
-// @import "~bootswatch/dist/sandstone/variables";
-@import "~bootstrap/scss/bootstrap";
-// @import "~bootswatch/dist/sandstone/bootswatch";
 
+// Bootstrap + Theme
+@import "~bootswatch/dist/yeti/variables";
+@import "~bootstrap/scss/bootstrap";
+@import "~bootswatch/dist/yeti/bootswatch";
+
+// Flag Icon
 $flag-icon-css-path: '~flag-icon-css/flags' !default;
 @import "~flag-icon-css/sass/flag-icon";
 
-@import "./assets/scss/specmate.extensions.scss";
-
+// Dragula
 @import "~dragula/dist/dragula.css";
+
+// Custom
+@import "./assets/scss/specmate.extensions.scss";
