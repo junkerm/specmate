@@ -44,7 +44,6 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
         private dragulaService: DragulaService,
         translate: TranslateService) {
         super(dataService, navigator, route, modal, translate);
-        // this.dragulaService.drop(this.dndBagName).subscribe((args) => this.onDrop(args));
         this.dragulaService.dropModel(this.dndBagName)
             .subscribe(({sourceIndex, targetIndex}) => this.onDropModel(sourceIndex, targetIndex));
     }
@@ -55,11 +54,6 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
         const sourceContentIndex = this.contents.indexOf(source);
         const targetContentIndex = this.contents.indexOf(target);
         this.contents.splice(targetContentIndex, 0, this.contents.splice(sourceContentIndex, 1)[0]);
-        this.sanitizeContentPositions(true);
-    }
-
-    private onDrop(args: any): void {
-        console.log(args);
         this.sanitizeContentPositions(true);
     }
 
