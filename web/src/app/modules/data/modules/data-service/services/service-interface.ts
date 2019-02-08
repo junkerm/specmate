@@ -31,8 +31,8 @@ export class ServiceInterface {
     }
 
     public async authenticate(user: User): Promise<UserToken> {
-        return this.http.post(Url.urlAuthenticate(), user).toPromise()
-            .then((session: UserSession) => new UserToken(session, user.projectName, session.libraryFolders));
+        const session: UserSession = await this.http.post(Url.urlAuthenticate(), user).toPromise() as UserSession;
+        return new UserToken(session, user.projectName, session.libraryFolders);
     }
 
     public async deauthenticate(token: UserToken): Promise<void> {

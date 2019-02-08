@@ -40,13 +40,13 @@ import com.specmate.persistency.cdo.internal.CDOPersistencyServiceConfig;
 import specmate.dbprovider.h2.config.H2ProviderConfig;
 
 public abstract class MigrationTestBase {
-	protected IPersistencyService persistency;
+	private static ICDOServer server;
 	protected BundleContext context;
+	protected IPersistencyService persistency;
 	protected IMigratorService migratorService;
 	protected String testModelName;
 
 	private String dbname;
-	private ICDOServer server;
 
 	private static final String SPECMATE_RESOURCE = "specmate_resource";
 	private static final String SPECMATE_REPOSITORY = "specmate_repository";
@@ -59,12 +59,17 @@ public abstract class MigrationTestBase {
 
 		context = FrameworkUtil.getBundle(MigrationTestBase.class).getBundleContext();
 
-		configureCDOServer(getCDOServerProperties());
-		configureDBProvider(getDBProviderProperites());
+		if (server == null) {
+			configureCDOServer(getCDOServerProperties());
+		}
+
+		configureDBProvider(getDBProviderProperties());
 		configurePersistency(getPersistencyProperties());
 		configureMigrator();
 
-		this.server = getCDOServer();
+		if (server == null) {
+			server = getCDOServer();
+		}
 
 		addBaselinedata();
 	}
@@ -166,7 +171,7 @@ public abstract class MigrationTestBase {
 		return properties;
 	}
 
-	protected Dictionary<String, Object> getDBProviderProperites() {
+	protected Dictionary<String, Object> getDBProviderProperties() {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:" + this.dbname + ";DB_CLOSE_DELAY=-1");
 		return properties;

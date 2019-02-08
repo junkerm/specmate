@@ -3,8 +3,8 @@
 ## How to set up your development environment
 1. Install Eclipse Neon.2 Modeling Tools
 2. From the Eclipse Marketplace, install 
-    - bndtools 3.3
-    - Acceleo 3.6
+    - bndtools 4.1
+    - Acceleo 3.7
 3. Install node js version 8
 4. In the folder web, run npm run init.
 5. Import all projects in the bundles folder into your Eclipse workspace
