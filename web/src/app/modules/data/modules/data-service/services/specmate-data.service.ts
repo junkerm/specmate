@@ -115,27 +115,28 @@ export class SpecmateDataService {
 
     public async readElement(url: string, virtual?: boolean): Promise<IContainer> {
         this.busy = true;
-        let element: IContainer = undefined;
+        let readElementTask: Promise<IContainer> = undefined;
 
         if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedElement(url)) {
             let element: IContainer = this.readElementVirtual(url);
             if (element) {
-                if (((<any>element).live)) {
-                    element = undefined;
+                if (!((<any>element).live)) {
+                    readElementTask = Promise.resolve(element);
                 }
             } else {
                 this.logger.warn(this.translate.instant('triedToReadElementVirtuallyButCouldNotFindItFallingBackToServer'), url);
             }
         }
-        if (!element) {
-            element = await this.readElementServer(url);
+        if (!readElementTask) {
+            readElementTask = this.readElementServer(url);
         }
         const parentUrl = Url.parent(url);
-        if (parentUrl !== undefined) {
-            await this.readContents(parentUrl);
+        if (parentUrl === undefined) {
+            return readElementTask.then(element => this.readElementComplete(element));
         }
-        this.readElementComplete(element);
-        return element;
+        return this.readContents(parentUrl)
+            .then(() => readElementTask)
+            .then((element: IContainer) => this.readElementComplete(element));
     }
 
     private readElementComplete(element: IContainer): IContainer {
