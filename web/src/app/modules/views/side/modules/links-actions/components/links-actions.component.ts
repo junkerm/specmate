@@ -59,6 +59,10 @@ export class LinksActions {
         return this.additionalInformationService.canExportTestspecification;
     }
 
+    public get canGenerateCEGModel(): boolean {
+        return this.additionalInformationService.canGenerateCEGModel;
+    }
+
     public toggleDescription() {
         this.descriptionVisible = !this.descriptionVisible;
     }

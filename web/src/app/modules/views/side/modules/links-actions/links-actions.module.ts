@@ -14,6 +14,8 @@ import { AuthModule } from '../../../main/authentication/modules/auth/auth.modul
 import { GetTestSpecificationSkeletonButtonModule } from
   '../../../../actions/modules/get-test-specification-skeleton-button/get-test-specification-skeleton-button.module';
 import { SpecmateSharedModule } from '../../../../specmate/specmate.shared.module';
+import { CegModelGeneratorButtonModule } from '../../../../actions/modules/ceg-model-generator-button/ceg-model-generator-button.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -25,6 +27,8 @@ import { SpecmateSharedModule } from '../../../../specmate/specmate.shared.modul
     GetTestSpecificationSkeletonButtonModule,
     ExportTestspecificationButtonModule,
     SpecmateSharedModule,
+    TranslateModule,
+    CegModelGeneratorButtonModule,
     AuthModule,
     NgbModule.forRoot()
   ],

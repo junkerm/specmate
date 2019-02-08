@@ -85,6 +85,7 @@ public class ProjectConfigService implements IProjectConfigService {
 
 		try {
 			trans = this.persistencyService.openTransaction();
+			trans.removeValidator(TopLevelValidator.class.getName());
 			EList<EObject> projects = trans.getResource().getContents();
 
 			EObject obj = SpecmateEcoreUtil.getEObjectWithId(projectID, projects);

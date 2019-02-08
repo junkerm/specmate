@@ -78,6 +78,10 @@ export class SpecmateDataService {
         return this.createElementServer(element);
     }
 
+    public deleteCachedContent(url: string) {
+        this.cache.deleteElement(url);
+    }
+
     public readContents(url: string, virtual?: boolean): Promise<IContainer[]> {
         this.busy = true;
 
@@ -155,6 +159,15 @@ export class SpecmateDataService {
             return Promise.resolve(this.deleteElementVirtual(url, compoundId));
         }
         return this.deleteElementServer(url);
+    }
+
+    public async clearModel(nodes: IContainer[], connections: IContainer[], compoundId = Id.uuid): Promise<void> {
+        for (let i = connections.length - 1; i >= 0; i--) {
+            await this.deleteElement(connections[i].url, true, compoundId);
+        }
+        for (let i = nodes.length - 1; i >= 0; i--) {
+            await this.deleteElement(nodes[i].url, true, compoundId);
+        }
     }
 
     public sanitizeContentPositions(elements: IPositionable[], update: boolean, compoundId?: string): void {
