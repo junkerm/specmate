@@ -40,7 +40,7 @@ public class Testing {
 	    WebDriver driver = new RemoteWebDriver(new URL(URL), caps);
 	    Actions builder = new Actions(driver);
 
-		//driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS); //page synchronization
+		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS); //page synchronization
 		//driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		driver.get("http://localhost:8080/");
 		
