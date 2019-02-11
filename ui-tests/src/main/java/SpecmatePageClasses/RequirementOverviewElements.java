@@ -14,7 +14,7 @@ public class RequirementOverviewElements {
 	By createProcess = By.id("requirement-createprocess-button");
 	By createTestSpec = By.id("requirement-createtestspec-button");
 	By createModelRequirement = By.id("requirement-createprocess-button");
-	By modelInputField = By.id("");
+	By modelInputField = By.id("modelNameForm");
 	
 	//Pop-Up Elements and their locators
 	By discard = By.id("popup-accept-button");
