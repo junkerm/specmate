@@ -10,6 +10,7 @@
           <details key="required" value="true"/>
           <details key="type" value="text"/>
           <details key="position" value="0"/>
+          <details key="allowedPattern" value="^((?![,;\|]).)*$"/>
         </eAnnotations>
       </eStructuralFeatures>
     </eClassifiers>

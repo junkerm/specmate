@@ -39,7 +39,8 @@ export abstract class ContentContainerBase<T extends IContainer> implements OnIn
     }
 
     public async create(name: string): Promise<void> {
-        if (name) {
+        let invalidCharacters: RegExp = new RegExp('[,;|]');
+        if (name && !name.match(invalidCharacters)) {
             const element = await this.createElement(name);
             this.navigator.navigate(element);
         }
@@ -92,7 +93,8 @@ export abstract class ContentContainerBase<T extends IContainer> implements OnIn
     }
 
     public async paste(name: string): Promise<void> {
-        if (!this.canPaste) {
+        let invalidCharacters: RegExp = new RegExp('[,;|]');
+        if (!this.canPaste || name.match(invalidCharacters)) {
             return;
         }
         const model = this.clipboardModel;

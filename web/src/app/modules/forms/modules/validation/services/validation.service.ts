@@ -10,12 +10,14 @@ import { ValidationResult } from '../../../../../validation/validation-result';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
 import { ValidationCache } from '../util/validation-cache';
+import { ValidNameValidator } from '../../../../../validation/valid-name-validator';
 
 @Injectable()
 export class ValidationService {
 
     private static DISABLED_CHILD_VALIDATION_TYPES: { className: string }[] = [Folder];
     private validationCache: ValidationCache;
+    private validNameValidator: ValidNameValidator = new ValidNameValidator();
 
     constructor(private navigator: NavigatorService, private dataService: SpecmateDataService) {
         this.validationCache = new ValidationCache();
@@ -40,10 +42,12 @@ export class ValidationService {
             return this.validationCache.getEntry(element.url);
         }
         const requiredFieldsResults: ValidationResult = this.getRequiredFieldsValidator(element).validate(element);
+        const validNameResult: ValidationResult = this.validNameValidator.validate(element);
         const elementValidators = this.getElementValidators(element) || [];
         let elementResults: ValidationResult[] =
             elementValidators.map((validator: ElementValidatorBase<IContainer>) => validator.validate(element, contents))
-                             .concat(requiredFieldsResults);
+                             .concat(requiredFieldsResults)
+                             .concat(validNameResult);
 
         this.validationCache.addEntriesToCache(element.url, contURLs, elementResults);
         return elementResults;

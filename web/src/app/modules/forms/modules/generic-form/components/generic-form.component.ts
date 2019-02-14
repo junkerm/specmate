@@ -87,9 +87,15 @@ export class GenericForm {
             let fieldMeta: FieldMetaItem = this._meta[i];
             let fieldName: string = fieldMeta.name;
             let formBuilderObjectValue: any[] = [''];
+            const validators = [];
             if (this._meta[i].required) {
-                formBuilderObjectValue.push(Validators.required);
+                validators.push(Validators.required);
+                // formBuilderObjectValue.push(Validators.required);
             }
+            if (this._meta[i].allowedPattern) {
+                validators.push(Validators.pattern(new RegExp('^((?![,;\|]).)*$')));
+            }
+            formBuilderObjectValue.push(Validators.compose(validators));
             formBuilderObject[fieldName] = formBuilderObjectValue;
         }
         this.formGroup = this.formBuilder.group(formBuilderObject);
