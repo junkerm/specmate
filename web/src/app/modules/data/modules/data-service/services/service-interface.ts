@@ -2,8 +2,6 @@ import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular
 import { Url } from '../../../../../util/url';
 import { IContainer } from '../../../../../model/IContainer';
 import { Objects } from '../../../../../util/objects';
-import { CEGConnection } from '../../../../../model/CEGConnection';
-import { Type } from '../../../../../util/type';
 import 'rxjs/add/observable/of';
 import { _throw } from 'rxjs/observable/throw';
 import { UserToken } from '../../../../views/main/authentication/base/user-token';
@@ -131,10 +129,6 @@ export class ServiceInterface {
         let payload: any = Objects.clone(element);
         payload.url = undefined;
         delete payload.url;
-        if (Type.is(element, CEGConnection)) {
-            payload.source.___proxy = 'true';
-            payload.target.___proxy = 'true';
-        }
         if (!element.id) {
             payload['___proxy'] = 'true';
         }
