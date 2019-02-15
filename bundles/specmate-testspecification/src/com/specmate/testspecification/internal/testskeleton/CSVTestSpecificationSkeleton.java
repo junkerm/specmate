@@ -13,7 +13,7 @@ import com.specmate.model.testspecification.TestSpecification;
 public class CSVTestSpecificationSkeleton extends BaseSkeleton {
 
 	private static final String TEXT_WRAP = "\"";
-	private static final String COL_SEP = ",";
+	private static final String COL_SEP = ";";
 
 	public CSVTestSpecificationSkeleton(String language) {
 		super(language);
