@@ -5,7 +5,7 @@
     </h5>
     <ul class="list-group list-group-flush" *ngIf="!isCollapsed">
         <li *ngIf="requirement" class="list-group-item"><span class="data-item-title">{{'Requirement' | translate}}:</span>&nbsp;<a [navigationTarget]="requirement">{{requirement.extId}}: {{requirement.name}}</a></li>
-        <li *ngIf="requirement" class="list-group-item"><span class="data-item-title">{{'RequirementDescription' | translate}}:</span>&nbsp;<a (click)="toggleDescription()" id="linksactions-extenddescription-button" class="pointer">{{requirementDescription}}&nbsp;<i class="{{'fa fa-' + descriptionCollapsibleLabel}}" aria-hidden="true"></i></a></li>
+        <li *ngIf="requirement" class="list-group-item"><span class="data-item-title">{{'RequirementDescription' | translate}}:</span>&nbsp;<p (click)="toggleDescription()" id="linksactions-extenddescription-button" class="pointer">{{requirementDescription}}&nbsp;<i *ngIf="canTruncate" class="{{'fa fa-' + descriptionCollapsibleLabel}}" aria-hidden="true"></i></p></li>
         <li *ngIf="model" class="list-group-item"><span class="data-item-title">{{'Model' | translate}}:</span>&nbsp;<a [navigationTarget]="model">{{model.name}}</a></li>
         <li *ngIf="testSpecification" class="list-group-item"><span class="data-item-title">{{'TestSpecification' | translate}}:</span>&nbsp;<a [navigationTarget]="testSpecification">{{testSpecification.name}}</a></li>
         <ng-container *ngIf="canHaveTestSpecifications" class="list-group list-group-flush">
