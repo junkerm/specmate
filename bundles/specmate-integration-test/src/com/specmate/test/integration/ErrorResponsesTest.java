@@ -36,10 +36,10 @@ public class ErrorResponsesTest extends EmfRestTest {
 	public void testMethodNotAllowed() {
 		String serviceName = "history";
 		RestResult<JSONObject> result = restClient.post(serviceName, createTestFolder());
-		assertEquals(Status.METHOD_NOT_ALLOWED.getStatusCode(), result.getResponse().getStatus());
+		assertEquals(Status.NOT_FOUND.getStatusCode(), result.getResponse().getStatus());
 		JSONObject obj = result.getPayload();
 		assertNotNull(obj);
-		assertEquals(ErrorCode.METHOD_NOT_ALLOWED.getLiteral(), obj.get("ecode"));
+		assertEquals(ErrorCode.NO_SUCH_SERVICE.getLiteral(), obj.get("ecode"));
 		assertEquals(serviceName, obj.get("detail"));
 		result.getResponse().close();
 	}

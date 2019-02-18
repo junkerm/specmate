@@ -38,6 +38,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.requirements.impl.CEGModelImpl#getContents <em>Contents</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGModelImpl#getTracesTo <em>Traces To</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGModelImpl#getTracesFrom <em>Traces From</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGModelImpl#getModelRequirements <em>Model Requirements</em>}</li>
  * </ul>
  *
  * @generated
@@ -72,6 +73,16 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 	 * @ordered
 	 */
 	protected static final String DESCRIPTION_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getModelRequirements() <em>Model Requirements</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModelRequirements()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String MODEL_REQUIREMENTS_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -191,6 +202,24 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getModelRequirements() {
+		return (String)eDynamicGet(RequirementsPackage.CEG_MODEL__MODEL_REQUIREMENTS, RequirementsPackage.Literals.CEG_MODEL__MODEL_REQUIREMENTS, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setModelRequirements(String newModelRequirements) {
+		eDynamicSet(RequirementsPackage.CEG_MODEL__MODEL_REQUIREMENTS, RequirementsPackage.Literals.CEG_MODEL__MODEL_REQUIREMENTS, newModelRequirements);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -241,6 +270,8 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 				return getTracesTo();
 			case RequirementsPackage.CEG_MODEL__TRACES_FROM:
 				return getTracesFrom();
+			case RequirementsPackage.CEG_MODEL__MODEL_REQUIREMENTS:
+				return getModelRequirements();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -275,6 +306,9 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 				getTracesFrom().clear();
 				getTracesFrom().addAll((Collection<? extends ITracingElement>)newValue);
 				return;
+			case RequirementsPackage.CEG_MODEL__MODEL_REQUIREMENTS:
+				setModelRequirements((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -305,6 +339,9 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 			case RequirementsPackage.CEG_MODEL__TRACES_FROM:
 				getTracesFrom().clear();
 				return;
+			case RequirementsPackage.CEG_MODEL__MODEL_REQUIREMENTS:
+				setModelRequirements(MODEL_REQUIREMENTS_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -329,6 +366,8 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 				return !getTracesTo().isEmpty();
 			case RequirementsPackage.CEG_MODEL__TRACES_FROM:
 				return !getTracesFrom().isEmpty();
+			case RequirementsPackage.CEG_MODEL__MODEL_REQUIREMENTS:
+				return MODEL_REQUIREMENTS_EDEFAULT == null ? getModelRequirements() != null : !MODEL_REQUIREMENTS_EDEFAULT.equals(getModelRequirements());
 		}
 		return super.eIsSet(featureID);
 	}

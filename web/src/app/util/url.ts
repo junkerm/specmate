@@ -8,6 +8,9 @@ export class Url {
     public static SEP = '/';
 
     public static basePath(cls: { className: string }): string {
+        if (cls === undefined) {
+            throw new Error('No class given!');
+        }
         return Config.VIEW_URL_PREFIX + cls.className;
     }
 

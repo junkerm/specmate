@@ -153,6 +153,9 @@ public class HistoryProviderImpl implements IHistoryProvider {
 
 	private CDOCommitInfo[] getCDOHistoryElements(CDOObject cdoObject) {
 		CDOObjectHistory cdoHistory = cdoObject.cdoHistory();
+		if(cdoHistory == null) {
+			return new CDOCommitInfo[0];
+		}
 		CDOCommitInfo[] cdoHistoryElements = cdoHistory.getElements();
 		// CDO loads the history asynchronously, hence if the history is
 		// initialized it might be empty. An empty history is a hint that the
