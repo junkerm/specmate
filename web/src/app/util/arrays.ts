@@ -19,20 +19,13 @@ export class Arrays {
     }
 
     public static groupBy<T>(array: T[], keyFunction: ((elem: T) => string) | ((elem: T) => number) ): T[][] {
-        let tmpMap = {};
+        let out: T[][] = [];
         for (const elem of array) {
             let key = keyFunction(elem);
-            if (tmpMap[key] === undefined) {
-                tmpMap[key] = [];
+            if (out[key] === undefined) {
+                out[key] = [];
             }
-            tmpMap[key].push(elem);
-        }
-
-        let out = [];
-        for (const key in tmpMap) {
-            if (tmpMap.hasOwnProperty(key)) {
-                out.push(tmpMap[key]);
-            }
+            out[key].push(elem);
         }
         return out;
     }
