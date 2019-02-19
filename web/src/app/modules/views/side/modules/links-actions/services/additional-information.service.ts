@@ -27,10 +27,8 @@ export class AdditionalInformationService {
     }
 
     private async load(): Promise<void> {
-        await Promise.all([
-            this.loadParents(),
-            this.loadTestSpecifications()
-        ]);
+        await this.loadParents();
+        await this.loadTestSpecifications();
     }
 
     private async loadTestSpecifications(): Promise<void> {
@@ -60,8 +58,7 @@ export class AdditionalInformationService {
             url = Url.parent(url);
         }
 
-        const parentElements = await Promise.all(parentUrls.map(url => this.dataService.readElement(url)));
-        this.parents = parentElements;
+        this.parents = await Promise.all(parentUrls.map(url => this.dataService.readElement(url)));
     }
 
     public get hasAdditionalInformation(): boolean {
