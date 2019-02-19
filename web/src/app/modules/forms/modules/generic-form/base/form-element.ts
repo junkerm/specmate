@@ -15,16 +15,15 @@ export abstract class FormElement {
     constructor(private translate: TranslateService) { }
 
     public get errorMessage(): string {
-        let test = this.form.controls;
-        // if (this.form.controls.name) {
-        //     let error = this.form.controls.name.errors;
-        //     if (error.required) {
-        //         return this.translate.instant('requiredField');
-        //     }
-        //     if (error.pattern) {
-        //         return this.translate.instant('invalidCharacter');
-        //     }
-        // }
+        if (this.form.controls.name != undefined && this.form.controls.name.errors != undefined) {
+            let error = this.form.controls.name.errors;
+            if (error.required != undefined) {
+                return this.translate.instant('requiredField');
+            }
+            if (error.pattern != undefined) {
+                return this.translate.instant('invalidCharacter');
+            }
+        }
         return this.translate.instant('fieldInvalid');
     }
 }

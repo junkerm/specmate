@@ -46,6 +46,9 @@
                         </button>
                     </div>
                 </div>
+                <div class="form-control-feedback">
+                    <span [hidden]="validPattern(newNameInput.value)" class="form-text">{{errorMessage}}</span>
+                </div>
             </div>
             <div class="col"></div>
         </div>

@@ -134,4 +134,7 @@ export abstract class ContentContainerBase<T extends IContainer> implements OnIn
         }
         return false;
     }
+    public get errorMessage(): string {
+        return this.translate.instant('invalidCharacter');
+    }
 }
