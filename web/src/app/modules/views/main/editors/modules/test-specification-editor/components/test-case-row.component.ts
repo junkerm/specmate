@@ -56,10 +56,12 @@ export class TestCaseRow {
     }
 
     /** Deletes the test case. */
-    public delete(): void {
-        this.modal.open('Do you really want to delete ' + this.testCase.name + '?')
-            .then(() => this.dataService.deleteElement(this.testCase.url, true, Id.uuid))
-            .catch(() => {});
+    public async delete(): Promise<void> {
+        try {
+            const message = await this.translate.get('doYouReallyWantToDelete', { name: this.testCase.name }).toPromise();
+            await this.modal.confirmDelete(this.translate.instant('ConfirmationRequired'), message);
+            await this.dataService.deleteElement(this.testCase.url, true, Id.uuid);
+        } catch (e) { }
     }
 
     /** Asks for confirmation to save all change, creates a new test procedure and then navigates to it. */
@@ -68,7 +70,7 @@ export class TestCaseRow {
         this.modal.confirmSave()
             .then(() => factory.create(this.testCase, true))
             .then((testProcedure: TestProcedure) => this.navigator.navigate(testProcedure))
-            .catch(() => {});
+            .catch(() => { });
     }
 
     private get testParameters(): TestParameter[] {
@@ -85,15 +87,15 @@ export class TestCaseRow {
     }
 
     public get outputParameters(): TestParameter[] {
-         return this.getInOutParameters('OUTPUT');
+        return this.getInOutParameters('OUTPUT');
     }
 
     private getInOutParameters(type: string): TestParameter[] {
-         if (!this.testParameters) {
-         return undefined;
-    }
-         let parameters: TestParameter[] = this.testParameters.filter((element: TestParameter) => element.type === type);
-         return parameters;
+        if (!this.testParameters) {
+            return undefined;
+        }
+        let parameters: TestParameter[] = this.testParameters.filter((element: TestParameter) => element.type === type);
+        return parameters;
     }
 
     private get assignments(): ParameterAssignment[] {
