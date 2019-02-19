@@ -20,7 +20,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		}	];
 	public static IDescribed: FieldMetaItem[] = [
 			{
@@ -42,7 +42,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -60,7 +60,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -78,7 +78,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -96,7 +96,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -118,7 +118,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -136,7 +136,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -154,7 +154,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -174,7 +174,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -192,7 +192,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -242,7 +242,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -266,7 +266,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -284,7 +284,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		}	];
 	public static TestParameter: FieldMetaItem[] = [
 			{
@@ -294,7 +294,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -312,7 +312,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -330,7 +330,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -348,7 +348,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -372,7 +372,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -390,7 +390,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -408,7 +408,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -426,7 +426,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -451,7 +451,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -486,7 +486,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',
@@ -504,7 +504,7 @@ export class MetaInfo {
 			required: true,
 			type: 'text',
 			position: '0',
-			allowedPattern: '[^,]'		
+			allowedPattern: '^[^,;|]*$'		
 		},			{
 			name: "description",
 			shortDesc: 'Description',

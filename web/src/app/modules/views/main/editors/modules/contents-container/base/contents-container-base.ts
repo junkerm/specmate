@@ -8,6 +8,10 @@ import { OnInit, Input, Type } from '@angular/core';
 import { Objects } from '../../../../../../../util/objects';
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
 import { GraphTransformer } from '../../tool-pallette/util/graph-transformer';
+import { FieldMetaItem, MetaInfo } from '../../../../../../../model/meta/field-meta';
+import { Meta } from '@angular/platform-browser';
+import { FieldType } from '../../../../../../forms/modules/generic-form/components/generic-form.component';
+import { isNgContainer } from '@angular/compiler';
 
 export abstract class ContentContainerBase<T extends IContainer> implements OnInit {
 
@@ -39,8 +43,7 @@ export abstract class ContentContainerBase<T extends IContainer> implements OnIn
     }
 
     public async create(name: string): Promise<void> {
-        let invalidCharacters: RegExp = new RegExp('[,;|]');
-        if (name && !name.match(invalidCharacters)) {
+        if (name && this.validPattern(name)) {
             const element = await this.createElement(name);
             this.navigator.navigate(element);
         }
@@ -93,8 +96,7 @@ export abstract class ContentContainerBase<T extends IContainer> implements OnIn
     }
 
     public async paste(name: string): Promise<void> {
-        let invalidCharacters: RegExp = new RegExp('[,;|]');
-        if (!this.canPaste || name.match(invalidCharacters)) {
+        if (!this.canPaste || !this.validPattern(name)) {
             return;
         }
         const model = this.clipboardModel;
@@ -114,6 +116,22 @@ export abstract class ContentContainerBase<T extends IContainer> implements OnIn
     }
 
     public get canPaste(): boolean {
+        let test = this.condition(this.clipboardService.clipboard[0]);
         return this.clipboardService.clipboard.length === 1 && this.condition(this.clipboardService.clipboard[0]);
+    }
+
+    public isCreateButtonEnabled(name: string): boolean {
+        if (!this.validPattern(name) || name === undefined || name.length === 0) {
+            return false;
+        }
+        return true;
+    }
+    public validPattern(name: string): boolean {
+        let validPattern = MetaInfo.INamed[0].allowedPattern;
+        let validName: RegExp = new RegExp(validPattern);
+        if (name.match(validName)) {
+            return true;
+        }
+        return false;
     }
 }

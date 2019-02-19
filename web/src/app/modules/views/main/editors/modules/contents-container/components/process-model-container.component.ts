@@ -39,12 +39,4 @@ export class ProcessModelContainer extends TestSpecificationContentContainerBase
         const element = await factory.create(this.parent, true, Id.uuid, name);
         return element as Process;
     }
-
-    public isCreateProcessButtonEnabled(name: string): boolean {
-        let invalidCharacters: RegExp = new RegExp('[,;|]');
-        if (name.match(invalidCharacters) || name === undefined || name.length === 0) {
-            return false;
-        }
-        return true;
-    }
 }

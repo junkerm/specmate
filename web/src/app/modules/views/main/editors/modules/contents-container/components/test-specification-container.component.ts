@@ -51,12 +51,4 @@ export class TestSpecificationContainer extends ContentContainerBase<TestSpecifi
             .performQuery(this.parent.url, 'listRecursive', { class: TestSpecification.className });
         this.contents = Sort.sortArray(contents);
     }
-
-    public isCreateTestspecificationButtonEnabled(name: string): boolean {
-        let invalidCharacters: RegExp = new RegExp('[,;|]');
-        if (name.match(invalidCharacters) || name === undefined || name.length === 0) {
-            return false;
-        }
-        return true;
-    }
 }

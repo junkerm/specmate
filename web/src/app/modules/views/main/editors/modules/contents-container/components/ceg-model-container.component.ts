@@ -39,12 +39,4 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
         const element = await factory.create(this.parent, true, Id.uuid, name);
         return element as CEGModel;
     }
-
-    public isCreateCEGButtonEnabled(name: string): boolean {
-        let invalidCharacters: RegExp = new RegExp('[,;|]');
-        if (name.match(invalidCharacters) || name === undefined || name.length === 0) {
-            return false;
-        }
-        return true;
-    }
 }

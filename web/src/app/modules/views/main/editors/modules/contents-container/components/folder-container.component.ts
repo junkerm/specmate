@@ -40,12 +40,4 @@ export class FolderContainer extends ContentContainerBase<Folder> {
         const message = this.translate.instant('doYouReallyWantToDeleteFolder', { name: element.name });
         await super.delete(element, message);
     }
-
-    public isCreateFolderButtonEnabled(name: string): boolean {
-        let invalidCharacters: RegExp = new RegExp('[,;|]');
-        if (name.match(invalidCharacters) || name === undefined || name.length === 0) {
-            return false;
-        }
-        return true;
-    }
 }

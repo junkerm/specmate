@@ -90,10 +90,9 @@ export class GenericForm {
             const validators = [];
             if (this._meta[i].required) {
                 validators.push(Validators.required);
-                // formBuilderObjectValue.push(Validators.required);
             }
             if (this._meta[i].allowedPattern) {
-                validators.push(Validators.pattern(new RegExp('^((?![,;\|]).)*$')));
+                validators.push(Validators.pattern(new RegExp(this._meta[i].allowedPattern)));
             }
             formBuilderObjectValue.push(Validators.compose(validators));
             formBuilderObject[fieldName] = formBuilderObjectValue;
