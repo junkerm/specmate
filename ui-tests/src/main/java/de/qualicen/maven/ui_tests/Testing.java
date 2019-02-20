@@ -2,6 +2,7 @@ package de.qualicen.maven.ui_tests;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -25,6 +26,9 @@ public class Testing {
 	    caps.setCapability("tunnel-identifier", TUNNELIDENTFIER); 
 	 
 	    WebDriver driver = new RemoteWebDriver(new URL(URL), caps);
+	    
+		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS); //page synchronization
+		driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 	    
 	    // Call two test classes 
 	    TestLoginPage.executeTest(driver);

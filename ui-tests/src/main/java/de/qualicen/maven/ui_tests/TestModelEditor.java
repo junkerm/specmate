@@ -18,8 +18,8 @@ public class TestModelEditor {
 	public static void executeTest(WebDriver driver) {
 		
 		Actions builder = new Actions(driver);
-		driver.manage().timeouts().implicitlyWait(120, TimeUnit.SECONDS); //page synchronization
-		driver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS); //page synchronization
+		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 		
 		ProjectExplorerElements projectExplorer = new ProjectExplorerElements(driver);
 		RequirementOverviewElements requirementOverview = new RequirementOverviewElements(driver);
@@ -31,7 +31,7 @@ public class TestModelEditor {
 		projectExplorer.open("Erlaubnis Autofahren");
 				
 		// Creating and opening new model
-		String modelName = "Model By Automated UI Test " +  new Timestamp(System.currentTimeMillis());
+		String modelName = "Model By Automated UI Test" +  new Timestamp(System.currentTimeMillis());
 		requirementOverview.createModelFromRequirement(modelName);
 				
 		// Adding nodes to the CEG
