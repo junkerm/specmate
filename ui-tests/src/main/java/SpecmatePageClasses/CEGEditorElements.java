@@ -77,10 +77,10 @@ public class CEGEditorElements {
 		builder.moveToElement(editorField, x, y).click().build().perform();
 		
 		
-		WebDriverWait wait=new WebDriverWait(driver, 120);
+		//WebDriverWait wait=new WebDriverWait(driver, 120);
 		
 		
-		WebElement node = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@generic-graphical-node][" + numberOfNodes + "]//*[@ceg-graphical-node]")));
+		//WebElement node = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@generic-graphical-node][" + numberOfNodes + "]//*[@ceg-graphical-node]")));
 		
 		
 		WebElement node = driver.findElement(By.xpath("//*[@generic-graphical-node][" + numberOfNodes + "]//*[@ceg-graphical-node]"));
