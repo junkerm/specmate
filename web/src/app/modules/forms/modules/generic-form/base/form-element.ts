@@ -15,8 +15,9 @@ export abstract class FormElement {
     constructor(private translate: TranslateService) { }
 
     public get errorMessage(): string {
-        if (this.form.controls.name != undefined && this.form.controls.name.errors != undefined) {
-            let error = this.form.controls.name.errors;
+        const control = this.form.controls[this.meta.name];
+        if (control != undefined && control.errors != undefined) {
+            let error = control.errors;
             if (error.required != undefined) {
                 return this.translate.instant('requiredField');
             }
