@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 //Page Class
 public class CEGEditorElements {
@@ -74,7 +76,14 @@ public class CEGEditorElements {
 		numberOfNodes ++;
 		builder.moveToElement(editorField, x, y).click().build().perform();
 		
-		WebElement node = driver.findElement(By.xpath("//*[@generic-graphical-node][" + numberOfNodes + "]//*[@ceg-graphical-node]"));
+		WebDriverWait wait=new WebDriverWait(driver, 20);
+		
+		
+		WebElement node = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@generic-graphical-node][" + numberOfNodes + "]//*[@ceg-graphical-node]")));
+				
+				//driver.findElement(By.xpath("//*[@generic-graphical-node][" + numberOfNodes + "]//*[@ceg-graphical-node]"));
+		
+		//WebElement node = driver.findElement(By.xpath("//*[@generic-graphical-node][" + numberOfNodes + "]//*[@ceg-graphical-node]"));
 		WebElement variableTextfield = driver.findElement(propertiesVariable);
 		WebElement conditionTextfield = driver.findElement(propertiesCondition);
 		variableTextfield.clear();
