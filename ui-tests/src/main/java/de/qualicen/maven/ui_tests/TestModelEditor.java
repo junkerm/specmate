@@ -31,7 +31,7 @@ public class TestModelEditor {
 		projectExplorer.open("Erlaubnis Autofahren");
 				
 		// Creating and opening new model
-		String modelName = "Model By Automated UI Test" +  new Timestamp(System.currentTimeMillis());
+		String modelName = "Model By Automated UI Test " +  new Timestamp(System.currentTimeMillis());
 		requirementOverview.createModelFromRequirement(modelName);
 				
 		// Adding nodes to the CEG
