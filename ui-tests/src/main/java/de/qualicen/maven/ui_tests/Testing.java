@@ -34,6 +34,6 @@ public class Testing {
 	    TestLoginPage.executeTest(driver);
 	    TestModelEditor.executeTest(driver);
 	    
-		driver.quit();
+	driver.quit();
 	}
 }
