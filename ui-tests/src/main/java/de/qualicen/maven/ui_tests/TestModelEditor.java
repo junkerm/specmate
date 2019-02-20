@@ -18,7 +18,7 @@ public class TestModelEditor {
 	public static void executeTest(WebDriver driver) {
 		
 		Actions builder = new Actions(driver);
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS); //page synchronization
+		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); //page synchronization
 		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 		
 		ProjectExplorerElements projectExplorer = new ProjectExplorerElements(driver);
