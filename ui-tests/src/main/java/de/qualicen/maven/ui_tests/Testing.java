@@ -27,8 +27,8 @@ public class Testing {
 	 
 	    WebDriver driver = new RemoteWebDriver(new URL(URL), caps);
 	    
-		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS); //page synchronization
-		driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS); //page synchronization
+		driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
 	    
 	    // Call two test classes 
 	    TestLoginPage.executeTest(driver);
