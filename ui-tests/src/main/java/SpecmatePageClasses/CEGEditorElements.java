@@ -69,13 +69,12 @@ public class CEGEditorElements {
 	public WebElement createNode(String variable, String condition, int x, int y) {
 		
 		int numberOfNodes = driver.findElements(By.xpath("//*[@ceg-graphical-node]")).size();
-		
 		driver.findElement(toolbarNode).click();
 		WebElement editorField = driver.findElement(editor);
 		numberOfNodes ++;
 		builder.moveToElement(editorField, x, y).click().build().perform();
 		
-		WebElement node = driver.findElement(By.xpath("//*[@ceg-graphical-node][" + numberOfNodes + "]"));
+		WebElement node = driver.findElement(By.xpath("//*[@generic-graphical-node][" + numberOfNodes + "]//*[@ceg-graphical-node]"));
 		WebElement variableTextfield = driver.findElement(propertiesVariable);
 		WebElement conditionTextfield = driver.findElement(propertiesCondition);
 		variableTextfield.clear();
@@ -97,7 +96,7 @@ public class CEGEditorElements {
 		node2.click();
 		numberOfConnections ++;
 		
-		WebElement connection = driver.findElement(By.xpath("//*[@ceg-graphical-connection][" + numberOfConnections + "]"));
+		WebElement connection = driver.findElement(By.xpath("//*[@generic-graphical-connection][" + numberOfConnections + "]//*[@ceg-graphical-connection]"));
 		return connection;
 	}
 	
