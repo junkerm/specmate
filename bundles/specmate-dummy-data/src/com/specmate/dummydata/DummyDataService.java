@@ -29,6 +29,7 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.validation.TopLevelValidator;
 import com.specmate.search.api.IModelSearchService;
 
 @Component(immediate = true)
@@ -74,6 +75,7 @@ public class DummyDataService {
 
 	private void fillDummyData() throws SpecmateException {
 		ITransaction transaction = this.persistencyService.openTransaction();
+		transaction.removeValidator(TopLevelValidator.class.getName());
 		Resource resource = transaction.getResource();
 		EObject testProject1 = SpecmateEcoreUtil.getEObjectWithName(DummyProject.TEST_DATA_PROJECT,
 				resource.getContents());

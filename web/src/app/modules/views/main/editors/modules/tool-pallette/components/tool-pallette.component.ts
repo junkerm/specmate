@@ -47,7 +47,7 @@ export class ToolPallette {
         this.editorToolsService.activate(tool);
     }
 
-    private delete(event: MouseEvent): void {
+    public delete(event: MouseEvent): void {
         event.preventDefault();
         event.stopPropagation();
         let message = this.translate.instant('doYouReallyWantToDeleteAll', {name: this.model.name});
@@ -61,13 +61,7 @@ export class ToolPallette {
     private removeAllElements(contents: IContainer[]): void {
         this.selectedElementService.deselect();
         let elementProvider = new ElementProvider(this.model, contents);
-        let compoundId: string = Id.uuid;
-        for (let i = elementProvider.connections.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(elementProvider.connections[i].url, true, compoundId);
-        }
-        for (let i = elementProvider.nodes.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(elementProvider.nodes[i].url, true, compoundId);
-        }
+        this.dataService.clearModel(elementProvider.nodes, elementProvider.connections);
     }
 
     public get isVisible(): boolean {

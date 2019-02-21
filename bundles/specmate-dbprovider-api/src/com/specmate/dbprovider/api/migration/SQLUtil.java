@@ -133,7 +133,8 @@ public class SQLUtil {
 		Date now = new Date();
 		String dateAsString = String.valueOf(now.getTime());
 		String dateComponent = dateAsString.substring(dateAsString.length() - 4);
-		String uniqueID = "_" + dateComponent + "_" + seqId; // length of this is always 7
+		String uniqueID = "_" + dateComponent + "_" + seqId; // length of this
+																// is always 7
 		assert (uniqueID.length() == 7);
 
 		int maxPrefixLength = maxLength - uniqueID.length();

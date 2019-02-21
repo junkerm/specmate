@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import javax.ws.rs.core.Response.Status;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.osgi.service.log.LogService;
@@ -30,6 +31,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	static final String REST_ENDPOINT = "http://localhost:8088/services/rest";
 	static final String NSURI_KEY = EMFJsonSerializer.KEY_NSURI;
 	static final String ECLASS = EMFJsonSerializer.KEY_ECLASS;
+	static final String URL = EMFJsonSerializer.KEY_URI;
 	static IView view;
 	static LogService logService;
 	static RestClient restClient;
@@ -120,6 +122,10 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 
 	protected JSONObject createTestRequirement() {
 		String requirementsName = "TestRequirement" + counter++;
+		return createTestRequirement(requirementsName);
+	}
+
+	protected JSONObject createTestRequirement(String requirementsName) {
 		JSONObject requirement = new JSONObject();
 		requirement.put(NSURI_KEY, RequirementsPackage.eNS_URI);
 		requirement.put(ECLASS, RequirementsPackage.Literals.REQUIREMENT.getName());
@@ -142,11 +148,15 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 
 	protected JSONObject createTestCegModel() {
 		String cegName = "TestCeg" + counter++;
+		return createTestCegModel(cegName);
+	}
+
+	protected JSONObject createTestCegModel(String id) {
 		JSONObject ceg = new JSONObject();
 		ceg.put(NSURI_KEY, RequirementsPackage.eNS_URI);
 		ceg.put(ECLASS, RequirementsPackage.Literals.CEG_MODEL.getName());
-		ceg.put(BasePackage.Literals.IID__ID.getName(), cegName);
-		ceg.put(BasePackage.Literals.INAMED__NAME.getName(), cegName);
+		ceg.put(BasePackage.Literals.IID__ID.getName(), id);
+		ceg.put(BasePackage.Literals.INAMED__NAME.getName(), id);
 		return ceg;
 	}
 
@@ -167,12 +177,12 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	}
 
 	protected JSONObject createTestCegNode(String variable, String condition, String operation) {
-		String cegName = "TestCegNode" + counter++;
+		String id = "TestCegNode" + counter++;
 		JSONObject cegNode = new JSONObject();
 		cegNode.put(NSURI_KEY, RequirementsPackage.eNS_URI);
 		cegNode.put(ECLASS, RequirementsPackage.Literals.CEG_NODE.getName());
-		cegNode.put(BasePackage.Literals.IID__ID.getName(), cegName);
-		cegNode.put(BasePackage.Literals.INAMED__NAME.getName(), cegName);
+		cegNode.put(BasePackage.Literals.IID__ID.getName(), id);
+		cegNode.put(BasePackage.Literals.INAMED__NAME.getName(), id);
 		cegNode.put(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName(), variable);
 		cegNode.put(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName(), condition);
 		cegNode.put(RequirementsPackage.Literals.CEG_NODE__TYPE.getName(), operation);
@@ -427,6 +437,14 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 
 	protected JSONObject getObject(String... segments) {
 		return getObject(Status.OK.getStatusCode(), segments);
+	}
+
+	protected JSONArray getContent(String... segments) {
+		String retrieveUrl = listUrl(segments);
+		RestResult<JSONArray> result = restClient.getList(retrieveUrl);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		JSONArray content = result.getPayload();
+		return content;
 	}
 
 	protected void deleteObject(String... segments) {

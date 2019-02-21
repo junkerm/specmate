@@ -1,5 +1,10 @@
 {
 	"Action": "Action",
+	"CEGGenerator": {
+		"confirm": "Generate Cause-Effect-Model",
+		"confirmationTitle": "Generate Cause-Effect-Model and overwrite existing model?",
+		"generate": "Generate Model (experimental)"
+	},
 	"Cause-EffectModels": "Cause-Effect Models",
 	"Changed": "Changed",
 	"ChangedTo": "changed to",
@@ -99,6 +104,7 @@
 	"fieldInvalid": "Field invalid",
 	"hideGrid": "Hide grid",
 	"inactivityLoggedOut": "You were logged out automatically.",
+	"invalidCharacter": "Invalid Characters: , ; |",
 	"library": "Library",
 	"loadMore": "Load more",
 	"log": {

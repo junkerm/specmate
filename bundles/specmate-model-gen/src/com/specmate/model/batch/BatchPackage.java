@@ -39,7 +39,7 @@ public interface BatchPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20181210/model/batch";
+	String eNS_URI = "http://specmate.com/20190125/model/batch";
 
 	/**
 	 * The package namespace name.
