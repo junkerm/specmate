@@ -78,6 +78,10 @@ export class SpecmateDataService {
         return this.createElementServer(element);
     }
 
+    public deleteCachedContent(url: string) {
+        this.cache.deleteElement(url);
+    }
+
     public readContents(url: string, virtual?: boolean): Promise<IContainer[]> {
         this.busy = true;
 
@@ -109,7 +113,7 @@ export class SpecmateDataService {
         return contents;
     }
 
-    public readElement(url: string, virtual?: boolean): Promise<IContainer> {
+    public async readElement(url: string, virtual?: boolean): Promise<IContainer> {
         this.busy = true;
         let readElementTask: Promise<IContainer> = undefined;
 
@@ -155,6 +159,15 @@ export class SpecmateDataService {
             return Promise.resolve(this.deleteElementVirtual(url, compoundId));
         }
         return this.deleteElementServer(url);
+    }
+
+    public async clearModel(nodes: IContainer[], connections: IContainer[], compoundId = Id.uuid): Promise<void> {
+        for (let i = connections.length - 1; i >= 0; i--) {
+            await this.deleteElement(connections[i].url, true, compoundId);
+        }
+        for (let i = nodes.length - 1; i >= 0; i--) {
+            await this.deleteElement(nodes[i].url, true, compoundId);
+        }
     }
 
     public sanitizeContentPositions(elements: IPositionable[], update: boolean, compoundId?: string): void {
@@ -263,16 +276,20 @@ export class SpecmateDataService {
         }).catch((error) => this.handleError(this.translate.instant('contentsCouldNotBeRead'), url, error));
     }
 
-    private readElementServer(url: string): Promise<IContainer> {
+    private async readElementServer(url: string): Promise<IContainer> {
         if (!this.auth.isAuthenticatedForUrl(url)) {
-            return Promise.resolve(undefined);
+            return undefined;
         }
         this.logStart(this.translate.instant('log.readElement'), url);
-        return this.serviceInterface.readElement(url, this.auth.token).then((element: IContainer) => {
+        try {
+            const element = await this.serviceInterface.readElement(url, this.auth.token);
             this.cache.addElement(element);
-            this.logFinished(this.translate.instant('log.readElement'), url);
             return this.cache.readElement(url);
-        }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeRead'), url, error));
+        } catch (error) {
+            this.handleError(this.translate.instant('elementCouldNotBeRead'), url, error);
+        } finally {
+            this.logFinished(this.translate.instant('log.readElement'), url);
+        }
     }
 
     private updateElementServer(element: IContainer): Promise<void> {

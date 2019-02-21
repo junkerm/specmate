@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.log.LogService;
 
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.common.exception.SpecmateInternalException;
@@ -24,6 +26,7 @@ public class Migrator20181108 implements IMigrator {
 
 	private IDBProvider dbProvider;
 	private IConfigService configService;
+	private LogService logService;
 
 	@Override
 	public String getSourceVersion() {
@@ -37,11 +40,11 @@ public class Migrator20181108 implements IMigrator {
 
 	@Override
 	public void migrate(Connection connection) throws SpecmateException {
-		IAttributeToSQLMapper aMapper = dbProvider.getAttributeToSQLMapper("model/base", getSourceVersion(),
+		IAttributeToSQLMapper aMapper = this.dbProvider.getAttributeToSQLMapper("model/base", getSourceVersion(),
 				getTargetVersion());
 		aMapper.migrateNewBooleanAttribute("Folder", "library", false);
 
-		String[] projectsIDs = configService.getConfigurationPropertyArray(IProjectConfigService.KEY_PROJECT_IDS);
+		String[] projectsIDs = this.configService.getConfigurationPropertyArray(IProjectConfigService.KEY_PROJECT_IDS);
 
 		try {
 			if (projectsIDs != null) {
@@ -49,11 +52,19 @@ public class Migrator20181108 implements IMigrator {
 					String projectID = projectsIDs[i];
 					String projectLibraryKey = IProjectConfigService.PROJECT_PREFIX + projectID
 							+ IProjectConfigService.KEY_PROJECT_LIBRARY;
-					String[] libraryFolders = configService.getConfigurationPropertyArray(projectLibraryKey);
+					String[] libraryFolders = this.configService.getConfigurationPropertyArray(projectLibraryKey);
 					if (libraryFolders != null) {
-						List<Integer> foldersToUpdate = filterLibraryFolders(projectID, libraryFolders, connection);
+						List<Integer> foldersToUpdate = Collections.emptyList();
+						try {
+							foldersToUpdate = filterLibraryFolders(projectID, libraryFolders, connection);
+						} catch (SpecmateException e) {
+							this.logService.log(LogService.LOG_WARNING,
+									"Failed to retrieve library folder for project " + projectID);
+						}
 						for (Integer cdo_id : foldersToUpdate) {
-							String sql = "UPDATE FOLDER set library = true WHERE CDO_ID = '" + cdo_id + "'";
+							String trueLiteral = this.dbProvider.getTrueLiteral();
+							String sql = "UPDATE FOLDER set library = " + trueLiteral + " WHERE CDO_ID = '" + cdo_id
+									+ "'";
 							PreparedStatement stmt = connection.prepareStatement(sql);
 							stmt.execute();
 							stmt.close();
@@ -108,5 +119,10 @@ public class Migrator20181108 implements IMigrator {
 	@Reference
 	public void setConfigService(IConfigService configService) {
 		this.configService = configService;
+	}
+
+	@Reference
+	public void setLogService(LogService logService) {
+		this.logService = logService;
 	}
 }

@@ -7,7 +7,6 @@
 	specmate-model-support;version=latest,\
 	org.eclipse.emf.common,\
 	com.google.guava,\
-	org.apache.commons.lang3,\
 	org.eclipse.emf.cdo.common,\
 	javax.ws.rs-api,\
 	specmate-persistency-api;version=latest,\
@@ -16,7 +15,8 @@
 	org.sat4j.maxsat,\
 	org.sat4j.pb,\
 	specmate-emfrest-api;version=latest,\
-	specmate-rest;version=latest
+	specmate-rest;version=latest,\
+	org.apache.commons.lang3;version=3.5
 Private-Package: \
 	com.specmate.testspecification.internal.services,\
 	com.specmate.testspecification.internal.testskeleton

@@ -1,0 +1,16 @@
+../../de/tudarmstadt/ukp/dkpro/core/io/text/TextReader.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/io/text/TokenizedTextWriter.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/io/text/TextWriter.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/io/text/StringReader.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpSentenceTrainer.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpSegmenter.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpNamedEntityRecognizer.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpNamedEntityRecognizerTrainer.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpChunker.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpLemmatizer.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpPosTaggerTrainer.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpPosTagger.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpChunkerTrainer.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpLemmatizerTrainer.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpTokenTrainer.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpParser.omtds.xml

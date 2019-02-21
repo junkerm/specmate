@@ -39,7 +39,7 @@ public interface ProcessesPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20181210/model/processes";
+	String eNS_URI = "http://specmate.com/20190125/model/processes";
 
 	/**
 	 * The package namespace name.

@@ -79,6 +79,7 @@ export class FieldMetaItem {
     public values?: string;
 	public rows?: string;
 	public position?: string;
+    public allowedPattern?: string;
 }
 
 export class MetaInfo {
