@@ -6,8 +6,6 @@ import { TestSpecificationGeneratorButtonModule } from
   '../../../../actions/modules/test-specification-generator-button/test-specification-generator-button.module';
 import { ExportTestprocedureButtonModule } from
   '../../../../actions/modules/export-testprocedure-button/export-testprocedure-button.module';
-import { ExportTestspecificationButtonModule } from
- '../../../../actions/modules/export-testspecification-button/export-testspecification-button.module';
 import { AdditionalInformationService } from './services/additional-information.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthModule } from '../../../main/authentication/modules/auth/auth.module';
@@ -16,6 +14,8 @@ import { GetTestSpecificationSkeletonButtonModule } from
 import { SpecmateSharedModule } from '../../../../specmate/specmate.shared.module';
 import { CegModelGeneratorButtonModule } from '../../../../actions/modules/ceg-model-generator-button/ceg-model-generator-button.module';
 import { TranslateModule } from '@ngx-translate/core';
+// tslint:disable-next-line:max-line-length
+import { ExportTestspecificationButtonModule } from '../../../../actions/modules/export-testspecification-button/export-testspecification-button.module';
 
 @NgModule({
   imports: [

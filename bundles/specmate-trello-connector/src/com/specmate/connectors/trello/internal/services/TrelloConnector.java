@@ -51,7 +51,6 @@ public class TrelloConnector implements IRequirementsSource {
 		this.token = (String) properties.get(TrelloConnectorConfig.KEY_TRELLO_TOKEN);
 		this.id = (String) properties.get(ProjectConfigService.KEY_CONNECTOR_ID);
 		this.restClient = new RestClient(TRELLO_API_BASE_URL, TIMEOUT, this.logService);
-		this.logService.log(LogService.LOG_INFO, "Initialized HP Server Proxy with " + properties.toString());
 	}
 
 	private void validateConfig(Map<String, Object> properties) throws SpecmateException {
@@ -76,8 +75,8 @@ public class TrelloConnector implements IRequirementsSource {
 
 	@Override
 	public Collection<Requirement> getRequirements() throws SpecmateException {
-		RestResult<JSONArray> restResult = restClient.getList("/1/boards/" + boardId + "/cards", "key", this.key,
-				"token", this.token);
+		RestResult<JSONArray> restResult = this.restClient.getList("/1/boards/" + this.boardId + "/cards", "key",
+				this.key, "token", this.token);
 		if (restResult.getResponse().getStatus() == Status.OK.getStatusCode()) {
 			restResult.getResponse().close();
 			List<Requirement> requirements = new ArrayList<>();
@@ -95,7 +94,7 @@ public class TrelloConnector implements IRequirementsSource {
 
 	@Override
 	public IContainer getContainerForRequirement(Requirement requirement) throws SpecmateException {
-		RestResult<JSONObject> restResult = restClient.get("/1/cards/" + requirement.getExtId2() + "/list", "key",
+		RestResult<JSONObject> restResult = this.restClient.get("/1/cards/" + requirement.getExtId2() + "/list", "key",
 				this.key, "token", this.token);
 		if (restResult.getResponse().getStatus() == Status.OK.getStatusCode()) {
 			JSONObject listObject = restResult.getPayload();
@@ -107,8 +106,8 @@ public class TrelloConnector implements IRequirementsSource {
 	}
 
 	public List<Folder> getLists() throws SpecmateException {
-		RestResult<JSONArray> restResult = restClient.getList("/1/boards/" + boardId + "/lists", "cards", "open", "key",
-				this.key, "token", this.token);
+		RestResult<JSONArray> restResult = this.restClient.getList("/1/boards/" + this.boardId + "/lists", "cards",
+				"open", "key", this.key, "token", this.token);
 		if (restResult.getResponse().getStatus() == Status.OK.getStatusCode()) {
 			restResult.getResponse().close();
 			List<Folder> folders = new ArrayList<>();

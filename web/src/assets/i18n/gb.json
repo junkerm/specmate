@@ -105,6 +105,7 @@
 	"fieldInvalid": "Field invalid",
 	"hideGrid": "Hide grid",
 	"inactivityLoggedOut": "You were logged out automatically.",
+	"invalidCharacter": "Invalid Characters: , ; |",
 	"library": "Library",
 	"loadMore": "Load more",
 	"log": {

@@ -113,7 +113,7 @@ export class SpecmateDataService {
         return contents;
     }
 
-    public readElement(url: string, virtual?: boolean): Promise<IContainer> {
+    public async readElement(url: string, virtual?: boolean): Promise<IContainer> {
         this.busy = true;
         let readElementTask: Promise<IContainer> = undefined;
 
@@ -276,16 +276,20 @@ export class SpecmateDataService {
         }).catch((error) => this.handleError(this.translate.instant('contentsCouldNotBeRead'), url, error));
     }
 
-    private readElementServer(url: string): Promise<IContainer> {
+    private async readElementServer(url: string): Promise<IContainer> {
         if (!this.auth.isAuthenticatedForUrl(url)) {
-            return Promise.resolve(undefined);
+            return undefined;
         }
         this.logStart(this.translate.instant('log.readElement'), url);
-        return this.serviceInterface.readElement(url, this.auth.token).then((element: IContainer) => {
+        try {
+            const element = await this.serviceInterface.readElement(url, this.auth.token);
             this.cache.addElement(element);
-            this.logFinished(this.translate.instant('log.readElement'), url);
             return this.cache.readElement(url);
-        }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeRead'), url, error));
+        } catch (error) {
+            this.handleError(this.translate.instant('elementCouldNotBeRead'), url, error);
+        } finally {
+            this.logFinished(this.translate.instant('log.readElement'), url);
+        }
     }
 
     private updateElementServer(element: IContainer): Promise<void> {
