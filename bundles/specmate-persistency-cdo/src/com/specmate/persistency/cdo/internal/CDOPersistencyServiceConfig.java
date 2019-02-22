@@ -55,14 +55,14 @@ public class CDOPersistencyServiceConfig {
 	 */
 	@Activate
 	private void activate() throws SpecmateException {
-		this.specmateRepository = configService.getConfigurationProperty(KEY_REPOSITORY_NAME);
-		this.specmateResource = configService.getConfigurationProperty(KEY_RESOURCE_NAME);
-		this.cdoUser = configService.getConfigurationProperty(KEY_CDO_USER);
-		this.cdoPassword = configService.getConfigurationProperty(KEY_CDO_PASSWORD);
-		this.host = configService.getConfigurationProperty(KEY_SERVER_HOST_PORT);
+		this.specmateRepository = this.configService.getConfigurationProperty(KEY_REPOSITORY_NAME);
+		this.specmateResource = this.configService.getConfigurationProperty(KEY_RESOURCE_NAME);
+		this.cdoUser = this.configService.getConfigurationProperty(KEY_CDO_USER);
+		this.cdoPassword = this.configService.getConfigurationProperty(KEY_CDO_PASSWORD);
+		this.host = this.configService.getConfigurationProperty(KEY_SERVER_HOST_PORT);
 		this.connected = false;
 		String[] hostport = StringUtils.split(this.host, ":");
-		if (!(hostport.length == 2)) {
+		if (hostport == null || !(hostport.length == 2)) {
 			throw new SpecmateInternalException(ErrorCode.CONFIGURATION,
 					"Invalid format for CDO host: " + this.host + ". The expected format is [hostName]:[port]");
 		}
@@ -77,31 +77,32 @@ public class CDOPersistencyServiceConfig {
 	}
 
 	/**
-	 * Starts a thread that periodically checks if the CDO server is still reachable
+	 * Starts a thread that periodically checks if the CDO server is still
+	 * reachable
 	 */
 	private void startMonitoringThread() {
 
 		this.checkConnectionEexcutor = Executors.newScheduledThreadPool(1);
-		checkConnectionEexcutor.scheduleWithFixedDelay(() -> {
+		this.checkConnectionEexcutor.scheduleWithFixedDelay(() -> {
 
 			if (this.connected) {
 				if (!checkConnection()) {
 					try {
 						removeConfiguration();
 						this.connected = false;
-						logService.log(LogService.LOG_WARNING, "Lost connection to CDO server.");
+						this.logService.log(LogService.LOG_WARNING, "Lost connection to CDO server.");
 					} catch (SpecmateException e) {
-						logService.log(LogService.LOG_ERROR, "Could not stop persistency.");
+						this.logService.log(LogService.LOG_ERROR, "Could not stop persistency.");
 					}
 				}
 			} else {
 				if (checkConnection()) {
 					try {
-						logService.log(LogService.LOG_INFO, "Connection to CDO server established.");
+						this.logService.log(LogService.LOG_INFO, "Connection to CDO server established.");
 						registerConfiguration();
 						this.connected = true;
 					} catch (SpecmateException e) {
-						logService.log(LogService.LOG_ERROR, "Could not restart persistency.");
+						this.logService.log(LogService.LOG_ERROR, "Could not restart persistency.");
 					}
 				}
 			}
@@ -112,22 +113,23 @@ public class CDOPersistencyServiceConfig {
 
 	private void registerConfiguration() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		if (!StringUtil.isEmpty(specmateRepository) && !StringUtil.isEmpty(specmateResource)
-				&& !StringUtil.isEmpty(host) && !StringUtil.isEmpty(cdoUser) && !StringUtil.isEmpty(cdoPassword)) {
-			properties.put(KEY_REPOSITORY_NAME, specmateRepository);
-			properties.put(KEY_RESOURCE_NAME, specmateResource);
-			properties.put(KEY_SERVER_HOST_PORT, host);
-			properties.put(KEY_CDO_USER, cdoUser);
-			properties.put(KEY_CDO_PASSWORD, cdoPassword);
-			logService.log(LogService.LOG_DEBUG,
+		if (!StringUtil.isEmpty(this.specmateRepository) && !StringUtil.isEmpty(this.specmateResource)
+				&& !StringUtil.isEmpty(this.host) && !StringUtil.isEmpty(this.cdoUser)
+				&& !StringUtil.isEmpty(this.cdoPassword)) {
+			properties.put(KEY_REPOSITORY_NAME, this.specmateRepository);
+			properties.put(KEY_RESOURCE_NAME, this.specmateResource);
+			properties.put(KEY_SERVER_HOST_PORT, this.host);
+			properties.put(KEY_CDO_USER, this.cdoUser);
+			properties.put(KEY_CDO_PASSWORD, this.cdoPassword);
+			this.logService.log(LogService.LOG_DEBUG,
 					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
-			this.configuration = OSGiUtil.configureService(configurationAdmin, PID, properties);
+			this.configuration = OSGiUtil.configureService(this.configurationAdmin, PID, properties);
 		}
 	}
 
 	private void removeConfiguration() throws SpecmateException {
 		try {
-			configuration.delete();
+			this.configuration.delete();
 		} catch (IOException e) {
 			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "Could not delete configuration.");
 		}

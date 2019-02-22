@@ -61,15 +61,13 @@ export class GraphicalEditor {
 
     constructor(
         private dataService: SpecmateDataService,
-        private modal: ConfirmationModal,
         protected editorToolsService: EditorToolsService,
         private selectedElementService: SelectedElementService,
         private validationService: ValidationService,
-        private viewController: ViewControllerService,
         private translate: TranslateService,
         public multiselectionService: MultiselectionService,
         private clipboardService: ClipboardService,
-        private renderer: Renderer ) { }
+        private renderer: Renderer) { }
 
     public get model(): IContainer {
         return this._model;
@@ -156,13 +154,13 @@ export class GraphicalEditor {
         this.isGridShown = false;
     }
 
-    public get editorDimensions(): {width: number, height: number} {
+    public get editorDimensions(): { width: number, height: number } {
         let dynamicWidth: number = Config.GRAPHICAL_EDITOR_WIDTH;
         let dynamicHeight: number = Config.GRAPHICAL_EDITOR_HEIGHT;
 
         let nodes: ISpecmatePositionableModelObject[] = this.contents.filter((element: IContainer) => {
             return (element as ISpecmatePositionableModelObject).x !== undefined &&
-                (element as ISpecmatePositionableModelObject).y !== undefined ;
+                (element as ISpecmatePositionableModelObject).y !== undefined;
         }) as ISpecmatePositionableModelObject[];
 
         for (let i = 0; i < nodes.length; i++) {
@@ -176,7 +174,7 @@ export class GraphicalEditor {
                 dynamicHeight = nodeY;
             }
         }
-        return {width: dynamicWidth, height: dynamicHeight};
+        return { width: dynamicWidth, height: dynamicHeight };
     }
 
     public get gridSize(): number {
@@ -199,8 +197,8 @@ export class GraphicalEditor {
 
     private isVisibleConnection(connection: IContainer): boolean {
         let nodes = this.nodes;
-        let start = <any>nodes.find( node => node.url === (<any>connection).source.url);
-        let end = <any>nodes.find( node => node.url === (<any>connection).target.url);
+        let start = <any>nodes.find(node => node.url === (<any>connection).source.url);
+        let end = <any>nodes.find(node => node.url === (<any>connection).target.url);
         if (!start || !end) {
             return false;
         }
@@ -223,9 +221,9 @@ export class GraphicalEditor {
      * we sort the list so that all selected elements are drawn last (i.e. on top of the others).
      */
     public get visibleConnections(): IContainer[] {
-        let selectedConnections = this.connections.filter( connection => this.isVisibleConnection(connection));
+        let selectedConnections = this.connections.filter(connection => this.isVisibleConnection(connection));
         // Sort the elements
-        selectedConnections.sort( (a: IContainer, b: IContainer) => this.isSelectedComparator(a, b));
+        selectedConnections.sort((a: IContainer, b: IContainer) => this.isSelectedComparator(a, b));
         return selectedConnections;
     }
 
@@ -235,10 +233,10 @@ export class GraphicalEditor {
      * we sort the list so that all selected elements are drawn last (i.e. on top of the others).
      */
     public get visibleNodes(): IContainer[] {
-        let visibleNodes = this.nodes.filter( node => Area.checkPointInArea(this.visibleArea, new Point( (<any>node).x, (<any>node).y)));
+        let visibleNodes = this.nodes.filter(node => Area.checkPointInArea(this.visibleArea, new Point((<any>node).x, (<any>node).y)));
         // Sort the elements
-        visibleNodes.sort( (a: IContainer, b: IContainer) => this.isSelectedComparator(a, b));
-        return visibleNodes;
+        visibleNodes.sort((a: IContainer, b: IContainer) => this.isSelectedComparator(a, b));
+        return this.nodes;
     }
 
     public get name(): string {
@@ -261,18 +259,18 @@ export class GraphicalEditor {
     }
 
     public onScroll(event: UIEvent): void {
-        let target = <any> event.target;
+        let target = <any>event.target;
         this.setVisibleArea(target);
     }
 
     private setVisibleArea(target: any) {
-        let eWidth  = this.editorDimensions.width;
+        let eWidth = this.editorDimensions.width;
         let eHeight = this.editorDimensions.height;
 
-        let xMin = eWidth  * (target.scrollLeft / target.scrollWidth);
-        let xMax = xMin    + (target.clientWidth / this.zoom);
+        let xMin = eWidth * (target.scrollLeft / target.scrollWidth);
+        let xMax = xMin + (target.clientWidth / this.zoom);
         let yMin = eHeight * (target.scrollTop / target.scrollHeight);
-        let yMax = yMin    + (target.clientHeight / this.zoom);
+        let yMax = yMin + (target.clientHeight / this.zoom);
 
         xMin -= Config.GRAPHICAL_EDITOR_VISIBILITY_HORIZONTAL;
         yMin -= Config.GRAPHICAL_EDITOR_VISIBILITY_VERTICAL;
@@ -282,7 +280,7 @@ export class GraphicalEditor {
         this.visibleArea = new Square(xMin, yMin, xMax, yMax);
     }
 
-    private checkAndReset(evt: MouseEvent|KeyboardEvent) {
+    private checkAndReset(evt: MouseEvent | KeyboardEvent) {
         if (this.editorToolsService.activeTool.done) {
             this.toolUseLock = evt.shiftKey;
             if (!this.toolUseLock && !this.editorToolsService.activeTool.sticky) {
@@ -333,7 +331,7 @@ export class GraphicalEditor {
     private isDragDropTool(tool: ToolBase): boolean {
         let iTool = tool as IDragAndDropTool;
         let down = iTool.mouseDown !== undefined;
-        let up   = iTool.mouseUp !== undefined;
+        let up = iTool.mouseUp !== undefined;
         let move = iTool.mouseDrag !== undefined;
         return down && up && move;
     }
@@ -351,7 +349,7 @@ export class GraphicalEditor {
 
     private mousemove(evt: MouseEvent): void {
         // We only care about mousemovement when a button is pressed (i.e. drag & drop)
-        if (evt.buttons <= 0)  {
+        if (evt.buttons <= 0) {
             return;
         }
 
