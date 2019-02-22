@@ -56,7 +56,7 @@ public class HPProxyConnection {
 	 *
 	 * @throws SpecmateException
 	 */
-	public HPProxyConnection(String host, String port, int timeout) throws SpecmateException {
+	public HPProxyConnection(String host, String port, int timeout, LogService logService) throws SpecmateException {
 		validateConfig(host, port, timeout);
 		this.restClient = new RestClient("http://" + host + ":" + port, timeout * 1000, this.logService);
 	}
@@ -84,7 +84,7 @@ public class HPProxyConnection {
 	public Requirement getRequirementsDetails(String extId) throws SpecmateException {
 		RestResult<JSONObject> result;
 
-		result = restClient.get("/getRequirementDetails", "extId", extId);
+		result = this.restClient.get("/getRequirementDetails", "extId", extId);
 		Response response = result.getResponse();
 		if (response.getStatus() != Response.Status.OK.getStatusCode()) {
 			throw new SpecmateInternalException(ErrorCode.HP_PROXY,
@@ -106,7 +106,7 @@ public class HPProxyConnection {
 		do {
 			RestResult<JSONArray> result;
 
-			result = restClient.getList("/getRequirements", QUERY_PARAM_PROJECT, project, "page",
+			result = this.restClient.getList("/getRequirements", QUERY_PARAM_PROJECT, project, "page",
 					Integer.toString(page));
 
 			Response response = result.getResponse();
@@ -133,7 +133,7 @@ public class HPProxyConnection {
 	public void exportTestProcedure(TestProcedure procedure) throws SpecmateException {
 		JSONObject procedureAsJSON = HPUtil.getJSONForTestProcedure(procedure);
 		if (StringUtils.isEmpty(procedure.getExtId())) {
-			RestResult<JSONObject> result = restClient.post("/createTestProcedure", procedureAsJSON);
+			RestResult<JSONObject> result = this.restClient.post("/createTestProcedure", procedureAsJSON);
 			if (result.getResponse().getStatus() != Status.OK.getStatusCode()) {
 				throw new SpecmateInternalException(ErrorCode.HP_PROXY, "Could not sync test procedure to ALM.");
 			}
@@ -151,10 +151,10 @@ public class HPProxyConnection {
 	private boolean checkAuthenticated(String endpoint, String username, String password, String projectName) {
 		RestResult<JSONObject> result;
 		if (projectName != null) {
-			result = restClient.get("/" + endpoint, QUERY_PARAM_USER, username, QUERY_PARAM_PASSWORD, password,
+			result = this.restClient.get("/" + endpoint, QUERY_PARAM_USER, username, QUERY_PARAM_PASSWORD, password,
 					QUERY_PARAM_PROJECT, projectName);
 		} else {
-			result = restClient.get("/" + endpoint, QUERY_PARAM_USER, username, QUERY_PARAM_PASSWORD, password);
+			result = this.restClient.get("/" + endpoint, QUERY_PARAM_USER, username, QUERY_PARAM_PASSWORD, password);
 		}
 
 		return result.getResponse().getStatus() == Status.OK.getStatusCode();

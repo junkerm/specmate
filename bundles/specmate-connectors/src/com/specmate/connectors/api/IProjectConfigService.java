@@ -15,7 +15,7 @@ public interface IProjectConfigService {
 	/** The configuration key for the id of an exporter */
 	public static final String KEY_EXPORTER_ID = "exporterID";
 
-	/** the configuration key for the name of a project */
+	/** the configuration key for the id of a project */
 	public static final String KEY_PROJECT_ID = "projectID";
 
 	/** the configuration key for the library folders of a project */

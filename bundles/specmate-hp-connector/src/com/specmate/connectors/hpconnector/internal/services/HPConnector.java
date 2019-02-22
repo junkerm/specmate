@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -13,13 +14,15 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.connectors.api.ConnectorUtil;
+import com.specmate.connectors.api.IProjectConfigService;
 import com.specmate.connectors.api.IRequirementsSource;
-import com.specmate.connectors.config.ProjectConfigService;
 import com.specmate.connectors.hpconnector.internal.config.HPServerProxyConfig;
 import com.specmate.connectors.hpconnector.internal.util.HPProxyConnection;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.crud.DetailsService;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
@@ -38,9 +41,11 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 	/** The connection to the hp proxy */
 	private HPProxyConnection hpConnection;
 
+	/** The id of the connector */
 	private String id;
 
-	private String projectID;
+	/** The id of the HP project */
+	private String hpProjectName;
 
 	/**
 	 * Service Activation
@@ -49,19 +54,38 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 	 */
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateException {
-		// TODO validateion
 		String host = (String) properties.get(HPServerProxyConfig.KEY_HOST);
+		if (StringUtils.isEmpty(host)) {
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "HP Connector: host is empty");
+		}
+
 		String port = (String) properties.get(HPServerProxyConfig.KEY_PORT);
-		int timeout = Integer.parseInt((String) properties.get(HPServerProxyConfig.KEY_TIMEOUT));
-		this.projectID = (String) properties.get(ProjectConfigService.KEY_PROJECT_ID);
-		this.id = (String) properties.get(ProjectConfigService.KEY_CONNECTOR_ID);
-		this.hpConnection = new HPProxyConnection(host, port, timeout);
+		if (StringUtils.isEmpty(port)) {
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "HP Connector: port is empty");
+		}
+
+		String timeoutString = (String) properties.get(HPServerProxyConfig.KEY_TIMEOUT);
+		if (StringUtils.isEmpty(timeoutString)) {
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "HP Connector: timeout is empty");
+		}
+		int timeout = Integer.parseInt(timeoutString);
+
+		this.hpProjectName = (String) properties.get(HPServerProxyConfig.KEY_HP_PROJECT_NAME);
+		if (StringUtils.isEmpty(timeoutString)) {
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "HP Connector: project name is empty");
+		}
+		this.id = (String) properties.get(IProjectConfigService.KEY_CONNECTOR_ID);
+		if (StringUtils.isEmpty(timeoutString)) {
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "HP Connector: connector id is empty");
+		}
+
+		this.hpConnection = new HPProxyConnection(host, port, timeout, this.logService);
 	}
 
 	/** Returns the list of requirements. */
 	@Override
 	public Collection<Requirement> getRequirements() throws SpecmateException {
-		return hpConnection.getRequirements(this.projectID);
+		return this.hpConnection.getRequirements(this.hpProjectName);
 	}
 
 	/** Returns a folder with the name of the release of the requirement. */
@@ -69,9 +93,9 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 	public IContainer getContainerForRequirement(Requirement localRequirement) throws SpecmateException {
 		Folder folder = BaseFactory.eINSTANCE.createFolder();
 		String extId = localRequirement.getExtId();
-		logService.log(LogService.LOG_DEBUG, "Retrieving requirements details for " + extId + ".");
+		this.logService.log(LogService.LOG_DEBUG, "Retrieving requirements details for " + extId + ".");
 
-		Requirement retrievedRequirement = hpConnection.getRequirementsDetails(localRequirement.getExtId());
+		Requirement retrievedRequirement = this.hpConnection.getRequirementsDetails(localRequirement.getExtId());
 
 		if (retrievedRequirement.getPlannedRelease() != null && !retrievedRequirement.getPlannedRelease().isEmpty()) {
 			folder.setId(ConnectorUtil.toId(retrievedRequirement.getPlannedRelease()));
@@ -120,8 +144,8 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 	}
 
 	/**
-	 * Behavior for GET requests. For requirements the current data is fetched from
-	 * the HP server.
+	 * Behavior for GET requests. For requirements the current data is fetched
+	 * from the HP server.
 	 */
 	@Override
 	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
@@ -149,7 +173,7 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 
 	@Override
 	public boolean authenticate(String username, String password) throws SpecmateException {
-		return hpConnection.authenticateRead(username, password, projectID);
+		return this.hpConnection.authenticateRead(username, password, this.hpProjectName);
 	}
 
 }
