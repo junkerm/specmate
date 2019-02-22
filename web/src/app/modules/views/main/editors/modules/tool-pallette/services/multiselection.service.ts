@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 import { IContainer } from '../../../../../../../model/IContainer';
-import { Area, Point, Square } from '../../graphical-editor/util/area';
+import { Point, Square } from '../../graphical-editor/util/area';
 import { GraphicalElementBase } from '../../graphical-editor/elements/graphical-element-base';
 import { SelectionRect } from '../../../../../side/modules/selected-element/util/selection-rect';
 
@@ -30,8 +30,8 @@ export class MultiselectionService {
         // We can't use plain offsetX/Y since its relative to the element the mouse is hovering over
         // So if the user drags across a node the offset suddenly jumps to 0.
         // Instead we use offset to initialize and then update using the change in screen x/y.
-        let deltaX = (evt.screenX - this.rawPosition.x) / zoom;
-        let deltaY = (evt.screenY - this.rawPosition.y) / zoom;
+        let deltaX = (evt.pageX - this.rawPosition.x) / zoom;
+        let deltaY = (evt.pageY - this.rawPosition.y) / zoom;
         let xScaled = (this.relativePosition.x + deltaX);
         let yScaled = (this.relativePosition.y + deltaY);
 
@@ -45,8 +45,8 @@ export class MultiselectionService {
     }
     public mouseDown(evt: MouseEvent, zoom: number): void {
         this.rawPosition = {
-            x: evt.screenX,
-            y: evt.screenY
+            x: evt.pageX,
+            y: evt.pageY
         };
 
         this.relativePosition = {

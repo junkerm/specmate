@@ -57,7 +57,7 @@ public class H2Provider extends DBProviderBase {
 		closeConnection();
 		this.isVirginDB = false;
 		readConfig(properties);
-		for (DBConfigChangedCallback cb : cbRegister) {
+		for (DBConfigChangedCallback cb : this.cbRegister) {
 			cb.configurationChanged();
 		}
 	}
@@ -91,7 +91,7 @@ public class H2Provider extends DBProviderBase {
 				// specmate to continue, without performing a migration, because
 				// the next step CDO performs is to create the database.
 			} catch (SpecmateException e) {
-				Matcher matcher = databaseNotFoundPattern.matcher(e.getCause().getMessage());
+				Matcher matcher = this.databaseNotFoundPattern.matcher(e.getCause().getMessage());
 				if (matcher.matches()) {
 					this.isVirginDB = true;
 				} else {
@@ -100,7 +100,7 @@ public class H2Provider extends DBProviderBase {
 			}
 		}
 
-		return connection;
+		return this.connection;
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class H2Provider extends DBProviderBase {
 		if (this.connection == null) {
 			getConnection();
 		}
-		return isVirginDB;
+		return this.isVirginDB;
 	}
 
 	@Override
@@ -141,5 +141,10 @@ public class H2Provider extends DBProviderBase {
 			throw new SpecmateInternalException(ErrorCode.PERSISTENCY,
 					"Could not connect to the H2 database using the connection: " + this.jdbcConnection + ".", e);
 		}
+	}
+
+	@Override
+	public String getTrueLiteral() {
+		return "true";
 	}
 }

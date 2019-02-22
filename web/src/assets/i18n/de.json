@@ -111,6 +111,7 @@
 	"fieldInvalid": "Feld ungültig",
 	"hideGrid": "Hilfslinien ausblenden",
 	"inactivityLoggedOut": "Sie wurden automatisch abgemeldet.",
+	"invalidCharacter": "Ungültige Zeichen: , ; |",
 	"library": "Bibliothek",
 	"loadMore": "Weitere laden",
 	"log": {

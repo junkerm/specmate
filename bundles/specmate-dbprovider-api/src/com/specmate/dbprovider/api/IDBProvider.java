@@ -22,8 +22,8 @@ public interface IDBProvider {
 	public Connection getConnection() throws SpecmateException;
 
 	/**
-	 * Register a client callback that can be called when the database configuration
-	 * changes.
+	 * Register a client callback that can be called when the database
+	 * configuration changes.
 	 */
 	public void registerDBConfigChangedCallback(DBConfigChangedCallback cb);
 
@@ -56,4 +56,9 @@ public interface IDBProvider {
 	 */
 	public IObjectToSQLMapper getObjectToSQLMapper(String packageName, String sourceVersion, String targetVersion)
 			throws SpecmateException;
+
+	/**
+	 * Creates the db specific literal for TRUE
+	 */
+	public String getTrueLiteral();
 }

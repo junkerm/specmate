@@ -48,7 +48,7 @@ public class OracleProvider extends DBProviderBase {
 	public void modified(Map<String, Object> properties) throws SpecmateException {
 		closeConnection();
 		readConfig(properties);
-		for (DBConfigChangedCallback cb : cbRegister) {
+		for (DBConfigChangedCallback cb : this.cbRegister) {
 			cb.configurationChanged();
 		}
 	}
@@ -123,13 +123,13 @@ public class OracleProvider extends DBProviderBase {
 	@Override
 	public IAttributeToSQLMapper getAttributeToSQLMapper(String packageName, String sourceVersion, String targetVersion)
 			throws SpecmateException {
-		return new AttributeToSQLMapper(connection, packageName, sourceVersion, targetVersion);
+		return new AttributeToSQLMapper(this.connection, packageName, sourceVersion, targetVersion);
 	}
 
 	@Override
 	public IObjectToSQLMapper getObjectToSQLMapper(String packageName, String sourceVersion, String targetVersion)
 			throws SpecmateException {
-		return new ObjectToSQLMapper(connection, packageName, sourceVersion, targetVersion);
+		return new ObjectToSQLMapper(this.connection, packageName, sourceVersion, targetVersion);
 	}
 
 	private void initiateDBConnection() throws SpecmateException {
@@ -145,5 +145,10 @@ public class OracleProvider extends DBProviderBase {
 			throw new SpecmateInternalException(ErrorCode.PERSISTENCY,
 					"Could not connect to the Oracle database using the connection: " + this.jdbcConnection + ".", e);
 		}
+	}
+
+	@Override
+	public String getTrueLiteral() {
+		return "1";
 	}
 }
