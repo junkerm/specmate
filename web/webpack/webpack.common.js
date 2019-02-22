@@ -1,4 +1,4 @@
-const SPECMATE_VERSION = '0.2.13'
+const SPECMATE_VERSION = '0.2.14'
 
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
