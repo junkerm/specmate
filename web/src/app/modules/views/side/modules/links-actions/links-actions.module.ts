@@ -14,8 +14,6 @@ import { GetTestSpecificationSkeletonButtonModule } from
 import { SpecmateSharedModule } from '../../../../specmate/specmate.shared.module';
 import { CegModelGeneratorButtonModule } from '../../../../actions/modules/ceg-model-generator-button/ceg-model-generator-button.module';
 import { TranslateModule } from '@ngx-translate/core';
-// tslint:disable-next-line:max-line-length
-import { ExportTestspecificationButtonModule } from '../../../../actions/modules/export-testspecification-button/export-testspecification-button.module';
 
 @NgModule({
   imports: [
@@ -25,7 +23,6 @@ import { ExportTestspecificationButtonModule } from '../../../../actions/modules
     TestSpecificationGeneratorButtonModule,
     ExportTestprocedureButtonModule,
     GetTestSpecificationSkeletonButtonModule,
-    ExportTestspecificationButtonModule,
     SpecmateSharedModule,
     TranslateModule,
     CegModelGeneratorButtonModule,
