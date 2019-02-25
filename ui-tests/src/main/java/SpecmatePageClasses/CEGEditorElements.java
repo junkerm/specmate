@@ -42,6 +42,8 @@ public class CEGEditorElements {
 	
 	// Generates a test specification within the CEG Editor
 	public void generateTestSpecification () {
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(generateTestSpec));
 		driver.findElement(generateTestSpec).click();
 	}
 	
