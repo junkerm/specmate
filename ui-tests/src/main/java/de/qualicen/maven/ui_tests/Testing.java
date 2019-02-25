@@ -35,5 +35,6 @@ public class Testing {
 	    TestModelEditor.executeTest(driver);
 	    
 		driver.quit();
+		System.exit(0);
 	}
 }
