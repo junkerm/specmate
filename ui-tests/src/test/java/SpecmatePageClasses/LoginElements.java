@@ -2,6 +2,7 @@ package SpecmatePageClasses;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 //Page Class
 public class LoginElements {
@@ -59,6 +60,12 @@ public class LoginElements {
 	public void changeToProject(String name) {
 		driver.findElement(project).click();
 		driver.findElement(By.id("project-" + name)).click();
+	}
+	
+	public boolean isLoggedIn() {
+		WebElement header = driver.findElement(By.tagName("h1"));
+		String title = "Willkommen bei Specmate";
+		return header.getText() == title;
 	}
 }
 

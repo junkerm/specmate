@@ -173,6 +173,23 @@ public class CEGEditorElements {
 		driver.findElement(TypeOR).click();		
 	}
 	
+	public boolean correctModelCreated() {
+		int numberOfNodes = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-node]")).size();
+		int numberOfConnections = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-connection]")).size();
+		
+		return (numberOfNodes == 3 && numberOfConnections == 2);
+	}
+	
+	public boolean correctTestSpecificationGenerated() {
+		driver.findElement(propertiesName);
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".test-case-row")));
+		int numberOfTestCases = driver.findElements(By.cssSelector(".test-case-row")).size();
+		
+		return numberOfTestCases == 3;
+	}
+	
 	/*
 	public void move(WebElement node) {
 	 
