@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -42,9 +43,18 @@ public class CEGEditorElements {
 	
 	// Generates a test specification within the CEG Editor
 	public void generateTestSpecification () {
-		WebDriverWait wait = new WebDriverWait(driver, 20);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(generateTestSpec));
+		scrollDownTo(generateTestSpec);
 		driver.findElement(generateTestSpec).click();
+	}
+	
+	private void scrollDownTo(By elementLocator) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        //Find element by link text and store in variable "Element"        		
+        WebElement Element = driver.findElement(elementLocator);
+
+        //This will scroll the page till the element is found		
+        js.executeScript("arguments[0].scrollIntoView();", Element);
 	}
 	
 	
