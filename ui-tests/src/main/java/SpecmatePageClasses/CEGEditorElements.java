@@ -79,8 +79,8 @@ public class CEGEditorElements {
 		WebDriverWait wait=new WebDriverWait(driver, 20);
 		
 		
-		WebElement node = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='draggable-element-default'])[" + numberOfNodes + "]")));
-				
+		WebElement node = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='draggable-element-default'])[" + numberOfNodes + "]"))); 
+
 		WebElement variableTextfield = driver.findElement(propertiesVariable);
 		WebElement conditionTextfield = driver.findElement(propertiesCondition);
 		variableTextfield.clear();
