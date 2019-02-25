@@ -15,6 +15,7 @@ import com.saucelabs.junit.SauceOnDemandTestWatcher;
 
 import java.net.URL;
 import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 
@@ -91,6 +92,8 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
             capabilities.setCapability("build", buildTag);
         }
         this.driver = new RemoteWebDriver(new URL("https://" + username+ ":" + accesskey + seleniumURI +"/wd/hub"), capabilities);
+        
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
         this.sessionId = (((RemoteWebDriver) driver).getSessionId()).toString();
     }
