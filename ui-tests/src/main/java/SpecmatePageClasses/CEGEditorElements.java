@@ -1,5 +1,8 @@
 package SpecmatePageClasses;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -70,17 +73,28 @@ public class CEGEditorElements {
 	 */
 	public WebElement createNode(String variable, String condition, int x, int y) {
 		
-		int numberOfNodes = driver.findElements(By.xpath("//*[@class='draggable-element-default']")).size();
+		List<WebElement> nodeList = new ArrayList<WebElement>();
+		
+		int numberOfNodes = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-node]")).size();
+		
+		//int numberOfNodes = driver.findElements(By.xpath("//*[@class='draggable-element-default']")).size();
 		driver.findElement(toolbarNode).click();
 		WebElement editorField = driver.findElement(editor);
-		numberOfNodes ++;
+		//numberOfNodes ++;
 		builder.moveToElement(editorField, x, y).click().build().perform();
 		
-		WebDriverWait wait=new WebDriverWait(driver, 20);
+		WebDriverWait wait = new WebDriverWait(driver, 15);
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("g:first-child > [generic-graphical-node]")));
+		nodeList = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-node]"));
+		
+		WebElement nodeFromList = nodeList.get(numberOfNodes);
 		
 		
-		WebElement node = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='draggable-element-default'])[" + numberOfNodes + "]"))); 
-
+		//WebDriverWait wait=new WebDriverWait(driver, 20);
+		//WebElement node = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='draggable-element-default'])[" + numberOfNodes + "]")));
+				
+				//driver.findElement(By.xpath("//*[@generic-graphical-node][" + numberOfNodes + "]//*[@ceg-graphical-node]"));
 		WebElement variableTextfield = driver.findElement(propertiesVariable);
 		WebElement conditionTextfield = driver.findElement(propertiesCondition);
 		variableTextfield.clear();
@@ -88,22 +102,36 @@ public class CEGEditorElements {
 		conditionTextfield.clear();
 		conditionTextfield.sendKeys(condition);
 		
-		return node;
+		
+		
+		
+		return nodeFromList;
 	}
 	
 	/**establishes a connection from node1 to node2
 	*and returns the newly created connection
 	*/
 	public WebElement connect(WebElement node1, WebElement node2) {
-		int numberOfConnections = driver.findElements(By.xpath("//*[@class='inner' or @class='inner innerSelected']")).size();
+		List<WebElement> connectionList = new ArrayList<WebElement>();
+		
+		int numberOfConnections = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-connection]")).size();
+		
+		//int numberOfConnections = driver.findElements(By.xpath("//*[@class='inner' or @class='inner innerSelected']")).size();
 		
 		driver.findElement(toolbarConnection).click();
 		node1.click();
 		node2.click();
-		numberOfConnections ++;
+		//numberOfConnections ++;
 		
-		WebElement connection = driver.findElement(By.xpath("(//*[@class='inner' or @class='inner innerSelected'])[" + numberOfConnections + "]"));
-		return connection;
+		WebDriverWait wait = new WebDriverWait(driver, 15);
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("g:first-child > [generic-graphical-connection]")));
+		connectionList = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-connection]"));
+		
+		WebElement connectionFromList = connectionList.get(numberOfConnections);
+		
+		//WebElement connection = driver.findElement(By.xpath("(//*[@class='inner' or @class='inner innerSelected'])[" + numberOfConnections + "]"));
+		return connectionFromList;
 	}
 	
 	public void delete(WebElement element) {

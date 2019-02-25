@@ -27,13 +27,13 @@ public class Testing {
 	 
 	    WebDriver driver = new RemoteWebDriver(new URL(URL), caps);
 	    
-	driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS); //page synchronization
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS); //page synchronization
 		//driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 	    
 	    // Call two test classes 
 	    TestLoginPage.executeTest(driver);
 	    TestModelEditor.executeTest(driver);
 	    
-	driver.quit();
+		driver.quit();
 	}
 }
