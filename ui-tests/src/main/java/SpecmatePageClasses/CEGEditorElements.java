@@ -70,20 +70,17 @@ public class CEGEditorElements {
 	 */
 	public WebElement createNode(String variable, String condition, int x, int y) {
 		
-		int numberOfNodes = driver.findElements(By.xpath("//*[@ceg-graphical-node]")).size();
+		int numberOfNodes = driver.findElements(By.xpath("//*[@class='draggable-element-default']")).size();
 		driver.findElement(toolbarNode).click();
 		WebElement editorField = driver.findElement(editor);
 		numberOfNodes ++;
 		builder.moveToElement(editorField, x, y).click().build().perform();
 		
-		
-		WebDriverWait wait=new WebDriverWait(driver, 120);
-		
-		
-		WebElement node = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@generic-graphical-node][" + numberOfNodes + "]//*[@ceg-graphical-node]")));
+		WebDriverWait wait=new WebDriverWait(driver, 20);
 		
 		
-		WebElement node = driver.findElement(By.xpath("//*[@generic-graphical-node][" + numberOfNodes + "]//*[@ceg-graphical-node]"));
+		WebElement node = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='draggable-element-default'])[" + numberOfNodes + "]")));
+				
 		WebElement variableTextfield = driver.findElement(propertiesVariable);
 		WebElement conditionTextfield = driver.findElement(propertiesCondition);
 		variableTextfield.clear();
@@ -98,14 +95,14 @@ public class CEGEditorElements {
 	*and returns the newly created connection
 	*/
 	public WebElement connect(WebElement node1, WebElement node2) {
-		int numberOfConnections = driver.findElements(By.xpath("//*[@ceg-graphical-connection]")).size();
+		int numberOfConnections = driver.findElements(By.xpath("//*[@class='inner' or @class='inner innerSelected']")).size();
 		
 		driver.findElement(toolbarConnection).click();
 		node1.click();
 		node2.click();
 		numberOfConnections ++;
 		
-		WebElement connection = driver.findElement(By.xpath("//*[@generic-graphical-connection][" + numberOfConnections + "]//*[@ceg-graphical-connection]"));
+		WebElement connection = driver.findElement(By.xpath("(//*[@class='inner' or @class='inner innerSelected'])[" + numberOfConnections + "]"));
 		return connection;
 	}
 	
