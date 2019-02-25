@@ -20,7 +20,7 @@ public class Testing {
 	
 	public static void main(String[] args) throws InterruptedException, MalformedURLException {
 		
-		DesiredCapabilities caps = DesiredCapabilities.firefox();
+		DesiredCapabilities caps = DesiredCapabilities.internetExplorer();
 	    caps.setCapability("platform", "Windows 10");
 	    caps.setCapability("version", "latest");
 	    caps.setCapability("tunnel-identifier", TUNNELIDENTFIER); 
@@ -28,7 +28,7 @@ public class Testing {
 	    WebDriver driver = new RemoteWebDriver(new URL(URL), caps);
 	    
 	driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS); //page synchronization
-		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+		//driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 	    
 	    // Call two test classes 
 	    TestLoginPage.executeTest(driver);
