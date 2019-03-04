@@ -3,7 +3,10 @@ package SpecmatePageClasses;
 import java.util.Objects;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 //Page Class
 public class LoginElements {
@@ -64,6 +67,12 @@ public class LoginElements {
 	}
 	
 	public boolean isLoggedIn() {
+		try {
+		WebDriverWait wait = new WebDriverWait(driver, 15);
+		wait.until(ExpectedConditions.urlToBe("http://localhost:8080/-/welcome"));
+		} catch (TimeoutException e) {
+			return false;
+		}
 		String URL = driver.getCurrentUrl();
 		String expectedURL = "http://localhost:8080/-/welcome";
 		return Objects.equals(URL, expectedURL);
