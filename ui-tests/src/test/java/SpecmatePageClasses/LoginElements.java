@@ -2,7 +2,6 @@ package SpecmatePageClasses;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 //Page Class
 public class LoginElements {
@@ -63,9 +62,9 @@ public class LoginElements {
 	}
 	
 	public boolean isLoggedIn() {
-		WebElement header = driver.findElement(By.tagName("h1"));
-		String title = "Willkommen bei Specmate";
-		return header.getText() == title;
+		String URL = driver.getCurrentUrl();
+		String expectedURL = "http://localhost:8080/-/welcome";
+		return URL == expectedURL;
 	}
 }
 
