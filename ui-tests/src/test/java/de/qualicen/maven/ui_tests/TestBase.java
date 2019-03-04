@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 
+@Ignore
 @RunWith(ConcurrentParameterized.class)
 public class TestBase implements SauceOnDemandSessionIdProvider {
 	public static String username = System.getenv("SAUCE_USERNAME");
