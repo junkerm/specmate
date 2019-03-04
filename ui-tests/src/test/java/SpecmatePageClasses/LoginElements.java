@@ -1,5 +1,7 @@
 package SpecmatePageClasses;
 
+import java.util.Objects;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -64,7 +66,7 @@ public class LoginElements {
 	public boolean isLoggedIn() {
 		String URL = driver.getCurrentUrl();
 		String expectedURL = "http://localhost:8080/-/welcome";
-		return URL == expectedURL;
+		return Objects.equals(URL, expectedURL);
 	}
 }
 
