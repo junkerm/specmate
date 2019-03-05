@@ -1,11 +1,14 @@
 <form *ngIf="isVisible" class="form-inline tool-bar">
     <ng-container *ngFor="let tool of tools">
-        <button id="{{'toolbar-' + tool.name + '-button'}}" title="{{tool.name | translate}}" class="{{'btn btn-sm btn-outline-' + tool.color}} my-1" [ngClass]="{'active': isActive(tool)}" (click)="onClick(tool, $event)">
-            <i class="{{'fa fa-' + tool.icon}}" aria-hidden="true"></i>&nbsp;{{tool.name | translate}}
-        </button>&nbsp;
+        <div id="{{'toolbar-' + tool.name + '-button'}}" title="{{tool.name | translate}}"
+            class="{{'btn btn-sm btn-outline-' + tool.color + ' tool-button'}}" [ngClass]="{'active': isActive(tool)}"
+            (click)="onClick(tool, $event)">
+            <i class="{{'fa fa-2x fa-' + tool.icon}}" aria-hidden="true"></i><br />{{tool.name | translate}}
+        </div>&nbsp;
     </ng-container>
 
-    <button id="toolbar-clear-button" (click)="delete($event)" title="{{'clear' | translate}}" class="btn btn-sm btn-outline-danger pull-right my-1">
-        <i class="fa fa-trash " aria-hidden="true"></i>&nbsp;{{'clear' | translate}}
-    </button>
+    <div id="toolbar-clear-button" (click)="delete($event)" title="{{'clear' | translate}}"
+        class="btn btn-sm btn-outline-danger pull-right tool-button">
+        <i class="fa fa-trash fa-2x" aria-hidden="true"></i><br />{{'clear' | translate}}
+    </div>
 </form>
