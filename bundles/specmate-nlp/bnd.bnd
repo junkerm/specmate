@@ -23,6 +23,7 @@
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.ner-asl-1.10.0.jar!/desc/* ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.parameter-asl-1.10.0.jar!/desc/* ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.resources-asl-1.10.0.jar!/desc/* ,\
+	@jar/maltparser-1.9.1.jar!/appdata/* ,\
  	META-INF=META-INF
 -buildpath: \
 	jar/de.tudarmstadt.ukp.dkpro.core.api.segmentation-asl-1.10.0.jar;version=file,\
