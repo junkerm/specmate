@@ -46,6 +46,9 @@ public class NLPServiceTest {
 
 		String chunkString = NLPUtil.printChunks(result);
 		System.out.println(chunkString);
+
+		String dependencyString = NLPUtil.printDependencies(result);
+		System.out.println(dependencyString);
 	}
 
 	@Test

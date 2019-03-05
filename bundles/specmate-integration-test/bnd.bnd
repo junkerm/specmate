@@ -165,7 +165,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-connectors;version=snapshot,\
 	org.eclipse.emf.cdo;version='[4.5.0,4.5.1)',\
 	org.eclipse.emf.cdo.common;version='[4.5.0,4.5.1)',\
-	org.eclipse.emf.cdo.ecore.retrofit;version='[4.2.300,4.2.301)',\
 	org.eclipse.emf.cdo.net4j;version='[4.1.400,4.1.401)',\
 	org.eclipse.emf.cdo.server;version='[4.5.0,4.5.1)',\
 	org.eclipse.emf.cdo.server.net4j;version='[4.1.300,4.1.301)',\

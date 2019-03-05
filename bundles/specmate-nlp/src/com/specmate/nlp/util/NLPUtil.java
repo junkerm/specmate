@@ -15,6 +15,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 
 public class NLPUtil {
 	enum ConstituentType {
@@ -69,6 +70,16 @@ public class NLPUtil {
 		StringJoiner builder = new StringJoiner(" ");
 		Constituent con = JCasUtil.select(jcas, Constituent.class).iterator().next();
 		printConstituent(con, builder);
+		return builder.toString();
+	}
+
+	public static String printDependencies(JCas jcas) {
+		Collection<Dependency> dependencies = JCasUtil.select(jcas, Dependency.class);
+		StringJoiner builder = new StringJoiner("\n");
+		for (Dependency dep : dependencies) {
+			builder.add(dep.getGovernor().getCoveredText() + " <--" + dep.getDependencyType() + "-- "
+					+ dep.getDependent().getCoveredText());
+		}
 		return builder.toString();
 	}
 

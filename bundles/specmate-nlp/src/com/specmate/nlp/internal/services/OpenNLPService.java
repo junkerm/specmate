@@ -18,6 +18,7 @@ import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.nlp.api.INLPService;
 
+import de.tudarmstadt.ukp.dkpro.core.maltparser.MaltParser;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpChunker;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpParser;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
@@ -47,16 +48,19 @@ public class OpenNLPService implements INLPService {
 		AnalysisEngineDescription posTagger = null;
 		AnalysisEngineDescription parser = null;
 		AnalysisEngineDescription chunker = null;
+		AnalysisEngineDescription dependencyParser = null;
 
 		try {
 			segmenter = createEngineDescription(OpenNlpSegmenter.class, OpenNlpSegmenter.PARAM_LANGUAGE, "en");
 			posTagger = createEngineDescription(OpenNlpPosTagger.class, OpenNlpPosTagger.PARAM_LANGUAGE, "en",
 					OpenNlpPosTagger.PARAM_VARIANT, "maxent");
 			chunker = createEngineDescription(OpenNlpChunker.class, OpenNlpChunker.PARAM_LANGUAGE, "en");
+			dependencyParser = createEngineDescription(MaltParser.class, MaltParser.PARAM_LANGUAGE, "en",
+					MaltParser.PARAM_IGNORE_MISSING_FEATURES, true);
 			parser = createEngineDescription(OpenNlpParser.class, OpenNlpParser.PARAM_PRINT_TAGSET, true,
 					OpenNlpParser.PARAM_LANGUAGE, "en", OpenNlpParser.PARAM_WRITE_PENN_TREE, true,
 					OpenNlpParser.PARAM_WRITE_POS, true);
-			this.engine = createEngine(createEngineDescription(segmenter, posTagger, chunker, parser));
+			this.engine = createEngine(createEngineDescription(segmenter, posTagger, chunker,dependencyParser, parser));
 			// logService.log(org.osgi.service.log.LogService.LOG_DEBUG,
 			// "OpenNLP NLP service started");
 		} catch (Throwable e) {
