@@ -43,6 +43,9 @@ public class NLPServiceTest {
 		Assert.assertEquals(
 				"If (IN) the (DT) tool (NN) detects (VBZ) an (DT) error (NN) , (,) it (PRP) shows (VBZ) a (DT) warning (NN) window (NN) . (.)",
 				posString);
+
+		String chunkString = NLPUtil.printChunks(result);
+		System.out.println(chunkString);
 	}
 
 	@Test

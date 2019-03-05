@@ -8,6 +8,8 @@
 	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-tagger-en-maxent-20120616.0.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/tagger-en-maxent.bin ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-parser-en-chunking-20120616.1.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/parser-en-chunking.properties ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-parser-en-chunking-20120616.0.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/parser-en-chunking.bin ,\
+	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-upstream-chunker-en-default-20100908.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/chunker-en-default.bin ,\
+	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-chunker-en-default-20100908.1.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/chunker-en-default.properties ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.segmentation-asl-1.10.0.jar!/desc/* ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.syntax-asl-1.10.0.jar!/desc/* ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.coref-asl-1.10.0.jar!/desc/* ,\

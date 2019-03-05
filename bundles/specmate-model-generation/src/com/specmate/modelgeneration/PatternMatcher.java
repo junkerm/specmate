@@ -24,6 +24,7 @@ import com.specmate.nlp.util.NLPUtil;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 /**
@@ -44,19 +45,19 @@ public class PatternMatcher {
 	 *            NLPTagged text
 	 * @return array with two elements. First element: cause, second
 	 *         element:effect
-	 * @throws SpecmateInternalException 
+	 * @throws SpecmateInternalException
 	 */
 	public String[] detectCauseAndEffect(Sentence sentence, JCas jCas) throws SpecmateInternalException {
 		String sentenceText = sentence.getCoveredText();
 		Optional<Constituent> optSentenceConstituent = NLPUtil.getSentenceConstituent(jCas, sentence);
-		if(!optSentenceConstituent.isPresent()) {
-			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "Could not find sentence constituent for sentence: "  + sentenceText);
+		if (!optSentenceConstituent.isPresent()) {
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM,
+					"Could not find sentence constituent for sentence: " + sentenceText);
 		}
 		Constituent sentenceConstituent = optSentenceConstituent.get();
-		
+
 		String cause = "";
 		String effect = "";
-
 
 		if (matchPattern2_1(sentence, jCas)) {
 			int posComma = sentenceText.indexOf(",");
@@ -257,7 +258,7 @@ public class PatternMatcher {
 	public boolean matchPattern1_2(Sentence sentence, JCas jCas) {
 		int positionIf = -1;
 		List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
-		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		List<Chunk> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
 		for (Token token : pos) {
 			if (token.getCoveredText().equals("if")) {
 				positionIf = token.getBegin();
@@ -265,7 +266,7 @@ public class PatternMatcher {
 		}
 		boolean start = false;
 		boolean end = false;
-		for (Constituent vp : verbPhrases) {
+		for (Chunk vp : verbPhrases) {
 			if (vp.getBegin() <= positionIf) {
 				start = true;
 			}
@@ -305,7 +306,7 @@ public class PatternMatcher {
 		String text = sentence.getCoveredText();
 		int positionComma = -1;
 		List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
-		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		List<Chunk> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
 		for (Token token : pos) {
 			if (token.getPosValue().equals(",")) {
 				positionComma = token.getBegin();
@@ -314,7 +315,7 @@ public class PatternMatcher {
 		if (text.startsWith("When")) {
 			boolean start = false;
 			boolean end = false;
-			for (Constituent vp : verbPhrases) {
+			for (Chunk vp : verbPhrases) {
 				if (vp.getEnd() <= positionComma) {
 					start = true;
 				}
@@ -339,7 +340,7 @@ public class PatternMatcher {
 	public boolean matchPattern2_2(Sentence sentence, JCas jCas) {
 		int positionIf = -1;
 		List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
-		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		List<Chunk> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
 		for (Token token : pos) {
 			if (token.getCoveredText().equals("when")) {
 				positionIf = token.getBegin();
@@ -347,7 +348,7 @@ public class PatternMatcher {
 		}
 		boolean start = false;
 		boolean end = false;
-		for (Constituent vp : verbPhrases) {
+		for (Chunk vp : verbPhrases) {
 			if (vp.getBegin() <= positionIf) {
 				start = true;
 			}
