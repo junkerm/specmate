@@ -2,10 +2,16 @@
 	@jar/uimaj-core-2.10.2.jar!/resourceSpecifierSchema.xsd,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-sentence-en-maxent-20120616.1.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/sentence-en-maxent.properties ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-sentence-en-maxent-20120616.0.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/sentence-en-maxent.bin ,\
+	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-sentence-de-maxent-20120616.1.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/sentence-de-maxent.properties ,\
+	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-sentence-de-maxent-20120616.0.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/sentence-de-maxent.bin ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-token-en-maxent-20120616.1.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/token-en-maxent.properties ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-token-en-maxent-20120616.0.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/token-en-maxent.bin ,\
+	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-token-de-maxent-20120616.1.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/token-de-maxent.properties ,\
+	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-token-de-maxent-20120616.0.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/token-de-maxent.bin ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-tagger-en-maxent-20120616.1.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/tagger-en-maxent.properties ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-tagger-en-maxent-20120616.0.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/tagger-en-maxent.bin ,\
+	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-tagger-de-maxent-20120616.1.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/tagger-de-maxent.properties ,\
+	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-tagger-de-maxent-20120616.0.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/tagger-de-maxent.bin ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-parser-en-chunking-20120616.1.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/parser-en-chunking.properties ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-parser-en-chunking-20120616.0.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/parser-en-chunking.bin ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.segmentation-asl-1.10.0.jar!/desc/* ,\
@@ -19,7 +25,8 @@
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.ner-asl-1.10.0.jar!/desc/* ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.parameter-asl-1.10.0.jar!/desc/* ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.resources-asl-1.10.0.jar!/desc/* ,\
- 	META-INF=META-INF
+ 	META-INF=META-INF ,\
+ 	models=models
 -buildpath: \
 	jar/de.tudarmstadt.ukp.dkpro.core.api.segmentation-asl-1.10.0.jar;version=file,\
 	jar/de.tudarmstadt.ukp.dkpro.core.api.featurepath-asl-1.10.0.jar;version=file,\

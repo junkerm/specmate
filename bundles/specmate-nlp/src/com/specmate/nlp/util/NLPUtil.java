@@ -13,6 +13,7 @@ import org.apache.uima.jcas.JCas;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 public class NLPUtil {
@@ -22,11 +23,11 @@ public class NLPUtil {
 		private String constituentTypeName;
 
 		public String getName() {
-			return this.constituentTypeName;
+			return constituentTypeName;
 		}
 
 		private ConstituentType(String name) {
-			this.constituentTypeName = name;
+			constituentTypeName = name;
 		}
 	}
 
@@ -74,15 +75,24 @@ public class NLPUtil {
 	public static Collection<Sentence> getSentences(JCas jCas) {
 		return JCasUtil.select(jCas, Sentence.class);
 	}
-	
+
 	public static Optional<Constituent> getSentenceConstituent(JCas jCas, Sentence sentence) {
 		return JCasUtil.selectCovered(Constituent.class, sentence).stream()
-		.filter(c -> c.getConstituentType().contentEquals("S") || c.getConstituentType().contentEquals("SBAR"))
-		.findFirst();
+				.filter(c -> c.getConstituentType().contentEquals("S") || c.getConstituentType().contentEquals("SBAR"))
+				.findFirst();
 	}
 
 	public static List<Constituent> getSentenceConstituents(JCas jCas) {
-		return getSentences(jCas).stream().map(s -> getSentenceConstituent(jCas,s) ).flatMap(o -> o.isPresent() ? Stream.of(o.get()) : Stream.empty())
-				.collect(Collectors.toList());
+		return getSentences(jCas).stream().map(s -> getSentenceConstituent(jCas, s))
+				.flatMap(o -> o.isPresent() ? Stream.of(o.get()) : Stream.empty()).collect(Collectors.toList());
+	}
+
+	public static String printChunks(JCas jcas) {
+		StringJoiner joiner = new StringJoiner(" ");
+		JCasUtil.select(jcas, Chunk.class).forEach(p -> {
+			joiner.add(p.getCoveredText()).add("(" + p.getChunkValue() + ")");
+		});
+		return joiner.toString();
+
 	}
 }
