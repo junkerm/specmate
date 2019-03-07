@@ -23,12 +23,16 @@ public abstract class BaseSkeleton {
 	private static Pattern startsNumerical = Pattern.compile("^[0-9]");
 	private static Pattern invalidChars = Pattern.compile("[^a-zA-Z_0-9\\_]");
 
-	Comparator<TestParameter> parameterComparator = (p1, p2) -> p1.getType().compareTo(p2.getType());
-	Comparator<ParameterAssignment> assignmentComparator = (a1, a2) -> a1.getParameter().getType()
-			.compareTo(a2.getParameter().getType());
+	Comparator<TestParameter> parameterComparator = (p1, p2) -> compareParameter(p1, p2);
+	Comparator<ParameterAssignment> assignmentComparator = (a1, a2) -> compareParameter(a1.getParameter(),
+			a2.getParameter());
 
 	public BaseSkeleton(String language) {
 		this.language = language;
+	}
+
+	private static int compareParameter(TestParameter p1, TestParameter p2) {
+		return p1.getType().compareTo(p2.getType()) * 10 + p1.getName().compareTo(p2.getName());
 	}
 
 	public TestSpecificationSkeleton generate(TestSpecification testSpecification) {
