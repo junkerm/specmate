@@ -11,7 +11,6 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 
@@ -59,44 +58,9 @@ public abstract class SentenceUnfolder {
 		return buffer.toString();
 	}
 
-	private static Optional<Chunk> findMissingVerbSubjectByConjunction(JCas jCas, Chunk vp) {
-		Collection<Dependency> dependencies = JCasUtil.select(jCas, Dependency.class);
-		Optional<Dependency> conj = NLPUtil.findDependency(dependencies, vp, "conj", false);
-		if (conj.isPresent()) {
-			Token governor = conj.get().getGovernor();
-			Optional<Dependency> subj = NLPUtil.findDependency(dependencies, governor, "nsubj", true);
-			if (subj.isPresent()) {
-				Token subjToken = subj.get().getDependent();
-				List<Chunk> chunk = JCasUtil.selectCovering(jCas, Chunk.class, subjToken);
-				Chunk np = chunk.get(0);
-				if (np.getChunkValue().equals("NP")) {
-					return Optional.of(np);
-				}
-			}
-		}
-		return Optional.empty();
-	}
+	protected abstract List<Pair<Annotation, Annotation>> completeSubjectsByConjunction(JCas jCas, Annotation subj);
 
-	private List<Pair<Annotation, Annotation>> completeSubjectsByConjunction(JCas jCas, Annotation subj) {
-		Collection<Dependency> dependencies = JCasUtil.select(jCas, Dependency.class);
-		List<Pair<Annotation, Annotation>> result = new ArrayList<>();
-		result.add(Pair.of(null, subj));
-		Optional<Dependency> conjDep;
-		Optional<Dependency> ccDep;
-		do {
-			conjDep = NLPUtil.findDependency(dependencies, subj, "conj", true);
-			ccDep = NLPUtil.findDependency(dependencies, subj, "cc", true);
-			if (conjDep.isPresent() && ccDep.isPresent()) {
-				Token govConjToken = conjDep.get().getDependent();
-				Token govCcToken = ccDep.get().getDependent();
-				Annotation conSubj = NLPUtil.selectIfCovering(Chunk.class, govConjToken);
-				Annotation cc = NLPUtil.selectIfCovering(Chunk.class, govCcToken);
-				result.add(Pair.of(cc, conSubj));
-				subj = conSubj;
-			}
-		} while (conjDep.isPresent());
-		return result;
-	}
+	protected abstract Optional<Chunk> findMissingVerbSubjectByConjunction(JCas jCas, Chunk vp);
 
 	protected abstract Optional<Dependency> findSubjectForVerbPhrase(Collection<Dependency> dependencies, Chunk vp);
 

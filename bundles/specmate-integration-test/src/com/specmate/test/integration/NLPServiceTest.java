@@ -24,8 +24,10 @@ import com.specmate.nlp.matcher.IConstituentTreeMatcher;
 import com.specmate.nlp.matcher.MatchResult;
 import com.specmate.nlp.matcher.SequenceMatcher;
 import com.specmate.nlp.matcher.ZeroOrMoreConsumer;
+import com.specmate.nlp.util.GermanSentenceUnfolder;
 import com.specmate.nlp.util.NLPUtil;
 
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 public class NLPServiceTest {
@@ -60,12 +62,13 @@ public class NLPServiceTest {
 				+ "Warnfenster <--DET-- ein\n" + "zeigt <--OBJA-- Warnfenster\n" + ". <--ROOT-- .",
 				NLPUtil.printDependencies(result));
 
-		result = nlpService.processText("Specmate zeigt ein Fenster und zeigt ein Bild.", ELanguage.DE);
+		result = nlpService.processText("Specmate und das Werkzeug zeigen ein Fenster und zeigen ein Bild.",
+				ELanguage.DE);
 		System.out.println(NLPUtil.printDependencies(result));
 
-		// Sentence sent = NLPUtil.getSentences(result).iterator().next();
-		// String completed = NLPUtil.insertMissingSubjects(result, sent);
-		// System.out.println(completed);
+		Sentence sent = NLPUtil.getSentences(result).iterator().next();
+		String completed = new GermanSentenceUnfolder().insertMissingSubjects(result, sent);
+		System.out.println(completed);
 	}
 
 	@Test

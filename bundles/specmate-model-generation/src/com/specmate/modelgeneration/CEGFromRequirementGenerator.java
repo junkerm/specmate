@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
-import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.exception.SpecmateException;
@@ -28,11 +27,14 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
  * @author Andreas Wehrle
  *
  */
-public class CEGFromRequirementGenerator {
+public abstract class CEGFromRequirementGenerator {
 
+	/** The logging service */
 	private LogService logService;
+
+	/** The NLP service */
 	private INLPService tagger;
-	private PatternMatcher patternMatcher;
+
 	private AndOrSplitter andOrSplitter;
 	private CEGCreation cegCreation;
 	private int levelOneX = 100;
@@ -46,7 +48,6 @@ public class CEGFromRequirementGenerator {
 		super();
 		this.logService = logService;
 		this.tagger = tagger;
-		this.patternMatcher = new PatternMatcher();
 		this.andOrSplitter = new AndOrSplitter();
 		this.cegCreation = new CEGCreation();
 	}
@@ -91,7 +92,7 @@ public class CEGFromRequirementGenerator {
 			throws SpecmateInternalException {
 		String cause = "";
 		String effect = "";
-		String[] causeEffectArray = this.patternMatcher.detectCauseAndEffect(sentence, jCas);
+		String[] causeEffectArray = getPatternMatcher().detectCauseAndEffect(sentence, jCas);
 		cause = causeEffectArray[0];
 		effect = causeEffectArray[1];
 
@@ -404,14 +405,6 @@ public class CEGFromRequirementGenerator {
 		return back;
 	}
 
-	@Reference
-	public void setLogService(LogService logService) {
-		this.logService = logService;
-	}
-
-	@Reference
-	void setNlptagging(INLPService tagger) {
-		this.tagger = tagger;
-	}
+	protected abstract PatternMatcher getPatternMatcher();
 
 }
