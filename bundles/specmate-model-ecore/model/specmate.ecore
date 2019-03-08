@@ -282,6 +282,7 @@
       <eLiterals name="search" value="111"/>
       <eLiterals name="testgeneration" value="112" literal="testgeneration"/>
       <eLiterals name="trello" value="113"/>
+      <eLiterals name="nlp" value="114" literal="nlp"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="batch" nsURI="http://specmate.com/20190125/model/batch" nsPrefix="com.specmate.model.batch">

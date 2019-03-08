@@ -3,6 +3,9 @@ package com.specmate.nlp.internal.services;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngine;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.fit.factory.JCasFactory;
@@ -16,8 +19,10 @@ import org.osgi.service.log.LogService;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.model.administration.ErrorCode;
+import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 
+import de.tudarmstadt.ukp.dkpro.core.maltparser.MaltParser;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpChunker;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpParser;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
@@ -31,7 +36,8 @@ import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
  */
 @Component(immediate = true)
 public class OpenNLPService implements INLPService {
-	AnalysisEngine engine;
+
+	private Map<String, AnalysisEngine> engines = new HashMap<String, AnalysisEngine>();
 	private LogService logService;
 
 	/**
@@ -43,53 +49,70 @@ public class OpenNLPService implements INLPService {
 	public void activate() throws SpecmateException {
 		// logService.log(org.osgi.service.log.LogService.LOG_DEBUG, "OpenNLP
 		createGermanPipeline();
+		createEnglishPipeline();
 
 	}
 
 	private void createEnglishPipeline() throws SpecmateInternalException {
-		// NLP service is starting");
+		logService.log(LogService.LOG_DEBUG, "Initializing english NLP pipeline");
+
 		AnalysisEngineDescription segmenter = null;
 		AnalysisEngineDescription posTagger = null;
 		AnalysisEngineDescription parser = null;
+		AnalysisEngineDescription chunker = null;
+		AnalysisEngineDescription dependencyParser = null;
+
+		String lang = ELanguage.EN.getLanguage();
 
 		try {
-			segmenter = createEngineDescription(OpenNlpSegmenter.class, OpenNlpSegmenter.PARAM_LANGUAGE, "en");
-			posTagger = createEngineDescription(OpenNlpPosTagger.class, OpenNlpPosTagger.PARAM_LANGUAGE, "en",
+			segmenter = createEngineDescription(OpenNlpSegmenter.class, OpenNlpSegmenter.PARAM_LANGUAGE, lang);
+			posTagger = createEngineDescription(OpenNlpPosTagger.class, OpenNlpPosTagger.PARAM_LANGUAGE, lang,
 					OpenNlpPosTagger.PARAM_VARIANT, "maxent");
+			chunker = createEngineDescription(OpenNlpChunker.class, OpenNlpChunker.PARAM_LANGUAGE, lang);
+			dependencyParser = createEngineDescription(MaltParser.class, MaltParser.PARAM_LANGUAGE, lang,
+					MaltParser.PARAM_IGNORE_MISSING_FEATURES, true);
 			parser = createEngineDescription(OpenNlpParser.class, OpenNlpParser.PARAM_PRINT_TAGSET, true,
-					OpenNlpParser.PARAM_LANGUAGE, "en", OpenNlpParser.PARAM_WRITE_PENN_TREE, true,
+					OpenNlpParser.PARAM_LANGUAGE, lang, OpenNlpParser.PARAM_WRITE_PENN_TREE, true,
 					OpenNlpParser.PARAM_WRITE_POS, true);
-			engine = createEngine(createEngineDescription(segmenter, posTagger, parser));
-			// logService.log(org.osgi.service.log.LogService.LOG_DEBUG,
-			// "OpenNLP NLP service started");
+
+			AnalysisEngine engine = createEngine(
+					createEngineDescription(segmenter, posTagger, chunker, dependencyParser, parser));
+
+			engines.put(lang, engine);
 		} catch (Throwable e) {
-			// logService.log(LogService.LOG_ERROR, "OpenNLP NLP service failed
-			// when starting. Reason: " + e.getMessage());
-			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM,
+			throw new SpecmateInternalException(ErrorCode.NLP,
 					"OpenNLP NLP service failed when starting. Reason: " + e.getMessage());
 		}
 	}
 
 	private void createGermanPipeline() throws SpecmateInternalException {
-		// NLP service is starting");
+		logService.log(LogService.LOG_DEBUG, "Initializing german NLP pipeline");
 		AnalysisEngineDescription segmenter = null;
 		AnalysisEngineDescription posTagger = null;
 		AnalysisEngineDescription chunker = null;
+		AnalysisEngineDescription dependencyParser = null;
+
+		String lang = ELanguage.DE.getLanguage();
 
 		try {
-			segmenter = createEngineDescription(OpenNlpSegmenter.class, OpenNlpSegmenter.PARAM_LANGUAGE, "de");
-			posTagger = createEngineDescription(OpenNlpPosTagger.class, OpenNlpPosTagger.PARAM_LANGUAGE, "de",
+			segmenter = createEngineDescription(OpenNlpSegmenter.class, OpenNlpSegmenter.PARAM_LANGUAGE, lang);
+			posTagger = createEngineDescription(OpenNlpPosTagger.class, OpenNlpPosTagger.PARAM_LANGUAGE, lang,
 					OpenNlpPosTagger.PARAM_VARIANT, "maxent");
 			chunker = createEngineDescription(OpenNlpChunker.class, OpenNlpParser.PARAM_PRINT_TAGSET, true,
-					OpenNlpChunker.PARAM_LANGUAGE, "de", OpenNlpChunker.PARAM_MODEL_LOCATION,
+					OpenNlpChunker.PARAM_LANGUAGE, lang, OpenNlpChunker.PARAM_MODEL_LOCATION,
 					"classpath:/models/de-chunker.bin");
-			engine = createEngine(createEngineDescription(segmenter, posTagger, chunker));
-			// logService.log(org.osgi.service.log.LogService.LOG_DEBUG,
-			// "OpenNLP NLP service started");
+			dependencyParser = createEngineDescription(MaltParser.class, MaltParser.PARAM_LANGUAGE, lang,
+					MaltParser.PARAM_IGNORE_MISSING_FEATURES, true, MaltParser.PARAM_MODEL_LOCATION,
+					"classpath:/models/de-dependencies.mco");
+
+			AnalysisEngine engine = createEngine(
+					createEngineDescription(segmenter, posTagger, chunker, dependencyParser));
+
+			engines.put(lang, engine);
 		} catch (Throwable e) {
 			// logService.log(LogService.LOG_ERROR, "OpenNLP NLP service failed
 			// when starting. Reason: " + e.getMessage());
-			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM,
+			throw new SpecmateInternalException(ErrorCode.NLP,
 					"OpenNLP NLP service failed when starting. Reason: " + e.getMessage());
 		}
 	}
@@ -101,20 +124,23 @@ public class OpenNLPService implements INLPService {
 	 * lang. String)
 	 */
 	@Override
-	public JCas processText(String text) throws SpecmateException {
+	public JCas processText(String text, ELanguage language) throws SpecmateException {
+		AnalysisEngine engine = engines.get(language.getLanguage());
+		if (engine == null) {
+			throw new SpecmateInternalException(ErrorCode.NLP,
+					"No analysis engine for language " + language.getLanguage() + " available.");
+		}
 		JCas jcas = null;
 		try {
 			jcas = JCasFactory.createJCas();
 			jcas.setDocumentText(text);
-			jcas.setDocumentLanguage("de");
+			jcas.setDocumentLanguage(language.getLanguage());
 			SimplePipeline.runPipeline(jcas, engine);
 		} catch (Throwable e) {
 			// Catch any kind of runtime or checked exception
-			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM,
-					"NLP: Tagging failed. Reason: " + e.getMessage());
+			throw new SpecmateInternalException(ErrorCode.NLP, "NLP: Tagging failed. Reason: " + e.getMessage());
 		}
 		return jcas;
-
 	}
 
 	@Reference

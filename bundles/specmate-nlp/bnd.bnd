@@ -14,6 +14,10 @@
 	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-tagger-de-maxent-20120616.0.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/tagger-de-maxent.bin ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-parser-en-chunking-20120616.1.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/parser-en-chunking.properties ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-parser-en-chunking-20120616.0.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/parser-en-chunking.bin ,\
+	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-upstream-chunker-en-default-20100908.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/chunker-en-default.bin ,\
+	@jar/de.tudarmstadt.ukp.dkpro.core.opennlp-model-chunker-en-default-20100908.1.jar!/de/tudarmstadt/ukp/dkpro/core/opennlp/lib/chunker-en-default.properties ,\
+	@jar/de.tudarmstadt.ukp.dkpro.core.maltparser-model-parser-en-linear-20120312.1.jar!/de/tudarmstadt/ukp/dkpro/core/maltparser/lib/parser-en-linear.properties ,\
+	@jar/de.tudarmstadt.ukp.dkpro.core.maltparser-model-parser-en-linear-20120312.0.jar!/de/tudarmstadt/ukp/dkpro/core/maltparser/lib/parser-en-linear.mco ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.segmentation-asl-1.10.0.jar!/desc/* ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.syntax-asl-1.10.0.jar!/desc/* ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.coref-asl-1.10.0.jar!/desc/* ,\
@@ -25,6 +29,7 @@
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.ner-asl-1.10.0.jar!/desc/* ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.parameter-asl-1.10.0.jar!/desc/* ,\
 	@jar/de.tudarmstadt.ukp.dkpro.core.api.resources-asl-1.10.0.jar!/desc/* ,\
+	@jar/maltparser-1.9.1.jar!/appdata/* ,\
  	META-INF=META-INF ,\
  	models=models
 -buildpath: \
@@ -35,12 +40,16 @@
 	jar/de.tudarmstadt.ukp.dkpro.core.api.lexmorph-asl-1.10.0.jar;version=file,\
 	jar/de.tudarmstadt.ukp.dkpro.core.io.text-asl-1.10.0.jar;version=file,\
 	jar/de.tudarmstadt.ukp.dkpro.core.opennlp-asl-1.10.0.jar;version=file,\
+	jar/de.tudarmstadt.ukp.dkpro.core.maltparser-asl-1.10.0.jar;version=file,\
 	jar/de.tudarmstadt.ukp.dkpro.core.api.io-asl-1.10.0.jar;version=file,\
 	jar/de.tudarmstadt.ukp.dkpro.core.api.metadata-asl-1.10.0.jar;version=file,\
 	jar/de.tudarmstadt.ukp.dkpro.core.api.ner-asl-1.10.0.jar;version=file,\
 	jar/de.tudarmstadt.ukp.dkpro.core.api.parameter-asl-1.10.0.jar;version=file,\
 	jar/de.tudarmstadt.ukp.dkpro.core.api.resources-asl-1.10.0.jar;version=file,\
+	jar/maltparser-1.9.1.jar;version=file,\
+	jar/liblinear-1.8.jar;version=file,\
 	jar/spring-core-5.1.3.RELEASE.jar;version=file,\
+	jar/libsvm-3.1.jar;version=file,\
 	jar/spring-beans-5.1.3.RELEASE.jar;version=file,\
 	jar/spring-context-5.1.3.RELEASE.jar;version=file,\
 	jar/spring-aop-5.1.3.RELEASE.jar;version=file,\
@@ -111,6 +120,68 @@ Private-Package: \
 	de.tudarmstadt.ukp.dkpro.core.opennlp,\
 	de.tudarmstadt.ukp.dkpro.core.opennlp.internal,\
 	de.tudarmstadt.ukp.dkpro.core.io.text,\
+	de.tudarmstadt.ukp.dkpro.core.maltparser,\
+	org.maltparser,\
+	org.maltparser.concurrent,\
+	org.maltparser.concurrent.graph,\
+	org.maltparser.parser.algorithm.nivre,\
+	org.maltparser.parser.algorithm.covington,\
+	org.maltparser.parser.algorithm.stack,\
+	org.maltparser.parser.algorithm.planar,\
+	org.maltparser.parser.algorithm.twoplanar,\
+	org.maltparser.core.syntaxgraph.reader,\
+	org.maltparser.core.syntaxgraph.writer,\
+	org.maltparser.transform.pseudo,\
+	org.maltparser.core.syntaxgraph.feature,\
+	org.maltparser.core.feature.map,\
+  org.maltparser.concurrent.graph.dataformat,\
+  org.maltparser.core.config,\
+  org.maltparser.core.exception,\
+  org.maltparser.core.feature,\
+  org.maltparser.core.feature.system,\
+  org.maltparser.core.flow,\
+  org.maltparser.core.flow.system,\
+  org.maltparser.core.helper,\
+  org.maltparser.core.io.dataformat,\
+  org.maltparser.core.lw.graph,\
+  org.maltparser.core.lw.helper,\
+  org.maltparser.core.lw.parser,\
+  org.maltparser.core.options,\
+  org.maltparser.core.plugin,\
+  org.maltparser.core.propagation,\
+  org.maltparser.core.symbol,\
+  org.maltparser.core.symbol.hash,\
+  org.maltparser.core.symbol.parse,\
+  org.maltparser.core.syntaxgraph,\
+  org.maltparser.core.syntaxgraph.edge,\
+  org.maltparser.core.syntaxgraph.node,\
+  org.maltparser.core.config.version,\
+  org.maltparser.core.feature.function,\
+  org.maltparser.core.feature.spec,\
+  org.maltparser.core.feature.value,\
+  org.maltparser.core.flow.item,\
+  org.maltparser.core.flow.spec,\
+  org.maltparser.core.flow.system.elem,\
+  org.maltparser.core.options.option,\
+  org.maltparser.core.pool,\
+  org.maltparser.core.propagation.spec,\
+  org.maltparser.core.symbol.nullvalue,\
+  org.maltparser.core.syntaxgraph.ds2ps,\
+  org.maltparser.core.syntaxgraph.headrules,\
+  org.maltparser.ml.lib,\
+  org.maltparser.parser,\
+  org.maltparser.parser.history,\
+  org.maltparser.parser.history.action,\
+  org.maltparser.parser.history.container,\
+  org.maltparser.parser.history.kbest,\
+  org.maltparser.core.feature.spec.reader,\
+  org.maltparser.ml,\
+  org.maltparser.parser.guide,\
+  org.maltparser.parser.guide.instance,\
+  org.maltparser.parser.transition,\
+  org.maltparser.parser.guide.decision,\
+  de.bwaldvogel.liblinear,\
+  libsvm,\
 	eu.openminted.share.annotations.api,\
 	org.springframework.core,\
 	org.springframework.beans,\
@@ -210,6 +281,7 @@ Export-Package: \
 	de.tudarmstadt.ukp.dkpro.core.api.segmentation.type,\
 	de.tudarmstadt.ukp.dkpro.core.api.syntax.type,\
 	de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent,\
+	de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency,\
 	de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.morph,\
 	de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos,\
 	de.tudarmstadt.ukp.dkpro.core.api.lexmorph.pos,\

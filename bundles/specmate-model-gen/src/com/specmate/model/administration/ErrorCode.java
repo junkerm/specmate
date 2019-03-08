@@ -190,7 +190,15 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TRELLO(113, "trello", "trello");
+	TRELLO(113, "trello", "trello"), /**
+	 * The '<em><b>Nlp</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NLP_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	NLP(114, "nlp", "nlp");
 
 	/**
 	 * The '<em><b>No Such Service</b></em>' literal value.
@@ -491,6 +499,20 @@ public enum ErrorCode implements Enumerator {
 	 * @ordered
 	 */
 	public static final int TRELLO_VALUE = 113;
+	
+	/**
+	 * The '<em><b>NLP</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>NLP</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #NLP
+	 * @model name="nlp"
+	 * @ordered
+	 */
+	public static final int NLP_VALUE = 113;
 
 	/**
 	 * An array of all the '<em><b>Error Code</b></em>' enumerators.
@@ -520,6 +542,7 @@ public enum ErrorCode implements Enumerator {
 			SEARCH,
 			TESTGENERATION,
 			TRELLO,
+			NLP,
 		};
 
 	/**
@@ -596,6 +619,7 @@ public enum ErrorCode implements Enumerator {
 			case SEARCH_VALUE: return SEARCH;
 			case TESTGENERATION_VALUE: return TESTGENERATION;
 			case TRELLO_VALUE: return TRELLO;
+			case NLP_VALUE: return NLP;
 		}
 		return null;
 	}
