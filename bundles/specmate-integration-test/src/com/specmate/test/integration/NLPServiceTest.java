@@ -48,6 +48,7 @@ public class NLPServiceTest {
 		// posString);
 
 		JCas result = nlpService.processText("Das Werkzeug zeigt einen Fehler und zeigt ein Warnfenster");
+		System.out.println(NLPUtil.printPOSTags(result));
 		System.out.println(NLPUtil.printChunks(result));
 	}
 
