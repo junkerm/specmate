@@ -1,6 +1,7 @@
 package com.specmate.test.integration;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.uima.jcas.JCas;
 import org.junit.Assert;
@@ -25,6 +26,8 @@ import com.specmate.nlp.matcher.SequenceMatcher;
 import com.specmate.nlp.matcher.ZeroOrMoreConsumer;
 import com.specmate.nlp.util.NLPUtil;
 
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 public class NLPServiceTest {
@@ -47,8 +50,15 @@ public class NLPServiceTest {
 		String chunkString = NLPUtil.printChunks(result);
 		System.out.println(chunkString);
 
+		result = nlpService.processText("The good tool or the bad tool detects an error or shows a window.");
 		String dependencyString = NLPUtil.printDependencies(result);
 		System.out.println(dependencyString);
+		Sentence sent = NLPUtil.getSentences(result).iterator().next();
+		List<Chunk> vpws = NLPUtil.findVerbalPhraseWithoutSubject(result, sent);
+		System.out.println(vpws);
+
+		String completed = NLPUtil.insertMissingSubjects(result, sent);
+		System.out.println(completed);
 	}
 
 	@Test
