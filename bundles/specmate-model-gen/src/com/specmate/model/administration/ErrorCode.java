@@ -66,7 +66,9 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	VALIDATOR(41, "validator", "validator"), /**
+	VALIDATOR(41, "validator", "validator"),
+
+	/**
 	 * The '<em><b>No Authorization</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -94,7 +96,9 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	USER_SESSION(101, "userSession", "userSession"), /**
+	USER_SESSION(101, "userSession", "userSession"),
+
+	/**
 	 * The '<em><b>Configuration</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -102,7 +106,9 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CONFIGURATION(102, "configuration", "configuration"), /**
+	CONFIGURATION(102, "configuration", "configuration"),
+
+	/**
 	 * The '<em><b>Persistency</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -110,7 +116,9 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	PERSISTENCY(103, "persistency", "persistency"), /**
+	PERSISTENCY(103, "persistency", "persistency"),
+
+	/**
 	 * The '<em><b>Migration</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -118,7 +126,9 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	MIGRATION(104, "migration", "migration"), /**
+	MIGRATION(104, "migration", "migration"),
+
+	/**
 	 * The '<em><b>Seralization</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -126,7 +136,9 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	SERALIZATION(105, "seralization", "seralization"), /**
+	SERALIZATION(105, "seralization", "seralization"),
+
+	/**
 	 * The '<em><b>Rest Service</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -134,7 +146,9 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	REST_SERVICE(106, "restService", "restService"), /**
+	REST_SERVICE(106, "restService", "restService"),
+
+	/**
 	 * The '<em><b>Scheduler</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -142,7 +156,9 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	SCHEDULER(107, "scheduler", "scheduler"), /**
+	SCHEDULER(107, "scheduler", "scheduler"),
+
+	/**
 	 * The '<em><b>Hp Proxy</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -150,7 +166,9 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	HP_PROXY(108, "hpProxy", "hpProxy"), /**
+	HP_PROXY(108, "hpProxy", "hpProxy"),
+
+	/**
 	 * The '<em><b>Jira</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -158,7 +176,9 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	JIRA(109, "jira", "jira"), /**
+	JIRA(109, "jira", "jira"),
+
+	/**
 	 * The '<em><b>Metrics</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -166,7 +186,9 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	METRICS(110, "metrics", "metrics"), /**
+	METRICS(110, "metrics", "metrics"),
+
+	/**
 	 * The '<em><b>Search</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -174,7 +196,9 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	SEARCH(111, "search", "search"), /**
+	SEARCH(111, "search", "search"),
+
+	/**
 	 * The '<em><b>Testgeneration</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -182,7 +206,9 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TESTGENERATION(112, "testgeneration", "testgeneration"), /**
+	TESTGENERATION(112, "testgeneration", "testgeneration"),
+
+	/**
 	 * The '<em><b>Trello</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -190,7 +216,9 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TRELLO(113, "trello", "trello"), /**
+	TRELLO(113, "trello", "trello"),
+
+	/**
 	 * The '<em><b>Nlp</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -499,20 +527,21 @@ public enum ErrorCode implements Enumerator {
 	 * @ordered
 	 */
 	public static final int TRELLO_VALUE = 113;
-	
+
 	/**
-	 * The '<em><b>NLP</b></em>' literal value.
+	 * The '<em><b>Nlp</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>NLP</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Nlp</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NLP
 	 * @model name="nlp"
+	 * @generated
 	 * @ordered
 	 */
-	public static final int NLP_VALUE = 113;
+	public static final int NLP_VALUE = 114;
 
 	/**
 	 * An array of all the '<em><b>Error Code</b></em>' enumerators.

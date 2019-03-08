@@ -14,6 +14,7 @@ import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
+import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
 
@@ -61,7 +62,7 @@ public class CEGFromRequirementGenerator {
 	 * @return generated CEGModel
 	 */
 	public CEGModel createModel(CEGModel model, String text) throws SpecmateException {
-		JCas jcas = this.tagger.processText(text);
+		JCas jcas = this.tagger.processText(text, ELanguage.EN);
 		model.getContents().clear();
 		LinkedList<CEGNode> nodes = new LinkedList<CEGNode>();
 

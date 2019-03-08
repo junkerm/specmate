@@ -26,7 +26,6 @@ import com.specmate.nlp.matcher.SequenceMatcher;
 import com.specmate.nlp.matcher.ZeroOrMoreConsumer;
 import com.specmate.nlp.util.NLPUtil;
 
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 public class NLPServiceTest {
@@ -54,15 +53,19 @@ public class NLPServiceTest {
 				NLPUtil.printPOSTags(result));
 		Assert.assertEquals("das Werkzeug einen Fehler (NP) erkennt (VP) zeigt (VP) ein Warnfenster (NP)",
 				NLPUtil.printChunks(result));
+
 		Assert.assertEquals("erkennt <--KONJ-- Wenn\n" + "Werkzeug <--DET-- das\n"
 				+ "erkennt <--SUBJ-- Werkzeug\nFehler <--DET-- einen\n" + "erkennt <--OBJA-- Fehler\n"
 				+ "erkennt <--ROOT-- erkennt\n" + ", <--ROOT-- ,\n" + "zeigt <--ROOT-- zeigt\n" + "zeigt <--SUBJ-- es\n"
 				+ "Warnfenster <--DET-- ein\n" + "zeigt <--OBJA-- Warnfenster\n" + ". <--ROOT-- .",
 				NLPUtil.printDependencies(result));
+
+		result = nlpService.processText("Specmate zeigt ein Fenster und zeigt ein Bild.", ELanguage.DE);
 		System.out.println(NLPUtil.printDependencies(result));
-		Sentence sent = NLPUtil.getSentences(result).iterator().next();
-		String completed = NLPUtil.insertMissingSubjects(result, sent);
-		System.out.println(completed);
+
+		// Sentence sent = NLPUtil.getSentences(result).iterator().next();
+		// String completed = NLPUtil.insertMissingSubjects(result, sent);
+		// System.out.println(completed);
 	}
 
 	@Test
