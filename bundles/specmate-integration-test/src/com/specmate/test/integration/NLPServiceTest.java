@@ -62,9 +62,9 @@ public class NLPServiceTest {
 				+ "Warnfenster <--DET-- ein\n" + "zeigt <--OBJA-- Warnfenster\n" + ". <--ROOT-- .",
 				NLPUtil.printDependencies(result));
 
-		result = nlpService.processText("Specmate und das Werkzeug zeigen ein Fenster und zeigen ein Bild.",
-				ELanguage.DE);
+		result = nlpService.processText("Wenn der  Alarm klingelt, zeigt Specmate ein Fenster.", ELanguage.DE);
 		System.out.println(NLPUtil.printDependencies(result));
+		System.out.println(NLPUtil.printParse(result));
 
 		Sentence sent = NLPUtil.getSentences(result).iterator().next();
 		String completed = new GermanSentenceUnfolder().insertMissingSubjects(result, sent);

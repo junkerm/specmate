@@ -39,7 +39,7 @@ public class PersonalPronounsReplacer {
 	public String replacePronouns(String text) {
 		JCas jcas;
 		try {
-			jcas = this.tagger.processText(text, ELanguage.EN);
+			jcas = tagger.processText(text, ELanguage.DE);
 		} catch (SpecmateException e) {
 			return null;
 		}
@@ -57,20 +57,20 @@ public class PersonalPronounsReplacer {
 										" " + link.getCoveredText().toLowerCase());
 						changed = true;
 					} catch (StringIndexOutOfBoundsException e) {
-						if (!this.sentences.contains(satz)) {
-							this.sentences += satz + "\n";
+						if (!sentences.contains(satz)) {
+							sentences += satz + "\n";
 						}
 					}
-					if (!this.sentences.contains(satz)) {
-						this.sentences += satz + " ";
+					if (!sentences.contains(satz)) {
+						sentences += satz + " ";
 					}
 				}
 			}
 			if (!changed) {
-				this.sentences += satz + " ";
+				sentences += satz + " ";
 			}
 		}
-		return this.sentences;
+		return sentences;
 	}
 
 	@Reference

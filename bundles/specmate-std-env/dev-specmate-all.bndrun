@@ -6,13 +6,9 @@
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
 	osgi.identity;filter:='(osgi.identity=org.glassfish.hk2.locator)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.log)',\
-	osgi.identity;filter:='(osgi.identity=jul.to.slf4j)',\
-	osgi.identity;filter:='(osgi.identity=log4j.over.slf4j)',\
 	osgi.identity;filter:='(osgi.identity=specmate-common)',\
 	osgi.identity;filter:='(osgi.identity=specmate-emfjson)',\
 	osgi.identity;filter:='(osgi.identity=specmate-logging)',\
-	osgi.identity;filter:='(osgi.identity=specmate-logging-slf4j)',\
-	osgi.identity;filter:='(osgi.identity=specmate-logging-slf4j-julbridge)',\
 	osgi.identity;filter:='(osgi.identity=specmate-persistency-api)',\
 	osgi.identity;filter:='(osgi.identity=org.glassfish.jersey.containers.jersey-container-servlet)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.event)',\
@@ -48,14 +44,13 @@
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-h2)',\
 	osgi.identity;filter:='(osgi.identity=specmate-jira-connector)',\
 	osgi.identity;filter:='(osgi.identity=specmate-nlp)',\
-	osgi.identity;filter:='(osgi.identity=specmate-model-generation)'
+	osgi.identity;filter:='(osgi.identity=specmate-model-generation)',\
+	bnd.identity;id='log4j'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
 	javax.validation.api;version='[1.1.0,1.1.1)',\
 	javax.ws.rs-api;version='[2.0.1,2.0.2)',\
-	jul.to.slf4j;version='[1.7.12,1.7.13)',\
-	log4j.over.slf4j;version='[1.7.12,1.7.13)',\
 	org.apache.felix.gogo.command;version='[0.10.0,0.10.1)',\
 	org.apache.felix.gogo.runtime;version='[0.10.0,0.10.1)',\
 	org.apache.felix.gogo.shell;version='[0.10.0,0.10.1)',\
@@ -92,7 +87,6 @@
 	specmate-emfrest;version=snapshot,\
 	specmate-logging;version=snapshot,\
 	specmate-logging-slf4j;version=snapshot,\
-	specmate-logging-slf4j-julbridge;version=snapshot,\
 	specmate-model-gen;version=snapshot,\
 	specmate-persistency-api;version=snapshot,\
 	specmate-persistency-cdo;version=snapshot,\
@@ -211,7 +205,8 @@
 	org.apache.servicemix.bundles.jcip-annotations;version='[1.0.0,1.0.1)',\
 	org.apache.servicemix.bundles.spring-beans;version='[4.1.7,4.1.8)',\
 	org.apache.servicemix.bundles.spring-core;version='[4.1.7,4.1.8)',\
-	org.codehaus.jettison.jettison;version='[1.1.0,1.1.1)'
+	org.codehaus.jettison.jettison;version='[1.1.0,1.1.1)',\
+	log4j;version='[1.2.17,1.2.18)'
 
 -runproperties: \
 	jetty.http.port=8080,\

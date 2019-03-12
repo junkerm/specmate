@@ -17,15 +17,14 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 public class GermanPatternMatcher extends PatternMatcher {
 	/**
-	 * Method splits the sentences into the cause and the effect if it matches
-	 * one pattern
+	 * Method splits the sentences into the cause and the effect if it matches one
+	 * pattern
 	 *
 	 * @param sentence
 	 *            sentence to split
 	 * @param jCas
 	 *            NLPTagged text
-	 * @return array with two elements. First element: cause, second
-	 *         element:effect
+	 * @return array with two elements. First element: cause, second element:effect
 	 * @throws SpecmateInternalException
 	 */
 	@Override
@@ -43,12 +42,9 @@ public class GermanPatternMatcher extends PatternMatcher {
 		if (matchPattern2_1(sentence, jCas)) {
 			int posComma = sentenceText.indexOf(",");
 			for (Token constituent : JCasUtil.selectCovered(jCas, Token.class, sentence)) {
-				if (constituent.getPosValue().equals(",")
-				// &&
-				// constituent.getParent().getType().getShortName().equals("S")
-				// &&
-				// constituent.getParent().getCoveredText().equals(sentence.getCoveredText())
-				) {
+				if (constituent.getCoveredText().equals(",")
+						&& constituent.getParent().getType().getShortName().equals("S")
+						&& constituent.getParent().getCoveredText().equals(sentence.getCoveredText())) {
 					posComma = constituent.getBegin() - sentence.getBegin();
 				}
 			}
@@ -61,8 +57,8 @@ public class GermanPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 2.1: If-sentences with 'when'
-	 * instead of 'if'(starting with when)
+	 * Detect if the sentence matches pattern 2.1: If-sentences with 'when' instead
+	 * of 'if'(starting with when)
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -75,7 +71,7 @@ public class GermanPatternMatcher extends PatternMatcher {
 		List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
 		List<Chunk> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
 		for (Token token : pos) {
-			if (token.getPosValue().equals(",")) {
+			if (token.getCoveredText().equals(",")) {
 				positionComma = token.getBegin();
 			}
 		}

@@ -13,4 +13,6 @@ import com.specmate.common.exception.SpecmateException;
  */
 public interface INLPService {
 	public JCas processText(String text, ELanguage language) throws SpecmateException;
+
+	public ELanguage detectLanguage(String text);
 }

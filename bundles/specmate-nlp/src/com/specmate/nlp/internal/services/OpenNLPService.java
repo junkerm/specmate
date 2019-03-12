@@ -90,6 +90,7 @@ public class OpenNLPService implements INLPService {
 		AnalysisEngineDescription segmenter = null;
 		AnalysisEngineDescription posTagger = null;
 		AnalysisEngineDescription chunker = null;
+		AnalysisEngineDescription parser = null;
 		AnalysisEngineDescription dependencyParser = null;
 
 		String lang = ELanguage.DE.getLanguage();
@@ -104,9 +105,13 @@ public class OpenNLPService implements INLPService {
 			dependencyParser = createEngineDescription(MaltParser.class, MaltParser.PARAM_LANGUAGE, lang,
 					MaltParser.PARAM_IGNORE_MISSING_FEATURES, true, MaltParser.PARAM_MODEL_LOCATION,
 					"classpath:/models/de-dependencies.mco");
+			parser = createEngineDescription(OpenNlpParser.class, OpenNlpParser.PARAM_PRINT_TAGSET, true,
+					OpenNlpParser.PARAM_LANGUAGE, lang, OpenNlpParser.PARAM_WRITE_PENN_TREE, false,
+					OpenNlpParser.PARAM_WRITE_POS, false, OpenNlpParser.PARAM_MODEL_LOCATION,
+					"classpath:/models/de-parser-chunking.bin");
 
 			AnalysisEngine engine = createEngine(
-					createEngineDescription(segmenter, posTagger, chunker, dependencyParser));
+					createEngineDescription(segmenter, posTagger, chunker, parser, dependencyParser));
 
 			engines.put(lang, engine);
 		} catch (Throwable e) {

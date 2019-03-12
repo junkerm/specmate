@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.osgi.service.log.LogService;
@@ -33,9 +34,8 @@ public abstract class CEGFromRequirementGenerator {
 	private LogService logService;
 
 	/** The NLP service */
-	private INLPService tagger;
+	private INLPService nlpService;
 
-	private AndOrSplitter andOrSplitter;
 	private CEGCreation cegCreation;
 	private int levelOneX = 100;
 	private int levelOneY = 50;
@@ -44,17 +44,16 @@ public abstract class CEGFromRequirementGenerator {
 	private int levelThreeX = 600;
 	private int levelThreeY = 150;
 
-	public CEGFromRequirementGenerator(LogService logService, INLPService tagger) {
+	public CEGFromRequirementGenerator(LogService logService, INLPService nlpService) {
 		super();
 		this.logService = logService;
-		this.tagger = tagger;
-		this.andOrSplitter = new AndOrSplitter();
-		this.cegCreation = new CEGCreation();
+		this.nlpService = nlpService;
+		cegCreation = new CEGCreation();
 	}
 
 	/**
-	 * Add the nodes and connections to the given CEGModel, which are extracted
-	 * from the text.
+	 * Add the nodes and connections to the given CEGModel, which are extracted from
+	 * the text.
 	 *
 	 * @param model
 	 *            the CEGModel to add the nodes/connections
@@ -63,7 +62,7 @@ public abstract class CEGFromRequirementGenerator {
 	 * @return generated CEGModel
 	 */
 	public CEGModel createModel(CEGModel model, String text) throws SpecmateException {
-		JCas jcas = this.tagger.processText(text, ELanguage.EN);
+		JCas jcas = nlpService.processText(text, ELanguage.DE);
 		model.getContents().clear();
 		LinkedList<CEGNode> nodes = new LinkedList<CEGNode>();
 
@@ -75,8 +74,8 @@ public abstract class CEGFromRequirementGenerator {
 	}
 
 	/**
-	 * Method add the nodes and connections detected from the sentence to the
-	 * given CEGModel
+	 * Method add the nodes and connections detected from the sentence to the given
+	 * CEGModel
 	 *
 	 * @param sentence
 	 *            sentences to detect causal relation
@@ -96,24 +95,21 @@ public abstract class CEGFromRequirementGenerator {
 		cause = causeEffectArray[0];
 		effect = causeEffectArray[1];
 
-		if (!cause.equals("")) {
-			String[] effects = this.andOrSplitter.textSplitterAnd(effect, sentence, jCas);
+		if (!StringUtils.isEmpty(cause)) {
+			String[] effects = getAndOrSplitter().textSplitterAnd(effect, sentence, jCas);
 			String[] causes = new String[] { cause };
-			if (cause.contains(" and ") && cause.contains(" or ")) {// 'or' and
-																	// 'and' in
-																	// the
-																	// sentence
-				causes = this.andOrSplitter.textSplitterAnd(cause, sentence, jCas);
+			if (containsConjection(cause) && containsDisjunction(cause)) {
+				causes = getAndOrSplitter().textSplitterAnd(cause, sentence, jCas);
 				String[] causesTemp = causes.clone();
 				for (int i = 0; i < effects.length; i++) {
 					String[] splittedVariabelAndConditionEffect = splitNodeInVariableAndCondition(jCas, sentence,
 							effects[i]);
-					CEGNode effectNode = this.cegCreation.createNodeIfNotExist(nodes, model,
-							splittedVariabelAndConditionEffect[0], splittedVariabelAndConditionEffect[1],
-							this.levelThreeX, this.levelThreeY, NodeType.AND);
-					this.levelThreeY += 100;
+					CEGNode effectNode = cegCreation.createNodeIfNotExist(nodes, model,
+							splittedVariabelAndConditionEffect[0], splittedVariabelAndConditionEffect[1], levelThreeX,
+							levelThreeY, NodeType.AND);
+					levelThreeY += 100;
 					for (int j = 0; j < causes.length; j++) {
-						String[] causesOr = this.andOrSplitter.textSplitterOr(causes[j], sentence, jCas);
+						String[] causesOr = getAndOrSplitter().textSplitterOr(causes[j], sentence, jCas);
 						String causeNew = cuttingEnds(causes[j]);
 						causesTemp = ArrayUtils.addAll(causesTemp, causesOr);
 						if (causesOr.length == 1) {
@@ -121,137 +117,135 @@ public abstract class CEGFromRequirementGenerator {
 							if (notReplacement(causeNewOr) != null) {
 								String[] splittedVariabelAndConditionCauseOr = splitNodeInVariableAndCondition(jCas,
 										sentence, notReplacement(causesOr[0]));
-								CEGNode causeNodeOr = this.cegCreation.createNodeIfNotExist(nodes, model,
+								CEGNode causeNodeOr = cegCreation.createNodeIfNotExist(nodes, model,
 										splittedVariabelAndConditionCauseOr[0], splittedVariabelAndConditionCauseOr[1],
-										this.levelOneX, this.levelOneY, NodeType.AND);
-								this.cegCreation.createConnection(model, causeNodeOr, effectNode, true);
+										levelOneX, levelOneY, NodeType.AND);
+								cegCreation.createConnection(model, causeNodeOr, effectNode, true);
 							} else {
 								String[] splittedVariabelAndConditionCauseOr = splitNodeInVariableAndCondition(jCas,
 										sentence, causesOr[0]);
-								CEGNode causeNodeOr = this.cegCreation.createNodeIfNotExist(nodes, model,
+								CEGNode causeNodeOr = cegCreation.createNodeIfNotExist(nodes, model,
 										splittedVariabelAndConditionCauseOr[0], splittedVariabelAndConditionCauseOr[1],
-										this.levelOneX, this.levelOneY, NodeType.AND);
-								this.cegCreation.createConnection(model, causeNodeOr, effectNode, false);
+										levelOneX, levelOneY, NodeType.AND);
+								cegCreation.createConnection(model, causeNodeOr, effectNode, false);
 							}
-							this.levelOneY += 100;
+							levelOneY += 100;
 
 						} else {
 							String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 									causes[j]);
-							CEGNode causeNode = this.cegCreation.createNodeIfNotExist(nodes, model,
+							CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model,
 									splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1],
-									this.levelTwoX, this.levelTwoY, NodeType.OR);
+									levelTwoX, levelTwoY, NodeType.OR);
 							for (int k = 0; k < causesOr.length; k++) {
 								String causeNewOr = cuttingEnds(causesOr[k]);
 								if (notReplacement(causeNewOr) != null) {
 									String[] splittedVariabelAndConditionCauseOr = splitNodeInVariableAndCondition(jCas,
 											sentence, notReplacement(causesOr[k]));
-									CEGNode causeNodeOr = this.cegCreation.createNodeIfNotExist(nodes, model,
+									CEGNode causeNodeOr = cegCreation.createNodeIfNotExist(nodes, model,
 											splittedVariabelAndConditionCauseOr[0],
-											splittedVariabelAndConditionCauseOr[1], this.levelOneX, this.levelOneY,
-											NodeType.AND);
-									this.cegCreation.createConnection(model, causeNodeOr, causeNode, true);
+											splittedVariabelAndConditionCauseOr[1], levelOneX, levelOneY, NodeType.AND);
+									cegCreation.createConnection(model, causeNodeOr, causeNode, true);
 								} else {
 									String[] splittedVariabelAndConditionCauseOr = splitNodeInVariableAndCondition(jCas,
 											sentence, causesOr[k]);
-									CEGNode causeNodeOr = this.cegCreation.createNodeIfNotExist(nodes, model,
+									CEGNode causeNodeOr = cegCreation.createNodeIfNotExist(nodes, model,
 											splittedVariabelAndConditionCauseOr[0],
-											splittedVariabelAndConditionCauseOr[1], this.levelOneX, this.levelOneY,
-											NodeType.AND);
-									this.cegCreation.createConnection(model, causeNodeOr, causeNode, false);
+											splittedVariabelAndConditionCauseOr[1], levelOneX, levelOneY, NodeType.AND);
+									cegCreation.createConnection(model, causeNodeOr, causeNode, false);
 								}
-								this.levelOneY += 100;
+								levelOneY += 100;
 							}
-							this.cegCreation.createConnection(model, causeNode, effectNode, false);
-							this.levelTwoY += 100;
+							cegCreation.createConnection(model, causeNode, effectNode, false);
+							levelTwoY += 100;
 						}
 					}
 				}
-			} else if (cause.contains(" and ")) {// 'and' in the sentence
-				causes = this.andOrSplitter.textSplitterAnd(cause, sentence, jCas);
+			} else if (isConjunction(cause)) {// 'and' in the sentence
+				causes = getAndOrSplitter().textSplitterAnd(cause, sentence, jCas);
 				for (int i = 0; i < effects.length; i++) {
 					String[] splittedVariabelAndConditionEffect = splitNodeInVariableAndCondition(jCas, sentence,
 							effects[i]);
-					CEGNode effectNode = this.cegCreation.createNodeIfNotExist(nodes, model,
-							splittedVariabelAndConditionEffect[0], splittedVariabelAndConditionEffect[1],
-							this.levelTwoX, this.levelTwoY, NodeType.AND);
-					this.levelTwoY += 100;
+					CEGNode effectNode = cegCreation.createNodeIfNotExist(nodes, model,
+							splittedVariabelAndConditionEffect[0], splittedVariabelAndConditionEffect[1], levelTwoX,
+							levelTwoY, NodeType.AND);
+					levelTwoY += 100;
 					for (int j = 0; j < causes.length; j++) {
 						String causeNew = cuttingEnds(causes[j]);
 						if (notReplacement(causeNew) != null) {
 							String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 									notReplacement(causes[j]));
-							CEGNode causeNode = this.cegCreation.createNodeIfNotExist(nodes, model,
+							CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model,
 									splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1],
-									this.levelOneX, this.levelOneY, NodeType.AND);
-							this.cegCreation.createConnection(model, causeNode, effectNode, true);
+									levelOneX, levelOneY, NodeType.AND);
+							cegCreation.createConnection(model, causeNode, effectNode, true);
 						} else {
 							String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 									causes[j]);
-							CEGNode causeNode = this.cegCreation.createNodeIfNotExist(nodes, model,
+							CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model,
 									splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1],
-									this.levelOneX, this.levelOneY, NodeType.AND);
-							this.cegCreation.createConnection(model, causeNode, effectNode, false);
+									levelOneX, levelOneY, NodeType.AND);
+							cegCreation.createConnection(model, causeNode, effectNode, false);
 						}
-						this.levelOneY += 100;
+						levelOneY += 100;
 					}
 				}
-			} else if (cause.contains(" or ")) { // 'or' in the sentence
-				causes = this.andOrSplitter.textSplitterOr(cause, sentence, jCas);
+			} else if (isDisjunction(cause)) { // 'or' in the sentence
+				causes = getAndOrSplitter().textSplitterOr(cause, sentence, jCas);
 				for (int i = 0; i < effects.length; i++) {
 					String[] splittedVariabelAndConditionEffect = splitNodeInVariableAndCondition(jCas, sentence,
 							effects[i]);
-					CEGNode effectNode = this.cegCreation.createNodeIfNotExist(nodes, model,
-							splittedVariabelAndConditionEffect[0], splittedVariabelAndConditionEffect[1],
-							this.levelTwoX, this.levelTwoY, NodeType.OR);
-					this.levelTwoY += 100;
+					CEGNode effectNode = cegCreation.createNodeIfNotExist(nodes, model,
+							splittedVariabelAndConditionEffect[0], splittedVariabelAndConditionEffect[1], levelTwoX,
+							levelTwoY, NodeType.OR);
+					levelTwoY += 100;
 					for (int j = 0; j < causes.length; j++) {
 						String causeNew = cuttingEnds(causes[j]);
 						if (notReplacement(causeNew) != null) {
 							String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 									notReplacement(causes[j]));
-							CEGNode causeNode = this.cegCreation.createNodeIfNotExist(nodes, model,
+							CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model,
 									splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1],
-									this.levelOneX, this.levelOneY, NodeType.AND);
-							this.cegCreation.createConnection(model, causeNode, effectNode, true);
+									levelOneX, levelOneY, NodeType.AND);
+							cegCreation.createConnection(model, causeNode, effectNode, true);
 						} else {
 							String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 									causes[j]);
-							CEGNode causeNode = this.cegCreation.createNodeIfNotExist(nodes, model,
+							CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model,
 									splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1],
-									this.levelOneX, this.levelOneY, NodeType.AND);
-							this.cegCreation.createConnection(model, causeNode, effectNode, false);
+									levelOneX, levelOneY, NodeType.AND);
+							cegCreation.createConnection(model, causeNode, effectNode, false);
 						}
-						this.levelOneY += 100;
+						levelOneY += 100;
 					}
 				}
 			} else {
 				for (int i = 0; i < effects.length; i++) {
 					String[] splittedVariabelAndConditionEffect = splitNodeInVariableAndCondition(jCas, sentence,
 							effects[i]);
-					CEGNode effectNode = this.cegCreation.createNodeIfNotExist(nodes, model,
-							splittedVariabelAndConditionEffect[0], splittedVariabelAndConditionEffect[1],
-							this.levelTwoX, this.levelTwoY, NodeType.AND);
-					this.levelTwoY += 100;
+					CEGNode effectNode = cegCreation.createNodeIfNotExist(nodes, model,
+							splittedVariabelAndConditionEffect[0], splittedVariabelAndConditionEffect[1], levelTwoX,
+							levelTwoY, NodeType.AND);
+					levelTwoY += 100;
 					String causeNew = cuttingEnds(cause);
 					if (notReplacement(causeNew) != null) {
 						String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 								notReplacement(cause));
-						CEGNode causeNode = this.cegCreation.createNodeIfNotExist(nodes, model,
-								splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1],
-								this.levelOneX, this.levelOneY, NodeType.AND);
-						this.cegCreation.createConnection(model, causeNode, effectNode, true);
+						CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model,
+								splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1], levelOneX,
+								levelOneY, NodeType.AND);
+						cegCreation.createConnection(model, causeNode, effectNode, true);
 					} else {
 						String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 								cause);
-						CEGNode causeNode = this.cegCreation.createNodeIfNotExist(nodes, model,
-								splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1],
-								this.levelOneX, this.levelOneY, NodeType.AND);
-						this.cegCreation.createConnection(model, causeNode, effectNode, false);
+						CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model,
+								splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1], levelOneX,
+								levelOneY, NodeType.AND);
+						cegCreation.createConnection(model, causeNode, effectNode, false);
 					}
 
 				}
-				this.levelOneY += 100;
+				levelOneY += 100;
 			}
 		} else {
 		}
@@ -404,6 +398,8 @@ public abstract class CEGFromRequirementGenerator {
 		}
 		return back;
 	}
+
+	protected abstract AndOrSplitter getAndOrSplitter();
 
 	protected abstract PatternMatcher getPatternMatcher();
 
