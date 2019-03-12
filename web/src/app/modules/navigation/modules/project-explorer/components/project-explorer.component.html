@@ -1,5 +1,9 @@
 <div class="input-group">
     <input #searchBox class="form-control" type="search" (keyup)="search(searchBox.value)" />
+    <button *ngIf="searchBox.value"
+        (click)="searchBox.value = null" title="{{'delete' | translate}}"
+        class="btn btn-sm btn-outline-primary fa fa-remove">
+    </button>
     <div class="input-group-append" title="{{'search' | translate}}">
         <span class="input-group-text">
             <i class="fa fa-search"></i>
