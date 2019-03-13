@@ -30,8 +30,8 @@ export class ContradictoryCondidionValidator extends ElementValidatorBase<CEGMod
 
         let contradictions: Contradiction[] = [];
         while (this.openList.length > 0) {
-            let currentNode = this.openList.pop();
-            let searchResult = this.exploreTopologicalNode(currentNode);
+            const currentNode = this.openList.pop();
+            const searchResult = this.exploreTopologicalNode(currentNode);
             this.openList = this.openList.concat(searchResult[0]);
             contradictions = contradictions.concat(searchResult[1]);
         }
@@ -39,7 +39,7 @@ export class ContradictoryCondidionValidator extends ElementValidatorBase<CEGMod
         if (contradictions.length > 0) {
             // We have found contradictions
             // Map them to the list of involved elements (Cause, Effect, Edges from Cause to Effect)
-            let elements = Arrays.flatten(contradictions.map(contradiction => contradiction.toArray()));
+            const elements = Arrays.flatten(contradictions.map(contradiction => contradiction.toArray()));
             return new ValidationResult(Config.ERROR_CONTRADICTORY_CAUSES, false, elements);
         }
 
@@ -59,7 +59,7 @@ export class ContradictoryCondidionValidator extends ElementValidatorBase<CEGMod
         // Map CEGNode -> TopologicalNode
         this.topoNodes = {};
         for (const node of this.nodes) {
-            let tNode = new TopologicalNode(node);
+            const tNode = new TopologicalNode(node);
             this.topoNodes[node.url] = tNode;
             this.isAndNode[node.url] = (node.type === 'AND');
             if (node.incomingConnections === undefined  || node.incomingConnections.length == 0) {
@@ -68,8 +68,8 @@ export class ContradictoryCondidionValidator extends ElementValidatorBase<CEGMod
         }
 
         for (const edge of this.edges) {
-            let from = edge.source.url;
-            let to = edge.target.url;
+            const from = edge.source.url;
+            const to = edge.target.url;
             this.topoNodes[from].edges.push(edge);
             this.topoNodes[to].parentCount++;
         }
@@ -77,11 +77,11 @@ export class ContradictoryCondidionValidator extends ElementValidatorBase<CEGMod
 
     private exploreTopologicalNode(tNode: TopologicalNode): [TopologicalNode[], Contradiction[]] {
         // Explores a Node and returns a list of unexplored Nodes and all found contradictions
-        let newUnexploredNodes: TopologicalNode[] = [];
-        let contradictions: Contradiction[] = [];
+        const newUnexploredNodes: TopologicalNode[] = [];
+        const contradictions: Contradiction[] = [];
         for (const edge of tNode.edges) {
-            let to = edge.target.url;
-            let toNode = this.topoNodes[to];
+            const to = edge.target.url;
+            const toNode = this.topoNodes[to];
 
             if (this.isAndNode[to]) {
                 /**
@@ -109,11 +109,11 @@ export class ContradictoryCondidionValidator extends ElementValidatorBase<CEGMod
                         // We have a contradiction
                         // Cause -PosPath-> Effect
                         // Cause -NegPath-> !Effect
-                        let cause = this.topoNodes[key].node;
-                        let effect = toNode.node;
-                        let posPath = toNode.posEdgeSets[key];
-                        let negPath = toNode.negEdgeSets[key];
-                        let contradiction = new Contradiction(cause, effect, posPath, negPath);
+                        const cause = this.topoNodes[key].node;
+                        const effect = toNode.node;
+                        const posPath = toNode.posEdgeSets[key];
+                        const negPath = toNode.negEdgeSets[key];
+                        const contradiction = new Contradiction(cause, effect, posPath, negPath);
                         contradictions.push(contradiction);
                     }
                 }
@@ -136,7 +136,7 @@ class TopologicalNode {
     public parentCount: number;
     public posEdgeSets: {[parentURL: string]: CEGConnection[]};
     public negEdgeSets: {[parentURL: string]: CEGConnection[]};
-    private _setWasFilled: boolean;
+    private setWasFilled: boolean;
 
     constructor(node: CEGNode) {
         this.node = node;
@@ -144,14 +144,14 @@ class TopologicalNode {
         this.parentCount = 0;
         this.posEdgeSets = {};
         this.negEdgeSets = {};
-        this._setWasFilled = false;
+        this.setWasFilled = false;
     }
 
     private static cloneEdgeSet(edgeSet: {[parentURL: string]: CEGConnection[]}): {[parentURL: string]: CEGConnection[]} {
         /**
          * Helper function. Creates copy of an edge set. Also copys the arrays within the set.
          */
-        let out = {};
+        const out = {};
         for (const key in edgeSet) {
             if ( edgeSet.hasOwnProperty(key)) {
                 out[key] = edgeSet[key].slice();
@@ -171,8 +171,8 @@ class TopologicalNode {
         // and add the parent to the negative EdgeSet
 
         // Set Swap sets on negation
-        let parentPositiveEdgeSet = edge.negate ? parent.negEdgeSets : parent.posEdgeSets;
-        let parentNegativeEdgeSet = edge.negate ? parent.posEdgeSets : parent.negEdgeSets;
+        const parentPositiveEdgeSet = edge.negate ? parent.negEdgeSets : parent.posEdgeSets;
+        const parentNegativeEdgeSet = edge.negate ? parent.posEdgeSets : parent.negEdgeSets;
 
         // Add Parent
         if (edge.negate) {
@@ -209,10 +209,10 @@ class TopologicalNode {
         // The node is an OR Node so all causes in the intersection of parent causes are also necessessarily our own causes
         // We only keep elements in our edgeSets if the parent has them as well
         // If the edge from the parent to us is negated we swap their positive and negative EdgeSets
-        let parentPositiveEdgeSet = edge.negate ? parent.negEdgeSets : parent.posEdgeSets;
-        let parentNegativeEdgeSet = edge.negate ? parent.posEdgeSets : parent.negEdgeSets;
+        const parentPositiveEdgeSet = edge.negate ? parent.negEdgeSets : parent.posEdgeSets;
+        const parentNegativeEdgeSet = edge.negate ? parent.posEdgeSets : parent.negEdgeSets;
 
-        if (!this._setWasFilled) {
+        if (!this.setWasFilled) {
             // Our Set was not yet initialized so we initialize it with the values of the first parent
             this.posEdgeSets = TopologicalNode.cloneEdgeSet(parentPositiveEdgeSet);
             this.negEdgeSets = TopologicalNode.cloneEdgeSet(parentNegativeEdgeSet);
@@ -228,7 +228,7 @@ class TopologicalNode {
                 }
                 this.posEdgeSets[parent.node.url].push(edge);
             }
-            this._setWasFilled = true;
+            this.setWasFilled = true;
         } else {
 
             // Compute intersection of positive/negative keys
@@ -277,7 +277,7 @@ class Contradiction {
                 public positivePath: CEGConnection[], public negativePath: CEGConnection[]) {}
 
     public toArray(): IContainer[] {
-        let out: IContainer[] = [this.cause, this.effect];
+        const out: IContainer[] = [this.cause, this.effect];
         out.concat(this.positivePath);
         out.concat(this.negativePath);
         return out;
