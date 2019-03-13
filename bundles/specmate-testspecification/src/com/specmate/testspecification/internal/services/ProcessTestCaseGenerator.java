@@ -19,7 +19,7 @@ import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.GraphWalk;
 
 import com.specmate.common.AssertUtil;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IModelConnection;
 import com.specmate.model.base.IModelNode;
@@ -47,7 +47,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 
 	public ProcessTestCaseGenerator(TestSpecification specification) {
 		super(specification, Process.class, IModelNode.class);
-		connections = SpecmateEcoreUtil.pickInstancesOf(this.model.getContents(), ProcessConnection.class);
+		this.connections = SpecmateEcoreUtil.pickInstancesOf(this.model.getContents(), ProcessConnection.class);
 	}
 
 	@Override
@@ -59,8 +59,8 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 			for (IModelConnection connection : outgoingConnections) {
 				String testParameterName = getTestParameterName((ProcessConnection) connection);
 				TestParameter testParameter = createTestParameter(testParameterName, ParameterType.INPUT);
-				testParameters.put(testParameterName, testParameter);
-				specification.getContents().add(testParameter);
+				this.testParameters.put(testParameterName, testParameter);
+				this.specification.getContents().add(testParameter);
 			}
 		}
 	}
@@ -112,10 +112,10 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		for (int i = 0; i < evaluations.size(); i++) {
 			NodeEvaluation evaluation = evaluations.get(i);
 			GraphPath<IModelNode, ProcessConnection> path = paths.get(i);
-			TestCase testCase = createTestCase(evaluation, specification);
+			TestCase testCase = createTestCase(evaluation, this.specification);
 			testCase.setConsistent(true);
 			testCase.setPosition(i);
-			specification.getContents().add(testCase);
+			this.specification.getContents().add(testCase);
 
 			TestProcedure procedure = TestspecificationFactory.eINSTANCE.createTestProcedure();
 			procedure.setName("Test Procedure " + (i + 1));
@@ -128,7 +128,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 				IModelNode node = nodes.get(j);
 				ProcessConnection connection = j < connections.size() ? connections.get(j) : null;
 				TestParameter testParameter = j < connections.size()
-						? testParameters.get(getTestParameterName(connection)) : null;
+						? this.testParameters.get(getTestParameterName(connection)) : null;
 				if (node instanceof ProcessStart && hasCondition(connection)) {
 					createTestStep(makePrecondition(connection), makeCheck(connection), j, procedure, testParameter);
 				} else if (node instanceof ProcessEnd) {
@@ -228,6 +228,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		for (TestParameter testParameter : parameters) {
 			ParameterAssignment assignment = TestspecificationFactory.eINSTANCE.createParameterAssignment();
 			assignment.setId(SpecmateEcoreUtil.getIdForChild(testCase, assignment.eClass()));
+			assignment.setName(assignment.getId());
 			assignment.setParameter(testParameter);
 
 			Optional<Entry<IContainer, TaggedBoolean>> evaluationEntry = Optional.empty();
@@ -311,14 +312,14 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 	}
 
 	private Set<IModelNode> getStartNodes() {
-		Set<IModelNode> startNodes = nodes.stream().filter((IModelNode node) -> node instanceof ProcessStart)
+		Set<IModelNode> startNodes = this.nodes.stream().filter((IModelNode node) -> node instanceof ProcessStart)
 				.collect(Collectors.toSet());
 		AssertUtil.assertEquals(startNodes.size(), 1, "Number of start nodes in process is different to 1.");
 		return startNodes;
 	}
 
 	private Set<IModelNode> getEndNodes() {
-		Set<IModelNode> endNodes = nodes.stream().filter((IModelNode node) -> node instanceof ProcessEnd)
+		Set<IModelNode> endNodes = this.nodes.stream().filter((IModelNode node) -> node instanceof ProcessEnd)
 				.collect(Collectors.toSet());
 		AssertUtil.assertTrue(endNodes.size() > 0, "No end nodes in process were found");
 		return endNodes;
@@ -326,11 +327,11 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 
 	private DirectedGraph<IModelNode, ProcessConnection> getGraph() {
 		DirectedGraph<IModelNode, ProcessConnection> graph = new DirectedMultigraph<>(ProcessConnection.class);
-		for (IModelNode node : nodes) {
+		for (IModelNode node : this.nodes) {
 			graph.addVertex(node);
 		}
 
-		for (ProcessConnection connection : connections) {
+		for (ProcessConnection connection : this.connections) {
 			IModelNode source = connection.getSource();
 			IModelNode target = connection.getTarget();
 			graph.addEdge(source, target, connection);

@@ -1,20 +1,18 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { DataCache } from './data-cache';
-import { ServiceInterface } from './service-interface';
-import { Observable } from 'rxjs/Observable';
-import { Scheduler } from './scheduler';
-import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
+import { HttpClient } from '@angular/common/http';
+import { EventEmitter, Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { IContainer } from '../../../../../model/IContainer';
-import { Url } from '../../../../../util/url';
 import { IPositionable } from '../../../../../model/IPositionable';
 import { Id } from '../../../../../util/id';
-import { Command } from './command';
-import { EOperation } from './e-operation';
-import { HttpClient } from '@angular/common/http';
-import { TranslateService } from '@ngx-translate/core';
-import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
+import { Url } from '../../../../../util/url';
 import { ServerConnectionService } from '../../../../common/modules/connection/services/server-connection-service';
-import { BatchOperation } from '../../../../../model/BatchOperation';
+import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
+import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
+import { Command } from './command';
+import { DataCache } from './data-cache';
+import { EOperation } from './e-operation';
+import { Scheduler } from './scheduler';
+import { ServiceInterface } from './service-interface';
 
 /**
  * The interface to all data handling things.
@@ -44,7 +42,7 @@ export class SpecmateDataService {
 
     public stateChanged: EventEmitter<void>;
     public committed: EventEmitter<void>;
-
+    public elementChanged: EventEmitter<string>;
     private cache: DataCache = new DataCache();
     private serviceInterface: ServiceInterface;
     private scheduler: Scheduler;
@@ -59,7 +57,7 @@ export class SpecmateDataService {
         this.scheduler = new Scheduler(this, this.logger, this.translate);
         this.stateChanged = new EventEmitter<void>();
         this.committed = new EventEmitter();
-
+        this.elementChanged = new EventEmitter<string>(true);
         this.auth.authChanged.subscribe(() => {
             if (!this.auth.isAuthenticated) {
                 this.clear();
@@ -73,10 +71,15 @@ export class SpecmateDataService {
     }
 
     public createElement(element: IContainer, virtual: boolean, compoundId: string): Promise<void> {
+        this.elementChanged.emit(element.url);
         if (virtual) {
             return Promise.resolve(this.createElementVirtual(element, compoundId));
         }
         return this.createElementServer(element);
+    }
+
+    public deleteCachedContent(url: string) {
+        this.cache.deleteElement(url);
     }
 
     public readContents(url: string, virtual?: boolean): Promise<IContainer[]> {
@@ -110,7 +113,7 @@ export class SpecmateDataService {
         return contents;
     }
 
-    public readElement(url: string, virtual?: boolean): Promise<IContainer> {
+    public async readElement(url: string, virtual?: boolean): Promise<IContainer> {
         this.busy = true;
         let readElementTask: Promise<IContainer> = undefined;
 
@@ -143,6 +146,7 @@ export class SpecmateDataService {
     }
 
     public updateElement(element: IContainer, virtual: boolean, compoundId: string): Promise<void> {
+        this.elementChanged.emit(element.url);
         if (virtual) {
             return Promise.resolve(this.updateElementVirtual(element, compoundId));
         }
@@ -150,10 +154,20 @@ export class SpecmateDataService {
     }
 
     public deleteElement(url: string, virtual: boolean, compoundId: string): Promise<void> {
+        this.elementChanged.emit(url);
         if (virtual || this.scheduler.isVirtualElement(url)) {
             return Promise.resolve(this.deleteElementVirtual(url, compoundId));
         }
         return this.deleteElementServer(url);
+    }
+
+    public async clearModel(nodes: IContainer[], connections: IContainer[], compoundId = Id.uuid): Promise<void> {
+        for (let i = connections.length - 1; i >= 0; i--) {
+            await this.deleteElement(connections[i].url, true, compoundId);
+        }
+        for (let i = nodes.length - 1; i >= 0; i--) {
+            await this.deleteElement(nodes[i].url, true, compoundId);
+        }
     }
 
     public sanitizeContentPositions(elements: IPositionable[], update: boolean, compoundId?: string): void {
@@ -262,16 +276,20 @@ export class SpecmateDataService {
         }).catch((error) => this.handleError(this.translate.instant('contentsCouldNotBeRead'), url, error));
     }
 
-    private readElementServer(url: string): Promise<IContainer> {
+    private async readElementServer(url: string): Promise<IContainer> {
         if (!this.auth.isAuthenticatedForUrl(url)) {
-            return Promise.resolve(undefined);
+            return undefined;
         }
         this.logStart(this.translate.instant('log.readElement'), url);
-        return this.serviceInterface.readElement(url, this.auth.token).then((element: IContainer) => {
+        try {
+            const element = await this.serviceInterface.readElement(url, this.auth.token);
             this.cache.addElement(element);
-            this.logFinished(this.translate.instant('log.readElement'), url);
             return this.cache.readElement(url);
-        }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeRead'), url, error));
+        } catch (error) {
+            this.handleError(this.translate.instant('elementCouldNotBeRead'), url, error);
+        } finally {
+            this.logFinished(this.translate.instant('log.readElement'), url);
+        }
     }
 
     private updateElementServer(element: IContainer): Promise<void> {
@@ -296,9 +314,9 @@ export class SpecmateDataService {
         }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeDeleted'), url, error));
     }
 
-    public performOperations(url: string, operation: string, payload?: any): Promise<void> {
+    public performOperations(url: string, operation: string, payload?: any): Promise<any> {
         if (!this.auth.isAuthenticatedForUrl(url)) {
-            return Promise.resolve();
+            return Promise.resolve(false);
         }
         this.busy = true;
         return this.serviceInterface.performOperation(url, operation, payload, this.auth.token).then((result) => {

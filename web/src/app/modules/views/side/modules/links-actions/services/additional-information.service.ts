@@ -1,4 +1,3 @@
-import {ProcessStep} from '../../../../../../model/ProcessStep';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Requirement } from '../../../../../../model/Requirement';
 import { IContainer } from '../../../../../../model/IContainer';
@@ -12,7 +11,6 @@ import { TestProcedure } from '../../../../../../model/TestProcedure';
 import { CEGModel } from '../../../../../../model/CEGModel';
 import { Process } from '../../../../../../model/Process';
 import { AuthenticationService } from '../../../../main/authentication/modules/auth/services/authentication.service';
-import { UserToken } from '../../../../main/authentication/base/user-token';
 
 @Injectable()
 export class AdditionalInformationService {
@@ -21,21 +19,21 @@ export class AdditionalInformationService {
     private parents: IContainer[];
     private _testSpecifications: TestSpecification[];
 
-    public informationLoaded: EventEmitter<void>;
-
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private auth: AuthenticationService) {
-        this.informationLoaded = new EventEmitter<void>();
+    constructor(private dataService: SpecmateDataService, navigator: NavigatorService, private auth: AuthenticationService) {
         navigator.hasNavigated.subscribe((element: IContainer) => {
             this.element = element;
-            this.loadParents()
-                .then(() => this.loadTestSpecifications())
-                .then(() => this.informationLoaded.emit());
+            this.load();
         });
     }
 
-    private loadTestSpecifications(): Promise<void> {
+    private async load(): Promise<void> {
+        await this.loadParents();
+        await this.loadTestSpecifications();
+    }
+
+    private async loadTestSpecifications(): Promise<void> {
         if (!this.canHaveTestSpecifications || !this.requirement) {
-            return Promise.resolve();
+            return;
         }
         let baseUrl = '';
         if (this.isModel(this.element)) {
@@ -43,33 +41,24 @@ export class AdditionalInformationService {
         } else {
             baseUrl = this.requirement.url;
         }
-        return this.dataService.performQuery(baseUrl, 'listRecursive', { class: TestSpecification.className })
-            .then((testSpecifications: TestSpecification[]) => this._testSpecifications = Sort.sortArray(testSpecifications))
-            .then(() => Promise.resolve());
+
+        const testSpecifications = await this.dataService.performQuery(baseUrl, 'listRecursive', { class: TestSpecification.className });
+        this._testSpecifications = Sort.sortArray(testSpecifications);
     }
 
-    private loadParents(): Promise<void> {
+    private async loadParents(): Promise<void> {
         if (!this.auth.isAuthenticated) {
-            return Promise.resolve();
+            return;
         }
         let parentUrls: string[] = [];
-        let url: string = this.element.url;
-        url = Url.parent(url);
+        let url: string = Url.parent(this.element.url);
 
         while (!Url.isRoot(url, this.auth.token.project)) {
             parentUrls.push(url);
             url = Url.parent(url);
         }
-        let readParentsTask: Promise<number> = Promise.resolve(0);
-        this.parents = [];
-        for (let i = 0; i < parentUrls.length; i++) {
-            let currentUrl: string = parentUrls[i];
-            readParentsTask = readParentsTask.then(() => {
-                return this.dataService.readElement(currentUrl)
-                    .then((element: IContainer) => this.parents.push(element));
-            });
-        }
-        return readParentsTask.then(() => Promise.resolve());
+
+        this.parents = await Promise.all(parentUrls.map(url => this.dataService.readElement(url)));
     }
 
     public get hasAdditionalInformation(): boolean {
@@ -106,7 +95,7 @@ export class AdditionalInformationService {
     }
 
     public get canGenerateTestSpecifications(): boolean {
-        return this.element && this.isModel(this.element);
+        return this.element && ((this.isModel(this.element) && this.requirement !== undefined) || Type.is(this.element, Requirement));
     }
 
     public get canAddTestSpecifications(): boolean {
@@ -119,6 +108,10 @@ export class AdditionalInformationService {
 
     public get canExportTestspecification(): boolean {
         return Type.is(this.element, TestSpecification);
+    }
+
+    public get canGenerateCEGModel(): boolean {
+        return Type.is(this.element, CEGModel);
     }
 
     private isModel(element: IContainer): boolean {

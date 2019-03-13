@@ -19,6 +19,8 @@ export class GetTestSpecificationSkeletonButton {
 
     private _lang: string;
 
+    private static UTF8_BOM = '\ufeff';
+
     @Input()
     public set testspecification(testspecification: TestSpecification) {
         if (!testspecification) {
@@ -47,7 +49,7 @@ export class GetTestSpecificationSkeletonButton {
             throw new Error('Could not load test specification skeleton for ' + this._lang);
         }
 
-        saveAs(new Blob([data.code], {type: 'text/plain;charset=utf-8'}), data.name);
+        saveAs(new Blob([GetTestSpecificationSkeletonButton.UTF8_BOM + data.code], {type: 'text/plain;charset=utf-8'}), data.name);
     }
 
     public get language(): string {

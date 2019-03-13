@@ -15,7 +15,7 @@ export class TestCaseFactory extends ElementFactoryBase<TestCase> {
         super(dataService);
     }
 
-    public create(parent: IContainer, commit: boolean, compoundId?: string, name?: string): Promise<TestCase> {
+    public create(parent: IContainer, commit: boolean, compoundId?: string, name?: string, consistent = true): Promise<TestCase> {
         compoundId = compoundId || Id.uuid;
 
         let id: string = Id.uuid;
@@ -24,6 +24,7 @@ export class TestCaseFactory extends ElementFactoryBase<TestCase> {
         testCase.name = name || Config.TESTCASE_NAME + ' ' + ElementFactoryBase.getDateStr();
         testCase.id = id;
         testCase.url = url;
+        testCase.consistent = consistent;
 
         let preloadTask: Promise<IContainer[]>;
 

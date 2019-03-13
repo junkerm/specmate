@@ -19,7 +19,8 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.specmate.cdoserver.ICDOServer;
 import com.specmate.cdoserver.config.SpecmateCDOServerConfig;
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.migration.api.IMigratorService;
 import com.specmate.migration.test.baseline.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.baseline.testmodel.artefact.Diagram;
@@ -28,6 +29,7 @@ import com.specmate.migration.test.baseline.testmodel.base.BaseFactory;
 import com.specmate.migration.test.baseline.testmodel.base.BasePackage;
 import com.specmate.migration.test.support.TestMigratorImpl;
 import com.specmate.migration.test.support.TestModelProviderImpl;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPackageProvider;
@@ -38,13 +40,13 @@ import com.specmate.persistency.cdo.internal.CDOPersistencyServiceConfig;
 import specmate.dbprovider.h2.config.H2ProviderConfig;
 
 public abstract class MigrationTestBase {
-	protected IPersistencyService persistency;
+	private static ICDOServer server;
 	protected BundleContext context;
+	protected IPersistencyService persistency;
 	protected IMigratorService migratorService;
 	protected String testModelName;
 
 	private String dbname;
-	private ICDOServer server;
 
 	private static final String SPECMATE_RESOURCE = "specmate_resource";
 	private static final String SPECMATE_REPOSITORY = "specmate_repository";
@@ -57,12 +59,17 @@ public abstract class MigrationTestBase {
 
 		context = FrameworkUtil.getBundle(MigrationTestBase.class).getBundleContext();
 
-		configureCDOServer(getCDOServerProperties());
-		configureDBProvider(getDBProviderProperites());
+		if (server == null) {
+			configureCDOServer(getCDOServerProperties());
+		}
+
+		configureDBProvider(getDBProviderProperties());
 		configurePersistency(getPersistencyProperties());
 		configureMigrator();
 
-		this.server = getCDOServer();
+		if (server == null) {
+			server = getCDOServer();
+		}
 
 		addBaselinedata();
 	}
@@ -94,7 +101,7 @@ public abstract class MigrationTestBase {
 		try {
 			server = serverTracker.waitForService(10000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
 		Assert.assertNotNull(server);
 		return server;
@@ -164,7 +171,7 @@ public abstract class MigrationTestBase {
 		return properties;
 	}
 
-	protected Dictionary<String, Object> getDBProviderProperites() {
+	protected Dictionary<String, Object> getDBProviderProperties() {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:" + this.dbname + ";DB_CLOSE_DELAY=-1");
 		return properties;
@@ -190,7 +197,7 @@ public abstract class MigrationTestBase {
 		try {
 			configAdmin = configAdminTracker.waitForService(10000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
 		Assert.assertNotNull(configAdmin);
 		return configAdmin;
@@ -205,7 +212,7 @@ public abstract class MigrationTestBase {
 		try {
 			migratorService = migratorServiceTracker.waitForService(10000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
 		Assert.assertNotNull(migratorService);
 		return migratorService;
@@ -219,7 +226,7 @@ public abstract class MigrationTestBase {
 		try {
 			persistency = persistencyTracker.waitForService(20000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
 		Assert.assertNotNull(persistency);
 		return persistency;
@@ -233,7 +240,7 @@ public abstract class MigrationTestBase {
 		try {
 			testModel = testModelTracker.waitForService(10000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
 		Assert.assertNotNull(testModel);
 		return testModel;
@@ -241,6 +248,7 @@ public abstract class MigrationTestBase {
 
 	private void addBaselinedata() throws Exception {
 		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		Resource resource = transaction.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithName("root", resource.getContents());
 

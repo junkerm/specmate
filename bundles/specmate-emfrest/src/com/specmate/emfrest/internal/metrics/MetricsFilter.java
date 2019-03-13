@@ -14,7 +14,7 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.metrics.ICounter;
 import com.specmate.metrics.IHistogram;
 import com.specmate.metrics.IMetricsService;
@@ -47,8 +47,8 @@ public class MetricsFilter implements ContainerRequestFilter, ContainerResponseF
 	 * Registers a filter specifically for the defined method.
 	 *
 	 * @param resourceInfo
-	 *            - the resource (uri ==> class + method) we are registering
-	 *            this filter for
+	 *            - the resource (uri ==> class + method) we are registering this
+	 *            filter for
 	 * @param prefix
 	 *            - the prefix we should apply to all metrics (if any)
 	 * @param annotation
@@ -86,7 +86,7 @@ public class MetricsFilter implements ContainerRequestFilter, ContainerResponseF
 			try {
 				tracker = metricsService.createHistogram(annotation.name(), annotation.help());
 			} catch (SpecmateException e) {
-				logService.log(LogService.LOG_ERROR, "Could not register jersey metric " + annotation.name(), e);
+				logService.log(LogService.LOG_ERROR, "Could not register jersey metric " + annotation.name() + ".", e);
 			}
 		}
 	}
@@ -98,7 +98,7 @@ public class MetricsFilter implements ContainerRequestFilter, ContainerResponseF
 			try {
 				buildTracker(requestContext);
 			} catch (SpecmateException e) {
-				logService.log(LogService.LOG_ERROR, "Could not create metrics tracker", e);
+				logService.log(LogService.LOG_ERROR, "Could not create metrics tracker.", e);
 			}
 		}
 
@@ -135,8 +135,8 @@ public class MetricsFilter implements ContainerRequestFilter, ContainerResponseF
 	}
 
 	/**
-	 * Returns path of given URI. If the first character of path is '/' then it
-	 * is removed.
+	 * Returns path of given URI. If the first character of path is '/' then it is
+	 * removed.
 	 *
 	 * @author Pavol Loffay
 	 * @param uri

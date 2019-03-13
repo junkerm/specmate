@@ -10,7 +10,8 @@
 	org.apache.commons.lang3,\
 	org.eclipse.emf.cdo.server.db,\
 	org.eclipse.net4j.db,\
-	org.eclipse.net4j.db.oracle
+	org.eclipse.net4j.db.oracle,\
+	specmate-model-gen;version=latest
 Private-Package: \
 	specmate.dbprovider.oracle,\
 	oracle.*,\

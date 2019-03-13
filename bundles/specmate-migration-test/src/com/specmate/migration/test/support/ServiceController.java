@@ -6,44 +6,46 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 
 public class ServiceController<T> {
 	private ServiceRegistration sr;
 	private BundleContext bc;
 	private Class<T> serviceImplementation;
-	
+
 	public ServiceController(BundleContext context) {
 		this.bc = context;
 	}
-	
-	public void register(Class<?> serviceInterface, Class<T> serviceImplementation, 
+
+	public void register(Class<?> serviceInterface, Class<T> serviceImplementation,
 			Dictionary<String, Object> serviceProperties) throws SpecmateException {
 		this.serviceImplementation = serviceImplementation;
 		try {
 			Object obj = serviceImplementation.newInstance();
 			sr = bc.registerService(serviceInterface.getName(), obj, serviceProperties);
 		} catch (SecurityException | IllegalAccessException | InstantiationException e) {
-			throw new SpecmateException("Could not register service " + serviceImplementation.getName());
+			throw new SpecmateInternalException(ErrorCode.MIGRATION,
+					"Could not register service " + serviceImplementation.getName() + ".");
 		}
 	}
-	
+
 	public void modify(Dictionary<String, Object> serviceProperties) {
 		sr.setProperties(serviceProperties);
 	}
-	
+
 	public void unregister() {
-		sr.unregister(); 
+		sr.unregister();
 	}
-	
+
 	public ServiceReference getServiceReference() {
 		return sr.getReference();
 	}
-	
+
 	public T getService() {
-		Object obj =  bc.getService(sr.getReference());
+		Object obj = bc.getService(sr.getReference());
 		return serviceImplementation.cast(obj);
 	}
-	
-	
+
 }

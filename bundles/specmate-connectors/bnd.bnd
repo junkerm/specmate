@@ -23,7 +23,9 @@ Export-Package: com.specmate.connectors.api
 	net.bytebuddy.byte-buddy,\
 	net.bytebuddy.byte-buddy-agent,\
 	specmate-rest;version=latest,\
-	specmate-scheduler;version=latest
+	specmate-scheduler;version=latest,\
+	specmate-search;version=latest,\
+	specmate-persistency-cdo;version=latest
 Private-Package: \
 	com.specmate.connectors.internal,\
 	com.specmate.connectors.internal.config,\

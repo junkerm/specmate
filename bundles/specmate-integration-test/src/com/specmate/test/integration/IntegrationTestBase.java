@@ -10,8 +10,11 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
+import com.specmate.model.base.BaseFactory;
+import com.specmate.model.base.Folder;
 import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
@@ -27,6 +30,13 @@ public class IntegrationTestBase {
 	protected static ConfigurationAdmin configAdmin;
 	protected static BundleContext context;
 	private static boolean firstTestRun;
+
+	private final String integrationTestProjectnameBase = "iproject";
+	private final String integrationTestTopFoldernameBase = "itopfolder";
+	private int numProjects = 2;
+	protected String[] integrationTestProjects = new String[numProjects];
+	protected String[] integrationTestTopFolders = new String[numProjects];
+	private int selectedProject = 0;
 
 	public IntegrationTestBase() throws Exception {
 		init();
@@ -51,7 +61,7 @@ public class IntegrationTestBase {
 			persistency = getPersistencyService();
 		}
 
-		clearPersistency();
+		preparePersistency();
 	}
 
 	protected void configureDBProvider(Dictionary<String, Object> properties) throws Exception {
@@ -66,29 +76,52 @@ public class IntegrationTestBase {
 		try {
 			properties = configAdmin.getConfiguration(H2ProviderConfig.PID).getProperties();
 		} catch (IOException e) {
-			throw new SpecmateException("Could not retrieve configuration properties for H2 database provider", e);
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION,
+					"Could not retrieve configuration properties for H2 database provider.", e);
 		}
 
 		return properties;
 	}
 
-	private void clearPersistency() throws SpecmateException, SpecmateValidationException {
+	private void preparePersistency() throws SpecmateException {
 		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
+
 		transaction.doAndCommit(new IChange<Object>() {
 			@Override
-			public Object doChange() throws SpecmateException, SpecmateValidationException {
+			public Object doChange() throws SpecmateException {
 				transaction.getResource().getContents().clear();
+
+				for (int i = 0; i < numProjects; i++) {
+					String integrationTestProject = integrationTestProjectnameBase + i;
+					integrationTestProjects[i] = integrationTestProject;
+
+					String integrationTestTopFolder = integrationTestTopFoldernameBase + i;
+					integrationTestTopFolders[i] = integrationTestTopFolder;
+
+					Folder projectRoot = BaseFactory.eINSTANCE.createFolder();
+					projectRoot.setId(integrationTestProject);
+					projectRoot.setName(integrationTestProject);
+
+					Folder projectTopFolder = BaseFactory.eINSTANCE.createFolder();
+					projectTopFolder.setId(integrationTestTopFolder);
+					projectTopFolder.setName(integrationTestTopFolder);
+
+					projectRoot.getContents().add(projectTopFolder);
+
+					transaction.getResource().getContents().add(projectRoot);
+				}
+
 				return null;
 			}
 		});
 
-		transaction.close();
-
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
-
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
+		transaction.close();
 	}
 
 	private ConfigurationAdmin getConfigAdmin() throws SpecmateException {
@@ -99,7 +132,7 @@ public class IntegrationTestBase {
 		try {
 			configAdmin = configAdminTracker.waitForService(20000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, e);
 		}
 		Assert.assertNotNull(configAdmin);
 		return configAdmin;
@@ -113,9 +146,37 @@ public class IntegrationTestBase {
 		try {
 			persistency = persistencyTracker.waitForService(20000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, e);
 		}
 		Assert.assertNotNull(persistency);
 		return persistency;
+	}
+
+	protected String getSelectedProjectName() {
+		return integrationTestProjects[selectedProject];
+	}
+
+	protected String getSelectedProjectId() {
+		return getSelectedProjectName();
+	}
+
+	protected String getSelectedTopFolderName() {
+		return integrationTestTopFolders[selectedProject];
+	}
+
+	protected void nextProject() {
+		if (selectedProject < numProjects) {
+			selectedProject++;
+		} else {
+			selectedProject = 0;
+		}
+	}
+
+	protected void resetSelectedProject() {
+		selectedProject = 0;
+	}
+
+	protected String[] getProjectIds() {
+		return integrationTestProjects;
 	}
 }

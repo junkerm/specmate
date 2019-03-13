@@ -4,7 +4,7 @@ import org.glassfish.hk2.api.Factory;
 import org.glassfish.hk2.api.PerThread;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 
@@ -29,8 +29,9 @@ public class TransactionFactory implements Factory<ITransaction> {
 		try {
 			logService.log(LogService.LOG_DEBUG, "Create new transaction.");
 			return persistencyService.openTransaction();
+
 		} catch (SpecmateException e) {
-			logService.log(LogService.LOG_ERROR, "Transaction factory could not create new transaction", e);
+			logService.log(LogService.LOG_ERROR, "Transaction factory could not create new transaction.", e);
 			return null;
 		}
 

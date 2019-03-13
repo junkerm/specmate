@@ -11,6 +11,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
 import { Id } from '../../../../../../../util/id';
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
+import { TestSpecificationContentContainerBase } from '../base/testspecification-generatable-content-container-base';
+import { AdditionalInformationService } from '../../../../../side/modules/links-actions/services/additional-information.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -19,14 +21,15 @@ import { ClipboardService } from '../../tool-pallette/services/clipboard-service
     styleUrls: ['process-model-container.component.css']
 })
 
-export class ProcessModelContainer extends ContentContainerBase<Process> {
+export class ProcessModelContainer extends TestSpecificationContentContainerBase<Process> {
 
     constructor(dataService: SpecmateDataService,
         navigator: NavigatorService,
         translate: TranslateService,
         modal: ConfirmationModal,
+        additionalInformationService: AdditionalInformationService,
         clipboardService: ClipboardService) {
-        super(dataService, navigator, translate, modal, clipboardService);
+        super(dataService, navigator, translate, modal, clipboardService, additionalInformationService);
     }
 
     protected condition = (element: IContainer) => Type.is(element, Process);

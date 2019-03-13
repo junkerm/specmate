@@ -21,6 +21,12 @@ public class CrudTest extends EmfRestTest {
 		super();
 	}
 
+	private void performDuplicate(String... segments) {
+		String duplicateUrl = buildUrl("duplicate", segments);
+		RestResult<JSONObject> result = restClient.post(duplicateUrl, null);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+	}
+
 	/**
 	 * Tests posting a folder to the root. Checks, if the return code of the post
 	 * request is OK and if retrieving the object again returns the original object.
@@ -32,6 +38,7 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
+		result.getResponse().close();
 
 		String retrieveUrl = detailUrl(getId(folder));
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
@@ -39,6 +46,7 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG,
 				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
 		Assert.assertTrue(EmfRestTestUtil.compare(folder, retrievedFolder, true));
+		getResult.getResponse().close();
 	}
 
 	/**
@@ -53,6 +61,7 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
+		result.getResponse().close();
 
 		String retrieveUrl = detailUrl(getId(folder));
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
@@ -60,6 +69,7 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG,
 				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
 		Assert.assertTrue(EmfRestTestUtil.compare(folder, retrievedFolder, true));
+		getResult.getResponse().close();
 	}
 
 	/**
@@ -69,7 +79,7 @@ public class CrudTest extends EmfRestTest {
 	 */
 	@Test
 	public void testPostFolderToFolderAndRetrieve() {
-		JSONObject folder = postFolderToRoot();
+		JSONObject folder = postFolderToTopFolder();
 		String folderName = getId(folder);
 
 		String postUrl2 = listUrl(folderName);
@@ -78,6 +88,7 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder2.toString() + " to url " + postUrl2);
 		RestResult<JSONObject> result2 = restClient.post(postUrl2, folder2);
 		Assert.assertEquals(result2.getResponse().getStatus(), Status.OK.getStatusCode());
+		result2.getResponse().close();
 
 		String retrieveUrl = detailUrl(folderName, folderName2);
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
@@ -85,6 +96,7 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG,
 				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
 		Assert.assertTrue(EmfRestTestUtil.compare(retrievedFolder, folder2, true));
+		getResult.getResponse().close();
 	}
 
 	/** Tests if retrieving a non-existing object returns 404-Not found */
@@ -99,7 +111,7 @@ public class CrudTest extends EmfRestTest {
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
 
 		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), getResult.getResponse().getStatus());
-
+		getResult.getResponse().close();
 	}
 
 	/** Tests retrieving a list of child folders from a folder */
@@ -107,7 +119,7 @@ public class CrudTest extends EmfRestTest {
 	public void testRetrieveChildrenList() {
 		int numberOfChildren = 2;
 
-		JSONObject folder = postFolderToRoot();
+		JSONObject folder = postFolderToTopFolder();
 		String folderName = getId(folder);
 
 		String postUrl2 = listUrl(folderName);
@@ -117,6 +129,7 @@ public class CrudTest extends EmfRestTest {
 			logService.log(LogService.LOG_DEBUG, "Posting the object " + folders[i].toString() + " to url " + postUrl2);
 			RestResult<JSONObject> result2 = restClient.post(postUrl2, folders[i]);
 			Assert.assertEquals(result2.getResponse().getStatus(), Status.OK.getStatusCode());
+			result2.getResponse().close();
 		}
 
 		RestResult<JSONArray> listResult = restClient.getList(postUrl2);
@@ -126,13 +139,13 @@ public class CrudTest extends EmfRestTest {
 		for (int i = 0; i < numberOfChildren; i++) {
 			Assert.assertTrue(EmfRestTestUtil.compare(folders[i], childrenList.getJSONObject(i), true));
 		}
-
+		listResult.getResponse().close();
 	}
 
 	/** Tests if an empty folder can be deleted */
 	@Test
 	public void testDeleteEmptyFolder() {
-		JSONObject folder = postFolderToRoot();
+		JSONObject folder = postFolderToTopFolder();
 		String folderName = getId(folder);
 		getObject(folderName);
 
@@ -146,7 +159,7 @@ public class CrudTest extends EmfRestTest {
 	@Test
 	public void testDeleteNonEmptyFolder() {
 		// Post folder to root
-		JSONObject outerFolder = postFolderToRoot();
+		JSONObject outerFolder = postFolderToTopFolder();
 		String folderName = getId(outerFolder);
 
 		// Post folder in new folder
@@ -169,7 +182,7 @@ public class CrudTest extends EmfRestTest {
 	 */
 	@Test
 	public void testPostRequirementToFolderAndRetrieve() {
-		JSONObject folder = postFolderToRoot();
+		JSONObject folder = postFolderToTopFolder();
 		String folderName = getId(folder);
 
 		JSONObject requirement = postRequirement(folderName);
@@ -180,7 +193,7 @@ public class CrudTest extends EmfRestTest {
 
 	@Test
 	public void testUpdateFolder() {
-		JSONObject folder = postFolderToRoot();
+		JSONObject folder = postFolderToTopFolder();
 		String folderName = getId(folder);
 
 		folder.put(BasePackage.Literals.INAMED__NAME.getName(), "New Name");
@@ -360,13 +373,12 @@ public class CrudTest extends EmfRestTest {
 	public void testPostFolderWithNoId() {
 		JSONObject folder = createTestFolder();
 		folder.remove(ID_KEY);
-
 		postObject(Status.BAD_REQUEST.getStatusCode(), folder);
 	}
 
 	@Test
 	public void testPostFolderWithDuplicateId() {
-		JSONObject folder = postFolderToRoot();
+		JSONObject folder = postFolderToTopFolder();
 		postObject(Status.BAD_REQUEST.getStatusCode(), folder);
 	}
 
@@ -425,6 +437,7 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG, "Request test genreation at  url " + generateUrl);
 		RestResult<JSONObject> result = restClient.post(generateUrl, null);
 		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
 
 		String retrieveUrl = listUrl(requirementId, cegId, testSpecId);
 		RestResult<JSONArray> getResult = restClient.getList(retrieveUrl);
@@ -434,6 +447,68 @@ public class CrudTest extends EmfRestTest {
 
 		// Expect 4 children: two test cases and two test parameters
 		Assert.assertEquals(4, retrievedTestChilds.length());
+		getResult.getResponse().close();
+	}
+
+	@Test
+	public void testGenerateTestsWithMutExConstraint() {
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
+
+		// Post ceg model
+		JSONObject cegModel = postCEG(requirementId);
+		String cegId = getId(cegModel);
+
+		// post node 1
+		JSONObject cegNode1 = createTestCegNode("myvar", "=A", "OR");
+		cegNode1 = postObject(cegNode1, requirementId, cegId);
+		String cegNode1Id = getId(cegNode1);
+		JSONObject retrievedCegNode1 = getObject(requirementId, cegId, cegNode1Id);
+
+		// post node 2
+		JSONObject cegNode2 = createTestCegNode("myvar", "=B", "OR");
+		cegNode2 = postObject(cegNode2, requirementId, cegId);
+		String cegNode2Id = getId(cegNode2);
+		JSONObject retrievedCegNode2 = getObject(requirementId, cegId, cegNode2Id);
+
+		// post node 3
+		JSONObject cegNode3 = createTestCegNode("result", "true", "AND");
+		cegNode3 = postObject(cegNode3, requirementId, cegId);
+		String cegNode3Id = getId(cegNode3);
+		JSONObject retrievedCegNode3 = getObject(requirementId, cegId, cegNode3Id);
+
+		// post connection
+		postCEGConnection(retrievedCegNode1, retrievedCegNode3, false, requirementId, cegId);
+		postCEGConnection(retrievedCegNode2, retrievedCegNode3, false, requirementId, cegId);
+
+		// Post test specification
+		JSONObject testSpec = postTestSpecification(requirementId, cegId);
+		String testSpecId = getId(testSpec);
+
+		// Generate test cases
+		String generateUrl = buildUrl("generateTests", requirementId, cegId, testSpecId);
+		logService.log(LogService.LOG_DEBUG, "Request test genreation at  url " + generateUrl);
+		RestResult<JSONObject> result = restClient.post(generateUrl, null);
+		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), result.getResponse().getStatus());
+
+		String retrieveUrl = listUrl(requirementId, cegId, testSpecId);
+		RestResult<JSONArray> getResult = restClient.getList(retrieveUrl);
+		JSONArray retrievedTestChilds = getResult.getPayload();
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedTestChilds.toString() + " from url " + retrieveUrl);
+
+		List<JSONObject> testCases = getTestCases(retrievedTestChilds);
+
+		// Expect 3 tests should be generated
+		Assert.assertEquals(3, testCases.size());
+
+		int numberOfInconsistentTests = 0;
+		for (JSONObject testCase : testCases) {
+			if (!testCase.getBoolean("consistent")) {
+				numberOfInconsistentTests++;
+			}
+		}
+		Assert.assertEquals(1, numberOfInconsistentTests);
 	}
 
 	/**
@@ -487,6 +562,7 @@ public class CrudTest extends EmfRestTest {
 
 		// Generation should succeed
 		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
 
 		String retrieveUrl = listUrl(requirementId, cegId, testSpecId);
 		RestResult<JSONArray> getResult = restClient.getList(retrieveUrl);
@@ -506,6 +582,7 @@ public class CrudTest extends EmfRestTest {
 			}
 		}
 		Assert.assertEquals(2, numberOfInconsistentTests);
+		getResult.getResponse().close();
 	}
 
 	/**
@@ -552,6 +629,7 @@ public class CrudTest extends EmfRestTest {
 
 		// Generation should succeed
 		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
 
 		String retrieveUrl = listUrl(requirementId, cegId, testSpecId);
 		RestResult<JSONArray> getResult = restClient.getList(retrieveUrl);
@@ -571,6 +649,7 @@ public class CrudTest extends EmfRestTest {
 			}
 		}
 		Assert.assertEquals(1, numberOfInconsistentTests);
+		getResult.getResponse().close();
 	}
 
 	private List<JSONObject> getTestCases(JSONArray array) {
@@ -615,6 +694,7 @@ public class CrudTest extends EmfRestTest {
 				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(0), testSpecification, true));
 		Assert.assertTrue(
 				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(1), testSpecification2, true));
+		listResult.getResponse().close();
 	}
 
 	protected JSONObject createTestBatchOp(JSONObject target, String type, JSONObject value) {
@@ -641,19 +721,16 @@ public class CrudTest extends EmfRestTest {
 
 	@Test
 	public void testBatch() {
-		JSONObject project = postFolderToRoot();
+		JSONObject topFolder = getObject();
 		JSONObject folder = createTestFolder();
-		String projectId = getId(project);
 		String folderId = getId(folder);
-		JSONObject toDelete = postFolder(projectId);
+		JSONObject toDelete = postFolder();
 		String toDeleteId = getId(toDelete);
-		JSONObject retrievedToDelete = getObject(projectId, toDeleteId);
+		JSONObject retrievedToDelete = getObject(toDeleteId);
 
-		JSONObject retrievedProject = getObject(projectId);
-
-		JSONObject batchOp = createTestBatchOp(retrievedProject, "CREATE", folder);
+		JSONObject batchOp = createTestBatchOp(topFolder, "CREATE", folder);
 		// Set the correct url
-		folder.put(EmfRestTestUtil.URL_KEY, retrievedProject.get(EmfRestTestUtil.URL_KEY) + "/" + folderId);
+		folder.put(EmfRestTestUtil.URL_KEY, topFolder.get(EmfRestTestUtil.URL_KEY) + "/" + folderId);
 
 		JSONObject updateFolder = createTestFolder();
 		updateFolder.put(BasePackage.Literals.IID__ID.getName(), folderId);
@@ -661,42 +738,82 @@ public class CrudTest extends EmfRestTest {
 		JSONObject batchOp3 = createTestBatchOp(retrievedToDelete, "DELETE", null);
 		JSONObject batch = createTestBatch(batchOp, batchOp2, batchOp3);
 
-		String postUrl = buildUrl("batch", projectId);
+		String postUrl = buildProjectUrl("batch");
 		RestResult<JSONObject> result = restClient.post(postUrl, batch);
+		result.getResponse().close();
 
-		JSONObject retrievedFolder = getObject(projectId, folderId);
+		JSONObject retrievedFolder = getObject(folderId);
 		Assert.assertTrue(EmfRestTestUtil.compare(updateFolder, retrievedFolder, true));
 
-		getObject(Status.NOT_FOUND.getStatusCode(), folderId, toDeleteId);
+		getObject(Status.NOT_FOUND.getStatusCode(), toDeleteId);
 	}
 
 	@Test
 	public void testInconsistentProject() {
-		JSONObject project1 = postFolderToRoot();
-		updateUrlFromParent(null, project1);
-		JSONObject project2 = postFolderToRoot();
-		updateUrlFromParent(null, project2);
-		String project1Id = getId(project1);
-		String project2Id = getId(project2);
+		JSONObject topfolder0 = getObject();
+		JSONObject ceg0 = postCEG();
+		updateUrlFromParent(topfolder0, ceg0);
 
-		JSONObject ceg1 = postCEG(project1Id);
-		updateUrlFromParent(project1, ceg1);
-		JSONObject ceg2 = postCEG(project2Id);
-		updateUrlFromParent(project2, ceg2);
-		String ceg1Id = getId(ceg1);
-		String ceg2Id = getId(ceg2);
+		// Post node in CEG of project 0
+		JSONObject node00 = postCEGNode(getId(ceg0));
+		updateUrlFromParent(ceg0, node00);
 
-		// Post node in CEG of proejct1
-		JSONObject node11 = postCEGNode(project1Id, ceg1Id);
-		updateUrlFromParent(ceg1, node11);
+		nextProject();
 
-		// Post node in CEG of project 2
-		JSONObject node21 = postCEGNode(project2Id, ceg2Id);
-		updateUrlFromParent(ceg2, node21);
+		JSONObject topfolder1 = getObject();
+		JSONObject ceg1 = postCEG();
+		updateUrlFromParent(topfolder1, ceg1);
 
-		// Try to post a connection from nodes in different projects
-		JSONObject cegConnection = createTestCEGConnection(node11, node21, false);
-		postObject(Status.UNAUTHORIZED.getStatusCode(), cegConnection, project2Id, ceg2Id);
+		// Post node in CEG of project 1
+		JSONObject node10 = postCEGNode(getId(ceg1));
+		updateUrlFromParent(ceg1, node10);
+
+		resetSelectedProject();
+
+		// Create a connection between nodes in different projects
+		JSONObject cegConnection = createTestCEGConnection(node00, node10, false);
+
+		// Try to post in project 0
+		postObject(Status.UNAUTHORIZED.getStatusCode(), cegConnection, getId(ceg0));
+
+		nextProject();
+
+		// Try to post in project 1
+		postObject(Status.UNAUTHORIZED.getStatusCode(), cegConnection, getId(ceg1));
+	}
+
+	@Test
+	public void testDuplicate() {
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
+
+		// Post ceg model
+		JSONObject cegModel = postCEG(requirementId);
+		String cegId = getId(cegModel);
+
+		// Post process model
+		JSONObject processModel = postProcess(requirementId);
+		String processId = getId(processModel);
+
+		// Post testspec model
+		JSONObject testSpec = postTestSpecification(requirementId);
+		String testSpecId = getId(testSpec);
+
+		RestResult<JSONArray> result = restClient.getList(listUrl(requirementId));
+		JSONArray payload = result.getPayload();
+		Assert.assertEquals(3, payload.length());
+
+		performDuplicate(requirementId, cegId);
+		performDuplicate(requirementId, processId);
+		performDuplicate(requirementId, testSpecId);
+
+		result = restClient.getList(listUrl(requirementId));
+		payload = result.getPayload();
+		Assert.assertEquals(6, payload.length());
+
+		// They are not equal, as id and name are different
+		// Assert.assertTrue(EmfRestTestUtil.compare(payload.getJSONObject(0),
+		// payload.getJSONObject(1), true));
 
 	}
 }

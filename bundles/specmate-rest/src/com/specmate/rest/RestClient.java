@@ -17,7 +17,6 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +26,7 @@ import org.glassfish.jersey.media.sse.EventInput;
 import org.glassfish.jersey.media.sse.InboundEvent;
 import org.glassfish.jersey.media.sse.SseFeature;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.osgi.service.log.LogService;
@@ -54,7 +54,7 @@ public class RestClient {
 	public RestClient(String restUrl, String authenticationToken, LogService logService) {
 		this(restUrl, authenticationToken, 5000, logService);
 	}
-	
+
 	public RestClient(String restUrl, int timeout, LogService logService) {
 		this(restUrl, null, timeout, logService);
 	}
@@ -123,26 +123,21 @@ public class RestClient {
 		if (logService != null) {
 			logService.log(LogService.LOG_DEBUG, "Building Invocation for " + uriBuilder);
 		}
-		WebTarget getTarget = restClient.target(uriBuilder); 
-		Invocation.Builder invocationBuilder = getTarget.request().header(HttpHeaders.AUTHORIZATION, 
-				"Token " + authenticationToken); 
+		WebTarget getTarget = restClient.target(uriBuilder);
+		Invocation.Builder invocationBuilder = getTarget.request().header(HttpHeaders.AUTHORIZATION,
+				"Token " + authenticationToken);
 		return invocationBuilder;
 	}
 
 	public RestResult<JSONObject> get(String url, String... params) {
 		Response response = rawGet(url, params);
-		String result = response.readEntity(String.class);
-		if (response.getStatusInfo().getStatusCode() == Status.OK.getStatusCode()) {
-			return new RestResult<>(response, url, new JSONObject(new JSONTokener(result)));
-		} else {
-			return new RestResult<>(response, url, null);
-		}
+		return createResult(url, response);
 	}
 
 	public RestResult<JSONArray> getList(String url, String... params) {
 		Response response = rawGet(url, params);
-		String result = response.readEntity(String.class);
-		if (response.getStatusInfo().getStatusCode() == Status.OK.getStatusCode()) {
+		if (response.hasEntity()) {
+			String result = response.readEntity(String.class);
 			return new RestResult<>(response, url, new JSONArray(new JSONTokener(result)));
 		} else {
 			return new RestResult<>(response, url, null);
@@ -158,19 +153,31 @@ public class RestClient {
 			entity = Entity.entity(jsonObject.toString(), "application/json;charset=utf-8");
 		}
 		Response response = invocationBuilder.post(entity);
-		return new RestResult<>(response, url, null);
+		return createResult(url, response);
 	}
 
 	public RestResult<JSONObject> put(String url, JSONObject objectJson) {
 		Invocation.Builder invocationBuilder = getInvocationBuilder(url);
 		Response response = invocationBuilder.put(Entity.json(objectJson.toString()));
-		return new RestResult<>(response, url, null);
+		return createResult(url, response);
 	}
 
-	public RestResult<Object> delete(String url) {
+	public RestResult<JSONObject> delete(String url) {
 		Invocation.Builder invocationBuilder = getInvocationBuilder(url);
 		Response response = invocationBuilder.delete();
-		return new RestResult<>(response, url, null);
+		return createResult(url, response);
 	}
 
+	private RestResult<JSONObject> createResult(String url, Response response) {
+		if (response.hasEntity()) {
+			String result = response.readEntity(String.class);
+			try {
+				return new RestResult<>(response, url, new JSONObject(new JSONTokener(result)));
+			} catch (JSONException e) {
+				logService.log(LogService.LOG_WARNING, e.getMessage());
+			}
+		}
+
+		return new RestResult<>(response, url, null);
+	}
 }

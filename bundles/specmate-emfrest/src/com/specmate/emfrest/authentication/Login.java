@@ -7,8 +7,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthenticationService;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.rest.RestResult;
@@ -29,30 +28,17 @@ public class Login extends RestServiceBase {
 
 	@Override
 	public boolean canPost(Object object2, Object object) {
-		return true;
+		return object instanceof User;
 	}
 
 	@Override
 	public RestResult<?> post(Object object, Object object2, String token) throws SpecmateException {
-		if (object2 instanceof User) {
-			User user = (User) object2;
-			try {
-				UserSession session = authService.authenticate(user.getUserName(), user.getPassWord(),
-						user.getProjectName());
-				logService.log(LogService.LOG_INFO,
-						"Session " + session.getId() + " for user " + user.getUserName() + " created.");
-				return new RestResult<>(Response.Status.OK, session);
+		User user = (User) object2;
 
-			} catch (SpecmateException e) {
-				logService.log(LogService.LOG_INFO, e.getMessage());
-				return new RestResult<>(Response.Status.FORBIDDEN);
-			} catch (SpecmateValidationException e) {
-				logService.log(LogService.LOG_INFO, e.getMessage());
-				return new RestResult<>(Response.Status.BAD_REQUEST);
-			}
-		} else {
-			throw new SpecmateException("Invalid login data.");
-		}
+		UserSession session = authService.authenticate(user.getUserName(), user.getPassWord(), user.getProjectName());
+		logService.log(LogService.LOG_INFO,
+				"Session " + session.getId() + " for user " + user.getUserName() + " created.");
+		return new RestResult<>(Response.Status.OK, session);
 	}
 
 	@Reference

@@ -53,10 +53,12 @@ import org.osgi.service.event.EventAdmin;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.metrics.IGauge;
 import com.specmate.metrics.IMetricsService;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPackageProvider;
@@ -127,7 +129,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private String cdoPassword;
 
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		readConfig(properties);
 		this.transactionGauge = metricsService.createGauge("Transactions", "The number of open transactions");
 		start();
@@ -138,7 +140,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		this.shutdown();
 	}
 
-	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
+	private void readConfig(Map<String, Object> properties) throws SpecmateException {
 		this.repositoryName = (String) properties.get(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME);
 		this.resourceName = (String) properties.get(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME);
 		this.hostAndPort = (String) properties.get(CDOPersistencyServiceConfig.KEY_SERVER_HOST_PORT);
@@ -146,21 +148,21 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		this.cdoPassword = (String) properties.get(CDOPersistencyServiceConfig.KEY_CDO_PASSWORD);
 
 		if (StringUtils.isEmpty(this.repositoryName)) {
-			throw new SpecmateValidationException("Repository name is empty.");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "Repository name is empty.");
 		}
 		if (StringUtils.isEmpty(this.resourceName)) {
-			throw new SpecmateValidationException("Resource name is empty.");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "Resource name is empty.");
 		}
 		if (StringUtils.isEmpty(this.hostAndPort)) {
-			throw new SpecmateValidationException("Host and port is empty.");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "Host and port is empty.");
 		}
 
 		if (StringUtil.isEmpty(this.cdoUser)) {
-			throw new SpecmateValidationException("No CDO user name given");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No CDO user name given");
 		}
 
 		if (StringUtil.isEmpty(this.cdoPassword)) {
-			throw new SpecmateValidationException("No CDO password given");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No CDO password given");
 		}
 	}
 
@@ -291,16 +293,19 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		return openTransaction(attachCommitListeners, this.resourceName);
 	}
 
-	public ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName)
+	private ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName)
 			throws SpecmateException {
 		if (!this.active) {
-			throw new SpecmateException("Attempt to open transaction when persistency service is not active");
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY,
+					"Attempt to open transaction when persistency service is not active");
 		}
 		CDOTransaction cdoTransaction = openCDOTransaction();
 		TransactionImpl transaction = new TransactionImpl(this, cdoTransaction, alterantiveResourceName, logService,
 				statusService, attachCommitListeners ? listeners : Collections.emptyList());
+
 		this.openTransactions.add(transaction);
 		this.transactionGauge.inc();
+
 		return transaction;
 	}
 
@@ -312,7 +317,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	@Override
 	public IView openView() throws SpecmateException {
 		if (!this.active) {
-			throw new SpecmateException("Attempt to open transaction when persistency service is not active");
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY,
+					"Attempt to open transaction when persistency service is not active");
 		}
 		CDOView cdoView = openCDOView();
 		ViewImpl view = new ViewImpl(this, cdoView, this.resourceName, logService);
@@ -356,22 +362,28 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		DeltaProcessor processor = new DeltaProcessor(invalEvent) {
 
 			@Override
-			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap) {
+			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap)
+					throws SpecmateValidationException {
 				postEvent(view, id, className, 0, featureMap, EChangeKind.NEW, 0);
 			}
 
 			@Override
-			protected void detachedObject(CDOID id, int version) {
+			protected void detachedObject(CDOID id, int version) throws SpecmateValidationException {
 				postEvent(view, id, null, version, null, EChangeKind.DELETE, 0);
 			}
 
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-					Object newValue, int index, String objectClassName) {
+					Object newValue, int index, String objectClassName) throws SpecmateValidationException {
 				postEvent(view, id, objectClassName, 0, Collections.singletonMap(feature, newValue), changeKind, index);
 			}
 		};
-		processor.process();
+
+		try {
+			processor.process();
+		} catch (SpecmateValidationException e) {
+			logService.log(LogService.LOG_ERROR, e.getMessage());
+		}
 	}
 
 	public boolean isActive() {

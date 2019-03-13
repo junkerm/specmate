@@ -19,6 +19,10 @@ export class LinksActions {
 
     constructor(private additionalInformationService: AdditionalInformationService) { }
 
+    public get maxDescriptionLength(): number {
+        return Config.TESTSPEC_DESCRIPTION_TRUNC_LENGTH;
+    }
+
     public get element(): IContainer {
         return this.additionalInformationService.element;
     }
@@ -59,6 +63,10 @@ export class LinksActions {
         return this.additionalInformationService.canExportTestspecification;
     }
 
+    public get canGenerateCEGModel(): boolean {
+        return this.additionalInformationService.canGenerateCEGModel;
+    }
+
     public toggleDescription() {
         this.descriptionVisible = !this.descriptionVisible;
     }
@@ -76,7 +84,7 @@ export class LinksActions {
             return '';
         }
         if (this.shouldTruncate()) {
-            return Strings.truncate(this.requirement.description, Config.TESTSPEC_DESCRIPTION_TRUNC_LENGTH);
+            return Strings.truncate(this.requirement.description, this.maxDescriptionLength);
         }
 
         return this.requirement.description;
@@ -86,6 +94,10 @@ export class LinksActions {
         if (this.requirement === undefined || this.requirement.description === undefined) {
             return false;
         }
-        return this.requirement.description.length > Config.TESTSPEC_DESCRIPTION_TRUNC_LENGTH && !this.descriptionVisible;
+        return this.requirement.description.length > this.maxDescriptionLength && !this.descriptionVisible;
+    }
+
+    public get canTruncate(): boolean {
+        return Strings.truncate(this.requirement.description, this.maxDescriptionLength) !== this.requirement.description;
     }
 }

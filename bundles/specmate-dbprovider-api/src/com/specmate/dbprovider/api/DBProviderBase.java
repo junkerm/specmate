@@ -5,7 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 
 public abstract class DBProviderBase implements IDBProvider {
 	protected Connection connection;
@@ -28,7 +30,7 @@ public abstract class DBProviderBase implements IDBProvider {
 				connection.close();
 				connection = null;
 			} catch (SQLException e) {
-				throw new SpecmateException("Could not close connection.", e);
+				throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Could not close connection.", e);
 			}
 		}
 	}
