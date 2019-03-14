@@ -51,14 +51,17 @@ export class ErrorsWarings {
         for (const key in invalidResults) {
             let list = invalidResults[key];
             let groupedList = Arrays.groupBy(list, ErrorsWarings.getResultURLString);
-            for (const subList of groupedList) {
-                let arrStr = ErrorsWarings.getArrayURLString(subList);
-                // We encounter an element we dont have in the cache
-                if (!this._currentWarningStringSet.has(arrStr)) {
-                    changed = true;
+            for (const resStr in groupedList) {
+                if (groupedList.hasOwnProperty(resStr)) {
+                    const subList = groupedList[resStr];
+                    let arrStr = ErrorsWarings.getArrayURLString(subList);
+                    // We encounter an element we dont have in the cache
+                    if (!this._currentWarningStringSet.has(arrStr)) {
+                        changed = true;
+                    }
+                    newWarningStringSet.add(arrStr);
+                    newWarnings.push(subList);
                 }
-                newWarningStringSet.add(arrStr);
-                newWarnings.push(subList);
             }
         }
         // The number of warnings has changed.
