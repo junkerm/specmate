@@ -5,6 +5,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ErrorsWarings } from './components/errors-warnings.component';
 import { Warning } from './components/warning.component';
+// tslint:disable-next-line:max-line-length
+import { ShortModelErrorDisplayModule } from '../../../../actions/modules/short-error-message-display/short-model-error-message-display.module';
 
 @NgModule({
   imports: [
@@ -12,7 +14,8 @@ import { Warning } from './components/warning.component';
     BrowserModule,
     NavigatorModule,
     NgbModule.forRoot(),
-    TranslateModule
+    TranslateModule,
+    ShortModelErrorDisplayModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

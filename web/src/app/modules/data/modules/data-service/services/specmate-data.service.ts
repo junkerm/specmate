@@ -314,9 +314,9 @@ export class SpecmateDataService {
         }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeDeleted'), url, error));
     }
 
-    public performOperations(url: string, operation: string, payload?: any): Promise<void> {
+    public performOperations(url: string, operation: string, payload?: any): Promise<any> {
         if (!this.auth.isAuthenticatedForUrl(url)) {
-            return Promise.resolve();
+            return Promise.resolve(false);
         }
         this.busy = true;
         return this.serviceInterface.performOperation(url, operation, payload, this.auth.token).then((result) => {

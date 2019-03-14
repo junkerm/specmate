@@ -3,7 +3,7 @@ import { ValidationResult } from '../../../../../../validation/validation-result
 import { ValidationService } from '../../../../../forms/modules/validation/services/validation.service';
 import { AdditionalInformationService } from '../../links-actions/services/additional-information.service';
 import { Arrays } from '../../../../../../util/arrays';
-
+import { IContainer } from '../../../../../../model/IContainer';
 
 @Component({
     moduleId: module.id.toString(),
@@ -24,6 +24,9 @@ export class ErrorsWarings {
         return this._isCollapsed;
     }
 
+    public get model(): IContainer {
+        return this.additionalInformationService.element;
+    }
 
     public visible = true;
     constructor(private validationService: ValidationService,

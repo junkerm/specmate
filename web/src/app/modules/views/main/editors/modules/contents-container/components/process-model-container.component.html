@@ -20,6 +20,7 @@
                         <span class="text-muted">{{element.description | truncate: 60}}</span>
                     </td>
                     <td style="text-align:right">
+                        <short-model-error-message-display [model]="element"></short-model-error-message-display>
                         <test-specification-generator-button *ngIf="canGenerateTestSpecification" id="{{element.name + '-generate-testspec-button'}}"
                             [model]="element"></test-specification-generator-button>
                         <button id="{{'requirement-' + element.name + '-copyprocess-button'}}" title="{{'copy' | translate}}"
@@ -46,11 +47,14 @@
                     <input type="text" #newNameInput (keyup)="0" class="form-control form-control-sm" placeholder="{{'name' | translate}}" />
                     <div class="input-group-append">
                         <button id="requirement-createprocess-button" title="{{'createProcess' | translate}}" (click)="create(newNameInput.value)"
-                            class="btn btn-sm btn-outline-primary" [disabled]="newNameInput.value === undefined || newNameInput.value.length === 0"
-                            [class.disabled]="newNameInput.value === undefined || newNameInput.value.length === 0">
+                            class="btn btn-sm btn-outline-primary" [disabled]="!isCreateButtonEnabled(newNameInput.value)"
+                            [class.disabled]="!isCreateButtonEnabled(newNameInput.value)">
                             <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createProcess' | translate}}
                         </button>
                     </div>
+                </div>
+                <div class="form-control-feedback">
+                    <span [hidden]="validPattern(newNameInput.value)" class="form-text">{{errorMessage}}</span>
                 </div>
             </div>
             <div class="col">
@@ -59,10 +63,14 @@
                         [disabled]="!canPaste" />
                     <div class="input-group-append">
                         <button id="requirement-paste-button" title="{{'paste' | translate}}" (click)="paste(pasteNameInput.value)"
-                            class="btn btn-sm btn-outline-primary" [disabled]="!canPaste">
+                            class="btn btn-sm btn-outline-primary" [disabled]="!canPaste || !validPattern(pasteNameInput.value)"
+                            [class.disabled]="!canPaste || !validPattern(pasteNameInput.value)">
                             <i class="fa fa-paste" aria-hidden="true"></i>&nbsp;{{'paste' | translate}}
                         </button>
                     </div>
+                </div>
+                <div class="form-control-feedback">
+                    <span [hidden]="validPattern(pasteNameInput.value)" class="form-text">{{errorMessage}}</span>
                 </div>
             </div>
         </div>

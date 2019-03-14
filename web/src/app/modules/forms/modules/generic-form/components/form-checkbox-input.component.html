@@ -5,6 +5,6 @@
     </label>
     <div class="form-control-feedback">
         <span [hidden]="control.valid" class="form-text">{{errorMessage}}</span>
-        <span [hidden]="!control.valid" class="form-text">{{meta.longDesc}}</span>
+        <span [hidden]="!control.valid" class="form-text">{{meta.longDesc | translate}}</span>
     </div>
 </div>

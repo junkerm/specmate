@@ -45,60 +45,56 @@ export class GraphTransformer {
         }
 
         if (this.elementProvider.isNode(element)) {
-            return this.deleteNode(element as IModelNode, compoundId);
+            await this.deleteNode(element as IModelNode, compoundId);
         } else if (this.elementProvider.isConnection(element)) {
-            return this.deleteConnection(element as IModelConnection, compoundId);
+            await this.deleteConnection(element as IModelConnection, compoundId);
         }
         // Tried to delete element with type element.className. This type is not supported.
     }
 
-    public deleteElementAndDeselect(element: IContainer, compoundId: string): Promise<void> {
+    public async deleteElementAndDeselect(element: IContainer, compoundId: string): Promise<void> {
         if (this.selectionService !== undefined && this.selectionService !== null) {
             this.selectionService.deselectElement(element);
         }
-        return this.deleteElement(element, compoundId);
+        await this.deleteElement(element, compoundId);
     }
 
-    private deleteNode(node: IModelNode, compoundId: string): Promise<void> {
-        return this.dataService.readContents(this.parent.url, true).then( (content: IContainer[]) => {
-            // Delete Connections
-            let chain = Promise.resolve();
-            content.forEach(elem => {
-                if (this.elementProvider.isConnection(elem)) {
-                    let currentConnection: IModelConnection = elem as IModelConnection;
-                    if (currentConnection.source.url === node.url || currentConnection.target.url === node.url) {
-                        chain = chain.then(() => this.deleteConnection(currentConnection, compoundId));
-                    }
-                }
-            });
-            return chain;
-        }).then(() => this.dataService.deleteElement(node.url, true, compoundId));
+    private async deleteNode(node: IModelNode, compoundId: string): Promise<void> {
+        const contents: IContainer[] = await this.dataService.readContents(this.parent.url, true);
+        const connections = contents
+            .filter((element: IContainer) => this.elementProvider.isConnection(element))
+            .map((element: IContainer) => element as IModelConnection)
+            .filter((connection: IModelConnection) => connection.source.url === node.url || connection.target.url === node.url);
+        for (let i = 0 ; i < connections.length; i++) {
+            await this.deleteConnection(connections[i], compoundId);
+        }
+        await this.dataService.deleteElement(node.url, true, compoundId);
     }
 
-    private deleteConnection(connection: IModelConnection, compoundId: string): Promise<void> {
-        return this.removeConnectionFromSource(connection, compoundId)
-            .then(() => this.removeConnectionFromTarget(connection, compoundId))
-            .then(() => this.dataService.deleteElement(connection.url, true, compoundId));
+    private async deleteConnection(connection: IModelConnection, compoundId: string): Promise<void> {
+        await this.removeConnectionFromSource(connection, compoundId);
+        await this.removeConnectionFromTarget(connection, compoundId);
+        await this.dataService.deleteElement(connection.url, true, compoundId);
     }
 
-    private removeConnectionFromSource(connection: IModelConnection, compoundId: string): Promise<void> {
-        return this.dataService.readElement(connection.source.url, true)
-            .then((source: IModelNode) => {
-                let proxyToDelete: Proxy = source.outgoingConnections.find((proxy: Proxy) => proxy.url === connection.url);
-                Arrays.remove(source.outgoingConnections, proxyToDelete);
-                return source;
-            })
-            .then((source: IContainer) => this.dataService.updateElement(source, true, compoundId));
+    private async removeConnectionFromSource(connection: IModelConnection, compoundId: string): Promise<void> {
+        const source = await this.dataService.readElement(connection.source.url, true) as IModelNode;
+        if (!source.outgoingConnections) {
+            return;
+        }
+        const proxy = source.outgoingConnections.find(proxy => proxy.url === connection.url);
+        Arrays.remove(source.outgoingConnections, proxy);
+        await this.dataService.updateElement(source, true, compoundId);
     }
 
-    private removeConnectionFromTarget(connection: IModelConnection, compoundId: string): Promise<void> {
-        return this.dataService.readElement(connection.target.url, true)
-            .then((target: IModelNode) => {
-                let proxyToDelete: Proxy = target.incomingConnections.find((proxy: Proxy) => proxy.url === connection.url);
-                Arrays.remove(target.incomingConnections, proxyToDelete);
-                return target;
-            })
-            .then((target: IContainer) => this.dataService.updateElement(target, true, compoundId));
+    private async removeConnectionFromTarget(connection: IModelConnection, compoundId: string): Promise<void> {
+        const target = await this.dataService.readElement(connection.target.url, true) as IModelNode;
+        if (!target.incomingConnections) {
+            return;
+        }
+        const proxy = target.incomingConnections.find(proxy => proxy.url === connection.url);
+        Arrays.remove(target.incomingConnections, proxy);
+        await this.dataService.updateElement(target, true, compoundId);
     }
 
     /**
@@ -152,26 +148,26 @@ export class GraphTransformer {
         return Promise.resolve(out);
     }
 
-    private cloneNode(template: IModelNode, coords: Coords, compoundId: string, createNode: boolean):
+    private async cloneNode(template: IModelNode, coords: Coords, compoundId: string, createNode: boolean):
         Promise<ISpecmatePositionableModelObject> {
         if (!createNode) {
-            return Promise.resolve(<ISpecmatePositionableModelObject>Objects.clone(template));
+            return <ISpecmatePositionableModelObject>Objects.clone(template);
         }
         let factory = GraphElementFactorySelector.getNodeFactory(template, coords, this.dataService);
-        return factory.create(this.parent, false, compoundId);
+        return await factory.create(this.parent, false, compoundId);
     }
 
-    private cloneEdge(template: IContainer, newSource: IModelNode, newTarget: IModelNode, compoundId: string, createEdge: boolean):
+    private async cloneEdge(template: IContainer, newSource: IModelNode, newTarget: IModelNode, compoundId: string, createEdge: boolean):
         Promise<IModelConnection> {
         if (!createEdge) {
-            return Promise.resolve(<IModelConnection>Objects.clone(template));
+            return <IModelConnection>Objects.clone(template);
         }
         let factory = GraphElementFactorySelector.getConnectionFactory(template, newSource, newTarget, this.dataService);
-        return factory.create(this.parent, false, compoundId);
+        return await factory.create(this.parent, false, compoundId);
     }
 
-    private updateElement(element: IContainer, compoundId: string): Promise<void> {
-        return this.dataService.updateElement(element, true, compoundId);
+    private async updateElement(element: IContainer, compoundId: string): Promise<void> {
+        await this.dataService.updateElement(element, true, compoundId);
     }
 
     private transferData(from: IContainer, to: IContainer) {

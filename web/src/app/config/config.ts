@@ -87,7 +87,7 @@ export class Config {
 
     public static TESTSPEC_NAME = 'New Test Specification';
     public static TESTSPEC_DESCRIPTION = '';
-    public static TESTSPEC_DESCRIPTION_TRUNC_LENGTH = 30;
+    public static TESTSPEC_DESCRIPTION_TRUNC_LENGTH = 120;
 
     public static TESTPARAMETER_NAME = 'New Test Parameter';
 
@@ -126,3 +126,4 @@ export class Config {
     // Number of elements to load at each step in the project explorer
     public static ELEMENT_CHUNK_SIZE = 100;
 }
+
