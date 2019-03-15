@@ -60,7 +60,7 @@ export class CommonControls {
     }
 
     public get isSaveEnabled(): boolean {
-        return this.isEnabled && this.hasCommits && this.validator.currentValid;
+        return this.isEnabled && this.hasCommits;
     }
 
     public get isUndoEnabled(): boolean {
