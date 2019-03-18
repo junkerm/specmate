@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -45,7 +46,20 @@ public class CEGEditorElements {
 	public void generateTestSpecification () {
 		scrollDownTo(generateTestSpec);
 		driver.findElement(generateTestSpec).click();
+		if(isElementPresent(accept)) {
+			driver.findElement(accept).click();
+		}
 	}
+	
+	private boolean isElementPresent(By by){
+        try{
+            driver.findElement(by);
+            return true;
+        }
+        catch(NoSuchElementException e){
+            return false;
+        }
+    }
 	
 	private void scrollDownTo(By elementLocator) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
