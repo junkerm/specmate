@@ -34,7 +34,6 @@ public class CEGEditorElements {
 	By TypeAND = By.id("type-AND");
 	By TypeOR = By.id("type-OR");
 
-	
 	// Links & Actions
 	By generateTestSpec = By.id("generatetestspec-button");
 	By saveButton = By.id("commoncontrol-save-button");
@@ -180,14 +179,4 @@ public class CEGEditorElements {
 
 		return numberOfTestCases == 3;
 	}
-
-	/*
-	 * public void move(WebElement node) {
-	 * 
-	 * }
-	 * 
-	 * public void findNode(String variable, String condition="*"{
-	 * 
-	 * }
-	 */
 }
