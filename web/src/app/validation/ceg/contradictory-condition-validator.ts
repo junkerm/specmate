@@ -71,7 +71,7 @@ export class ContradictoryCondidionValidator extends ElementValidatorBase<CEGMod
 
     private exploreTopologicalNode(tNode: TopologicalNode): Contradiction[] {
         // Explores a Node and returns a list of all found contradictions
-        const contradictions: Contradiction[] = [];
+        let contradictions: Contradiction[] = [];
         for (const edge of tNode.edges) {
             const to = edge.target.url;
             const toNode = this.topoNodes[to];
@@ -79,7 +79,7 @@ export class ContradictoryCondidionValidator extends ElementValidatorBase<CEGMod
             if (toNode.allPerentsExplored()) {
                 // We have explored all parents of toNode. It can now be explored.
                 // Test for contraditcions and add mark it for the openList.
-                contradictions.concat(toNode.getContradictions(this.topoNodes));
+                contradictions = contradictions.concat(toNode.getContradictions(this.topoNodes));
                 this.openList.push(toNode);
             }
         }
@@ -135,12 +135,13 @@ class TopologicalNode {
         const parentPositiveEdgeSet = edge.negate ? parent.negEdgeSets : parent.posEdgeSets;
         const parentNegativeEdgeSet = edge.negate ? parent.posEdgeSets : parent.negEdgeSets;
 
+        if (!this.isInitialized) {
+            // Initialize Sets
+            this.posEdgeSets = TopologicalNode.cloneEdgeSet(parentPositiveEdgeSet);
+            this.negEdgeSets = TopologicalNode.cloneEdgeSet(parentNegativeEdgeSet);
+        }
+
         if (this.isAndNode() || !this.isInitialized) {
-            if (!this.isInitialized) {
-                // Initialize Sets
-                this.posEdgeSets = TopologicalNode.cloneEdgeSet(parentPositiveEdgeSet);
-                this.negEdgeSets = TopologicalNode.cloneEdgeSet(parentNegativeEdgeSet);
-            }
             // Add the direct parent to the edge set
             if (edge.negate) {
                 if (!this.negEdgeSets.hasOwnProperty(parent.node.url)) {

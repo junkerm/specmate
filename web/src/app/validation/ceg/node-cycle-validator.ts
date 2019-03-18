@@ -53,7 +53,7 @@ export class NodeCycleValidator extends ElementValidatorBase<CEGModel> {
             if (Type.is(elem, CEGConnection)) {
                 let edge = elem as CEGConnection;
                 let fromURL = edge.source.url;
-                if (this.outgoingConnections[fromURL] != undefined) {
+                if (this.outgoingConnections[fromURL] === undefined) {
                     this.outgoingConnections[fromURL] = [];
                 }
                 this.outgoingConnections[fromURL].push(edge);
@@ -128,6 +128,9 @@ class TraceNode {
         this.edgeCounter = 0;
         this.node = node;
         this.edges = outgoingEdges;
+        if (outgoingEdges === undefined) {
+            this.edges = [];
+        }
     }
 
     public hasNext() {
