@@ -6,6 +6,8 @@ import org.junit.*;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -21,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 
 @Ignore
-//@RunWith(ConcurrentParameterized.class)
+@RunWith(Parameterized.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestBase implements SauceOnDemandSessionIdProvider {
 	public static String username = System.getenv("SAUCE_USERNAME");
@@ -64,25 +66,19 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     }
 
     // Browser configurations
-//    @ConcurrentParameterized.Parameters
-//    public static LinkedList<String[]> browsersStrings() {
-//        LinkedList<String[]> browsers = new LinkedList<String[]>();
-//
-//        browsers.add(new String[]{"Windows 10", "14.14393", "MicrosoftEdge", null, null});
-//        //browsers.add(new String[]{"Windows 10", "11.0", "internet explorer", null, null});
-//        return browsers;
-//    }
+    @Parameters
+    public static LinkedList<String[]> browsersStrings() {
+        LinkedList<String[]> browsers = new LinkedList<String[]>();
+
+        browsers.add(new String[]{"Windows 10", "14.14393", "MicrosoftEdge", null, null});
+        //browsers.add(new String[]{"Windows 10", "11.0", "internet explorer", null, null});
+        return browsers;
+    }
 
  
     @Before
     public void setUp() throws Exception {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        
-        this.browser = "MicrosoftEdge";
-        this.version = "14.14393";
-        this.os = "Windows 10";
-        this.deviceName = null; 
-        this.deviceOrientation = null; 
+        DesiredCapabilities capabilities = new DesiredCapabilities(); 
 
         capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
         capabilities.setCapability(CapabilityType.VERSION, version);
