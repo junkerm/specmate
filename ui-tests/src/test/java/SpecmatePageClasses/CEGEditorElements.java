@@ -90,28 +90,18 @@ public class CEGEditorElements {
 
 		int numberOfNodes = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-node]")).size();
 
-		// int numberOfNodes =
-		// driver.findElements(By.xpath("//*[@class='draggable-element-default']")).size();
 		driver.findElement(toolbarNode).click();
+		
 		WebElement editorField = driver.findElement(editor);
-		// numberOfNodes ++;
 		builder.moveToElement(editorField, x, y).click().build().perform();
 
-		WebDriverWait wait = new WebDriverWait(driver, 15);
-
+		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.cssSelector("g:first-child > [generic-graphical-node]")));
 		nodeList = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-node]"));
 
 		WebElement nodeFromList = nodeList.get(numberOfNodes);
 
-		// WebDriverWait wait=new WebDriverWait(driver, 20);
-		// WebElement node =
-		// wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='draggable-element-default'])["
-		// + numberOfNodes + "]")));
-
-		// driver.findElement(By.xpath("//*[@generic-graphical-node][" + numberOfNodes +
-		// "]//*[@ceg-graphical-node]"));
 		WebElement variableTextfield = driver.findElement(propertiesVariable);
 		WebElement conditionTextfield = driver.findElement(propertiesCondition);
 		variableTextfield.clear();
@@ -132,15 +122,11 @@ public class CEGEditorElements {
 		int numberOfConnections = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-connection]"))
 				.size();
 
-		// int numberOfConnections = driver.findElements(By.xpath("//*[@class='inner' or
-		// @class='inner innerSelected']")).size();
-
 		driver.findElement(toolbarConnection).click();
 		node1.click();
 		node2.click();
-		// numberOfConnections ++;
 
-		WebDriverWait wait = new WebDriverWait(driver, 15);
+		WebDriverWait wait = new WebDriverWait(driver, 30);
 
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.cssSelector("g:first-child > [generic-graphical-connection]")));
@@ -148,8 +134,6 @@ public class CEGEditorElements {
 
 		WebElement connectionFromList = connectionList.get(numberOfConnections);
 
-		// WebElement connection = driver.findElement(By.xpath("(//*[@class='inner' or
-		// @class='inner innerSelected'])[" + numberOfConnections + "]"));
 		return connectionFromList;
 	}
 
