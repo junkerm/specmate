@@ -19,7 +19,6 @@ public class LoginPageTest extends TestBase {
 	  * Runs a simple test verifying login.
 	  * @throws InvalidElementStateException
 	  */
-	 @Ignore
 	 @Test
 	 public void verifyLoginTest() throws InvalidElementStateException {
 		driver.get("http://localhost:8080/");
