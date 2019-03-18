@@ -6,8 +6,6 @@ import org.openqa.selenium.InvalidElementStateException;
 
 import static org.junit.Assert.*;
 
-import org.junit.Ignore;
-
 
 public class LoginPageTest extends TestBase {
 	

@@ -13,7 +13,6 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import com.saucelabs.junit.ConcurrentParameterized;
 import com.saucelabs.junit.SauceOnDemandTestWatcher;
 
 import java.net.URL;
@@ -55,7 +54,6 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
 
  
     // Constructor for test instances
-
     public TestBase(String os, String version, String browser, String deviceName, String deviceOrientation) {
         super();
         this.os = os;
@@ -71,7 +69,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
         LinkedList<String[]> browsers = new LinkedList<String[]>();
 
         browsers.add(new String[]{"Windows 10", "14.14393", "MicrosoftEdge", null, null});
-        //browsers.add(new String[]{"Windows 10", "11.0", "internet explorer", null, null});
+        browsers.add(new String[]{"Windows 10", "11.0", "internet explorer", null, null});
         return browsers;
     }
 
