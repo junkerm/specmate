@@ -5,7 +5,6 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import org.junit.*;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -22,7 +21,6 @@ import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 
 @Ignore
 @RunWith(ConcurrentParameterized.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestBase implements SauceOnDemandSessionIdProvider {
 	public static String username = System.getenv("SAUCE_USERNAME");
     public static String accesskey = System.getenv("SAUCE_ACCESS_KEY");

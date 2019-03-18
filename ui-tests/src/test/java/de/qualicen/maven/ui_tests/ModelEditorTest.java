@@ -39,6 +39,7 @@ public class ModelEditorTest extends TestBase {
 			login.password("password");
 			login.changeToProject("test-data");
 			login.login(); 
+			assertTrue(login.isLoggedIn());
 		} 
 			
 		// Navigation to requirement
