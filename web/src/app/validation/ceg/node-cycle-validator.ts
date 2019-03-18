@@ -8,7 +8,8 @@ import { Type } from '../../util/type';
 import { CEGConnection } from '../../model/CEGConnection';
 import { Config } from '../../config/config';
 import { Arrays } from '../../util/arrays';
-import { Sets } from '../../util/sets';
+
+type Circle = CEGConnection[];
 
 @Validator(CEGModel)
 export class NodeCycleValidator extends ElementValidatorBase<CEGModel> {
@@ -17,40 +18,42 @@ export class NodeCycleValidator extends ElementValidatorBase<CEGModel> {
     // Maps the URL of a node to the node object.
     private nodeMap: {[nodeURL: string]: CEGNode};
     // Maps the URL of an Node to all its outgoing connections.
-    private outgoingConnections: {[nodeURL: string]: CEGConnection[]};
+    private outgoingConnections: CEGConnection[][];
     // Set of already explored Nodes
     private closedSet: Set<CEGNode>;
 
     public validate(element: CEGModel, contents: IContainer[]): ValidationResult {
         /**
-         * Uses DFS to find all back-edges (=Cycles)
+         * Uses DFS to find all back-edges (=Circles)
          */
         this.initValidation(contents);
-        let cycles: CEGConnection[][] = [];
+        let circles: Circle[] = [];
         for (const startNode of this.nodes) {
             if (this.closedSet.has(startNode)) {
-                // Node has already been seen
-                continue;
+                continue; // Node has already been seen
             }
-            let searchResult = this.depthFirstSearch(startNode);
-            this.closedSet = Sets.union(this.closedSet, searchResult[0]);
-            cycles = cycles.concat(searchResult[1]);
+            let newCircles = this.depthFirstSearch(startNode);
+            circles = circles.concat(newCircles);
         }
-        if (cycles.length > 0) {
-            return new ValidationResult(Config.ERROR_CIRCULAR_CAUSES, false, Arrays.flatten(cycles));
+        if (circles.length > 0) {
+            return new ValidationResult(Config.ERROR_CIRCULAR_CAUSES, false, Arrays.flatten(circles));
         }
         return ValidationResult.VALID;
     }
 
     private initValidation(contents: IContainer[]): void {
+        /**
+         * Setup the search structure for DFS with a list of nodes
+         * A Map of outgoing edges for each node and a closed set.
+         */
         this.nodes = [];
         this.nodeMap = {};
-        this.outgoingConnections = {};
+        this.outgoingConnections = [];
         for (const elem of contents) {
             if (Type.is(elem, CEGConnection)) {
                 let edge = elem as CEGConnection;
                 let fromURL = edge.source.url;
-                if (!this.outgoingConnections.hasOwnProperty(fromURL)) {
+                if (this.outgoingConnections[fromURL] != undefined) {
                     this.outgoingConnections[fromURL] = [];
                 }
                 this.outgoingConnections[fromURL].push(edge);
@@ -62,76 +65,80 @@ export class NodeCycleValidator extends ElementValidatorBase<CEGModel> {
                 this.nodes.push(node);
             }
         }
-        /**
-         * We want to iterate of the nodes starting with the lowest in-degree (ususally nodes without any parents).
-         */
-        this.nodes = this.nodes.sort( (a, b) => {
-            if (a.incomingConnections === undefined) {
-                return -1;
-            }
-            if (b.incomingConnections === undefined) {
-                return 1;
-            }
-            return a.incomingConnections.length - b.incomingConnections.length;
-        });
-
+        // We Sort by Node In-Degree so we start the search with ("root") nodes without any incomming edges.
+        this.nodes = this.nodes.sort(this.nodeComparitor);
         this.closedSet = new Set();
     }
 
-    private depthFirstSearch(startNode: CEGNode): [Set<CEGNode>, CEGConnection[][]] {
+    private nodeComparitor(nodeA: CEGNode, nodeB: CEGNode) {
+        //
+        if (nodeA.incomingConnections === undefined) {
+            return -1;
+        }
+        if (nodeB.incomingConnections === undefined) {
+            return 1;
+        }
+        return nodeA.incomingConnections.length - nodeB.incomingConnections.length;
+    }
+
+    private depthFirstSearch(startNode: CEGNode): Circle[] {
         /**
          * Runs a DFS starting at the given node.
-         * Returns a set of all newly explored nodes and a list of newly found edge cycles.
+         * Returns a set of all newly found edge cycles.
          */
-
-        /**
-         * Current Search trace.
-         * Stack containing the current search path and the index of the taken edges of each node.
-         */
-        let traceStack: [CEGNode, number][] = [[startNode, 0]];
-        // Newly explored Nodes
-        let addToClosedSet = new Set<CEGNode>();
-        let cycles = [];
+        let traceStack: TraceNode[] = [];
+        traceStack.push(new TraceNode(startNode, this.outgoingConnections[startNode.url]));
+        let circles = [];
         while (traceStack.length > 0) {
-            let currentNode = traceStack[traceStack.length - 1][0];
-            let edgeIndex = traceStack[traceStack.length - 1][1];
+            let currentNode = traceStack[traceStack.length - 1];
             // Test if we have any unexplored edges.
-            if (this.outgoingConnections.hasOwnProperty(currentNode.url) &&
-                    edgeIndex < this.outgoingConnections[currentNode.url].length) {
-                // Follow Edge
-                let edge = this.outgoingConnections[currentNode.url][edgeIndex];
+            if (currentNode.hasNext()) {
+                let edge = currentNode.getNextEdge();
                 let toNode = this.nodeMap[edge.target.url];
                 if (this.closedSet.has(toNode)) {
-                    // We don't enter a part of the graph we have already seen
-                    traceStack[traceStack.length - 1][1] += 1;
-                    continue;
+                    continue; // We don't enter a part of the graph we have already seen
                 }
-
                 // Check if we have already seen this node
-                let toNodeIndex = traceStack.findIndex( val => val[0] == toNode);
+                let toNodeIndex = traceStack.findIndex( val => val.node == toNode);
                 if (toNodeIndex >= 0) {
-                    // Back Edge: We are at a node we have seen in our trace
-                    // -> We have a cycle
-                    let cycleTrace = traceStack.slice(toNodeIndex);
-                    let cycle = cycleTrace.map( val => this.outgoingConnections[val[0].url][val[1]]);
-                    cycles.push(cycle);
-                    // Don't enter the cycle
-                    traceStack[traceStack.length - 1][1] += 1;
+                    // Backedge: We are at a node we have seen in our trace -> We have a cycle
+                    let circleTrace = traceStack.slice(toNodeIndex);
+                    let circle = circleTrace.map( node => node.getLastExploredEdge());
+                    circles.push(circle);
                 } else {
                     // This is an unkown node -> Explore it.
-                    traceStack.push([toNode, 0]);
+                    traceStack.push(new TraceNode(toNode, this.outgoingConnections[toNode.url]));
                 }
             } else {
                 // We have explored all children of this node.
-                // Add it to the closed set
-                let finishedNode = traceStack.pop()[0];
-                addToClosedSet.add(finishedNode);
-                if (traceStack.length > 0) {
-                    // Goto next edge
-                    traceStack[traceStack.length - 1][1] += 1;
-                }
+                let finishedNode = traceStack.pop().node;
+                this.closedSet.add(finishedNode);
             }
         }
-        return [addToClosedSet, cycles];
+        return circles;
+    }
+}
+
+class TraceNode {
+    public edgeCounter: number;
+    public node: CEGNode;
+    public edges: CEGConnection[];
+
+    constructor(node: CEGNode, outgoingEdges: CEGConnection[]) {
+        this.edgeCounter = 0;
+        this.node = node;
+        this.edges = outgoingEdges;
+    }
+
+    public hasNext() {
+        return this.edgeCounter < this.edges.length;
+    }
+
+    public getNextEdge() {
+        return this.edges[this.edgeCounter++];
+    }
+
+    public getLastExploredEdge() {
+        return this.edges[this.edgeCounter - 1];
     }
 }
