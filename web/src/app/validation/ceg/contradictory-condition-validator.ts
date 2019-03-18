@@ -99,7 +99,7 @@ class TopologicalNode {
     public openParents: number;
     public posEdgeSets: {[parentURL: string]: CEGConnection[]};
     public negEdgeSets: {[parentURL: string]: CEGConnection[]};
-    private setWasFilled: boolean;
+    private isInitialized: boolean;
 
     constructor(node: CEGNode) {
         this.node = node;
@@ -107,7 +107,7 @@ class TopologicalNode {
         this.openParents = 0;
         this.posEdgeSets = {};
         this.negEdgeSets = {};
-        this.setWasFilled = false;
+        this.isInitialized = false;
     }
 
     private static cloneEdgeSet(edgeSet: {[parentURL: string]: CEGConnection[]}): {[parentURL: string]: CEGConnection[]} {
@@ -128,12 +128,20 @@ class TopologicalNode {
     }
 
     public addParent(parent: TopologicalNode, edge: CEGConnection) {
-        // Set Swap sets on negation
+        /**
+         * Adds a parent to this node. Combines the edge sets of the parent with the sets of this node.
+         */
+        // Takes care of negated edges.
         const parentPositiveEdgeSet = edge.negate ? parent.negEdgeSets : parent.posEdgeSets;
         const parentNegativeEdgeSet = edge.negate ? parent.posEdgeSets : parent.negEdgeSets;
 
-        if (this.isAndNode() || !this.setWasFilled) {
-            // Add Parent
+        if (this.isAndNode() || !this.isInitialized) {
+            if (!this.isInitialized) {
+                // Initialize Sets
+                this.posEdgeSets = TopologicalNode.cloneEdgeSet(parentPositiveEdgeSet);
+                this.negEdgeSets = TopologicalNode.cloneEdgeSet(parentNegativeEdgeSet);
+            }
+            // Add the direct parent to the edge set
             if (edge.negate) {
                 if (!this.negEdgeSets.hasOwnProperty(parent.node.url)) {
                     this.negEdgeSets[parent.node.url] = [];
@@ -146,19 +154,18 @@ class TopologicalNode {
                 this.posEdgeSets[parent.node.url].push(edge);
             }
         }
-
-        if (!this.setWasFilled) {
-            this.posEdgeSets = TopologicalNode.cloneEdgeSet(parentPositiveEdgeSet);
-            this.negEdgeSets = TopologicalNode.cloneEdgeSet(parentNegativeEdgeSet);
-            this.setWasFilled = true;
-        } else {
-            if (this.isAndNode()) {
-                this.edgeUnion(parentPositiveEdgeSet, parentNegativeEdgeSet);
-            } else {
-                this.edgeIntersection(parentPositiveEdgeSet, parentNegativeEdgeSet, edge);
-            }
-        }
         this.openParents--;
+
+        if (!this.isInitialized) {
+            this.isInitialized = true;
+            return;
+        }
+
+        if (this.isAndNode()) {
+            this.edgeUnion(parentPositiveEdgeSet, parentNegativeEdgeSet);
+        } else {
+            this.edgeIntersection(parentPositiveEdgeSet, parentNegativeEdgeSet, edge);
+        }
     }
 
     private edgeUnion(  parentPositiveEdgeSet: {[parentURL: string]: CEGConnection[]},
@@ -188,7 +195,7 @@ class TopologicalNode {
         // We only keep elements in our edgeSets if the parent has them as well
         // If the edge from the parent to us is negated we swap their positive and negative EdgeSets
 
-        // Compute intersection of positive/negative keys
+        // Compute intersection of positive/negative key sets
         for (const key in this.posEdgeSets) {
             if (this.posEdgeSets.hasOwnProperty(key)) {
                 if (!parentPositiveEdgeSet.hasOwnProperty(key)) {
