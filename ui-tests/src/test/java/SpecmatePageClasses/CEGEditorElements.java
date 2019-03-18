@@ -173,7 +173,6 @@ public class CEGEditorElements {
 	}
 
 	public boolean correctTestSpecificationGenerated() {
-		driver.findElement(propertiesName);
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".test-case-row")));
