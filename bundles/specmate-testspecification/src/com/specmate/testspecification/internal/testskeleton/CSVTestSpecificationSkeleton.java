@@ -25,7 +25,7 @@ public class CSVTestSpecificationSkeleton extends BaseSkeleton {
 		StringJoiner joiner = new StringJoiner(COL_SEP);
 		joiner.add("\"TC\"");
 		for (TestParameter param : parameters) {
-			joiner.add(StringUtils.wrap(param.getName(), TEXT_WRAP));
+			joiner.add(StringUtils.wrap(param.getType().toString() + " - " + param.getName(), TEXT_WRAP));
 		}
 		sb.append(joiner).append("\n");
 	}
