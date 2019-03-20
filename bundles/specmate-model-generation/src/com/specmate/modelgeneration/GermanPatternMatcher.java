@@ -12,7 +12,6 @@ import com.specmate.nlp.util.NLPUtil;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 public class GermanPatternMatcher extends PatternMatcher {
@@ -42,9 +41,12 @@ public class GermanPatternMatcher extends PatternMatcher {
 		if (matchPattern2_1(sentence, jCas)) {
 			int posComma = sentenceText.indexOf(",");
 			for (Token constituent : JCasUtil.selectCovered(jCas, Token.class, sentence)) {
-				if (constituent.getCoveredText().equals(",")
-						&& constituent.getParent().getType().getShortName().equals("S")
-						&& constituent.getParent().getCoveredText().equals(sentence.getCoveredText())) {
+				if (constituent.getPosValue().equals(",")
+				// &&
+				// constituent.getParent().getType().getShortName().equals("S")
+				// &&
+				// constituent.getParent().getCoveredText().equals(sentence.getCoveredText())
+				) {
 					posComma = constituent.getBegin() - sentence.getBegin();
 				}
 			}
@@ -69,16 +71,16 @@ public class GermanPatternMatcher extends PatternMatcher {
 		String text = sentence.getCoveredText();
 		int positionComma = -1;
 		List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
-		List<Chunk> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
 		for (Token token : pos) {
-			if (token.getCoveredText().equals(",")) {
+			if (token.getPosValue().equals(",")) {
 				positionComma = token.getBegin();
 			}
 		}
 		if (text.startsWith("Wenn")) {
 			boolean start = false;
 			boolean end = false;
-			for (Chunk vp : verbPhrases) {
+			for (Constituent vp : verbPhrases) {
 				if (vp.getEnd() <= positionComma) {
 					start = true;
 				}

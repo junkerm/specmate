@@ -26,23 +26,31 @@ public class NLPUtil {
 		private String constituentTypeName;
 
 		public String getName() {
-			return this.constituentTypeName;
+			return constituentTypeName;
 		}
 
 		private ConstituentType(String name) {
-			this.constituentTypeName = name;
+			constituentTypeName = name;
 		}
 	}
 
-	public static List<Chunk> getVerbPhrases(JCas jCas, Sentence sentence) {
-		return getChunk(jCas, sentence, ConstituentType.VP);
+	public static List<Constituent> getVerbPhrases(JCas jCas, Sentence sentence) {
+		return getConstituents(jCas, sentence, ConstituentType.VP);
 	}
 
-	public static List<Chunk> getNounPhrases(JCas jCas, Sentence sentence) {
-		return getChunk(jCas, sentence, ConstituentType.NP);
+	public static List<Constituent> getNounPhrases(JCas jCas, Sentence sentence) {
+		return getConstituents(jCas, sentence, ConstituentType.NP);
 	}
 
-	public static List<Chunk> getChunk(JCas jCas, Sentence sentence, ConstituentType type) {
+	public static List<Chunk> getVerbPhraseChunks(JCas jCas, Sentence sentence) {
+		return getChunks(jCas, sentence, ConstituentType.VP);
+	}
+
+	public static List<Chunk> getNounPhraseChunks(JCas jCas, Sentence sentence) {
+		return getChunks(jCas, sentence, ConstituentType.NP);
+	}
+
+	public static List<Chunk> getChunks(JCas jCas, Sentence sentence, ConstituentType type) {
 		return JCasUtil.selectCovered(jCas, Chunk.class, sentence).stream()
 				.filter(c -> c.getChunkValue().contentEquals(type.getName())).collect(Collectors.toList());
 	}

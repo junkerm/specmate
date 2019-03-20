@@ -24,10 +24,8 @@ import com.specmate.nlp.matcher.IConstituentTreeMatcher;
 import com.specmate.nlp.matcher.MatchResult;
 import com.specmate.nlp.matcher.SequenceMatcher;
 import com.specmate.nlp.matcher.ZeroOrMoreConsumer;
-import com.specmate.nlp.util.GermanSentenceUnfolder;
 import com.specmate.nlp.util.NLPUtil;
 
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 public class NLPServiceTest {
@@ -62,13 +60,10 @@ public class NLPServiceTest {
 				+ "Warnfenster <--DET-- ein\n" + "zeigt <--OBJA-- Warnfenster\n" + ". <--ROOT-- .",
 				NLPUtil.printDependencies(result));
 
-		result = nlpService.processText("Wenn der  Alarm klingelt, zeigt Specmate ein Fenster.", ELanguage.DE);
-		System.out.println(NLPUtil.printDependencies(result));
-		System.out.println(NLPUtil.printParse(result));
+		Assert.assertEquals(
+				"( ROOT ( S ( S Wenn ( NP das Werkzeug ) ( NP einen Fehler ) ( S erkennt ) ) , zeigt es ( NP ein Warnfenster ) . ) )",
+				NLPUtil.printParse(result));
 
-		Sentence sent = NLPUtil.getSentences(result).iterator().next();
-		String completed = new GermanSentenceUnfolder().insertMissingSubjects(result, sent);
-		System.out.println(completed);
 	}
 
 	@Test

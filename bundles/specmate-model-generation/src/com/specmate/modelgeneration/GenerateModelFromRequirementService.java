@@ -12,7 +12,6 @@ import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.Requirement;
-import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.rest.RestResult;
 
@@ -25,7 +24,7 @@ import com.specmate.rest.RestResult;
 @Component(immediate = true, service = IRestService.class)
 public class GenerateModelFromRequirementService extends RestServiceBase {
 
-	INLPService nlpService;
+	INLPService tagger;
 	private LogService logService;
 
 	@Override
@@ -64,21 +63,9 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		if (text == null || StringUtils.isEmpty(text)) {
 			return model;
 		}
-		ELanguage language = nlpService.detectLanguage(text);
-		// text = new PersonalPronounsReplacer(nlpService).replacePronouns(text);
-		CEGFromRequirementGenerator generator = null;
-		switch (language) {
-		case DE:
-			generator = new GermanCEGFromRequirementGenerator(logService, nlpService);
-			break;
-		case EN:
-			generator = new EnglishCEGFromRequirementGenerator(logService, nlpService);
-			break;
-		default:
-			return model;
-		}
-
-		return generator.createModel(model, text);
+		text = new PersonalPronounsReplacer(tagger).replacePronouns(text);
+		new EnglishCEGFromRequirementGenerator(logService, tagger).createModel(model, text);
+		return model;
 	}
 
 	@Reference
@@ -88,7 +75,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 	@Reference
 	void setNlptagging(INLPService tagger) {
-		nlpService = tagger;
+		this.tagger = tagger;
 	}
 
 }

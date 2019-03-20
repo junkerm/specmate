@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.osgi.service.log.LogService;
@@ -19,14 +18,14 @@ import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 /**
  * Class create a CEGModel from a given text by extracting causes and effects
  * using the {@link INLPService}.
  *
  * @author Andreas Wehrle
- *
+ * 
  */
 public abstract class CEGFromRequirementGenerator {
 
@@ -34,8 +33,9 @@ public abstract class CEGFromRequirementGenerator {
 	private LogService logService;
 
 	/** The NLP service */
-	private INLPService nlpService;
+	private INLPService tagger;
 
+	private AndOrSplitter andOrSplitter;
 	private CEGCreation cegCreation;
 	private int levelOneX = 100;
 	private int levelOneY = 50;
@@ -44,10 +44,11 @@ public abstract class CEGFromRequirementGenerator {
 	private int levelThreeX = 600;
 	private int levelThreeY = 150;
 
-	public CEGFromRequirementGenerator(LogService logService, INLPService nlpService) {
+	public CEGFromRequirementGenerator(LogService logService, INLPService tagger) {
 		super();
 		this.logService = logService;
-		this.nlpService = nlpService;
+		this.tagger = tagger;
+		andOrSplitter = new AndOrSplitter();
 		cegCreation = new CEGCreation();
 	}
 
@@ -62,7 +63,7 @@ public abstract class CEGFromRequirementGenerator {
 	 * @return generated CEGModel
 	 */
 	public CEGModel createModel(CEGModel model, String text) throws SpecmateException {
-		JCas jcas = nlpService.processText(text, ELanguage.DE);
+		JCas jcas = tagger.processText(text, ELanguage.EN);
 		model.getContents().clear();
 		LinkedList<CEGNode> nodes = new LinkedList<CEGNode>();
 
@@ -95,11 +96,14 @@ public abstract class CEGFromRequirementGenerator {
 		cause = causeEffectArray[0];
 		effect = causeEffectArray[1];
 
-		if (!StringUtils.isEmpty(cause)) {
-			String[] effects = getAndOrSplitter().textSplitterAnd(effect, sentence, jCas);
+		if (!cause.equals("")) {
+			String[] effects = andOrSplitter.textSplitterAnd(effect, sentence, jCas);
 			String[] causes = new String[] { cause };
-			if (containsConjection(cause) && containsDisjunction(cause)) {
-				causes = getAndOrSplitter().textSplitterAnd(cause, sentence, jCas);
+			if (cause.contains(" and ") && cause.contains(" or ")) {// 'or' and
+																	// 'and' in
+																	// the
+																	// sentence
+				causes = andOrSplitter.textSplitterAnd(cause, sentence, jCas);
 				String[] causesTemp = causes.clone();
 				for (int i = 0; i < effects.length; i++) {
 					String[] splittedVariabelAndConditionEffect = splitNodeInVariableAndCondition(jCas, sentence,
@@ -109,7 +113,7 @@ public abstract class CEGFromRequirementGenerator {
 							levelThreeY, NodeType.AND);
 					levelThreeY += 100;
 					for (int j = 0; j < causes.length; j++) {
-						String[] causesOr = getAndOrSplitter().textSplitterOr(causes[j], sentence, jCas);
+						String[] causesOr = andOrSplitter.textSplitterOr(causes[j], sentence, jCas);
 						String causeNew = cuttingEnds(causes[j]);
 						causesTemp = ArrayUtils.addAll(causesTemp, causesOr);
 						if (causesOr.length == 1) {
@@ -161,8 +165,8 @@ public abstract class CEGFromRequirementGenerator {
 						}
 					}
 				}
-			} else if (isConjunction(cause)) {// 'and' in the sentence
-				causes = getAndOrSplitter().textSplitterAnd(cause, sentence, jCas);
+			} else if (cause.contains(" and ")) {// 'and' in the sentence
+				causes = andOrSplitter.textSplitterAnd(cause, sentence, jCas);
 				for (int i = 0; i < effects.length; i++) {
 					String[] splittedVariabelAndConditionEffect = splitNodeInVariableAndCondition(jCas, sentence,
 							effects[i]);
@@ -190,8 +194,8 @@ public abstract class CEGFromRequirementGenerator {
 						levelOneY += 100;
 					}
 				}
-			} else if (isDisjunction(cause)) { // 'or' in the sentence
-				causes = getAndOrSplitter().textSplitterOr(cause, sentence, jCas);
+			} else if (cause.contains(" or ")) { // 'or' in the sentence
+				causes = andOrSplitter.textSplitterOr(cause, sentence, jCas);
 				for (int i = 0; i < effects.length; i++) {
 					String[] splittedVariabelAndConditionEffect = splitNodeInVariableAndCondition(jCas, sentence,
 							effects[i]);
@@ -271,9 +275,9 @@ public abstract class CEGFromRequirementGenerator {
 			end = sentence.getEnd();
 		}
 		String[] back = new String[] { text, "" };
-		List<Chunk> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
+		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
 
-		for (Chunk np : nounPhrases) {
+		for (Constituent np : nounPhrases) {
 			if (np.getBegin() >= begin && np.getEnd() <= end) {
 				String covered = np.getCoveredText();
 				String[] splitted = covered.split("( and )|( or )");
@@ -347,19 +351,19 @@ public abstract class CEGFromRequirementGenerator {
 	 *            NLP tagged text
 	 * @return verbphrase
 	 */
-	public Chunk getVPafterNP(int pos, Sentence sentence, JCas jCas) {
-		List<Chunk> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
-		List<Chunk> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
-		for (Chunk np : nounPhrases) {
+	public Constituent getVPafterNP(int pos, Sentence sentence, JCas jCas) {
+		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		for (Constituent np : nounPhrases) {
 			if (pos >= np.getBegin() && pos <= np.getEnd()) {
 				pos = np.getEnd();
 				break;
 			}
 		}
 
-		Chunk back = null;
+		Constituent back = null;
 		int best = Integer.MAX_VALUE;
-		for (Chunk vp : verbPhrases) {
+		for (Constituent vp : verbPhrases) {
 			if (vp.getBegin() >= pos && vp.getBegin() < best) {
 				best = vp.getBegin();
 				back = vp;
@@ -379,18 +383,18 @@ public abstract class CEGFromRequirementGenerator {
 	 *            NLP tagged text
 	 * @return verbphrase
 	 */
-	public Chunk getVPBeforePosition(int pos, Sentence sentence, JCas jCas) {
-		List<Chunk> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
-		List<Chunk> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
-		for (Chunk np : nounPhrases) {
+	public Constituent getVPBeforePosition(int pos, Sentence sentence, JCas jCas) {
+		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		for (Constituent np : nounPhrases) {
 			if (pos >= np.getBegin() && pos <= np.getEnd()) {
 				pos = np.getBegin();
 				break;
 			}
 		}
-		Chunk back = null;
+		Constituent back = null;
 		int best = 0;
-		for (Chunk vp : verbPhrases) {
+		for (Constituent vp : verbPhrases) {
 			if (vp.getEnd() >= best && vp.getEnd() <= pos) {
 				best = vp.getEnd();
 				back = vp;
@@ -398,8 +402,6 @@ public abstract class CEGFromRequirementGenerator {
 		}
 		return back;
 	}
-
-	protected abstract AndOrSplitter getAndOrSplitter();
 
 	protected abstract PatternMatcher getPatternMatcher();
 

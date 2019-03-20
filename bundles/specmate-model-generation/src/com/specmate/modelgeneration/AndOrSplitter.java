@@ -8,7 +8,7 @@ import org.apache.uima.jcas.JCas;
 import com.specmate.nlp.util.NLPUtil;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 /**
  * Class splits the sentences at 'and' and/or 'or'.
@@ -60,9 +60,8 @@ public class AndOrSplitter {
 
 	/**
 	 * Add the missing parts(subjects, verbs, objects) to the splitted text.
-	 * Example: 'The house is green or blue' is splitted into 'the house is
-	 * green' and 'the house is blue'. the subject is added to the second
-	 * sentence.
+	 * Example: 'The house is green or blue' is splitted into 'the house is green'
+	 * and 'the house is blue'. the subject is added to the second sentence.
 	 *
 	 * @param splittedText
 	 *            splitted text at 'or' or 'and'
@@ -77,19 +76,19 @@ public class AndOrSplitter {
 			return back;
 		}
 
-		List<Chunk> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
-		List<Chunk> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
 		for (int i = 0; i < back.length; i++) {
-			for (Iterator<Chunk> iterator = verbPhrases.iterator(); iterator.hasNext();) {
-				Chunk vp = iterator.next();
+			for (Iterator<Constituent> iterator = verbPhrases.iterator(); iterator.hasNext();) {
+				Constituent vp = iterator.next();
 				if (back[i].startsWith(vp.getCoveredText().split(" if")[0])) {
 					back[i] = getNPBeforePosition(vp.getBegin(), sentence, jCas).getCoveredText() + " " + back[i];
 				}
 			}
 			for (int j = 0; j < nounPhrases.size(); j++) {
-				Chunk np = nounPhrases.get(j);
+				Constituent np = nounPhrases.get(j);
 				if (np.getCoveredText().contains(back[i])) {
-					Chunk vp = getVPafterNP(np.getEnd(), sentence, jCas);
+					Constituent vp = getVPafterNP(np.getEnd(), sentence, jCas);
 					if (vp != null) {
 						if (vp.getCoveredText().contains(" if ")) {
 							back[i] = back[i] + " "
@@ -116,18 +115,18 @@ public class AndOrSplitter {
 	 *            NLP tagged text
 	 * @return nounphrase
 	 */
-	public Chunk getNPBeforePosition(int pos, Sentence sentence, JCas jCas) {
-		List<Chunk> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
-		List<Chunk> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
-		for (Chunk vp : verbPhrases) {
+	public Constituent getNPBeforePosition(int pos, Sentence sentence, JCas jCas) {
+		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		for (Constituent vp : verbPhrases) {
 			if (pos >= vp.getBegin() && pos <= vp.getEnd()) {
 				pos = vp.getBegin();
 				break;
 			}
 		}
-		Chunk back = null;
+		Constituent back = null;
 		int best = 0;
-		for (Chunk np : nounPhrases) {
+		for (Constituent np : nounPhrases) {
 			if (np.getEnd() >= best && np.getEnd() <= pos) {
 				best = np.getEnd();
 				back = np;
@@ -146,19 +145,19 @@ public class AndOrSplitter {
 	 *            NLP tagged text
 	 * @return verbphrase
 	 */
-	public Chunk getVPafterNP(int pos, Sentence sentence, JCas jCas) {
-		List<Chunk> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
-		List<Chunk> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
-		for (Chunk np : nounPhrases) {
+	public Constituent getVPafterNP(int pos, Sentence sentence, JCas jCas) {
+		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		for (Constituent np : nounPhrases) {
 			if (pos >= np.getBegin() && pos <= np.getEnd()) {
 				pos = np.getEnd();
 				break;
 			}
 		}
 
-		Chunk back = null;
+		Constituent back = null;
 		int best = Integer.MAX_VALUE;
-		for (Chunk vp : verbPhrases) {
+		for (Constituent vp : verbPhrases) {
 			if (vp.getBegin() >= pos && vp.getBegin() < best) {
 				best = vp.getBegin();
 				back = vp;

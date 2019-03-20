@@ -35,7 +35,7 @@ import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
  *
  */
 @Component(immediate = true)
-public class OpenNLPService implements INLPService {
+public class NLPServiceImpl implements INLPService {
 
 	private Map<String, AnalysisEngine> engines = new HashMap<String, AnalysisEngine>();
 	private LogService logService;
@@ -146,6 +146,18 @@ public class OpenNLPService implements INLPService {
 			throw new SpecmateInternalException(ErrorCode.NLP, "NLP: Tagging failed. Reason: " + e.getMessage());
 		}
 		return jcas;
+	}
+
+	@Override
+	public ELanguage detectLanguage(String text) {
+		// FIXME: detection is only placeholder for real language detection
+		String lower = text.toLowerCase();
+		if (lower.contains("wenn") || lower.contains("der") || lower.contains("die") || lower.contains("das")
+				|| lower.contains("ein")) {
+			return ELanguage.DE;
+		} else {
+			return ELanguage.EN;
+		}
 	}
 
 	@Reference

@@ -34,7 +34,7 @@ public abstract class SentenceUnfolder {
 
 	private List<Chunk> findVerbalPhraseWithoutSubject(JCas jCas, Sentence sentence) {
 		List<Chunk> result = new ArrayList<>();
-		List<Chunk> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		List<Chunk> verbPhrases = NLPUtil.getVerbPhraseChunks(jCas, sentence);
 		Collection<Dependency> dependencies = JCasUtil.select(jCas, Dependency.class);
 		for (Chunk vp : verbPhrases) {
 			Optional<Dependency> subject = findSubjectForVerbPhrase(dependencies, vp);

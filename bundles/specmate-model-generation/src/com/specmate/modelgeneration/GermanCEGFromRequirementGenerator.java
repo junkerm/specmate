@@ -10,12 +10,13 @@ public class GermanCEGFromRequirementGenerator extends CEGFromRequirementGenerat
 
 	public GermanCEGFromRequirementGenerator(LogService logService, INLPService tagger) {
 		super(logService, tagger);
-		patternMatcher = new GermanPatternMatcher();
+		this.patternMatcher = new GermanPatternMatcher();
 	}
 
 	@Override
 	protected PatternMatcher getPatternMatcher() {
-		return patternMatcher;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

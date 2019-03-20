@@ -24,23 +24,22 @@ import com.specmate.nlp.util.NLPUtil;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 public class EnglishPatternMatcher extends PatternMatcher {
 
 	/**
-	 * Method splits the sentences into the cause and the effect if it matches
-	 * one pattern
+	 * Method splits the sentences into the cause and the effect if it matches one
+	 * pattern
 	 *
 	 * @param sentence
 	 *            sentence to split
 	 * @param jCas
 	 *            NLPTagged text
-	 * @return array with two elements. First element: cause, second
-	 *         element:effect
+	 * @return array with two elements. First element: cause, second element:effect
 	 * @throws SpecmateInternalException
 	 */
+	@Override
 	public String[] detectCauseAndEffect(Sentence sentence, JCas jCas) throws SpecmateInternalException {
 		String sentenceText = sentence.getCoveredText();
 		Optional<Constituent> optSentenceConstituent = NLPUtil.getSentenceConstituent(jCas, sentence);
@@ -195,8 +194,7 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 1.1: If-sentences(starting with
-	 * if)
+	 * Detect if the sentence matches pattern 1.1: If-sentences(starting with if)
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -242,8 +240,7 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	// }
 
 	/**
-	 * Detect if the sentence matches pattern 1.2: If-sentences(if in the
-	 * middle)
+	 * Detect if the sentence matches pattern 1.2: If-sentences(if in the middle)
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -252,7 +249,7 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	public boolean matchPattern1_2(Sentence sentence, JCas jCas) {
 		int positionIf = -1;
 		List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
-		List<Chunk> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
 		for (Token token : pos) {
 			if (token.getCoveredText().equals("if")) {
 				positionIf = token.getBegin();
@@ -260,7 +257,7 @@ public class EnglishPatternMatcher extends PatternMatcher {
 		}
 		boolean start = false;
 		boolean end = false;
-		for (Chunk vp : verbPhrases) {
+		for (Constituent vp : verbPhrases) {
 			if (vp.getBegin() <= positionIf) {
 				start = true;
 			}
@@ -272,8 +269,8 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 1.3: If-sentences(starting with
-	 * if) and effect introduced with then
+	 * Detect if the sentence matches pattern 1.3: If-sentences(starting with if)
+	 * and effect introduced with then
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -288,8 +285,8 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 2.1: If-sentences with 'when'
-	 * instead of 'if'(starting with when)
+	 * Detect if the sentence matches pattern 2.1: If-sentences with 'when' instead
+	 * of 'if'(starting with when)
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -300,7 +297,7 @@ public class EnglishPatternMatcher extends PatternMatcher {
 		String text = sentence.getCoveredText();
 		int positionComma = -1;
 		List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
-		List<Chunk> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
 		for (Token token : pos) {
 			if (token.getPosValue().equals(",")) {
 				positionComma = token.getBegin();
@@ -309,7 +306,7 @@ public class EnglishPatternMatcher extends PatternMatcher {
 		if (text.startsWith("When")) {
 			boolean start = false;
 			boolean end = false;
-			for (Chunk vp : verbPhrases) {
+			for (Constituent vp : verbPhrases) {
 				if (vp.getEnd() <= positionComma) {
 					start = true;
 				}
@@ -323,8 +320,8 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 2.2: If-sentences with 'when'
-	 * instead of 'if'(when in the middle)
+	 * Detect if the sentence matches pattern 2.2: If-sentences with 'when' instead
+	 * of 'if'(when in the middle)
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -334,7 +331,7 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	public boolean matchPattern2_2(Sentence sentence, JCas jCas) {
 		int positionIf = -1;
 		List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
-		List<Chunk> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
 		for (Token token : pos) {
 			if (token.getCoveredText().equals("when")) {
 				positionIf = token.getBegin();
@@ -342,7 +339,7 @@ public class EnglishPatternMatcher extends PatternMatcher {
 		}
 		boolean start = false;
 		boolean end = false;
-		for (Chunk vp : verbPhrases) {
+		for (Constituent vp : verbPhrases) {
 			if (vp.getBegin() <= positionIf) {
 				start = true;
 			}
@@ -354,8 +351,8 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 2.3: If-sentences with 'when'
-	 * instead of 'if'(starting with when) and effect introduced with then
+	 * Detect if the sentence matches pattern 2.3: If-sentences with 'when' instead
+	 * of 'if'(starting with when) and effect introduced with then
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -446,8 +443,7 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 4: for this
-	 * reason
+	 * Return the cause and effect of a sentence matching pattern 4: for this reason
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -645,8 +641,7 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 8: provided
-	 * that
+	 * Return the cause and effect of a sentence matching pattern 8: provided that
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -693,8 +688,8 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 9: have
-	 * something to do
+	 * Return the cause and effect of a sentence matching pattern 9: have something
+	 * to do
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -744,8 +739,7 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 10: a lot to
-	 * do
+	 * Return the cause and effect of a sentence matching pattern 10: a lot to do
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -816,8 +810,7 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 12: in order
-	 * that
+	 * Return the cause and effect of a sentence matching pattern 12: in order that
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -910,8 +903,7 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 14: even
-	 * though
+	 * Return the cause and effect of a sentence matching pattern 14: even though
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -958,8 +950,8 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 15: in the
-	 * case that
+	 * Return the cause and effect of a sentence matching pattern 15: in the case
+	 * that
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -1006,8 +998,8 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 16: on
-	 * condition that
+	 * Return the cause and effect of a sentence matching pattern 16: on condition
+	 * that
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -1054,8 +1046,7 @@ public class EnglishPatternMatcher extends PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 17: supposing
-	 * that
+	 * Return the cause and effect of a sentence matching pattern 17: supposing that
 	 *
 	 * @param sentence
 	 * @param jCas
