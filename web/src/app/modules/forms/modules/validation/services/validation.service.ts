@@ -37,6 +37,9 @@ export class ValidationService {
     }
 
     private validateElement(element: IContainer, contents: IContainer[] = []): ValidationResult[] {
+        if (element === undefined) {
+            return [];
+        }
         let contURLs = contents.map(c => c.url);
         if (this.validationCache.isCached(element.url, contURLs)) {
             return this.validationCache.getEntry(element.url);

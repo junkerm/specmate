@@ -73,8 +73,8 @@ export class ServiceInterface {
         await this.http.delete(Url.urlDelete(url), { headers: this.getAuthHeader(token) }).toPromise();
     }
 
-    public async performOperation(url: string, serviceSuffix: string, payload: any, token: UserToken): Promise<void> {
-        await this.http.post(Url.urlCustomService(url, serviceSuffix), payload, { headers: this.getAuthHeader(token) }).toPromise();
+    public async performOperation(url: string, serviceSuffix: string, payload: any, token: UserToken): Promise<any> {
+        return await this.http.post(Url.urlCustomService(url, serviceSuffix), payload, { headers: this.getAuthHeader(token) }).toPromise();
     }
 
     public async performQuery(url: string, serviceSuffix: string, parameters: { [key: string]: string }, token: UserToken): Promise<any> {
