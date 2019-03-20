@@ -14,3 +14,5 @@
 ../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpLemmatizerTrainer.omtds.xml
 ../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpTokenTrainer.omtds.xml
 ../../de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpParser.omtds.xml
+../../de/tudarmstadt/ukp/dkpro/core/maltparser/MaltParser.omtds.xml
+
