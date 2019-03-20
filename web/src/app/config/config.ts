@@ -122,7 +122,7 @@ export class Config {
     public static ERROR_PROCESS_START_INCOMING_CONNECTION = 'Start node(s) with incoming connection.';
     public static ERROR_PROCESS_NODE_MULTIPLE_OUTGOING_CONNECTIONS = 'Non-decision-node(s) with multiple outgoing connections.';
     public static ERROR_PROCESS_DECISION_WITH_ONE_OR_LESS_OUTGOING_CONNECTIONS = 'Decision node(s) not at least two outgoing connections.';
-
+    public static ERROR_INVALID_NAME = 'Invalid character in name.';
     // Number of elements to load at each step in the project explorer
     public static ELEMENT_CHUNK_SIZE = 100;
 }
