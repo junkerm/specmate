@@ -10,7 +10,7 @@ import { Type } from '../../util/type';
 import { ProcessEnd } from '../../model/ProcessEnd';
 import { ProcessStart } from '../../model/ProcessStart';
 import { ProcessStep } from '../../model/ProcessStep';
-import { Config } from '../../config/config';
+import { ValidationMessage } from '../validation-message';
 
 @Validator(Process)
 export class MissingConditionValidator extends ElementValidatorBase<Process> {
@@ -35,7 +35,7 @@ export class MissingConditionValidator extends ElementValidatorBase<Process> {
                 connection.condition === undefined || connection.condition === null || connection.condition === '');
 
         if (invalidElements.length > 0) {
-            return new ValidationResult(Config.ERROR_MISSING_CONDITION, false, invalidElements);
+            return new ValidationResult(ValidationMessage.ERROR_MISSING_CONDITION, false, invalidElements);
         }
         return ValidationResult.VALID;
     }

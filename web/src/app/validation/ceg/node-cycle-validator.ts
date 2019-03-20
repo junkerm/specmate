@@ -6,8 +6,8 @@ import { ValidationResult } from '../validation-result';
 import { CEGNode } from '../../model/CEGNode';
 import { Type } from '../../util/type';
 import { CEGConnection } from '../../model/CEGConnection';
-import { Config } from '../../config/config';
 import { Arrays } from '../../util/arrays';
+import { ValidationMessage } from '../validation-message';
 
 type Circle = CEGConnection[];
 
@@ -36,7 +36,7 @@ export class NodeCycleValidator extends ElementValidatorBase<CEGModel> {
             circles = circles.concat(newCircles);
         }
         if (circles.length > 0) {
-            return new ValidationResult(Config.ERROR_CIRCULAR_CAUSES, false, Arrays.flatten(circles));
+            return new ValidationResult(ValidationMessage.ERROR_CIRCULAR_CAUSES, false, Arrays.flatten(circles));
         }
         return ValidationResult.VALID;
     }

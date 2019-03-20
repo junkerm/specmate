@@ -9,7 +9,7 @@ import { ProcessEnd } from '../../model/ProcessEnd';
 import { ProcessStart } from '../../model/ProcessStart';
 import { ProcessDecision } from '../../model/ProcessDecision';
 import { ProcessStep } from '../../model/ProcessStep';
-import { Config } from '../../config/config';
+import { ValidationMessage } from '../validation-message';
 
 @Validator(Process)
 export class NodeNoIncomingValidator extends ElementValidatorBase<Process> {
@@ -26,7 +26,7 @@ export class NodeNoIncomingValidator extends ElementValidatorBase<Process> {
                     (element.incomingConnections && element.incomingConnections.length === 0)) &&
                 !Type.is(element, ProcessStart));
         if (nodesWithoutIncomingConnections.length > 0) {
-            return new ValidationResult(Config.ERROR_NODE_WITHOUT_INCOMING, false, nodesWithoutIncomingConnections);
+            return new ValidationResult(ValidationMessage.ERROR_NODE_WITHOUT_INCOMING, false, nodesWithoutIncomingConnections);
         }
         return ValidationResult.VALID;
     }

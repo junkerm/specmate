@@ -7,7 +7,7 @@ import { CEGConnection } from '../../model/CEGConnection';
 import { CEGNode } from '../../model/CEGNode';
 import { Type } from '../../util/type';
 import { Arrays } from '../../util/arrays';
-import { Config } from '../../config/config';
+import { ValidationMessage } from '../validation-message';
 
 @Validator(CEGModel)
 export class ContradictoryCondidionValidator extends ElementValidatorBase<CEGModel> {
@@ -38,7 +38,7 @@ export class ContradictoryCondidionValidator extends ElementValidatorBase<CEGMod
             // We have found contradictions
             // Map them to the list of involved elements (Cause, Effect, Edges from Cause to Effect)
             const elements = Arrays.flatten(contradictions.map(contradiction => contradiction.toArray()));
-            return new ValidationResult(Config.ERROR_CONTRADICTORY_CAUSES, false, elements);
+            return new ValidationResult(ValidationMessage.ERROR_CONTRADICTORY_CAUSES, false, elements);
         }
 
         return ValidationResult.VALID;

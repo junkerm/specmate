@@ -3,6 +3,7 @@ import { IContainer } from '../../../../../../model/IContainer';
 import { ValidationResult } from '../../../../../../validation/validation-result';
 import { AdditionalInformationService } from '../../links-actions/services/additional-information.service';
 import { SelectedElementService } from '../../selected-element/services/selected-element.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: '[warning]',
@@ -34,7 +35,8 @@ export class Warning implements OnInit {
 
     constructor(
         private selectedElementService: SelectedElementService,
-        private additionalInformation: AdditionalInformationService) { }
+        private additionalInformation: AdditionalInformationService,
+        public translate: TranslateService) { }
 
     ngOnInit() { }
 

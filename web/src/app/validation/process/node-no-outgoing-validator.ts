@@ -3,13 +3,13 @@ import { Process } from '../../model/Process';
 import { Validator } from '../validator-decorator';
 import { IContainer } from '../../model/IContainer';
 import { ValidationResult } from '../validation-result';
-import { Config } from '../../config/config';
 import { Type } from '../../util/type';
 import { ProcessEnd } from '../../model/ProcessEnd';
 import { ProcessStart } from '../../model/ProcessStart';
 import { ProcessDecision } from '../../model/ProcessDecision';
 import { ProcessStep } from '../../model/ProcessStep';
 import { IModelNode } from '../../model/IModelNode';
+import { ValidationMessage } from '../validation-message';
 
 @Validator(Process)
 export class NodeNoOutgoingValidator extends ElementValidatorBase<Process> {
@@ -26,7 +26,7 @@ export class NodeNoOutgoingValidator extends ElementValidatorBase<Process> {
                     (element.outgoingConnections && element.outgoingConnections.length === 0)) &&
                 !Type.is(element, ProcessEnd));
         if (nodesWithoutOutgoing.length > 0) {
-            return new ValidationResult(Config.ERROR_NODE_WITHOUT_OUTGOING, false, nodesWithoutOutgoing);
+            return new ValidationResult(ValidationMessage.ERROR_NODE_WITHOUT_OUTGOING, false, nodesWithoutOutgoing);
         }
         return ValidationResult.VALID;
     }
