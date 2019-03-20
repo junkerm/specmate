@@ -54,10 +54,40 @@ public class ModelEditorTest extends TestBase {
 		WebElement nodeAlter = cegEditor.createNode("Alter", ">17",100,100);//results in x=15, y=60
 		WebElement nodeFS = cegEditor.createNode("Führerschein", "vorhanden",100,300);//results in x=15, y=27
 		WebElement nodeAutofahren = cegEditor.createNode("Autofahren", "erlaubt", 300, 200);
+		
+		// Check if error message is shown (Assert true)
+		assertTrue(cegEditor.errorMessageDisplayed());
 			
 		// Connecting created nodes
-		cegEditor.connect(nodeAlter, nodeAutofahren);
+		WebElement connection1 = cegEditor.connect(nodeAlter, nodeAutofahren);
 		cegEditor.connect(nodeFS, nodeAutofahren);
+		
+		// Check if error message is hidden (Assert false)
+		assertFalse(cegEditor.errorMessageDisplayed());
+		
+		// Last action was creating a connection, so the connection should be removed
+		/*
+		commonControl.undo();
+		
+		// Check if we have only one connection (Assert true)
+		assertTrue(cegEditor.checkUndoConnection());
+		
+		// Redo connecting the two nodes
+		cegEditor.connect(nodeFS, nodeAutofahren); */
+		
+		// Negate Connection
+		cegEditor.toggleNegateButtonOn(connection1);
+		
+		// Check if tilde is shown (Assert True)
+		assertTrue(cegEditor.negationDisplayed());
+		
+		// Remove negation 
+		cegEditor.toggleNegateButtonOn(connection1);
+		
+		// Check if tile is hidden (Assert false)
+		assertFalse(cegEditor.negationDisplayed());
+		
+		// Change connection type
 		cegEditor.changeTypeToOR(nodeAutofahren);
 		cegEditor.changeTypeToAND(nodeAutofahren);
 		

@@ -2,8 +2,11 @@ package SpecmatePageClasses;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,7 +21,7 @@ public class CEGEditorElements {
 	Actions builder;
 
 	// Editor Elements and their locators
-	By toolbarMove = By.id("toolbar-tools.move-button");
+	By toolbarMove = By.id("toolbar-tools.select-button");
 	By toolbarNode = By.id("toolbar-tools.addCegNode-button");
 	By toolbarConnection = By.id("toolbar-tools.addCegConnection-button");
 	By toolbarDelete = By.id("toolbar-tools.delete-button");
@@ -36,7 +39,10 @@ public class CEGEditorElements {
 
 	// Links & Actions
 	By generateTestSpec = By.id("generatetestspec-button");
+	
+	// Action bar
 	By saveButton = By.id("commoncontrol-save-button");
+	By undoButton = By.id("commoncontrol-undo-button");
 
 	// Pop-Up Elements and their locators
 	By accept = By.id("popup-accept-button");
@@ -46,6 +52,7 @@ public class CEGEditorElements {
 	public void generateTestSpecification() {
 		scrollDownTo(generateTestSpec);
 		driver.findElement(generateTestSpec).click();
+		//driver.findElement(accept).click();
 	}
 
 	private void scrollDownTo(By elementLocator) {
@@ -132,8 +139,72 @@ public class CEGEditorElements {
 		connectionList = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-connection]"));
 
 		WebElement connectionFromList = connectionList.get(numberOfConnections);
-
+		
 		return connectionFromList;
+	}
+	
+	protected boolean parseAttributeToBoolean(String condition) {
+		if (condition.equalsIgnoreCase("true") || condition.equalsIgnoreCase("false")) {
+		    return Boolean.valueOf(condition);  
+		} else {
+		    throw new InvalidArgumentException("Boolean value could not be parsed");
+		}
+	}
+	
+	public void toggleNegateButtonOn(WebElement connection) {
+		// Chose the Select tool from the toolbar in order to be able to select a connection
+		driver.findElement(toolbarMove).click();
+		
+		// Assert, that the connection is selected 
+		String selected = connection.findElement(By.cssSelector("[ng-reflect-selected]")).getAttribute("ng-reflect-selected");
+		
+		boolean connectionSelected = parseAttributeToBoolean(selected);
+		
+		if(!connectionSelected) {
+			System.out.println("Connection not selected");
+			connection.click();
+		} else {
+			System.out.println("Connection already selected");
+		}
+		
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+	
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.cssSelector("[type='checkbox'][checked]")));
+		driver.findElement(By.cssSelector("[type='checkbox'][checked]")).click();
+	}
+	
+	public boolean negationDisplayed() {
+		return isElementPresent(By.cssSelector("[d=\"m-10,10 m-10,-10 q10,10 20,-0 t20 -0\"]"));
+	}
+	
+	public boolean errorMessageDisplayed() {
+		return isElementPresent(By.cssSelector(".text-danger"));
+	}
+	
+	protected boolean isElementPresent(By selector) {
+		// Set the timeout to 1 second in order to avoid delay
+	    driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+	    boolean returnVal = true;
+	    try{
+	        driver.findElement(selector);
+	    } catch (NoSuchElementException e){
+	        returnVal = false;
+	    } finally {
+	    	// Change timeout back to the defined value
+	        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+	    }
+	    return returnVal;
+	}
+	
+	public void undo() {
+		driver.findElement(undoButton).click();
+	}
+	
+	public boolean checkUndoConnection() {
+		int numberOfConnections = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-connection]"))
+				.size();
+		return numberOfConnections == 1; 
 	}
 
 	public void delete(WebElement element) {
