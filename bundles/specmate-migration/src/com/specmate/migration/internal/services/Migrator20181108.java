@@ -62,7 +62,9 @@ public class Migrator20181108 implements IMigrator {
 									"Failed to retrieve library folder for project " + projectID);
 						}
 						for (Integer cdo_id : foldersToUpdate) {
-							String sql = "UPDATE FOLDER set library = true WHERE CDO_ID = '" + cdo_id + "'";
+							String trueLiteral = this.dbProvider.getTrueLiteral();
+							String sql = "UPDATE FOLDER set library = " + trueLiteral + " WHERE CDO_ID = '" + cdo_id
+									+ "'";
 							PreparedStatement stmt = connection.prepareStatement(sql);
 							stmt.execute();
 							stmt.close();

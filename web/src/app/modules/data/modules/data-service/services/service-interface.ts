@@ -2,8 +2,6 @@ import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular
 import { Url } from '../../../../../util/url';
 import { IContainer } from '../../../../../model/IContainer';
 import { Objects } from '../../../../../util/objects';
-import { CEGConnection } from '../../../../../model/CEGConnection';
-import { Type } from '../../../../../util/type';
 import 'rxjs/add/observable/of';
 import { _throw } from 'rxjs/observable/throw';
 import { UserToken } from '../../../../views/main/authentication/base/user-token';
@@ -73,8 +71,8 @@ export class ServiceInterface {
         await this.http.delete(Url.urlDelete(url), { headers: this.getAuthHeader(token) }).toPromise();
     }
 
-    public async performOperation(url: string, serviceSuffix: string, payload: any, token: UserToken): Promise<void> {
-        await this.http.post(Url.urlCustomService(url, serviceSuffix), payload, { headers: this.getAuthHeader(token) }).toPromise();
+    public async performOperation(url: string, serviceSuffix: string, payload: any, token: UserToken): Promise<any> {
+        return await this.http.post(Url.urlCustomService(url, serviceSuffix), payload, { headers: this.getAuthHeader(token) }).toPromise();
     }
 
     public async performQuery(url: string, serviceSuffix: string, parameters: { [key: string]: string }, token: UserToken): Promise<any> {
@@ -131,10 +129,6 @@ export class ServiceInterface {
         let payload: any = Objects.clone(element);
         payload.url = undefined;
         delete payload.url;
-        if (Type.is(element, CEGConnection)) {
-            payload.source.___proxy = 'true';
-            payload.target.___proxy = 'true';
-        }
         if (!element.id) {
             payload['___proxy'] = 'true';
         }

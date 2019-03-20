@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { ExportTestspecificationButton } from './components/export-testspecification-button.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import { ShortModelErrorMessageDisplay } from './components/short-model-error-message-display.component';
 
 @NgModule({
   imports: [
@@ -11,11 +11,11 @@ import { TranslateModule } from '@ngx-translate/core';
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
-    ExportTestspecificationButton
+    ShortModelErrorMessageDisplay
   ],
   exports: [
     // THE COMPONENTS VISIBLE TO THE OUTSIDE
-    ExportTestspecificationButton
+    ShortModelErrorMessageDisplay
   ],
   providers: [
     // SERVICES
@@ -25,4 +25,4 @@ import { TranslateModule } from '@ngx-translate/core';
   ]
 })
 
-export class ExportTestspecificationButtonModule { }
+export class ShortModelErrorDisplayModule { }

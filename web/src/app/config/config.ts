@@ -87,7 +87,7 @@ export class Config {
 
     public static TESTSPEC_NAME = 'New Test Specification';
     public static TESTSPEC_DESCRIPTION = '';
-    public static TESTSPEC_DESCRIPTION_TRUNC_LENGTH = 30;
+    public static TESTSPEC_DESCRIPTION_TRUNC_LENGTH = 120;
 
     public static TESTPARAMETER_NAME = 'New Test Parameter';
 
@@ -122,7 +122,9 @@ export class Config {
     public static ERROR_PROCESS_START_INCOMING_CONNECTION = 'Start node with incoming connection.';
     public static ERROR_PROCESS_NODE_MULTIPLE_OUTGOING_CONNECTIONS = 'Non-decision-node with multiple outgoing connections.';
     public static ERROR_PROCESS_DECISION_WITH_ONE_OR_LESS_OUTGOING_CONNECTIONS = 'Decision node not at least two outgoing connections.';
+    public static ERROR_INVALID_NAME = 'Invalid character in name.';
 
     // Number of elements to load at each step in the project explorer
     public static ELEMENT_CHUNK_SIZE = 100;
 }
+

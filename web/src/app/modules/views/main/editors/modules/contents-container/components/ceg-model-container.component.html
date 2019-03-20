@@ -1,69 +1,69 @@
-<div class="card">
-    <h5 class="card-header">{{'Cause-EffectModels' | translate}}</h5>
-    <div *ngIf="contents === undefined" class="card-body">
-        <i class="fa fa-spinner fa-pulse fa-fw text-muted"></i>
-    </div>
-    <div *ngIf="contents && contents.length == 0" class="card-body">
-        <span class="text-muted">
-            {{'noModelsFound' | translate}}...
-        </span>
-    </div>
-    <ul *ngIf="contents && contents.length > 0" class="list-group list-group-flush">
-        <li *ngFor="let element of contents" class="list-group-item">
-            <table style="width:100%">
-                <tr>
-                    <td>
-                        <a [navigationTarget]="element">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{element.name}}
-                        </a>
-                        &nbsp;
-                        <span class="text-muted">{{element.description | truncate: 60}}</span>
-                    </td>
-                    <td style="text-align:right">
-                        <test-specification-generator-button *ngIf="canGenerateTestSpecification" id="{{element.name + '-generate-testspec-button'}}"
-                            [model]="element"></test-specification-generator-button>
-                        <button id="{{'requirement-' + element.name + '-copy-button'}}" title="{{'copy' | translate}}"
-                            (click)="copy(element)" class="btn btn-sm btn-outline-primary">
-                            <i class="fa fa-copy" aria-hidden="true"></i>&nbsp;{{'copy' | translate}}
-                        </button>
-                        <button id="{{'requirement-' + element.name + '-duplicatemodel-button'}}" title="{{'duplicate' | translate}}"
-                            (click)="duplicate(element)" class="btn btn-sm btn-outline-primary">
-                            <i class="fa fa-clone" aria-hidden="true"></i>&nbsp;{{'duplicate' | translate}}
-                        </button>
-                        <button id="{{'requirement-' + element.name + '-deletemodel-button'}}" title="{{'delete' | translate}}"
-                            (click)="delete(element)" class="btn btn-sm btn-outline-danger">
-                            <i class="fa fa-trash" aria-hidden="true"></i>
-                        </button>
-                    </td>
-                </tr>
-            </table>
-        </li>
-    </ul>
-    <div *ngIf="contents" class="card-body">
-        <div class="row">
-            <div class="col">
-                <div class="input-group">
-                    <input type="text" #newNameInput (keyup)="0" id="modelNameForm" class="form-control form-control-sm" placeholder="{{'name' | translate}}" />
-                    <div class="input-group-append">
-                        <button id="requirement-createprocess-button" title="{{'createModel' | translate}}" (click)="create(newNameInput.value)"
-                            class="btn btn-sm btn-outline-primary" [disabled]="newNameInput.value === undefined || newNameInput.value.length === 0"
-                            [class.disabled]="newNameInput.value === undefined || newNameInput.value.length === 0">
-                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createModel' | translate}}
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="input-group">
-                    <input type="text" #pasteNameInput (keyup)="0" class="form-control form-control-sm" [placeholder]="clipboardModelName" [disabled]="!canPaste" />
-                    <div class="input-group-append">
-                        <button id="requirement-paste-button" title="{{'paste' | translate}}" (click)="paste(pasteNameInput.value)" class="btn btn-sm btn-outline-primary"
-                            [disabled]="!canPaste">
-                            <i class="fa fa-paste" aria-hidden="true"></i>&nbsp;{{'paste' | translate}}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1671.1">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 14.0px; font: 12.0px Times; color: #000000; -webkit-text-stroke: #000000}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 14.0px; font: 12.0px Times; color: #000000; -webkit-text-stroke: #000000; min-height: 12.0px}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 13.0px; font: 11.0px '.SF NS Text'; color: #000000; color: rgba(0, 0, 0, 0.85); -webkit-text-stroke: rgba(0, 0, 0, 0.85)}
+    li.li1 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 14.0px; font: 12.0px Times; color: #000000; -webkit-text-stroke: #000000}
+    li.li4 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: right; line-height: 13.0px; font: 11.0px '.SF NS Text'; color: #000000; color: rgba(0, 0, 0, 0.85); -webkit-text-stroke: rgba(0, 0, 0, 0.85)}
+    span.s1 {font-kerning: none}
+    span.s2 {-webkit-text-stroke: 0px #000000}
+    span.s3 {background-color: #b3b3b3; -webkit-text-stroke: 0px #000000}
+    span.s4 {font-kerning: none; background-color: #b3b3b3}
+    td.td1 {width: 346.3px; margin: 0.5px 0.5px 0.5px 0.5px; padding: 1.0px 1.0px 1.0px 1.0px}
+    td.td2 {width: 387.7px; margin: 0.5px 0.5px 0.5px 0.5px; padding: 1.0px 1.0px 1.0px 1.0px}
+    ul.ul1 {list-style-type: disc}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span></p>
+<h5 style="margin: 0.0px 0.0px 16.6px 0.0px; line-height: 13.0px; font: 10.0px Times; color: #000000; -webkit-text-stroke: #000000"><span class="s1"><b>{{'Cause-EffectModels' | translate}}</b></span></h5>
+<p class="p3"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">{{'noModelsFound' | translate}}...<span class="Apple-converted-space"> </span></span></p>
+<table cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td valign="middle" class="td1">
+        <ul class="ul1">
+          <li class="li1"><span class="s2"></span><span class="s1"> {{element.name}}   {{element.description | truncate: 60}}<span class="Apple-converted-space"> </span></span></li>
+        </td>
+        <td valign="middle" class="td2">
+          <li class="li4"><span class="s3"></span><span class="s4"> {{'copy' |Â translate}}  {{'duplicate' |Â translate}}<span class="Apple-converted-space"> </span></span></li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="p5"><span class="s4"> {{'createModel' | translate}}<span class="Apple-converted-space"> </span></span></p>
+<p class="p5"><span class="s4"> {{'paste' |Â translate}}<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1">=======</span></p>
+<h5 style="margin: 0.0px 0.0px 16.6px 0.0px; line-height: 13.0px; font: 10.0px Times; color: #000000; -webkit-text-stroke: #000000"><span class="s1"><b>{{'Cause-EffectModels' | translate}}</b></span></h5>
+<p class="p3"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">{{'noModelsFound' | translate}}...<span class="Apple-converted-space"> </span></span></p>
+<table cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td valign="middle" class="td1">
+        <ul class="ul1">
+          <li class="li1"><span class="s2"></span><span class="s1"> {{element.name}}   {{element.description | truncate: 60}}<span class="Apple-converted-space"> </span></span></li>
+        </td>
+        <td valign="middle" class="td2">
+          <li class="li4"><span class="s3"></span><span class="s4"> {{'copy' |Â translate}}  {{'duplicate' |Â translate}}<span class="Apple-converted-space"> </span></span></li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="p5"><span class="s4"> {{'createModel' | translate}}<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1">{{errorMessage}}<span class="Apple-converted-space"> </span></span></p>
+<p class="p5"><span class="s4"> {{'paste' |Â translate}}<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1">{{errorMessage}}<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1">&gt;&gt;&gt;&gt;&gt;&gt;&gt; develop<span class="Apple-converted-space"> </span></span></p>
+</body>
+</html>
