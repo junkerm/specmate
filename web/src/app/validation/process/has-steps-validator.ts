@@ -9,7 +9,7 @@ import { ProcessEnd } from '../../model/ProcessEnd';
 import { ProcessStart } from '../../model/ProcessStart';
 import { ProcessDecision } from '../../model/ProcessDecision';
 import { ProcessStep } from '../../model/ProcessStep';
-import { Config } from '../../config/config';
+import { ValidationMessage } from '../validation-message';
 
 @Validator(Process)
 export class HasStepsValidator extends ElementValidatorBase<Process> {
@@ -22,7 +22,7 @@ export class HasStepsValidator extends ElementValidatorBase<Process> {
                 Type.is(element, ProcessStep)) as IModelNode[];
         let processSteps: IModelNode[] = processNodes.filter((element: IModelNode) => Type.is(element, ProcessStep));
         if (processSteps.length === 0) {
-            return new ValidationResult(Config.ERROR_NO_STEPS, false, []);
+            return new ValidationResult(ValidationMessage.ERROR_NO_STEPS, false, []);
         }
         return ValidationResult.VALID;
     }

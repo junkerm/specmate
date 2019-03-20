@@ -5,7 +5,7 @@ import { CEGNode } from '../../model/CEGNode';
 import { IContainer } from '../../model/IContainer';
 import { ValidationResult } from '../validation-result';
 import { Type } from '../../util/type';
-import { Config } from '../../config/config';
+import { ValidationMessage } from '../validation-message';
 
 @Validator(CEGModel)
 export class DuplicateIOVariableValidator extends ElementValidatorBase<CEGModel> {
@@ -35,7 +35,7 @@ export class DuplicateIOVariableValidator extends ElementValidatorBase<CEGModel>
             }
         }
         if (invalidNodes.length > 0) {
-            return new ValidationResult(Config.ERROR_DUPLICATE_IO_VARIABLE, false, invalidNodes);
+            return new ValidationResult(ValidationMessage.ERROR_DUPLICATE_IO_VARIABLE, false, invalidNodes);
         }
         return ValidationResult.VALID;
     }

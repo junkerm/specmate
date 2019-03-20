@@ -17,4 +17,8 @@ export class Arrays {
         }
         return array.indexOf(element) >= 0;
     }
+
+    public static flatten<T>(array: T[][]): T[] {
+        return [].concat(...array);
+    }
 }
