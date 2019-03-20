@@ -39,10 +39,6 @@ public class CEGEditorElements {
 
 	// Links & Actions
 	By generateTestSpec = By.id("generatetestspec-button");
-	
-	// Action bar
-	By saveButton = By.id("commoncontrol-save-button");
-	By undoButton = By.id("commoncontrol-undo-button");
 
 	// Pop-Up Elements and their locators
 	By accept = By.id("popup-accept-button");
@@ -195,10 +191,6 @@ public class CEGEditorElements {
 	        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	    }
 	    return returnVal;
-	}
-	
-	public void undo() {
-		driver.findElement(undoButton).click();
 	}
 	
 	public boolean checkUndoConnection() {
