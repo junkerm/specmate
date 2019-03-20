@@ -38,3 +38,5 @@ ui-tests/.mvn/wrapper/maven-wrapper.jar
 
 # ui-tests
 ui-tests/.idea/
+ui-tests/.project
+ui-tests/.classpath
