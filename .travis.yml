@@ -18,7 +18,8 @@ install:
 - cd ../bundles && ./gradlew --version
 script:
 - cd ../web && npm run build-prod
-- cd ../bundles && ./gradlew --no-daemon build --continue -x check
+- cd ../bundles && ./gradlew --no-daemon build --continue
+- cd ../bundles && ./gradlew --no-daemon check
 - cd ../bundles && ./gradlew --no-daemon export
 - cd ../bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &
 - sleep 10
