@@ -3,6 +3,8 @@ import { IContainer } from '../../../../../../model/IContainer';
 import { ValidationResult } from '../../../../../../validation/validation-result';
 import { AdditionalInformationService } from '../../links-actions/services/additional-information.service';
 import { SelectedElementService } from '../../selected-element/services/selected-element.service';
+import { Type } from '../../../../../../util/type';
+import { CEGNode } from '../../../../../../model/CEGNode';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -45,15 +47,20 @@ export class Warning implements OnInit {
             return 'Model';
         }
         return this.affectedElements.map( e => {
+            if (Type.is(e, CEGNode)) {
+                let node = e as CEGNode;
+                let varN = node.variable ? node.variable : 'Unnamed Variable';
+                let cond = node.condition ? node.condition : '';
+                return (varN + ' (' + cond + ')').trim();
+            }
+
             if (!e.name || e.name.length == 0) {
                 return 'Unnamed Element';
             }
-            if (e.name.match(/^New Node (\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/)) {
-                // Remove Timestamp of New Nodes
-                return 'New Node';
-            }
 
-            return e.name;
+            let name = e.name;
+            name = name.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/, ''); // Remove Timestamp of Node
+            return name.trim();
         }).join(',\n'); // Add forced linebreaks after each name. Ensured by css 'white-space:pre-line'
     }
 
