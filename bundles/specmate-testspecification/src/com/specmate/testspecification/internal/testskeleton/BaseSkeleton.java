@@ -32,7 +32,7 @@ public abstract class BaseSkeleton {
 	}
 
 	private static int compareParameter(TestParameter p1, TestParameter p2) {
-		return p1.getType().compareTo(p2.getType()) * 10 + p1.getName().compareTo(p2.getName());
+		return p1.getType().compareTo(p2.getType()) * 10 + Integer.signum(p1.getName().compareTo(p2.getName()));
 	}
 
 	public TestSpecificationSkeleton generate(TestSpecification testSpecification) {

@@ -3,6 +3,7 @@ import { IContainer } from '../../../../../../model/IContainer';
 import { NavigatorService } from '../../../../../navigation/modules/navigator/services/navigator.service';
 import { Type } from '../../../../../../util/type';
 import { Requirement } from '../../../../../../model/Requirement';
+import { AuthenticationService } from '../../../../main/authentication/modules/auth/services/authentication.service';
 
 @Injectable()
 export class SelectedElementService {
@@ -10,7 +11,7 @@ export class SelectedElementService {
 
     private _selectionChanged: EventEmitter<IContainer[]>;
 
-    constructor(private navigator: NavigatorService) {
+    constructor(navigator: NavigatorService, auth: AuthenticationService) {
         this.selectedElements = [];
 
         navigator.hasNavigated.subscribe((element: IContainer) => {
@@ -20,6 +21,8 @@ export class SelectedElementService {
                 this.deselect();
             }
         });
+
+        auth.authChanged.subscribe(() => this.deselect());
     }
 
     public get selectionChanged(): EventEmitter<IContainer[]> {

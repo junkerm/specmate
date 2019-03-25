@@ -73,7 +73,7 @@ public class ConnectorTask extends SchedulerTask {
 					});
 
 				}
-			} catch (SpecmateException e) {
+			} catch (Exception e) {
 				logService.log(LogService.LOG_ERROR, e.getMessage());
 				transaction.rollback();
 			}

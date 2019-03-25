@@ -5,7 +5,7 @@ import { ValidationResult } from '../validation-result';
 import { Validator } from '../validator-decorator';
 import { Type } from '../../util/type';
 import { CEGNode } from '../../model/CEGNode';
-import { Config } from '../../config/config';
+import { ValidationMessage } from '../validation-message';
 
 @Validator(CEGModel)
 export class EmptyModelValidator extends ElementValidatorBase<CEGModel> {
@@ -14,6 +14,6 @@ export class EmptyModelValidator extends ElementValidatorBase<CEGModel> {
         if (valid) {
             return ValidationResult.VALID;
         }
-        return new ValidationResult(Config.ERROR_EMPTY_MODEL, false, []);
+        return new ValidationResult(ValidationMessage.ERROR_EMPTY_MODEL, false, []);
     }
 }

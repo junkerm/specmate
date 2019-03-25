@@ -3,6 +3,6 @@
         <div><a class="warning-link" (click)="selectElement()" href>{{name}}</a></div>
     </th>
     <th>
-        <div>{{error.message}}</div>
+        <div>{{error.message.getMessageTranslated(translate)}}</div>
     </th>
 </tr>

@@ -24,6 +24,13 @@ export class AdditionalInformationService {
             this.element = element;
             this.load();
         });
+        auth.authChanged.subscribe(() => this.reset());
+    }
+
+    private reset(): void {
+        this.element = undefined;
+        this.parents = undefined;
+        this._testSpecifications = undefined;
     }
 
     private async load(): Promise<void> {

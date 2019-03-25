@@ -29,4 +29,8 @@ export class Arrays {
         }
         return out;
     }
+
+    public static flatten<T>(array: T[][]): T[] {
+        return [].concat(...array);
+    }
 }
