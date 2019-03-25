@@ -190,7 +190,7 @@ public class CEGEditorElements {
 	    boolean returnVal = true;
 	    try{
 	        driver.findElement(selector);
-	    } catch (NoSuchElementException e){
+	    } catch (Throwable e){
 	        returnVal = false;
 	    } finally {
 	    	// Change timeout back to the defined value
