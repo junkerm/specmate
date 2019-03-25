@@ -81,4 +81,13 @@ export class ErrorsWarings {
         }).sort(). join(',');
     }
 
+    public get showErrors(): boolean {
+        if (this.model !== undefined
+            && this.model.className !== undefined
+            && this.model.className === 'Folder') {
+            return false;
+        }
+        return true;
+    }
+
 }
