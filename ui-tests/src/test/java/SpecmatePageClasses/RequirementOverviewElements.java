@@ -3,8 +3,6 @@ package SpecmatePageClasses;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-//Page Class
-//Anforderungsübersicht
 public class RequirementOverviewElements {
 
 	WebDriver driver;
@@ -37,6 +35,31 @@ public class RequirementOverviewElements {
 		driver.findElement(createModel).click();
 	}
 	
+	protected boolean languageIsGerman() {
+		String lang = driver.findElement(By.tagName("html")).getAttribute("lang");
+		if(lang.contentEquals("de")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public void clickOnCreatedModel (String modelName) {
+		if (languageIsGerman()) {
+			driver.findElement(By.cssSelector("[title='Navigiere nach \"" + modelName + "\"']:first-child")).click();	
+		} else {
+			driver.findElement(By.cssSelector("[title='Navigate to \"" + modelName + "\"']:first-child")).click();
+		}
+	}
+	
+	public void clickOnDuplicateModel (String modelName) {
+		if (languageIsGerman()) { 
+			driver.findElement(By.cssSelector("[title='Navigiere nach \"Copy 1 of " + modelName + "\"']:first-child")).click();
+		} else {
+			driver.findElement(By.cssSelector("[title='Navigate to \"Copy 1 of " + modelName + "\"']:first-child")).click();	
+		}
+	}
+	
 	/**click on button to create new process*/
 	public void createProcess() {
 		driver.findElement(createProcess).click();
@@ -52,9 +75,18 @@ public class RequirementOverviewElements {
 		driver.findElement(discard).click();
 	}
 	
+	public void deleteDuplicateModel(String modelName) {
+		driver.findElement(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button")).click();
+		driver.findElement(discard).click();
+	}
+	
 	public void deleteModelbutCancel(String modelName) {
 		driver.findElement(By.id("requirement-" + modelName + "-deletemodel-button")).click();
 		driver.findElement(cancel).click();
+	}
+	
+	public void duplicateModel(String modelName) {
+		driver.findElement(By.id("requirement-" + modelName + "-duplicatemodel-button")).click();
 	}
 	
 	public void deleteProcess(String processName) {

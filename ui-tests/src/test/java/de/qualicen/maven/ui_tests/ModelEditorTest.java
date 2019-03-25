@@ -63,7 +63,7 @@ public class ModelEditorTest extends TestBase {
 		cegEditor.connect(nodeFS, nodeAutofahren);
 		
 		// Check if error message is hidden (Assert false)
-		assertFalse(cegEditor.errorMessageDisplayed());
+		assertTrue(cegEditor.noWarningsMessageDisplayed());
 		
 		// Last action was creating a connection, so the connection should be removed
 		/*
@@ -101,5 +101,24 @@ public class ModelEditorTest extends TestBase {
 		cegEditor.generateTestSpecification();
 		
 		assertTrue(cegEditor.correctTestSpecificationGenerated());
+		
+		// Click on created CEG in the requriement overview
+		projectExplorer.open("Erlaubnis Autofahren");
+		requirementOverview.clickOnCreatedModel(modelName);
+
+		// Duplicate CEG
+		projectExplorer.open("Erlaubnis Autofahren");
+		requirementOverview.duplicateModel(modelName);
+		// Click on it, to check if the duplication created a new model
+		requirementOverview.clickOnDuplicateModel(modelName);
+
+		// Delete duplicate
+		projectExplorer.open("Erlaubnis Autofahren");
+		requirementOverview.deleteDuplicateModel(modelName);
+
+		// Delete created model 
+		projectExplorer.open("Erlaubnis Autofahren");
+		requirementOverview.deleteModel(modelName);
+				
 	 }
 }

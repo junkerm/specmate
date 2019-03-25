@@ -39,6 +39,8 @@ public class CEGEditorElements {
 
 	// Links & Actions
 	By generateTestSpec = By.id("generatetestspec-button");
+	
+	By undoButton = By.id("commoncontrol-undo-button");
 
 	// Pop-Up Elements and their locators
 	By accept = By.id("popup-accept-button");
@@ -176,6 +178,10 @@ public class CEGEditorElements {
 	
 	public boolean errorMessageDisplayed() {
 		return isElementPresent(By.cssSelector(".text-danger"));
+	}
+	
+	public boolean noWarningsMessageDisplayed() {
+		return isElementPresent(By.cssSelector(".text-success"));
 	}
 	
 	protected boolean isElementPresent(By selector) {
