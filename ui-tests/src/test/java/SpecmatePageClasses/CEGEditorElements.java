@@ -27,6 +27,9 @@ public class CEGEditorElements {
 	By toolbarDelete = By.id("toolbar-tools.delete-button");
 	By toolbarClear = By.id("toolbar-clear-button");
 	By editor = By.id("editor-field");
+	
+	// CEG Elements
+	By tilde = By.id("tilde");
 
 	// Property Editor Elements and their locators
 	By propertiesVariable = By.id("properties-variable-textfield");
@@ -159,10 +162,7 @@ public class CEGEditorElements {
 		boolean connectionSelected = parseAttributeToBoolean(selected);
 		
 		if(!connectionSelected) {
-			System.out.println("Connection not selected");
 			connection.click();
-		} else {
-			System.out.println("Connection already selected");
 		}
 		
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -173,7 +173,7 @@ public class CEGEditorElements {
 	}
 	
 	public boolean negationDisplayed() {
-		return isElementPresent(By.cssSelector("[d=\"m-10,10 m-10,-10 q10,10 20,-0 t20 -0\"]"));
+		return isElementPresent(tilde);
 	}
 	
 	public boolean errorMessageDisplayed() {
@@ -187,16 +187,16 @@ public class CEGEditorElements {
 	protected boolean isElementPresent(By selector) {
 		// Set the timeout to 1 second in order to avoid delay
 	    driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-	    boolean returnVal = true;
+	    boolean elementPresent = true;
 	    try{
 	        driver.findElement(selector);
 	    } catch (NoSuchElementException e){
-	        returnVal = false;
+	        elementPresent = false;
 	    } finally {
 	    	// Change timeout back to the defined value
 	        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	    }
-	    return returnVal;
+	    return elementPresent;
 	}
 	
 	public boolean checkUndoConnection() {
