@@ -17,11 +17,11 @@ export class FormCheckboxInput extends FormElement {
         return this.form.controls[this.meta.name];
     }
 
-    private get value(): string {
+    public get value(): string {
         return this.control.value;
     }
 
-    private set value(val: string) {
+    public set value(val: string) {
         this.control.setValue(val);
     }
 }

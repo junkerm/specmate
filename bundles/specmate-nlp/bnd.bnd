@@ -177,6 +177,8 @@ Import-Package: \
 	reactor.core.*;resolution:=optional,\
 	rx;resolution:=optional,\
 	org.codehaus.groovy.*;resolution:=optional,\
+	com.apple.*;resolution:=optional,\
+	org.apache.uima.fit.legacy;resolution:=optional,\
 	*
 	
 Export-Package: \
