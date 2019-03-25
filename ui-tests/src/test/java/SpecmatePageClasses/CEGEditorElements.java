@@ -49,6 +49,12 @@ public class CEGEditorElements {
 	By accept = By.id("popup-accept-button");
 	By cancel = By.id("popup-dismiss-button");
 
+	public CEGEditorElements(WebDriver driver, Actions builder) { // constructor
+
+		this.driver = driver;
+		this.builder = builder;
+	}
+	
 	// Generates a test specification within the CEG Editor
 	public void generateTestSpecification() {
 		scrollDownTo(generateTestSpec);
@@ -65,11 +71,9 @@ public class CEGEditorElements {
 		// This will scroll the page till the element is found
 		js.executeScript("arguments[0].scrollIntoView();", Element);
 	}
-
-	public CEGEditorElements(WebDriver driver, Actions builder) { // constructor
-
-		this.driver = driver;
-		this.builder = builder;
+	
+	public void clickOnRelatedRequirement(String requirement) {
+		driver.findElement(By.id("requirement-" + requirement + "-link")).click();
 	}
 
 	public void setModelName(String name) {

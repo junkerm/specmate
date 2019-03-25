@@ -102,22 +102,21 @@ public class ModelEditorTest extends TestBase {
 		
 		assertTrue(cegEditor.correctTestSpecificationGenerated());
 		
-		// Click on created CEG in the requriement overview
-		projectExplorer.open("Erlaubnis Autofahren");
+		// Click on created CEG in the requirement overview
+		cegEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
 		requirementOverview.clickOnCreatedModel(modelName);
-
+		
 		// Duplicate CEG
-		projectExplorer.open("Erlaubnis Autofahren");
+		cegEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
 		requirementOverview.duplicateModel(modelName);
 		// Click on it, to check if the duplication created a new model
 		requirementOverview.clickOnDuplicateModel(modelName);
-
+		
 		// Delete duplicate
-		projectExplorer.open("Erlaubnis Autofahren");
+		cegEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
 		requirementOverview.deleteDuplicateModel(modelName);
-
+		
 		// Delete created model 
-		projectExplorer.open("Erlaubnis Autofahren");
 		requirementOverview.deleteModel(modelName);
 				
 	 }
