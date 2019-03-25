@@ -2,6 +2,8 @@ package SpecmatePageClasses;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class RequirementOverviewElements {
 
@@ -36,6 +38,9 @@ public class RequirementOverviewElements {
 	}
 	
 	public void clickOnCreatedModel (String modelName) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.id("requirement-" + modelName + "-show-model-button")));
 		driver.findElement(By.id("requirement-" + modelName + "-show-model-button")).click();	
 	}
 	
@@ -59,6 +64,9 @@ public class RequirementOverviewElements {
 	}
 	
 	public void deleteDuplicateModel(String modelName) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button")));
 		driver.findElement(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button")).click();
 		driver.findElement(discard).click();
 	}
@@ -69,6 +77,9 @@ public class RequirementOverviewElements {
 	}
 	
 	public void duplicateModel(String modelName) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.id("requirement-" + modelName + "-duplicatemodel-button")));
 		driver.findElement(By.id("requirement-" + modelName + "-duplicatemodel-button")).click();
 	}
 	

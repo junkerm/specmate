@@ -27,9 +27,6 @@ public class CEGEditorElements {
 	By toolbarDelete = By.id("toolbar-tools.delete-button");
 	By toolbarClear = By.id("toolbar-clear-button");
 	By editor = By.id("editor-field");
-	
-	// CEG Elements
-	By tilde = By.id("tilde");
 
 	// Property Editor Elements and their locators
 	By propertiesVariable = By.id("properties-variable-textfield");
@@ -177,7 +174,7 @@ public class CEGEditorElements {
 	}
 	
 	public boolean negationDisplayed() {
-		return isElementPresent(tilde);
+		return isElementPresent(By.cssSelector(".tilde"));
 	}
 	
 	public boolean errorMessageDisplayed() {
