@@ -35,29 +35,12 @@ public class RequirementOverviewElements {
 		driver.findElement(createModel).click();
 	}
 	
-	protected boolean languageIsGerman() {
-		String lang = driver.findElement(By.tagName("html")).getAttribute("lang");
-		if(lang.contentEquals("de")) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
 	public void clickOnCreatedModel (String modelName) {
-		if (languageIsGerman()) {
-			driver.findElement(By.cssSelector("[title='Navigiere nach \"" + modelName + "\"']:first-child")).click();	
-		} else {
-			driver.findElement(By.cssSelector("[title='Navigate to \"" + modelName + "\"']:first-child")).click();
-		}
+		driver.findElement(By.id("requirement-" + modelName + "-show-model-button")).click();	
 	}
 	
 	public void clickOnDuplicateModel (String modelName) {
-		if (languageIsGerman()) { 
-			driver.findElement(By.cssSelector("[title='Navigiere nach \"Copy 1 of " + modelName + "\"']:first-child")).click();
-		} else {
-			driver.findElement(By.cssSelector("[title='Navigate to \"Copy 1 of " + modelName + "\"']:first-child")).click();	
-		}
+		driver.findElement(By.id("requirement-Copy 1 of " + modelName + "-show-model-button")).click();	
 	}
 	
 	/**click on button to create new process*/
