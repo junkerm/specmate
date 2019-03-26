@@ -2918,5 +2918,22 @@
         <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.5"/>
       </changes>
     </changes>
+    <changes xsi:type="history:Create" xmi:id="_v8zFUE-vEem_FM2VaPCtCg" referenceName="eAnnotations">
+      <target href="specmate.ecore#//requirements/CEGModel"/>
+      <element href="specmate.ecore#//requirements/CEGModel/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_x4TIsE-vEem_FM2VaPCtCg" referenceName="details">
+      <target href="specmate.ecore#//requirements/CEGModel/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element href="specmate.ecore#//requirements/CEGModel/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.0"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_zFkNEE-vEem_FM2VaPCtCg" featureName="key" dataValue="disabled1">
+      <element href="specmate.ecore#//requirements/CEGModel/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.0"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_0e1tIE-vEem_FM2VaPCtCg" featureName="value" dataValue="modelRequirements">
+      <element href="specmate.ecore#//requirements/CEGModel/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.0"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_OTceME-xEem_FM2VaPCtCg" featureName="source" dataValue="http://specmate.com/form_meta">
+      <element href="specmate.ecore#//requirements/CEGModel/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+    </changes>
   </releases>
 </history:History>

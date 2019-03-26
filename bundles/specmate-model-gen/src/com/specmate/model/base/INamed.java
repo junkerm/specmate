@@ -33,7 +33,7 @@ public interface INamed extends CDOObject {
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see com.specmate.model.base.BasePackage#getINamed_Name()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Name' longDesc='' required='true' type='text' position='0'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Name' longDesc='' required='true' type='text' position='0' allowedPattern='^[^,;|]*$'"
 	 * @generated
 	 */
 	String getName();

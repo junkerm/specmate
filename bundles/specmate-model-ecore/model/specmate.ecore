@@ -89,6 +89,9 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="platform" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CEGModel" eSuperTypes="#//base/ISpecmateModelObject">
+      <eAnnotations source="http://specmate.com/form_meta">
+        <details key="disabled1" value="modelRequirements"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelRequirements" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Model Requirements"/>

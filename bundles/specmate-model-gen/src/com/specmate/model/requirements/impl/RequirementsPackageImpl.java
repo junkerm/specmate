@@ -456,8 +456,26 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		createResource(eNS_URI);
 
 		// Create annotations
+		// null
+		createNullAnnotations();
 		// http://specmate.com/form_meta
 		createForm_metaAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>null</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createNullAnnotations() {
+		String source = null;	
+		addAnnotation
+		  (cegModelEClass, 
+		   source, 
+		   new String[] {
+			 "disabled1", "modelRequirements"
+		   });
 	}
 
 	/**
