@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,7 +91,7 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 
 		defaultFolder = createFolder(projectName + "-Default", projectName + "-Default");
 
-		this.cache = this.cacheService.createCache(JIRA_STORY_CACHE_NAME, 500, 3600, new ICacheLoader<String, Issue>() {
+		cache = cacheService.createCache(JIRA_STORY_CACHE_NAME, 500, 3600, new ICacheLoader<String, Issue>() {
 
 			@Override
 			public Issue load(String key) throws SpecmateException {
@@ -99,14 +100,14 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 			}
 		});
 
-		this.logService.log(LogService.LOG_DEBUG, "Initialized Jira Connector with " + properties.toString() + ".");
+		logService.log(LogService.LOG_DEBUG, "Initialized Jira Connector with " + properties.toString() + ".");
 	}
 
 	@Deactivate
 	public void deactivate() throws SpecmateInternalException {
 		try {
 			jiraClient.close();
-			this.cacheService.removeCache(JIRA_STORY_CACHE_NAME);
+			cacheService.removeCache(JIRA_STORY_CACHE_NAME);
 		} catch (IOException e) {
 			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "Could not close JIRA client.", e);
 		}
@@ -129,7 +130,7 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 
 	@Override
 	public String getId() {
-		return this.id;
+		return id;
 	}
 
 	@Override
@@ -137,12 +138,12 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 
 		List<Requirement> requirements = new ArrayList<>();
 
-		List<Issue> storiesWithoutEpic = this.getStoriesWithoutEpic();
+		List<Issue> storiesWithoutEpic = getStoriesWithoutEpic();
 		for (Issue story : storiesWithoutEpic) {
 			requirements.add(createRequirement(story));
 		}
 
-		List<Issue> epics = this.getEpics();
+		List<Issue> epics = getEpics();
 
 		for (Issue epic : epics) {
 			createFolderIfNotExists(epic);
@@ -158,21 +159,23 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 	}
 
 	private List<Issue> getStoriesForEpic(Issue epic) throws SpecmateException {
-		return this.getIssues("project=" + projectName + " AND issueType=story AND \"Epic Link\"=\"" + epic.getKey()
-				+ "\" ORDER BY assignee, resolutiondate");
+		return getIssues("project=" + projectName + " AND issueType=systemanforderung AND key in linkedIssues(\""
+				+ epic.getKey() + "\",\"is described by\")" + " ORDER BY assignee, resolutiondate");
 	}
 
 	private List<Issue> getStoriesWithoutEpic() throws SpecmateException {
-		return this.getIssues("project=" + projectName
-				+ " AND issueType=story AND \"Epic Link\" IS EMPTY ORDER BY assignee, resolutiondate");
+		return Collections.emptyList();
+		// return getIssues("project=" + projectName
+		// + " AND issueType=story AND \"Epic Link\" IS EMPTY ORDER BY assignee,
+		// resolutiondate");
 	}
 
 	private List<Issue> getEpics() throws SpecmateException {
-		return this.getIssues("project=" + projectName + " AND issueType=epic ORDER BY id");
+		return getIssues("project=" + projectName + " AND issueType=funktion ORDER BY id");
 	}
 
 	private Issue getStory(String id) throws SpecmateException {
-		List<Issue> issues = this.getIssues("project=" + projectName + " AND id=" + id);
+		List<Issue> issues = getIssues("project=" + projectName + " AND id=" + id);
 		if (issues == null || issues.size() == 0) {
 			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "JIRA Issue not found: " + id);
 		}
@@ -230,7 +233,7 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 			Integer status = e.getStatusCode().get();
 			if (status == 401) {
 				logService.log(LogService.LOG_INFO,
-						"Invalid credentials provided for jira project " + this.projectName + '.');
+						"Invalid credentials provided for jira project " + projectName + '.');
 				return false;
 			}
 			e.printStackTrace();
@@ -289,7 +292,7 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 		if (target instanceof Requirement) {
 			Requirement req = (Requirement) target;
 			return req.getSource() != null && req.getSource().equals(JIRA_SOURCE_ID)
-					&& (SpecmateEcoreUtil.getProjectId(req).equals(this.id));
+					&& (SpecmateEcoreUtil.getProjectId(req).equals(id));
 		}
 		return false;
 	}
@@ -310,8 +313,8 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 	}
 
 	/**
-	 * Behavior for GET requests. For requirements the current data is fetched
-	 * from the HP server.
+	 * Behavior for GET requests. For requirements the current data is fetched from
+	 * the HP server.
 	 */
 	@Override
 	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
@@ -327,7 +330,7 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 
 		Issue issue;
 		try {
-			issue = this.cache.get(localRequirement.getExtId());
+			issue = cache.get(localRequirement.getExtId());
 		} catch (Exception e) {
 			// Loading has failed
 			return new RestResult<>(Status.NOT_FOUND);
