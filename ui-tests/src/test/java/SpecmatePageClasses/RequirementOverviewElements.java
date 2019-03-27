@@ -87,6 +87,9 @@ public class RequirementOverviewElements {
 	}
 	
 	public void deleteModelbutCancel(String modelName) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.id("requirement-" + modelName + "-deletemodel-button")));
 		driver.findElement(By.id("requirement-" + modelName + "-deletemodel-button")).click();
 		driver.findElement(cancel).click();
 	}
