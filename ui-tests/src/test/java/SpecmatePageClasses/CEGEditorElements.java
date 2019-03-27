@@ -59,7 +59,7 @@ public class CEGEditorElements {
 		//driver.findElement(accept).click();
 	}
 
-	private void scrollDownTo(By elementLocator) {
+	protected void scrollDownTo(By elementLocator) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 
 		// Find element by link text and store in variable "Element"

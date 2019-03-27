@@ -1,7 +1,9 @@
 package SpecmatePageClasses;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -37,7 +39,19 @@ public class RequirementOverviewElements {
 		driver.findElement(createModel).click();
 	}
 	
+	protected void scrollDownTo(By elementLocator) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+
+		// Find element by link text and store in variable "Element"
+		WebElement Element = driver.findElement(elementLocator);
+
+		// This will scroll the page till the element is found
+		js.executeScript("arguments[0].scrollIntoView();", Element);
+	}
+	
 	public void clickOnCreatedModel (String modelName) {
+		// Scroll down to model 
+		scrollDownTo(modelInputField);
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.id("requirement-" + modelName + "-show-model-button")));
@@ -64,6 +78,7 @@ public class RequirementOverviewElements {
 	}
 	
 	public void deleteDuplicateModel(String modelName) {
+		scrollDownTo(modelInputField);
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button")));
@@ -77,6 +92,7 @@ public class RequirementOverviewElements {
 	}
 	
 	public void duplicateModel(String modelName) {
+		scrollDownTo(modelInputField);
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.id("requirement-" + modelName + "-duplicatemodel-button")));
