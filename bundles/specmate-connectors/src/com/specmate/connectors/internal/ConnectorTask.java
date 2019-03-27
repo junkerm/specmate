@@ -64,13 +64,18 @@ public class ConnectorTask extends SchedulerTask {
 					greatestUnhandledIndex = upperIndexExclusive;
 					List<Requirement> tosync = Arrays.asList(current);
 
-					transaction.doAndCommit(new IChange<Object>() {
-						@Override
-						public Object doChange() throws SpecmateException {
-							syncContainers(localContainer, tosync, source);
-							return null;
-						}
-					});
+					try {
+						transaction.doAndCommit(new IChange<Object>() {
+							@Override
+							public Object doChange() throws SpecmateException {
+								syncContainers(localContainer, tosync, source);
+								return null;
+							}
+						});
+					} catch (Exception e) {
+						logService.log(LogService.LOG_ERROR, e.getMessage());
+						transaction.rollback();
+					}
 
 				}
 			} catch (Exception e) {
@@ -101,7 +106,11 @@ public class ConnectorTask extends SchedulerTask {
 		// add new requirements to local container and all folders on the way
 		for (Entry<String, EObject> entry : remoteRequirementsMap.entrySet()) {
 			Requirement requirementToAdd = (Requirement) entry.getValue();
-			capFieldSizes(requirementToAdd);
+			boolean valid = ensureValid(requirementToAdd);
+			if (!valid) {
+				logService.log(LogService.LOG_WARNING, "Found invalid requirement with id " + requirementToAdd.getId());
+				continue;
+			}
 			IContainer reqContainer;
 			try {
 				reqContainer = source.getContainerForRequirement((Requirement) entry.getValue());
@@ -123,15 +132,22 @@ public class ConnectorTask extends SchedulerTask {
 		}
 	}
 
-	private void capFieldSizes(Requirement requirementToAdd) {
-		if (requirementToAdd.getName() != null && requirementToAdd.getName().length() > MAX_FIELD_LENGTH) {
+	private boolean ensureValid(Requirement requirementToAdd) {
+		if (StringUtils.isEmpty(requirementToAdd.getId())) {
+			return false;
+		}
+		if (StringUtils.isEmpty(requirementToAdd.getName())) {
+			requirementToAdd.setName(requirementToAdd.getId());
+		}
+		if (requirementToAdd.getName().length() > MAX_FIELD_LENGTH) {
 			requirementToAdd.setName(requirementToAdd.getName().substring(0, MAX_FIELD_LENGTH - 1));
 		}
+		requirementToAdd.setName(requirementToAdd.getName().replaceAll("[,\\|;]", " "));
 		if (requirementToAdd.getDescription() != null
 				&& requirementToAdd.getDescription().length() > MAX_FIELD_LENGTH) {
 			requirementToAdd.setDescription(requirementToAdd.getDescription().substring(0, MAX_FIELD_LENGTH - 1));
 		}
-
+		return true;
 	}
 
 	private IContainer getOrCreateLocalContainer(Resource resource, String name) {
