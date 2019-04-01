@@ -10,6 +10,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -157,20 +158,19 @@ public class CEGEditorElements {
 		// Chose the Select tool from the toolbar in order to be able to select a connection
 		driver.findElement(toolbarMove).click();
 		
+		driver.findElement(toolbarMove).click();
+		
+		connection.click();
+		
 		// Assert, that the connection is selected 
-		String selected = connection.findElement(By.cssSelector("[ng-reflect-selected]")).getAttribute("ng-reflect-selected");
-		
-		boolean connectionSelected = parseAttributeToBoolean(selected);
-		
-		if(!connectionSelected) {
+		if(!isElementPresent(By.cssSelector(".form-check-input"))){
 			connection.click();
 		}
 		
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 	
-		wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.cssSelector("[type='checkbox'][checked]")));
-		driver.findElement(By.cssSelector("[type='checkbox'][checked]")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".form-check-input")));
+		driver.findElement(By.cssSelector(".form-check-input")).click();
 	}
 	
 	public boolean negationDisplayed() {
@@ -198,6 +198,18 @@ public class CEGEditorElements {
 	        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	    }
 	    return elementPresent;
+	}
+	
+	public void moveCEGNode(WebElement node, int x, int y) {
+		driver.findElement(toolbarMove).click();
+		
+		WebElement editorField = driver.findElement(editor);
+		
+		Action dragNode = builder.clickAndHold(node)
+				.moveToElement(editorField, x, y)
+				.release(node).build();
+
+		dragNode.perform();
 	}
 	
 	public boolean checkUndoConnection() {

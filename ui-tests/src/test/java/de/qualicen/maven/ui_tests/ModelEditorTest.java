@@ -75,6 +75,9 @@ public class ModelEditorTest extends TestBase {
 		// Redo connecting the two nodes
 		cegEditor.connect(nodeFS, nodeAutofahren); */
 		
+		// Move CEG node
+		cegEditor.moveCEGNode(nodeFS, 100, 450);
+		
 		// Negate Connection
 		cegEditor.toggleNegateButtonOn(connection1);
 		
