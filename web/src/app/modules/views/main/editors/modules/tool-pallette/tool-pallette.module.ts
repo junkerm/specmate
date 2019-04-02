@@ -5,10 +5,12 @@ import { EditorToolsService } from './services/editor-tools.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { MultiselectionService } from './services/multiselection.service';
 import { ClipboardService } from './services/clipboard-service';
+import {NgxPrintModule} from 'ngx-print';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
+    NgxPrintModule,
     BrowserModule,
     TranslateModule
   ],

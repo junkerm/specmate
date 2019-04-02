@@ -157,6 +157,7 @@
 	"paste": "Paste",
 	"pasteAsName": "Paste with name",
 	"payload": "Payload",
+	"print": "Print",
 	"procedureExportFailed": "Procedure could not be exported",
 	"procedureExportedSuccessfully": "Procedure exported successfully",
 	"procedureNotValid": "Procedure not valid",

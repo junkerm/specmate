@@ -17,10 +17,12 @@ import { TruncatedText } from './components/common/truncated-text.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { GenericGraphicalNode } from './components/common/generic-graphical-node.component';
 import { GenericGraphicalConnection } from './components/common/generic-graphical-connection.component';
+import {NgxPrintModule} from 'ngx-print';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
+    NgxPrintModule,
     MaximizeButtonModule,
     ToolPalletteModule,
     BrowserModule,
