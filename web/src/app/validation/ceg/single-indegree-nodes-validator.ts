@@ -8,7 +8,7 @@ import { Validator } from '../validator-decorator';
 import { ValidationMessage } from '../validation-message';
 
 @Validator(CEGModel)
-export class SingleNodesValidator extends ElementValidatorBase<CEGModel> {
+export class SingleIndegreeNodesValidator extends ElementValidatorBase<CEGModel> {
 
     public validate(element: CEGModel, contents: IContainer[]): ValidationResult {
         let invalidNodes: IContainer[] = contents.filter((element: IContainer) => {
@@ -16,14 +16,15 @@ export class SingleNodesValidator extends ElementValidatorBase<CEGModel> {
                 return false;
             }
             let node: CEGNode = element as CEGNode;
-            let hasIncomingConnections: boolean = node.incomingConnections && node.incomingConnections.length > 0;
-            let hasOutgoingConnections: boolean = node.outgoingConnections && node.outgoingConnections.length > 0;
-            return !hasIncomingConnections && !hasOutgoingConnections;
+            if (node.incomingConnections === undefined || node.outgoingConnections === undefined) {
+                return false;
+            }
+            return node.incomingConnections.length == 1 && node.outgoingConnections.length > 0;
         });
 
         if (invalidNodes.length === 0) {
             return ValidationResult.VALID;
         }
-        return new ValidationResult(ValidationMessage.ERROR_UNCONNECTED_NODE, false, invalidNodes);
+        return new ValidationResult(ValidationMessage.ERROR_SINGLE_INDEGREE_NODE, false, invalidNodes);
     }
 }

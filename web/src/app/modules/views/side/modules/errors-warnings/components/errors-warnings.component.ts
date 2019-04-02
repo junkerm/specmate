@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ValidationResult } from '../../../../../../validation/validation-result';
 import { ValidationService } from '../../../../../forms/modules/validation/services/validation.service';
 import { AdditionalInformationService } from '../../links-actions/services/additional-information.service';
+import { Arrays } from '../../../../../../util/arrays';
 import { IContainer } from '../../../../../../model/IContainer';
-
 
 @Component({
     moduleId: module.id.toString(),
@@ -53,15 +53,21 @@ export class ErrorsWarings {
         let changed = false;
         for (const key in invalidResults) {
             let list = invalidResults[key];
-            let arrStr = ErrorsWarings.getArrayURLString(list);
-            // We encounter an element we dont have in the cache
-            if (!this._currentWarningStringSet.has(arrStr)) {
-                changed = true;
+            let groupedList = Arrays.groupBy(list, ErrorsWarings.getResultURLString);
+            for (const resStr in groupedList) {
+                if (groupedList.hasOwnProperty(resStr)) {
+                    const subList = groupedList[resStr];
+                    let arrStr = ErrorsWarings.getArrayURLString(subList);
+                    // We encounter an element we dont have in the cache
+                    if (!this._currentWarningStringSet.has(arrStr)) {
+                        changed = true;
+                    }
+                    newWarningStringSet.add(arrStr);
+                    newWarnings.push(subList);
+                }
             }
-            newWarningStringSet.add(arrStr);
-            newWarnings.push(list);
         }
-        // THe number of warnings has changed.
+        // The number of warnings has changed.
         if (newWarnings.length != this._currentWarnings.length) {
             changed = true;
         }
@@ -75,10 +81,12 @@ export class ErrorsWarings {
         return this._currentWarnings;
     }
 
+    private static getResultURLString(result: ValidationResult): string {
+        return result.elements.map(element  => element.url).sort().join(' ');
+    }
+
     private static getArrayURLString(array: ValidationResult[]): string {
-        return array.map(res =>  {
-            return res.elements.map(element  => element.url).sort().join(' ');
-        }).sort(). join(',');
+        return array.map(ErrorsWarings.getResultURLString).sort(). join(',');
     }
 
 }
