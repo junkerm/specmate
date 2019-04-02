@@ -24,8 +24,11 @@ import com.specmate.nlp.matcher.IConstituentTreeMatcher;
 import com.specmate.nlp.matcher.MatchResult;
 import com.specmate.nlp.matcher.SequenceMatcher;
 import com.specmate.nlp.matcher.ZeroOrMoreConsumer;
+import com.specmate.nlp.util.EnglishSentenceUnfolder;
+import com.specmate.nlp.util.GermanSentenceUnfolder;
 import com.specmate.nlp.util.NLPUtil;
 
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 public class NLPServiceTest {
@@ -64,6 +67,42 @@ public class NLPServiceTest {
 				"( ROOT ( S ( S Wenn ( NP das Werkzeug ) ( NP einen Fehler ) ( S erkennt ) ) , zeigt es ( NP ein Warnfenster ) . ) )",
 				NLPUtil.printParse(result));
 
+	}
+
+	@Test
+	public void testSentenceUnfolding() throws SpecmateException {
+		INLPService nlpService = getNLPService();
+		JCas result = nlpService.processText(
+				"If the tool has an error or fails, the tool alerts the user and shows a window.", ELanguage.EN);
+
+		Sentence sentence = NLPUtil.getSentences(result).iterator().next();
+
+		String chunkString = NLPUtil.printChunks(result);
+		System.out.println(chunkString);
+
+		String unfolded = new EnglishSentenceUnfolder().insertMissingSubjects(result, sentence);
+		System.out.println(unfolded);
+		Assert.assertEquals(
+				"If the tool has an error or the tool fails, the tool alerts the user and the tool shows a window.",
+				unfolded);
+
+		result = nlpService.processText(
+				"Wenn das Werkzeug fehlschlägt oder einen Fehler findet, blinkt und piept das Werkzeug.", ELanguage.DE);
+
+		chunkString = NLPUtil.printChunks(result);
+		System.out.println(chunkString);
+
+		String depString = NLPUtil.printDependencies(result);
+		System.out.println(depString);
+
+		sentence = NLPUtil.getSentences(result).iterator().next();
+
+		GermanSentenceUnfolder unfolder = new GermanSentenceUnfolder();
+		unfolded = unfolder.insertMissingSubjects(result, sentence);
+		System.out.println(unfolded);
+		Assert.assertEquals(
+				"Wenn das Werkzeug fehlschlägt oder das Werkzeug einen Fehler findet, blinkt das Werkzeug und piept das Werkzeug.",
+				unfolded);
 	}
 
 	@Test

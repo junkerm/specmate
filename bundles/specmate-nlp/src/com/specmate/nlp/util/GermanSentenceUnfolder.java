@@ -23,6 +23,8 @@ public class GermanSentenceUnfolder extends SentenceUnfolder {
 
 	@Override
 	protected Optional<Chunk> findMissingVerbSubjectByConjunction(JCas jCas, Chunk vp) {
+		Optional<Dependency> subj = Optional.empty();
+
 		Collection<Dependency> dependencies = JCasUtil.select(jCas, Dependency.class);
 		Optional<Dependency> conj = NLPUtil.findDependency(dependencies, vp, "CJ", false);
 		if (conj.isPresent()) {
@@ -30,19 +32,35 @@ public class GermanSentenceUnfolder extends SentenceUnfolder {
 			Optional<Dependency> kon = NLPUtil.findDependency(dependencies, governor, "KON", false);
 			if (kon.isPresent()) {
 				governor = kon.get().getGovernor();
+				subj = NLPUtil.findDependency(dependencies, governor, "SUBJ", true);
+			}
+		} else {
+			Optional<Dependency> kon = NLPUtil.findDependency(dependencies, vp, "KON", true);
+			if (kon.isPresent()) {
+				Token dep = kon.get().getDependent();
+				conj = NLPUtil.findDependency(dependencies, dep, "CJ", true);
+				if (conj.isPresent()) {
+					dep = conj.get().getDependent();
+					subj = NLPUtil.findDependency(dependencies, dep, "SUBJ", true);
 
-				Optional<Dependency> subj = NLPUtil.findDependency(dependencies, governor, "SUBJ", true);
-				if (subj.isPresent()) {
-					Token subjToken = subj.get().getDependent();
-					List<Chunk> chunk = JCasUtil.selectCovering(jCas, Chunk.class, subjToken);
-					Chunk np = chunk.get(0);
-					if (np.getChunkValue().equals("NP")) {
-						return Optional.of(np);
-					}
 				}
 			}
 		}
+
+		if (subj.isPresent()) {
+			Token subjToken = subj.get().getDependent();
+			List<Chunk> chunk = JCasUtil.selectCovering(jCas, Chunk.class, subjToken);
+			Chunk np = chunk.get(0);
+			if (np.getChunkValue().equals("NP")) {
+				return Optional.of(np);
+			}
+		}
+
 		return Optional.empty();
+	}
+
+	private Token findSubjectOrDirectObject() {
+		subj = NLPUtil.findDependency(dependencies, governor, "SUBJ", true);
 	}
 
 	@Override
