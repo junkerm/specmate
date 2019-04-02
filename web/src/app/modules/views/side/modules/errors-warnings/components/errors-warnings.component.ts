@@ -89,9 +89,9 @@ export class ErrorsWarings {
         return array.map(ErrorsWarings.getResultURLString).sort(). join(',');
     }
 
+    // Errors and Warnings shall not be shown in folder view
     public get showErrors(): boolean {
         if (this.model !== undefined
-            && this.model.className !== undefined
             && this.model.className === 'Folder') {
             return false;
         }
