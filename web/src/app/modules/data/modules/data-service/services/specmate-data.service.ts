@@ -13,6 +13,12 @@ import { DataCache } from './data-cache';
 import { EOperation } from './e-operation';
 import { Scheduler } from './scheduler';
 import { ServiceInterface } from './service-interface';
+import { Type } from '../../../../../util/type';
+import { CEGConnection } from '../../../../../model/CEGConnection';
+import { ProcessConnection } from '../../../../../model/ProcessConnection';
+import { IModelConnection } from '../../../../../model/IModelConnection';
+import { IModelNode } from '../../../../../model/IModelNode';
+import { Arrays } from '../../../../../util/arrays';
 
 /**
  * The interface to all data handling things.
@@ -218,6 +224,21 @@ export class SpecmateDataService {
     }
 
     public undoCreate(url: string) {
+        // const elementProvider = new ElementProvider();
+        // if (elementProvider.isConnection(this.readElementVirtual(url))) {
+        // if (this.readElementVirtual(url) instanceof IModelConnection) {
+        const element = this.readElementVirtual(url);
+        if (Type.of(element) === CEGConnection.name || Type.of(element) === ProcessConnection.name) {
+            const connection = element as IModelConnection;
+            const source = this.readElementVirtual(connection.source.url) as IModelNode;
+            const target = this.readElementVirtual(connection.target.url) as IModelNode;
+            const outgoingConnection = source.outgoingConnections.find(proxy => proxy.url === connection.url);
+            const incomingConnection = target.incomingConnections.find(proxy => proxy.url === connection.url);
+            Arrays.remove(source.outgoingConnections, outgoingConnection);
+            Arrays.remove(target.incomingConnections, incomingConnection);
+            this.cache.addElement(source);
+            this.cache.addElement(target);
+        }
         this.cache.deleteElement(url);
     }
 

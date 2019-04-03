@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="specmate-nlp" increment="1550498670545">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="specmate-nlp" increment="1554280427812">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="specmate-nlp"/>
@@ -200,13 +200,13 @@
       <attribute name="objectClass" value="com.specmate.nlp.api.INLPService" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="47270269" type="Long"/>
+      <attribute name="size" value="47270295" type="Long"/>
       <attribute name="url" value="generated/specmate-nlp.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="A58A1648A95CBF028392965C4E2DB88821FADDFA66FADC39F0F88E179383F2AE"/>
+      <attribute name="osgi.content" value="E051DA03A07496C2A6BBB9C3E882438C6ED4600D79E66A4A1505009132D15FBE"/>
     </capability>
     <capability namespace="bndtools.workspace">
-      <attribute name="bndtools.workspace" value="file:/Users/Dominik/Documents/Arbeit/Qualicen/Workspace"/>
+      <attribute name="bndtools.workspace" value="file:/Q:/Eclipse_Workspace"/>
       <attribute name="project.path" value="/specmate-nlp"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
@@ -359,6 +359,14 @@
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=org.codehaus.groovy.runtime.typehandling))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.apple.eio))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.uima.fit.legacy))"/>
       <directive name="resolution" value="optional"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
