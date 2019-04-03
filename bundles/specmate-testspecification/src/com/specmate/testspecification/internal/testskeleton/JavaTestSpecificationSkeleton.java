@@ -19,7 +19,11 @@ public class JavaTestSpecificationSkeleton extends BaseSkeleton {
 	}
 
 	private String getClassName(TestSpecification testSpecification) {
-		return replaceInvalidChars(testSpecification.getName()) + "Test";
+		String tsName = testSpecification.getName();
+		if (tsName == null) {
+			tsName = "";
+		}
+		return replaceInvalidChars(tsName) + "Test";
 	}
 
 	@Override

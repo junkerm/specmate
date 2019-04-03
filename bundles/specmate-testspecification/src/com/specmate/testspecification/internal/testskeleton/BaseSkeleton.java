@@ -39,7 +39,7 @@ public abstract class BaseSkeleton {
 		StringBuilder sb = new StringBuilder();
 
 		TestSpecificationSkeleton tss = TestspecificationFactory.eINSTANCE.createTestSpecificationSkeleton();
-		tss.setLanguage(this.language);
+		tss.setLanguage(language);
 		tss.setName(generateFileName(testSpecification));
 
 		List<TestParameter> parameters = getParameters(testSpecification);
@@ -62,29 +62,29 @@ public abstract class BaseSkeleton {
 	 */
 	private List<ParameterAssignment> getTestCaseParameterAssignments(TestCase tc) {
 		return SpecmateEcoreUtil.pickInstancesOf(tc.getContents(), ParameterAssignment.class).stream()
-				.sorted(this.assignmentComparator).collect(Collectors.toList());
+				.sorted(assignmentComparator).collect(Collectors.toList());
 	}
 
 	/** Return Test parameters sorted by type (input before output) */
 	private List<TestParameter> getParameters(TestSpecification testSpecification) {
 		return SpecmateEcoreUtil.pickInstancesOf(testSpecification.getContents(), TestParameter.class).stream()
-				.sorted(this.parameterComparator).collect(Collectors.toList());
+				.sorted(parameterComparator).collect(Collectors.toList());
 	}
 
 	private List<TestCase> getTestCases(TestSpecification testSpecification) {
 		return SpecmateEcoreUtil.pickInstancesOf(testSpecification.getContents(), TestCase.class);
 	}
 
-	protected String replaceInvalidChars(String r) {
-		r = startsNumerical.matcher(r).replaceAll("");
-		return invalidChars.matcher(r).replaceAll("_");
+	protected String replaceInvalidChars(String name) {
+		name = startsNumerical.matcher(name).replaceAll("");
+		return invalidChars.matcher(name).replaceAll("_");
 	}
 
 	protected void appendParameterValue(StringBuilder sb, ParameterAssignment pa) {
 		sb.append("___");
 		sb.append(replaceInvalidChars(pa.getParameter().getName()));
 		sb.append("__");
-		sb.append(replaceInvalidChars(pa.getValue()));
+		sb.append(replaceInvalidChars(pa.getCondition()));
 	}
 
 	protected void appendDateComment(StringBuilder sb) {
