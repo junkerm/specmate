@@ -18,6 +18,7 @@ import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
+import com.specmate.model.base.IContentElement;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChange;
@@ -45,10 +46,10 @@ public class ConnectorTask extends SchedulerTask {
 	}
 
 	private void syncRequirementsFromSources() {
-		logService.log(LogService.LOG_INFO, "Synchronizing requirements");
-		Resource resource = transaction.getResource();
-		for (IRequirementsSource source : requirementsSources) {
-			logService.log(LogService.LOG_INFO, "Retrieving requirements from " + source.getId());
+		this.logService.log(LogService.LOG_INFO, "Synchronizing requirements");
+		Resource resource = this.transaction.getResource();
+		for (IRequirementsSource source : this.requirementsSources) {
+			this.logService.log(LogService.LOG_INFO, "Retrieving requirements from " + source.getId());
 			try {
 				Collection<Requirement> requirements = source.getRequirements();
 				if (requirements == null) {
@@ -65,7 +66,7 @@ public class ConnectorTask extends SchedulerTask {
 					List<Requirement> tosync = Arrays.asList(current);
 
 					try {
-						transaction.doAndCommit(new IChange<Object>() {
+						this.transaction.doAndCommit(new IChange<Object>() {
 							@Override
 							public Object doChange() throws SpecmateException {
 								syncContainers(localContainer, tosync, source);
@@ -73,14 +74,14 @@ public class ConnectorTask extends SchedulerTask {
 							}
 						});
 					} catch (Exception e) {
-						logService.log(LogService.LOG_ERROR, e.getMessage());
-						transaction.rollback();
+						this.logService.log(LogService.LOG_ERROR, e.getMessage());
+						this.transaction.rollback();
 					}
 
 				}
 			} catch (Exception e) {
-				logService.log(LogService.LOG_ERROR, e.getMessage());
-				transaction.rollback();
+				this.logService.log(LogService.LOG_ERROR, e.getMessage());
+				this.transaction.rollback();
 			}
 
 		}
@@ -96,56 +97,64 @@ public class ConnectorTask extends SchedulerTask {
 		// Build hashset (extid -> requirement) for remote requirements
 		HashMap<String, EObject> remoteRequirementsMap = new HashMap<>();
 		buildExtIdMap(requirements.iterator(), remoteRequirementsMap);
-		logService.log(LogService.LOG_INFO, "Retrieved " + remoteRequirementsMap.entrySet().size() + " requirements.");
+		this.logService.log(LogService.LOG_INFO,
+				"Retrieved " + remoteRequirementsMap.entrySet().size() + " requirements.");
 
 		// find new requirements
 		remoteRequirementsMap.keySet().removeAll(localRequirementsMap.keySet());
 
-		logService.log(LogService.LOG_INFO, "Adding " + remoteRequirementsMap.size() + " new requirements.");
+		this.logService.log(LogService.LOG_INFO, "Adding " + remoteRequirementsMap.size() + " new requirements.");
 
 		// add new requirements to local container and all folders on the way
 		for (Entry<String, EObject> entry : remoteRequirementsMap.entrySet()) {
 			Requirement requirementToAdd = (Requirement) entry.getValue();
 			boolean valid = ensureValid(requirementToAdd);
 			if (!valid) {
-				logService.log(LogService.LOG_WARNING, "Found invalid requirement with id " + requirementToAdd.getId());
+				this.logService.log(LogService.LOG_WARNING,
+						"Found invalid requirement with id " + requirementToAdd.getId());
 				continue;
 			}
 			IContainer reqContainer;
 			try {
 				reqContainer = source.getContainerForRequirement((Requirement) entry.getValue());
+
 			} catch (SpecmateException e) {
-				logService.log(LogService.LOG_ERROR, e.getMessage());
+				this.logService.log(LogService.LOG_ERROR, e.getMessage());
 				continue;
 			}
 			IContainer foundContainer = (IContainer) SpecmateEcoreUtil.getEObjectWithId(reqContainer.getId(),
 					localContainer.eContents());
 			if (foundContainer == null) {
-				logService.log(LogService.LOG_DEBUG, "Creating new folder " + reqContainer.getName());
+				this.logService.log(LogService.LOG_DEBUG, "Creating new folder " + reqContainer.getName());
 				foundContainer = BaseFactory.eINSTANCE.createFolder();
 				SpecmateEcoreUtil.copyAttributeValues(reqContainer, foundContainer);
+				valid = ensureValid(foundContainer);
+				if (!valid) {
+					this.logService.log(LogService.LOG_WARNING,
+							"Found invalid folder with id " + foundContainer.getId());
+					continue;
+				}
 				localContainer.getContents().add(foundContainer);
 			}
 
-			logService.log(LogService.LOG_DEBUG, "Adding requirement " + requirementToAdd.getId());
+			this.logService.log(LogService.LOG_DEBUG, "Adding requirement " + requirementToAdd.getId());
 			foundContainer.getContents().add(requirementToAdd);
 		}
 	}
 
-	private boolean ensureValid(Requirement requirementToAdd) {
-		if (StringUtils.isEmpty(requirementToAdd.getId())) {
+	private boolean ensureValid(IContentElement element) {
+		if (StringUtils.isEmpty(element.getId())) {
 			return false;
 		}
-		if (StringUtils.isEmpty(requirementToAdd.getName())) {
-			requirementToAdd.setName(requirementToAdd.getId());
+		if (StringUtils.isEmpty(element.getName())) {
+			element.setName(element.getId());
 		}
-		if (requirementToAdd.getName().length() > MAX_FIELD_LENGTH) {
-			requirementToAdd.setName(requirementToAdd.getName().substring(0, MAX_FIELD_LENGTH - 1));
+		if (element.getName().length() > MAX_FIELD_LENGTH) {
+			element.setName(element.getName().substring(0, MAX_FIELD_LENGTH - 1));
 		}
-		requirementToAdd.setName(requirementToAdd.getName().replaceAll("[,\\|;]", " "));
-		if (requirementToAdd.getDescription() != null
-				&& requirementToAdd.getDescription().length() > MAX_FIELD_LENGTH) {
-			requirementToAdd.setDescription(requirementToAdd.getDescription().substring(0, MAX_FIELD_LENGTH - 1));
+		element.setName(element.getName().replaceAll("[,\\|;]", " "));
+		if (element.getDescription() != null && element.getDescription().length() > MAX_FIELD_LENGTH) {
+			element.setDescription(element.getDescription().substring(0, MAX_FIELD_LENGTH - 1));
 		}
 		return true;
 	}
@@ -159,9 +168,9 @@ public class ConnectorTask extends SchedulerTask {
 		}
 
 		Folder folder = BaseFactory.eINSTANCE.createFolder();
-		folder.setName(name);
-		// TODO: sanitize id
-		folder.setId(name);
+		String validName = name.replaceAll("[,\\|;]", " ");
+		folder.setName(validName);
+		folder.setId(validName);
 		resource.getContents().add(folder);
 		return folder;
 	}

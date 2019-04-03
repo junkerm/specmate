@@ -27,6 +27,7 @@ import org.osgi.service.log.LogService;
 import com.atlassian.jira.rest.client.api.JiraRestClient;
 import com.atlassian.jira.rest.client.api.RestClientException;
 import com.atlassian.jira.rest.client.api.domain.Issue;
+import com.atlassian.jira.rest.client.api.domain.IssueField;
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
 import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientFactory;
 import com.specmate.common.cache.ICache;
@@ -75,20 +76,20 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 	public void activate(Map<String, Object> properties) throws SpecmateException {
 		validateConfig(properties);
 
-		id = (String) properties.get(IProjectConfigService.KEY_CONNECTOR_ID);
-		url = (String) properties.get(JiraConnectorConfig.KEY_JIRA_URL);
-		projectName = (String) properties.get(JiraConnectorConfig.KEY_JIRA_PROJECT);
+		this.id = (String) properties.get(IProjectConfigService.KEY_CONNECTOR_ID);
+		this.url = (String) properties.get(JiraConnectorConfig.KEY_JIRA_URL);
+		this.projectName = (String) properties.get(JiraConnectorConfig.KEY_JIRA_PROJECT);
 		String username = (String) properties.get(JiraConnectorConfig.KEY_JIRA_USERNAME);
 		String password = (String) properties.get(JiraConnectorConfig.KEY_JIRA_PASSWORD);
 
 		try {
-			jiraClient = new AsynchronousJiraRestClientFactory().createWithBasicHttpAuthentication(new URI(url),
-					username, password);
+			this.jiraClient = new AsynchronousJiraRestClientFactory()
+					.createWithBasicHttpAuthentication(new URI(this.url), username, password);
 		} catch (URISyntaxException e) {
 			throw new SpecmateInternalException(ErrorCode.JIRA, e);
 		}
 
-		defaultFolder = createFolder(projectName + "-Default", projectName + "-Default");
+		this.defaultFolder = createFolder(this.projectName + "-Default", this.projectName + "-Default");
 
 		this.cache = this.cacheService.createCache(JIRA_STORY_CACHE_NAME, 500, 3600, new ICacheLoader<String, Issue>() {
 
@@ -105,7 +106,7 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 	@Deactivate
 	public void deactivate() throws SpecmateInternalException {
 		try {
-			jiraClient.close();
+			this.jiraClient.close();
 			this.cacheService.removeCache(JIRA_STORY_CACHE_NAME);
 		} catch (IOException e) {
 			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "Could not close JIRA client.", e);
@@ -149,7 +150,7 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 			List<Issue> stories = getStoriesForEpic(epic);
 			for (Issue story : stories) {
 				Requirement requirement = createRequirement(story);
-				requirmentEpics.put(requirement, epic);
+				this.requirmentEpics.put(requirement, epic);
 				requirements.add(requirement);
 			}
 		}
@@ -158,21 +159,21 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 	}
 
 	private List<Issue> getStoriesForEpic(Issue epic) throws SpecmateException {
-		return this.getIssues("project=" + projectName + " AND issueType=story AND \"Epic Link\"=\"" + epic.getKey()
-				+ "\" ORDER BY assignee, resolutiondate");
+		return this.getIssues("project=" + this.projectName + " AND issueType=story AND \"Epic Link\"=\""
+				+ epic.getKey() + "\" ORDER BY assignee, resolutiondate");
 	}
 
 	private List<Issue> getStoriesWithoutEpic() throws SpecmateException {
-		return this.getIssues("project=" + projectName
+		return this.getIssues("project=" + this.projectName
 				+ " AND issueType=story AND \"Epic Link\" IS EMPTY ORDER BY assignee, resolutiondate");
 	}
 
 	private List<Issue> getEpics() throws SpecmateException {
-		return this.getIssues("project=" + projectName + " AND issueType=epic ORDER BY id");
+		return this.getIssues("project=" + this.projectName + " AND issueType=epic ORDER BY id");
 	}
 
 	private Issue getStory(String id) throws SpecmateException {
-		List<Issue> issues = this.getIssues("project=" + projectName + " AND id=" + id);
+		List<Issue> issues = this.getIssues("project=" + this.projectName + " AND id=" + id);
 		if (issues == null || issues.size() == 0) {
 			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "JIRA Issue not found: " + id);
 		}
@@ -185,12 +186,12 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 		int maxResults = Integer.MAX_VALUE;
 		while (issues.size() < maxResults) {
 			try {
-				SearchResult searchResult = jiraClient.getSearchClient().searchJql(jql, -1, issues.size(), null)
+				SearchResult searchResult = this.jiraClient.getSearchClient().searchJql(jql, -1, issues.size(), null)
 						.claim();
 				maxResults = searchResult.getTotal();
 				searchResult.getIssues().forEach(issue -> issues.add(issue));
-				logService.log(LogService.LOG_DEBUG, "Loaded ~" + searchResult.getMaxResults() + " issues from Jira "
-						+ url + " project: " + projectName);
+				this.logService.log(LogService.LOG_DEBUG, "Loaded ~" + searchResult.getMaxResults()
+						+ " issues from Jira " + this.url + " project: " + this.projectName);
 			} catch (RestClientException e) {
 				if (e.getStatusCode().get() == 400) {
 					return issues;
@@ -202,34 +203,34 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 
 		}
 
-		logService.log(LogService.LOG_INFO,
-				"Finished loading of " + issues.size() + " issues from Jira " + url + " project: " + projectName);
+		this.logService.log(LogService.LOG_INFO, "Finished loading of " + issues.size() + " issues from Jira "
+				+ this.url + " project: " + this.projectName);
 
 		return issues;
 	}
 
 	@Override
 	public IContainer getContainerForRequirement(Requirement requirement) throws SpecmateException {
-		Issue epic = requirmentEpics.get(requirement);
+		Issue epic = this.requirmentEpics.get(requirement);
 		if (epic == null) {
-			return defaultFolder;
+			return this.defaultFolder;
 		}
-		return epicFolders.get(epic);
+		return this.epicFolders.get(epic);
 	}
 
 	@Override
 	public boolean authenticate(String username, String password) throws SpecmateException {
 		try {
 			JiraRestClient client = new AsynchronousJiraRestClientFactory()
-					.createWithBasicHttpAuthentication(new URI(url), username, password);
-			client.getProjectClient().getProject(projectName).claim();
+					.createWithBasicHttpAuthentication(new URI(this.url), username, password);
+			client.getProjectClient().getProject(this.projectName).claim();
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			throw new SpecmateAuthorizationException("Jira authentication failed.", e);
 		} catch (RestClientException e) {
 			Integer status = e.getStatusCode().get();
 			if (status == 401) {
-				logService.log(LogService.LOG_INFO,
+				this.logService.log(LogService.LOG_INFO,
 						"Invalid credentials provided for jira project " + this.projectName + '.');
 				return false;
 			}
@@ -252,10 +253,13 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 		requirement.setStatus(story.getStatus().getName());
 		requirement.setLive(true);
 		try {
-			JSONObject teamObject = (JSONObject) story.getFieldByName("Team").getValue();
-			if (teamObject != null) {
-				String team = (String) teamObject.get("value");
-				requirement.setImplementingITTeam(team);
+			IssueField teamField = story.getFieldByName("Team");
+			if (teamField != null) {
+				JSONObject teamObject = (JSONObject) teamField.getValue();
+				if (teamObject != null) {
+					String team = (String) teamObject.get("value");
+					requirement.setImplementingITTeam(team);
+				}
 			}
 		} catch (JSONException e) {
 			throw new SpecmateInternalException(ErrorCode.JIRA, e);
@@ -264,11 +268,11 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 	}
 
 	private void createFolderIfNotExists(Issue epic) {
-		if (!epicFolders.containsKey(epic)) {
+		if (!this.epicFolders.containsKey(epic)) {
 			String folderId = epic.getKey();
 			String folderName = folderId + ": " + epic.getSummary();
 			Folder folder = createFolder(folderId, folderName);
-			epicFolders.put(epic, folder);
+			this.epicFolders.put(epic, folder);
 		}
 	}
 
