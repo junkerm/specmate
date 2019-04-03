@@ -224,9 +224,6 @@ export class SpecmateDataService {
     }
 
     public undoCreate(url: string) {
-        // const elementProvider = new ElementProvider();
-        // if (elementProvider.isConnection(this.readElementVirtual(url))) {
-        // if (this.readElementVirtual(url) instanceof IModelConnection) {
         const element = this.readElementVirtual(url);
         if (Type.of(element) === CEGConnection.name || Type.of(element) === ProcessConnection.name) {
             const connection = element as IModelConnection;
