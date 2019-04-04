@@ -59,10 +59,6 @@ public class GermanSentenceUnfolder extends SentenceUnfolder {
 		return Optional.empty();
 	}
 
-	private Token findSubjectOrDirectObject() {
-		subj = NLPUtil.findDependency(dependencies, governor, "SUBJ", true);
-	}
-
 	@Override
 	protected List<Pair<Annotation, Annotation>> completeSubjectsByConjunction(JCas jCas, Annotation subj) {
 		Collection<Dependency> dependencies = JCasUtil.select(jCas, Dependency.class);
