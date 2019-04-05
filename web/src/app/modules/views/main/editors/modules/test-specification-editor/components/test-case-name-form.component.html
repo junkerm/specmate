@@ -1,5 +1,5 @@
 <span [formGroup]="formGroup">
     <div class="input-group">
-        <input formControlName="name" type="text" class="form-control form-control-sm" />
+        <textarea formControlName="name" rows="1" type="text" class="form-control form-control-sm" (keyup)="autoGrow()" (click)="autoGrow()" #textArea></textarea>
     </div>
 </span>

@@ -1,5 +1,5 @@
 <span [formGroup]="formGroup" *ngIf="isInitialized">
     <div class="input-group">
-        <input formControlName="condition" type="text" class="form-control form-control-sm" />
+        <textarea formControlName="condition" rows="1" type="text" class="form-control form-control-sm" (keyup)="autoGrow()" (click)="autoGrow()" #textArea></textarea>
     </div>
 </span>
