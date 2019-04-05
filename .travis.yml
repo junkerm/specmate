@@ -38,6 +38,5 @@ deploy:
     - bundles/specmate-std-env/generated/distributions/executable/prod-specmate-no-cdo-server.jar
   on:
     repo: junkerm/specmate
-    branch: develop
-    condition: $TRAVIS_TAG =~ ^v[\.\d]+-dev-\d+$
+    condition: $TRAVIS_TAG =~ ^v[\.\d]+(-dev-\d+)?$
     tags: true
