@@ -12,6 +12,7 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.model.administration.ErrorCode;
+import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.matcher.AndMatcher;
 import com.specmate.nlp.matcher.AnyMatcher;
@@ -23,8 +24,11 @@ import com.specmate.nlp.matcher.IConstituentTreeMatcher;
 import com.specmate.nlp.matcher.MatchResult;
 import com.specmate.nlp.matcher.SequenceMatcher;
 import com.specmate.nlp.matcher.ZeroOrMoreConsumer;
+import com.specmate.nlp.util.EnglishSentenceUnfolder;
+import com.specmate.nlp.util.GermanSentenceUnfolder;
 import com.specmate.nlp.util.NLPUtil;
 
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 public class NLPServiceTest {
@@ -32,7 +36,7 @@ public class NLPServiceTest {
 	@Test
 	public void testOpenNlpService() throws SpecmateException {
 		INLPService nlpService = getNLPService();
-		JCas result = nlpService.processText("If the tool detects an error, it shows a warning window.");
+		JCas result = nlpService.processText("If the tool detects an error, it shows a warning window.", ELanguage.EN);
 
 		String parseString = NLPUtil.printParse(result);
 		Assert.assertEquals(
@@ -43,6 +47,56 @@ public class NLPServiceTest {
 		Assert.assertEquals(
 				"If (IN) the (DT) tool (NN) detects (VBZ) an (DT) error (NN) , (,) it (PRP) shows (VBZ) a (DT) warning (NN) window (NN) . (.)",
 				posString);
+
+		result = nlpService.processText("Wenn das Werkzeug einen Fehler erkennt, zeigt es ein Warnfenster.",
+				ELanguage.DE);
+
+		Assert.assertEquals(
+				"Wenn (KOUS) das (ART) Werkzeug (NN) einen (ART) Fehler (NN) erkennt (VVFIN) , ($,) zeigt (VVFIN) es (PPER) ein (ART) Warnfenster (NN) . ($.)",
+				NLPUtil.printPOSTags(result));
+		Assert.assertEquals("das Werkzeug einen Fehler (NP) erkennt (VP) zeigt (VP) ein Warnfenster (NP)",
+				NLPUtil.printChunks(result));
+
+		Assert.assertEquals("erkennt <--KONJ-- Wenn\n" + "Werkzeug <--DET-- das\n"
+				+ "erkennt <--SUBJ-- Werkzeug\nFehler <--DET-- einen\n" + "erkennt <--OBJA-- Fehler\n"
+				+ "erkennt <--ROOT-- erkennt\n" + ", <--ROOT-- ,\n" + "zeigt <--ROOT-- zeigt\n" + "zeigt <--SUBJ-- es\n"
+				+ "Warnfenster <--DET-- ein\n" + "zeigt <--OBJA-- Warnfenster\n" + ". <--ROOT-- .",
+				NLPUtil.printDependencies(result));
+
+		Assert.assertEquals(
+				"( ROOT ( S ( S Wenn ( NP das Werkzeug ) ( NP einen Fehler ) ( S erkennt ) ) , zeigt es ( NP ein Warnfenster ) . ) )",
+				NLPUtil.printParse(result));
+
+	}
+
+	@Test
+	public void testSentenceUnfolding() throws SpecmateException {
+		INLPService nlpService = getNLPService();
+		JCas result = nlpService.processText(
+				"If the tool has an error or fails, the tool alerts the user and shows a window.", ELanguage.EN);
+
+		Sentence sentence = NLPUtil.getSentences(result).iterator().next();
+
+		String chunkString = NLPUtil.printChunks(result);
+		System.out.println(chunkString);
+
+		String unfolded = new EnglishSentenceUnfolder().insertMissingSubjects(result, sentence);
+		System.out.println(unfolded);
+		Assert.assertEquals(
+				"If the tool has an error or the tool fails, the tool alerts the user and the tool shows a window.",
+				unfolded);
+
+		result = nlpService.processText(
+				"Wenn das Werkzeug fehlschlägt oder einen Fehler findet, blinkt und piept das Werkzeug.", ELanguage.DE);
+
+		chunkString = NLPUtil.printChunks(result);
+
+		sentence = NLPUtil.getSentences(result).iterator().next();
+
+		GermanSentenceUnfolder unfolder = new GermanSentenceUnfolder();
+		unfolded = unfolder.insertMissingSubjects(result, sentence);
+		Assert.assertEquals("Wenn das Werkzeug fehlschlägt oder einen Fehler findet, blinkt und piept das Werkzeug.",
+				unfolded);
 	}
 
 	@Test
@@ -51,25 +105,26 @@ public class NLPServiceTest {
 		String expectedCause = "the tool detects an error";
 		String expectedEffect = "it shows a warning window.";
 
-		checkCauseEffect(text, expectedCause, expectedEffect);
+		checkCauseEffect(text, ELanguage.EN, expectedCause, expectedEffect);
 
 		text = "If Specmate detects an error or the user has no login, Specmate shows a warning window and makes a sound.";
 		expectedCause = "Specmate detects an error or the user has no login";
 		expectedEffect = "Specmate shows a warning window and makes a sound.";
 
-		checkCauseEffect(text, expectedCause, expectedEffect);
+		checkCauseEffect(text, ELanguage.EN, expectedCause, expectedEffect);
 
 		text = "If Specmate detects an error or if the user has no login, Specmate shows a warning window and makes a sound.";
 		expectedCause = "Specmate detects an error or if the user has no login";
 		expectedEffect = "Specmate shows a warning window and makes a sound.";
 
-		checkCauseEffect(text, expectedCause, expectedEffect);
+		checkCauseEffect(text, ELanguage.EN, expectedCause, expectedEffect);
 
 	}
 
-	private void checkCauseEffect(String text, String expectedCause, String expectedEffect) throws SpecmateException {
+	private void checkCauseEffect(String text, ELanguage language, String expectedCause, String expectedEffect)
+			throws SpecmateException {
 		INLPService nlpService = getNLPService();
-		JCas result = nlpService.processText(text);
+		JCas result = nlpService.processText(text, language);
 		System.out.println(NLPUtil.printParse(result));
 		Constituent cons = NLPUtil.getSentenceConstituents(result).get(0);
 
