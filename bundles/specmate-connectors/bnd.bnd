@@ -25,7 +25,9 @@ Export-Package: com.specmate.connectors.api
 	specmate-rest;version=latest,\
 	specmate-scheduler;version=latest,\
 	specmate-search;version=latest,\
-	specmate-persistency-cdo;version=latest
+	specmate-persistency-cdo;version=latest,\
+	org.eclipse.net4j.util,\
+	org.eclipse.equinox.common
 Private-Package: \
 	com.specmate.connectors.internal,\
 	com.specmate.connectors.internal.config,\

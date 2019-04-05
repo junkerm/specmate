@@ -27,6 +27,7 @@ import org.osgi.service.log.LogService;
 import com.atlassian.jira.rest.client.api.JiraRestClient;
 import com.atlassian.jira.rest.client.api.RestClientException;
 import com.atlassian.jira.rest.client.api.domain.Issue;
+import com.atlassian.jira.rest.client.api.domain.IssueField;
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
 import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientFactory;
 import com.specmate.common.cache.ICache;
@@ -90,7 +91,7 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 
 		defaultFolder = createFolder(projectName + "-Default", projectName + "-Default");
 
-		this.cache = this.cacheService.createCache(JIRA_STORY_CACHE_NAME, 500, 3600, new ICacheLoader<String, Issue>() {
+		cache = cacheService.createCache(JIRA_STORY_CACHE_NAME, 500, 3600, new ICacheLoader<String, Issue>() {
 
 			@Override
 			public Issue load(String key) throws SpecmateException {
@@ -99,14 +100,14 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 			}
 		});
 
-		this.logService.log(LogService.LOG_DEBUG, "Initialized Jira Connector with " + properties.toString() + ".");
+		logService.log(LogService.LOG_DEBUG, "Initialized Jira Connector with " + properties.toString() + ".");
 	}
 
 	@Deactivate
 	public void deactivate() throws SpecmateInternalException {
 		try {
 			jiraClient.close();
-			this.cacheService.removeCache(JIRA_STORY_CACHE_NAME);
+			cacheService.removeCache(JIRA_STORY_CACHE_NAME);
 		} catch (IOException e) {
 			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "Could not close JIRA client.", e);
 		}
@@ -129,7 +130,7 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 
 	@Override
 	public String getId() {
-		return this.id;
+		return id;
 	}
 
 	@Override
@@ -230,7 +231,7 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 			Integer status = e.getStatusCode().get();
 			if (status == 401) {
 				logService.log(LogService.LOG_INFO,
-						"Invalid credentials provided for jira project " + this.projectName + '.');
+						"Invalid credentials provided for jira project " + projectName + '.');
 				return false;
 			}
 			e.printStackTrace();
@@ -252,10 +253,13 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 		requirement.setStatus(story.getStatus().getName());
 		requirement.setLive(true);
 		try {
-			JSONObject teamObject = (JSONObject) story.getFieldByName("Team").getValue();
-			if (teamObject != null) {
-				String team = (String) teamObject.get("value");
-				requirement.setImplementingITTeam(team);
+			IssueField teamField = story.getFieldByName("Team");
+			if (teamField != null) {
+				JSONObject teamObject = (JSONObject) teamField.getValue();
+				if (teamObject != null) {
+					String team = (String) teamObject.get("value");
+					requirement.setImplementingITTeam(team);
+				}
 			}
 		} catch (JSONException e) {
 			throw new SpecmateInternalException(ErrorCode.JIRA, e);
@@ -289,7 +293,7 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 		if (target instanceof Requirement) {
 			Requirement req = (Requirement) target;
 			return req.getSource() != null && req.getSource().equals(JIRA_SOURCE_ID)
-					&& (SpecmateEcoreUtil.getProjectId(req).equals(this.id));
+					&& (SpecmateEcoreUtil.getProjectId(req).equals(id));
 		}
 		return false;
 	}
@@ -327,7 +331,7 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 
 		Issue issue;
 		try {
-			issue = this.cache.get(localRequirement.getExtId());
+			issue = cache.get(localRequirement.getExtId());
 		} catch (Exception e) {
 			// Loading has failed
 			return new RestResult<>(Status.NOT_FOUND);

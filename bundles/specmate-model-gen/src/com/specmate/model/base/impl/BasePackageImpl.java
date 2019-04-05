@@ -685,7 +685,8 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 			 "longDesc", "",
 			 "required", "true",
 			 "type", "text",
-			 "position", "0"
+			 "position", "0",
+			 "allowedPattern", "^[^,;|]*$"
 		   });	
 		addAnnotation
 		  (getIDescribed_Description(), 
