@@ -18,7 +18,8 @@
 	specmate-emfrest-api;version=latest,\
 	specmate-rest;version=latest,\
 	org.apache.commons.lang3;version=3.5,\
-	org.eclipse.equinox.common
+	org.eclipse.equinox.common,\
+	org.eclipse.net4j.util
 Private-Package: \
 	com.specmate.testspecification.internal.services,\
 	com.specmate.testspecification.internal.testskeleton

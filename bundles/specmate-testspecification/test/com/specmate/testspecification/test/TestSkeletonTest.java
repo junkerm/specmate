@@ -61,18 +61,22 @@ public class TestSkeletonTest {
 		ParameterAssignment assIn11 = f.createParameterAssignment();
 		assIn11.setParameter(input1);
 		assIn11.setValue("in11");
+		assIn11.setCondition("in11");
 
 		ParameterAssignment assIn12 = f.createParameterAssignment();
 		assIn12.setParameter(input2);
 		assIn12.setValue("in12");
+		assIn12.setCondition("in12");
 
 		ParameterAssignment assOut11 = f.createParameterAssignment();
 		assOut11.setParameter(output1);
 		assOut11.setValue("out11");
+		assOut11.setCondition("out11");
 
 		ParameterAssignment assOut12 = f.createParameterAssignment();
 		assOut12.setParameter(output2);
 		assOut12.setValue("out12");
+		assOut12.setCondition("out12");
 		tc1.getContents().addAll(Arrays.asList(assIn11, assIn12, assOut11, assOut12));
 
 		TestCase tc2 = f.createTestCase();
@@ -82,18 +86,22 @@ public class TestSkeletonTest {
 		ParameterAssignment assIn21 = f.createParameterAssignment();
 		assIn21.setParameter(input1);
 		assIn21.setValue("in21");
+		assIn21.setCondition("in21");
 
 		ParameterAssignment assIn22 = f.createParameterAssignment();
 		assIn22.setParameter(input2);
 		assIn22.setValue("in22");
+		assIn22.setCondition("in22");
 
 		ParameterAssignment assOut21 = f.createParameterAssignment();
 		assOut21.setParameter(output1);
 		assOut21.setValue("out21");
+		assOut21.setCondition("out21");
 
 		ParameterAssignment assOut22 = f.createParameterAssignment();
 		assOut22.setParameter(output2);
 		assOut22.setValue("out22");
+		assOut22.setCondition("out22");
 		tc2.getContents().addAll(Arrays.asList(assIn21, assIn22, assOut21, assOut22));
 
 		ts.getContents().addAll(Arrays.asList(tc1, tc2));
