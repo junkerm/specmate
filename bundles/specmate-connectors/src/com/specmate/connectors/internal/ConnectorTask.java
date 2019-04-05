@@ -18,6 +18,7 @@ import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
+import com.specmate.model.base.IContentElement;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChange;
@@ -114,6 +115,7 @@ public class ConnectorTask extends SchedulerTask {
 			IContainer reqContainer;
 			try {
 				reqContainer = source.getContainerForRequirement((Requirement) entry.getValue());
+
 			} catch (SpecmateException e) {
 				logService.log(LogService.LOG_ERROR, e.getMessage());
 				continue;
@@ -124,6 +126,11 @@ public class ConnectorTask extends SchedulerTask {
 				logService.log(LogService.LOG_DEBUG, "Creating new folder " + reqContainer.getName());
 				foundContainer = BaseFactory.eINSTANCE.createFolder();
 				SpecmateEcoreUtil.copyAttributeValues(reqContainer, foundContainer);
+				valid = ensureValid(foundContainer);
+				if (!valid) {
+					logService.log(LogService.LOG_WARNING, "Found invalid folder with id " + foundContainer.getId());
+					continue;
+				}
 				localContainer.getContents().add(foundContainer);
 			}
 
@@ -132,20 +139,19 @@ public class ConnectorTask extends SchedulerTask {
 		}
 	}
 
-	private boolean ensureValid(Requirement requirementToAdd) {
-		if (StringUtils.isEmpty(requirementToAdd.getId())) {
+	private boolean ensureValid(IContentElement element) {
+		if (StringUtils.isEmpty(element.getId())) {
 			return false;
 		}
-		if (StringUtils.isEmpty(requirementToAdd.getName())) {
-			requirementToAdd.setName(requirementToAdd.getId());
+		if (StringUtils.isEmpty(element.getName())) {
+			element.setName(element.getId());
 		}
-		if (requirementToAdd.getName().length() > MAX_FIELD_LENGTH) {
-			requirementToAdd.setName(requirementToAdd.getName().substring(0, MAX_FIELD_LENGTH - 1));
+		if (element.getName().length() > MAX_FIELD_LENGTH) {
+			element.setName(element.getName().substring(0, MAX_FIELD_LENGTH - 1));
 		}
-		requirementToAdd.setName(requirementToAdd.getName().replaceAll("[,\\|;]", " "));
-		if (requirementToAdd.getDescription() != null
-				&& requirementToAdd.getDescription().length() > MAX_FIELD_LENGTH) {
-			requirementToAdd.setDescription(requirementToAdd.getDescription().substring(0, MAX_FIELD_LENGTH - 1));
+		element.setName(element.getName().replaceAll("[,\\|;]", " "));
+		if (element.getDescription() != null && element.getDescription().length() > MAX_FIELD_LENGTH) {
+			element.setDescription(element.getDescription().substring(0, MAX_FIELD_LENGTH - 1));
 		}
 		return true;
 	}
@@ -159,9 +165,9 @@ public class ConnectorTask extends SchedulerTask {
 		}
 
 		Folder folder = BaseFactory.eINSTANCE.createFolder();
-		folder.setName(name);
-		// TODO: sanitize id
-		folder.setId(name);
+		String validName = name.replaceAll("[,\\|;]", " ");
+		folder.setName(validName);
+		folder.setId(validName);
 		resource.getContents().add(folder);
 		return folder;
 	}
