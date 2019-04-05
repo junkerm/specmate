@@ -1,5 +1,6 @@
 const SPECMATE_VERSION = '0.3.1-dev-1'
 
+
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
