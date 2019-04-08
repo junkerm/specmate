@@ -87,15 +87,16 @@ public class NLPServiceTest {
 				unfolded);
 
 		result = nlpService.processText(
-				"Wenn das Werkzeug fehlschlägt oder einen Fehler findet, blinkt und piept das Werkzeug.", ELanguage.DE);
+				"Wenn das Werkzeug fehlschlägt oder einen Fehler hat, blinkt und piept das Werkzeug.", ELanguage.DE);
 
 		chunkString = NLPUtil.printChunks(result);
+		String dependencyString = NLPUtil.printDependencies(result);
 
 		sentence = NLPUtil.getSentences(result).iterator().next();
 
 		GermanSentenceUnfolder unfolder = new GermanSentenceUnfolder();
 		unfolded = unfolder.insertMissingSubjects(result, sentence);
-		Assert.assertEquals("Wenn das Werkzeug fehlschlägt oder einen Fehler findet, blinkt und piept das Werkzeug.",
+		Assert.assertEquals("Wenn das Werkzeug fehlschlägt oder einen Fehler hat, blinkt und piept das Werkzeug.",
 				unfolded);
 	}
 

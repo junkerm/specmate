@@ -10,59 +10,40 @@ import com.specmate.nlp.util.NLPUtil;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
-/**
- * Class splits the sentences at 'and' and/or 'or'.
- * 
- * @author Andreas Wehrle
- * 
- */
-public class AndOrSplitter {
+public class GermanAndOrSplitter implements IAndOrSplitter {
 
-	/**
-	 * Split a sentences at 'and' to get the single conditions/effects
-	 * 
-	 * @param text
-	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
-	 * @return array of causes/effects
-	 */
+	@Override
+	public String[] splitAndOrSimple(String text) {
+		return text.split("( und )|( oder )");
+	}
+
+	@Override
 	public String[] textSplitterAnd(String text, Sentence sentence, JCas jCas) {
-		String[] splittedText = text.split(" and ");
+		String[] splittedText = text.split(" und ");
 		return textSplitter(splittedText, sentence, jCas);
 	}
 
-	/**
-	 * Split a sentences at 'or' to get the single conditions/effects
-	 * 
-	 * @param text
-	 * @param sentence
-	 * @param jCas
-	 * @return array of causes/effects
-	 */
+	@Override
 	public String[] textSplitterOr(String text, Sentence sentence, JCas jCas) {
-		String[] splittedText = text.split(" or ");
+		String[] splittedText = text.split(" oder ");
 		return textSplitter(splittedText, sentence, jCas);
 	}
 
-	
-	/**
-	 * Split a sentences at 'or'or 'and' to get the single conditions/effects
-	 * 
-	 * @param text
-	 * @param sentence
-	 * @param jCas
-	 * @return array of causes/effects
-	 */
-	public String[] textSplitterAndOr(String text, Sentence sentence, JCas jCas) {
-		String[] splittedText = text.split("( and )|( or )");
-		return textSplitter(splittedText, sentence, jCas);
+	@Override
+	public boolean containsAnd(String cause) {
+		return cause.contains(" und ");
 	}
+
+	@Override
+	public boolean containsOr(String cause) {
+		return cause.contains(" oder ");
+	}
+
 	/**
 	 * Add the missing parts(subjects, verbs, objects) to the splitted text.
 	 * Example: 'The house is green or blue' is splitted into 'the house is green'
 	 * and 'the house is blue'. the subject is added to the second sentence.
-	 * 
+	 *
 	 * @param splittedText
 	 *            splitted text at 'or' or 'and'
 	 * @param sentence
@@ -81,7 +62,7 @@ public class AndOrSplitter {
 		for (int i = 0; i < back.length; i++) {
 			for (Iterator<Constituent> iterator = verbPhrases.iterator(); iterator.hasNext();) {
 				Constituent vp = iterator.next();
-				if (back[i].startsWith(vp.getCoveredText().split(" if")[0])) {
+				if (back[i].startsWith(vp.getCoveredText().split(" falls")[0])) {
 					back[i] = getNPBeforePosition(vp.getBegin(), sentence, jCas).getCoveredText() + " " + back[i];
 				}
 			}
@@ -90,9 +71,9 @@ public class AndOrSplitter {
 				if (np.getCoveredText().contains(back[i])) {
 					Constituent vp = getVPafterNP(np.getEnd(), sentence, jCas);
 					if (vp != null) {
-						if (vp.getCoveredText().contains(" if ")) {
+						if (vp.getCoveredText().contains(" falls ")) {
 							back[i] = back[i] + " "
-									+ vp.getCoveredText().substring(0, vp.getCoveredText().indexOf(" if "));
+									+ vp.getCoveredText().substring(0, vp.getCoveredText().indexOf(" falls "));
 						} else {
 							back[i] = back[i] + " " + vp.getCoveredText();
 						}
@@ -107,7 +88,7 @@ public class AndOrSplitter {
 
 	/**
 	 * Return the next nounphrase before the given position in the sentence
-	 * 
+	 *
 	 * @param pos
 	 *            position
 	 * @param sentence
@@ -115,6 +96,7 @@ public class AndOrSplitter {
 	 *            NLP tagged text
 	 * @return nounphrase
 	 */
+
 	public Constituent getNPBeforePosition(int pos, Sentence sentence, JCas jCas) {
 		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
 		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
@@ -137,7 +119,7 @@ public class AndOrSplitter {
 
 	/**
 	 * Return the first verbphrase after the nounphrase with the given position
-	 * 
+	 *
 	 * @param pos
 	 *            position of the nounphrase
 	 * @param sentence
@@ -166,5 +148,4 @@ public class AndOrSplitter {
 		return back;
 
 	}
-
 }

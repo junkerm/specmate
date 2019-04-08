@@ -32,31 +32,31 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
  * @author Andreas Wehrle
  *
  */
-public class PatternMatcher {
+public class EnglishPatternMatcher implements ICauseEffectPatternMatcher {
 
 	/**
-	 * Method splits the sentences into the cause and the effect if it matches
-	 * one pattern
+	 * Method splits the sentences into the cause and the effect if it matches one
+	 * pattern
 	 *
 	 * @param sentence
 	 *            sentence to split
 	 * @param jCas
 	 *            NLPTagged text
-	 * @return array with two elements. First element: cause, second
-	 *         element:effect
-	 * @throws SpecmateInternalException 
+	 * @return array with two elements. First element: cause, second element:effect
+	 * @throws SpecmateInternalException
 	 */
+	@Override
 	public String[] detectCauseAndEffect(Sentence sentence, JCas jCas) throws SpecmateInternalException {
 		String sentenceText = sentence.getCoveredText();
 		Optional<Constituent> optSentenceConstituent = NLPUtil.getSentenceConstituent(jCas, sentence);
-		if(!optSentenceConstituent.isPresent()) {
-			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "Could not find sentence constituent for sentence: "  + sentenceText);
+		if (!optSentenceConstituent.isPresent()) {
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM,
+					"Could not find sentence constituent for sentence: " + sentenceText);
 		}
 		Constituent sentenceConstituent = optSentenceConstituent.get();
-		
+
 		String cause = "";
 		String effect = "";
-
 
 		if (matchPattern2_1(sentence, jCas)) {
 			int posComma = sentenceText.indexOf(",");
@@ -200,8 +200,7 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 1.1: If-sentences(starting with
-	 * if)
+	 * Detect if the sentence matches pattern 1.1: If-sentences(starting with if)
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -247,8 +246,7 @@ public class PatternMatcher {
 	// }
 
 	/**
-	 * Detect if the sentence matches pattern 1.2: If-sentences(if in the
-	 * middle)
+	 * Detect if the sentence matches pattern 1.2: If-sentences(if in the middle)
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -277,8 +275,8 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 1.3: If-sentences(starting with
-	 * if) and effect introduced with then
+	 * Detect if the sentence matches pattern 1.3: If-sentences(starting with if)
+	 * and effect introduced with then
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -293,8 +291,8 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 2.1: If-sentences with 'when'
-	 * instead of 'if'(starting with when)
+	 * Detect if the sentence matches pattern 2.1: If-sentences with 'when' instead
+	 * of 'if'(starting with when)
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -328,8 +326,8 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 2.2: If-sentences with 'when'
-	 * instead of 'if'(when in the middle)
+	 * Detect if the sentence matches pattern 2.2: If-sentences with 'when' instead
+	 * of 'if'(when in the middle)
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -359,8 +357,8 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 2.3: If-sentences with 'when'
-	 * instead of 'if'(starting with when) and effect introduced with then
+	 * Detect if the sentence matches pattern 2.3: If-sentences with 'when' instead
+	 * of 'if'(starting with when) and effect introduced with then
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -451,8 +449,7 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 4: for this
-	 * reason
+	 * Return the cause and effect of a sentence matching pattern 4: for this reason
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -650,8 +647,7 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 8: provided
-	 * that
+	 * Return the cause and effect of a sentence matching pattern 8: provided that
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -698,8 +694,8 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 9: have
-	 * something to do
+	 * Return the cause and effect of a sentence matching pattern 9: have something
+	 * to do
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -749,8 +745,7 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 10: a lot to
-	 * do
+	 * Return the cause and effect of a sentence matching pattern 10: a lot to do
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -821,8 +816,7 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 12: in order
-	 * that
+	 * Return the cause and effect of a sentence matching pattern 12: in order that
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -915,8 +909,7 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 14: even
-	 * though
+	 * Return the cause and effect of a sentence matching pattern 14: even though
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -963,8 +956,8 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 15: in the
-	 * case that
+	 * Return the cause and effect of a sentence matching pattern 15: in the case
+	 * that
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -1011,8 +1004,8 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 16: on
-	 * condition that
+	 * Return the cause and effect of a sentence matching pattern 16: on condition
+	 * that
 	 *
 	 * @param sentence
 	 * @param jCas
@@ -1059,8 +1052,7 @@ public class PatternMatcher {
 	}
 
 	/**
-	 * Return the cause and effect of a sentence matching pattern 17: supposing
-	 * that
+	 * Return the cause and effect of a sentence matching pattern 17: supposing that
 	 *
 	 * @param sentence
 	 * @param jCas
