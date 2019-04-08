@@ -173,6 +173,14 @@ public class CEGEditorElements {
 		driver.findElement(By.cssSelector(".form-check-input")).click();
 	}
 	
+	public void toggleNegateButtonOnLastConnection() {
+		
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".form-check-input")));
+		driver.findElement(By.cssSelector(".form-check-input")).click();
+	}
+	
 	public boolean negationDisplayed() {
 		return isElementPresent(By.cssSelector(".tilde"));
 	}
