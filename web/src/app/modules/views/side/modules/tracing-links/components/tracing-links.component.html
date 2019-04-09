@@ -25,7 +25,7 @@
               <tracing-link [traceProxy]="trace"></tracing-link>
             </td>
             <td style="text-align:right">
-              <button title="{{'delete' | translate}}" (click)="delete(trace)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+              <button title="{{'delete' | translate}}" (click)="delete(trace)" class="btn btn-sm btn-outline-danger" id="{{'delete-related-requirement' + trace.url}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
             </td>
         </table>
       </li>

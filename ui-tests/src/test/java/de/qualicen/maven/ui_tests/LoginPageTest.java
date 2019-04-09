@@ -14,7 +14,7 @@ public class LoginPageTest extends TestBase {
 	 }
 
 	 /**
-	  * Runs a simple test verifying login.
+	  * Runs a test verifying login.
 	  * @throws InvalidElementStateException
 	  */
 	 @Test

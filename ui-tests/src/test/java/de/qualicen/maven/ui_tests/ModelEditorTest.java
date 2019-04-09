@@ -21,6 +21,10 @@ public class ModelEditorTest extends TestBase {
 		 super(os, version, browser, deviceName, deviceOrientation);
 	 }
 	 
+	 /**
+	  * Runs a test verifying the creation of a CEG.
+	  * @throws InvalidElementStateException
+	  */
 	 @Test 
 	 public void verifyModelEditorTest() throws InvalidElementStateException {
 		
@@ -47,8 +51,8 @@ public class ModelEditorTest extends TestBase {
 		projectExplorer.open("Erlaubnis Autofahren");
 					
 		// Creating and opening new model
-		String modelName = "Model By Automated UI Test" +  new Timestamp(System.currentTimeMillis());
-		requirementOverview.createModelFromRequirement(modelName);
+		String modelName = "Model By Automated UI Test " +  new Timestamp(System.currentTimeMillis());
+		requirementOverview.createCEGModelFromRequirement(modelName);
 					
 		// Adding nodes to the CEG
 		WebElement nodeAlter = cegEditor.createNode("Alter", ">17",100,100);//results in x=15, y=60
@@ -59,8 +63,8 @@ public class ModelEditorTest extends TestBase {
 		assertTrue(cegEditor.errorMessageDisplayed());
 			
 		// Connecting created nodes
-		WebElement connection1 = cegEditor.connect(nodeAlter, nodeAutofahren);
-		cegEditor.connect(nodeFS, nodeAutofahren);
+		cegEditor.connectNode(nodeAlter, nodeAutofahren);
+		cegEditor.connectNode(nodeFS, nodeAutofahren);
 		
 		// Check if error message is hidden (Assert false)
 		assertTrue(cegEditor.noWarningsMessageDisplayed());
@@ -79,14 +83,12 @@ public class ModelEditorTest extends TestBase {
 		//cegEditor.moveCEGNode(nodeFS, 100, 450);
 		
 		// Negate Connection
-		//cegEditor.toggleNegateButtonOn(connection1);
 		cegEditor.toggleNegateButtonOnLastConnection();
 		
 		// Check if tilde is shown (Assert True)
 		assertTrue(cegEditor.negationDisplayed());
 		
 		// Remove negation 
-		//cegEditor.toggleNegateButtonOn(connection1);
 		cegEditor.toggleNegateButtonOnLastConnection();
 		
 		// Check if tile is hidden (Assert false)
@@ -96,7 +98,7 @@ public class ModelEditorTest extends TestBase {
 		cegEditor.changeTypeToOR(nodeAutofahren);
 		cegEditor.changeTypeToAND(nodeAutofahren);
 		
-		assertTrue(cegEditor.correctModelCreated());
+		assertTrue(cegEditor.correctModelCreated(3, 2));
 					
 		// Save CEG
 		commonControl.save();
@@ -105,24 +107,23 @@ public class ModelEditorTest extends TestBase {
 		// Create test specification
 		cegEditor.generateTestSpecification();
 		
-		assertTrue(cegEditor.correctTestSpecificationGenerated());
+		assertTrue(cegEditor.correctTestSpecificationGenerated(3));
 		
 		// Click on created CEG in the requirement overview
 		cegEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
 		requirementOverview.clickOnCreatedModel(modelName);
-		
+
 		// Duplicate CEG
 		cegEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
-		requirementOverview.duplicateModel(modelName);
+		requirementOverview.duplicateCEGModel(modelName);
 		// Click on it, to check if the duplication created a new model
 		requirementOverview.clickOnDuplicateModel(modelName);
-		
+
 		// Delete duplicate
 		cegEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
 		requirementOverview.deleteDuplicateModel(modelName);
-		
+
 		// Delete created model 
-		requirementOverview.deleteModel(modelName);
-				
+		requirementOverview.deleteModel(modelName);		
 	 }
 }

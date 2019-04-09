@@ -1,22 +1,26 @@
 package SpecmatePageClasses;
 
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+//Page Class
+//Requirements Overview
 public class RequirementOverviewElements {
 
 	WebDriver driver;
 	
 	//Elements and their locators
 	By createModel = By.id("requirement-createmodel-button");
-	By createProcess = By.id("requirement-createprocess-button");
+	By createProcessModel = By.id("requirement-createprocess-button");
 	By createTestSpec = By.id("requirement-createtestspec-button");
-	By createModelRequirement = By.id("requirement-createprocess-button");
-	By modelInputField = By.id("modelNameForm");
+	By createCEGModel = By.id("requirement-createceg-button");
+	By cegModelInputField = By.id("cegModelNameForm");
+	By processModelInputField = By.id("processModelNameForm");
 	
 	//Pop-Up Elements and their locators
 	By discard = By.id("popup-accept-button");
@@ -27,44 +31,35 @@ public class RequirementOverviewElements {
 		this.driver = driver1; 
 	}
 	
-	public void createModelFromRequirement(String modelName){
+	public void createCEGModelFromRequirement(String modelName){
 		//first enter name of the model 
-		driver.findElement(modelInputField).sendKeys(modelName);
+		driver.findElement(cegModelInputField).sendKeys(modelName);
 		//second click on create model
-		driver.findElement(createModelRequirement).click();
+		driver.findElement(createCEGModel).click();
 	}
 	
-	/**click on button to create new ceg-model*/
-	public void createModel() {
-		driver.findElement(createModel).click();
+	public void createProcessModelFromRequirement(String modelName){
+		//first enter name of the model 
+		driver.findElement(processModelInputField).sendKeys(modelName);
+		//second click on create model
+		driver.findElement(createProcessModel).click();
 	}
 	
-	protected void scrollDownTo(By elementLocator) {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-
-		// Find element by link text and store in variable "Element"
-		WebElement Element = driver.findElement(elementLocator);
-
-		// This will scroll the page till the element is found
-		js.executeScript("arguments[0].scrollIntoView();", Element);
-	}
 	
-	public void clickOnCreatedModel (String modelName) {
-		// Scroll down to model 
-		scrollDownTo(modelInputField);
-		WebDriverWait wait = new WebDriverWait(driver, 30);
-		wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.id("requirement-" + modelName + "-show-model-button")));
+	public void clickOnCreatedModel(String modelName) {
 		driver.findElement(By.id("requirement-" + modelName + "-show-model-button")).click();	
 	}
 	
-	public void clickOnDuplicateModel (String modelName) {
+	public void clickOnCreatedProcess(String modelName) {
+		driver.findElement(By.id("requirement-" + modelName + "-show-process-button")).click();	
+	}
+	
+	public void clickOnDuplicateModel(String modelName) {
 		driver.findElement(By.id("requirement-Copy 1 of " + modelName + "-show-model-button")).click();	
 	}
 	
-	/**click on button to create new process*/
-	public void createProcess() {
-		driver.findElement(createProcess).click();
+	public void clickOnDuplicateProcess(String modelName) {
+		driver.findElement(By.id("requirement-Copy 1 of " + modelName + "-show-process-button")).click();	
 	}
 	
 	/**click on button to create new test specification*/
@@ -78,40 +73,72 @@ public class RequirementOverviewElements {
 	}
 	
 	public void deleteDuplicateModel(String modelName) {
-		scrollDownTo(modelInputField);
-		WebDriverWait wait = new WebDriverWait(driver, 30);
-		wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button")));
 		driver.findElement(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button")).click();
 		driver.findElement(discard).click();
 	}
 	
 	public void deleteModelbutCancel(String modelName) {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
-		wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.id("requirement-" + modelName + "-deletemodel-button")));
 		driver.findElement(By.id("requirement-" + modelName + "-deletemodel-button")).click();
 		driver.findElement(cancel).click();
 	}
 	
-	public void duplicateModel(String modelName) {
-		scrollDownTo(modelInputField);
-		WebDriverWait wait = new WebDriverWait(driver, 30);
-		wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.id("requirement-" + modelName + "-duplicatemodel-button")));
-		driver.findElement(By.id("requirement-" + modelName + "-duplicatemodel-button")).click();
+	public void duplicateCEGModel(String cegModelName) {
+		driver.findElement(By.id("requirement-" + cegModelName + "-duplicatemodel-button")).click();
 	}
 	
+	public void duplicateProcess(String processName) {
+		driver.findElement(By.id("requirement-" + processName + "-duplicateprocess-button")).click();
+	}
+	
+	
 	public void deleteProcess(String processName) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.id("requirement-" + processName + "-deleteprocess-button")));
 		driver.findElement(By.id("requirement-" + processName + "-deleteprocess-button")).click();
+		driver.findElement(discard).click();
+	}
+	
+	public void deleteDuplicateProcess(String processName) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.id("requirement-Copy 1 of " + processName + "-deleteprocess-button")));
+		driver.findElement(By.id("requirement-Copy 1 of " + processName + "-deleteprocess-button")).click();
+		driver.findElement(discard).click();
 	}
 	
 	public void deleteTestSpec(String testSpecName) {
 		driver.findElement(By.id("requirement-" + testSpecName + "-deletetestspec-button")).click();
 	}
 	
-	/**click on button to generate a test specification for a model or a process*/
+	// Generate test specification for a given model
 	public void generateTestSpecification(String modelName) {
 		driver.findElement(By.id(modelName + "-generate-testspec-button")).click();
+	}
+	
+	public boolean checkForRelatedRequirement() {
+		// Check if there is a related requirement shown
+		return isElementPresent(By.cssSelector("[id^=related-requirement-overview]"));
+	}
+	
+	public void refreshRequirementOverviewPage() {
+		driver.navigate().refresh();
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("related-requirements-container")));
+	}
+
+	protected boolean isElementPresent(By selector) {
+		// Set the timeout to 1 second in order to avoid delay
+		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+		boolean returnVal = true;
+		try{
+			driver.findElement(selector);
+		} catch (NoSuchElementException e){
+			returnVal = false;
+		} finally {
+			// Change timeout back to the defined value
+			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		}
+		return returnVal;
 	}
 }
