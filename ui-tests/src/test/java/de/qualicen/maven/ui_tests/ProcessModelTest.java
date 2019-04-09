@@ -109,8 +109,8 @@ public class ProcessModelTest extends TestBase {
 
 		processEditor.connectActivity("", parentActivity, endNode);
 
-		// Check if error message is hidden (Assert false)
-		assertFalse(processEditor.noWarningsMessageDisplayed());
+		// Check if error message is hidden
+		assertTrue(processEditor.noWarningsMessageDisplayed());
 		
 
 		assertTrue(processEditor.correctModelCreated(6, 6));
