@@ -135,6 +135,9 @@ public class EditorElements {
 	}
 	
 	public boolean noWarningsMessageDisplayed() {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.cssSelector("g:first-child > [generic-graphical-connection]")));
 		return isElementPresent(By.cssSelector(".text-success"));
 	}
 	
