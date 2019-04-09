@@ -115,7 +115,7 @@ public class ProcessModelTest extends TestBase {
 
 		assertTrue(processEditor.correctModelCreated(6, 6));
 
-		// Save CEG
+		// Save Process
 		commonControl.save();
 
 		// Create test specification
@@ -124,7 +124,7 @@ public class ProcessModelTest extends TestBase {
 		// Assert that the test specification contains two rows
 		assertTrue(processEditor.correctTestSpecificationGenerated(2));
 
-		// Click on created CEG in the requirement overview
+		// Click on created process in the requirement overview
 		processEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
 
 		// Assert that the related requirement is shown in the requirement overview
@@ -132,7 +132,7 @@ public class ProcessModelTest extends TestBase {
 		
 		requirementOverview.clickOnCreatedProcess(modelName);
 
-		// Duplicate CEG
+		// Duplicate process
 		processEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
 		requirementOverview.duplicateProcess(modelName);
 		// Click on it, to check if the duplication created a new model
@@ -142,7 +142,7 @@ public class ProcessModelTest extends TestBase {
 		processEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
 		requirementOverview.deleteDuplicateProcess(modelName);
 
-		// Delete created model 
+		// Delete created process
 		requirementOverview.deleteProcess(modelName);
 
 		requirementOverview.refreshRequirementOverviewPage();

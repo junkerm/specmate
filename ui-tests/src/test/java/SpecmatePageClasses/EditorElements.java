@@ -120,6 +120,9 @@ public class EditorElements {
 	 * @return true if the model contains the number of nodes and connections specified by the parameters
 	 */
 	public boolean correctModelCreated(int assertedNodeNumber, int assertedConnectionNumber) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.cssSelector("g:first-child > [generic-graphical-connection]")));
 		int numberOfNodes = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-node]")).size();
 		int numberOfConnections = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-connection]"))
 				.size();
