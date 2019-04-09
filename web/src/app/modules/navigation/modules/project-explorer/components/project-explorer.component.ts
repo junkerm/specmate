@@ -1,4 +1,4 @@
-import { Component, OnInit, group, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -74,7 +74,7 @@ export class ProjectExplorer implements OnInit {
         return this._rootLibraries.length > this.numLibraryFoldersDisplayed;
     }
 
-    protected search(query: string): void {
+    public search(query: string): void {
         this.searchQueries.next(query);
     }
 

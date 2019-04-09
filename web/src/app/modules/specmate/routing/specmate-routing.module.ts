@@ -33,32 +33,32 @@ import { UnsavedChangesGuard } from '../guards/unsaved-changes-guard';
 
 const routes: Routes = [
   {
-    path: Url.basePath(CEGModel) + '/:url',
+    path: Config.VIEW_URL_PREFIX + 'CEGModel' + '/:url',
     component: CEGModelDetails,
     canDeactivate: [UnsavedChangesGuard],
     canActivate: [UserPermissionsGuard]
   }, {
-    path: Url.basePath(Requirement) + '/:url',
+    path: Config.VIEW_URL_PREFIX + 'Requirement' + '/:url',
     component: RequirementsDetails,
     canDeactivate: [UnsavedChangesGuard],
     canActivate: [UserPermissionsGuard]
   }, {
-    path: Url.basePath( Folder ) + '/:url',
+    path: Config.VIEW_URL_PREFIX + ' Folder ' + '/:url',
     component: FolderDetails,
     canDeactivate: [UnsavedChangesGuard],
     canActivate: [UserPermissionsGuard]
   }, {
-    path: Url.basePath(TestProcedure) + '/:url',
+    path: Config.VIEW_URL_PREFIX + 'TestProcedure' + '/:url',
     component: TestProcedureEditor,
     canDeactivate: [UnsavedChangesGuard],
     canActivate: [UserPermissionsGuard]
   }, {
-    path: Url.basePath(TestSpecification) + '/:url',
+    path: Config.VIEW_URL_PREFIX + 'TestSpecification' + '/:url',
     component: TestSpecificationEditor,
     canDeactivate: [UnsavedChangesGuard],
     canActivate: [UserPermissionsGuard]
   }, {
-    path: Url.basePath(Process) + '/:url',
+    path: Config.VIEW_URL_PREFIX + 'Process' + '/:url',
     component: ProcessDetails,
     canDeactivate: [UnsavedChangesGuard],
     canActivate: [UserPermissionsGuard]

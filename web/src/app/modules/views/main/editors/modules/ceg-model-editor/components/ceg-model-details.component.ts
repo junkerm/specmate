@@ -18,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class CEGModelDetails extends SpecmateViewBase {
 
-    private model: CEGModel;
+    public model: CEGModel;
     private contents: IContainer[];
 
     @ViewChild(GraphicalEditor)

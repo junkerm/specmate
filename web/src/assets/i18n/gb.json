@@ -1,4 +1,20 @@
 {
+	"1": {
+		"0-0": ""
+	},
+	"-button": "",
+	"-copy-button": "",
+	"-copyprocess-button": "",
+	"-deletefolder-button": "",
+	"-deletemodel-button": "",
+	"-deleteprocess-button": "",
+	"-deletetestspec-button": "",
+	"-dropdown": "",
+	"-duplicatemodel-button": "",
+	"-duplicateprocess-button": "",
+	"-duplicatetestspec-button": "",
+	"-input": "",
+	"-textfield": "",
 	"Action": "Action",
 	"CEGGenerator": {
 		"confirm": "Generate Cause-Effect-Model",
@@ -150,6 +166,9 @@
 	"noTestSpecifications": "No test specifications",
 	"noTestSpecificationsFound": "No test specifications found",
 	"notAuthorizedToExport": "User not authorized to export",
+	"null": {
+		"restoreZoom": ""
+	},
 	"ok": "OK",
 	"operation": "Operation",
 	"operationCouldNotBePerformed": "Operation could not be performed",

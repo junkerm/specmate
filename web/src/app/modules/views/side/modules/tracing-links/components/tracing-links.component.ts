@@ -22,6 +22,9 @@ import { Search } from '../../../../../../util/search';
 })
 export class TracingLinks {
 
+    public searching = false;
+    public searchFailed = false;
+
     /** is the control collapsed? */
     public isCollapsed = false;
 

@@ -19,7 +19,7 @@ export class GenericForm {
         return this.translate.instant('fieldInvalid');
     }
 
-    private formGroup: FormGroup;
+    public formGroup: FormGroup;
 
     private ready = false;
 

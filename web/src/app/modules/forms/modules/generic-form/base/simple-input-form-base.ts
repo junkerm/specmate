@@ -7,7 +7,7 @@ export abstract class SimpleInputFormBase {
 
     private _modelElement: IContainer;
     protected fields: string[];
-    private formGroup: FormGroup;
+    public formGroup: FormGroup;
     protected dataService: SpecmateDataService;
 
     protected get modelElement(): IContainer {

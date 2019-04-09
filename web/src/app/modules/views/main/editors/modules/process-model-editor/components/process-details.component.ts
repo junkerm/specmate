@@ -18,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class ProcessDetails extends SpecmateViewBase {
 
-    private model: Process;
+    public model: Process;
     private contents: IContainer[];
 
     @ViewChild(GraphicalEditor)

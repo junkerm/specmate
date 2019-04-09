@@ -13,7 +13,7 @@ export class FormCheckboxInput extends FormElement {
         super(translate);
     }
 
-    private get control() {
+    public get control() {
         return this.form.controls[this.meta.name];
     }
 
