@@ -55,10 +55,10 @@ public class ProcessModelTest extends TestBase {
 		requirementOverview.createProcessModelFromRequirement(modelName);		
 
 		// Create Start node
-		WebElement startNode = processEditor.createStart(300, 100);
+		WebElement startNode = processEditor.createStart(300, 50);
 
 		// Create Activity 
-		WebElement initActivity = processEditor.createActivity("Initialise", 300, 200);
+		WebElement initActivity = processEditor.createActivity("Initialise", 300, 150);
 
 		// Set expected outcome of init activity 
 		processEditor.setExpectedOutcome("Initialisation completed");
@@ -67,13 +67,13 @@ public class ProcessModelTest extends TestBase {
 		processEditor.setDescription("Description for activity");
 
 		// Create Decision
-		WebElement decision1 = processEditor.createDecison("Age-Check", 300, 300);
+		WebElement decision1 = processEditor.createDecison("Age-Check", 300, 250);
 
 		// Create Activity 
-		WebElement childActivity = processEditor.createActivity("Child", 100, 350);
+		WebElement childActivity = processEditor.createActivity("Child", 100, 300);
 
 		// Create Activity 
-		WebElement parentActivity = processEditor.createActivity("Parent", 500, 350);
+		WebElement parentActivity = processEditor.createActivity("Parent", 500, 300);
 
 		// Reference requirement 
 		processEditor.addRelatedRequirement("Zellenmarkierung");
@@ -90,7 +90,7 @@ public class ProcessModelTest extends TestBase {
 		processEditor.addRelatedRequirement("Zellenmarkierung");
 
 		// Create End node
-		WebElement endNode = processEditor.createEnd(300, 450);
+		WebElement endNode = processEditor.createEnd(300, 350);
 
 		// Check if error message is shown (Assert true)
 		assertTrue(processEditor.errorMessageDisplayed());

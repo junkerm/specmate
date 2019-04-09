@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
@@ -71,14 +70,6 @@ public class CEGEditorElements extends EditorElements {
 		return super.connect(node1, node2, toolbarConnection);
 	}
 	
-	protected boolean parseAttributeToBoolean(String condition) {
-		if (condition.equalsIgnoreCase("true") || condition.equalsIgnoreCase("false")) {
-		    return Boolean.valueOf(condition);  
-		} else {
-		    throw new InvalidArgumentException("Boolean value could not be parsed");
-		}
-	}
-	
 	public void toggleNegateButtonOn(WebElement connection) {
 		// Chose the Select tool from the toolbar in order to be able to select a connection
 		driver.findElement(toolbarMove).click();
@@ -108,17 +99,6 @@ public class CEGEditorElements extends EditorElements {
 		return isElementPresent(By.cssSelector(".tilde"));
 	}
 	
-	public void moveCEGNode(WebElement node, int x, int y) {
-		driver.findElement(toolbarMove).click();
-		
-		WebElement editorField = driver.findElement(editor);
-		
-		Action dragNode = builder.clickAndHold(node)
-				.moveToElement(editorField, x, y)
-				.release(node).build();
-
-		dragNode.perform();
-	}
 	
 	public boolean checkUndoConnection() {
 		int numberOfConnections = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-connection]"))
