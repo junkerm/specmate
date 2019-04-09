@@ -23,19 +23,23 @@ public abstract class BaseSkeleton {
 	private static Pattern startsNumerical = Pattern.compile("^[0-9]");
 	private static Pattern invalidChars = Pattern.compile("[^a-zA-Z_0-9\\_]");
 
-	Comparator<TestParameter> parameterComparator = (p1, p2) -> p1.getType().compareTo(p2.getType());
-	Comparator<ParameterAssignment> assignmentComparator = (a1, a2) -> a1.getParameter().getType()
-			.compareTo(a2.getParameter().getType());
+	Comparator<TestParameter> parameterComparator = (p1, p2) -> compareParameter(p1, p2);
+	Comparator<ParameterAssignment> assignmentComparator = (a1, a2) -> compareParameter(a1.getParameter(),
+			a2.getParameter());
 
 	public BaseSkeleton(String language) {
 		this.language = language;
+	}
+
+	private static int compareParameter(TestParameter p1, TestParameter p2) {
+		return p1.getType().compareTo(p2.getType()) * 10 + Integer.signum(p1.getName().compareTo(p2.getName()));
 	}
 
 	public TestSpecificationSkeleton generate(TestSpecification testSpecification) {
 		StringBuilder sb = new StringBuilder();
 
 		TestSpecificationSkeleton tss = TestspecificationFactory.eINSTANCE.createTestSpecificationSkeleton();
-		tss.setLanguage(this.language);
+		tss.setLanguage(language);
 		tss.setName(generateFileName(testSpecification));
 
 		List<TestParameter> parameters = getParameters(testSpecification);
@@ -58,29 +62,29 @@ public abstract class BaseSkeleton {
 	 */
 	private List<ParameterAssignment> getTestCaseParameterAssignments(TestCase tc) {
 		return SpecmateEcoreUtil.pickInstancesOf(tc.getContents(), ParameterAssignment.class).stream()
-				.sorted(this.assignmentComparator).collect(Collectors.toList());
+				.sorted(assignmentComparator).collect(Collectors.toList());
 	}
 
 	/** Return Test parameters sorted by type (input before output) */
 	private List<TestParameter> getParameters(TestSpecification testSpecification) {
 		return SpecmateEcoreUtil.pickInstancesOf(testSpecification.getContents(), TestParameter.class).stream()
-				.sorted(this.parameterComparator).collect(Collectors.toList());
+				.sorted(parameterComparator).collect(Collectors.toList());
 	}
 
 	private List<TestCase> getTestCases(TestSpecification testSpecification) {
 		return SpecmateEcoreUtil.pickInstancesOf(testSpecification.getContents(), TestCase.class);
 	}
 
-	protected String replaceInvalidChars(String r) {
-		r = startsNumerical.matcher(r).replaceAll("");
-		return invalidChars.matcher(r).replaceAll("_");
+	protected String replaceInvalidChars(String name) {
+		name = startsNumerical.matcher(name).replaceAll("");
+		return invalidChars.matcher(name).replaceAll("_");
 	}
 
 	protected void appendParameterValue(StringBuilder sb, ParameterAssignment pa) {
 		sb.append("___");
 		sb.append(replaceInvalidChars(pa.getParameter().getName()));
 		sb.append("__");
-		sb.append(replaceInvalidChars(pa.getValue()));
+		sb.append(replaceInvalidChars(pa.getCondition()));
 	}
 
 	protected void appendDateComment(StringBuilder sb) {

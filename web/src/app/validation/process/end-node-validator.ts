@@ -5,14 +5,14 @@ import { IContainer } from '../../model/IContainer';
 import { ValidationResult } from '../validation-result';
 import { Type } from '../../util/type';
 import { ProcessEnd } from '../../model/ProcessEnd';
-import { Config } from '../../config/config';
+import { ValidationMessage } from '../validation-message';
 
 @Validator(Process)
 export class EndNodeValidator extends ElementValidatorBase<Process> {
     public validate(element: Process, contents: IContainer[]): ValidationResult {
         let hasEndNodes: boolean = contents.filter((element: IContainer) => Type.is(element, ProcessEnd)).length > 0;
         if (!hasEndNodes) {
-            return new ValidationResult(Config.ERROR_NO_END_NODE, false, []);
+            return new ValidationResult(ValidationMessage.ERROR_NO_END_NODE, false, []);
         }
         return ValidationResult.VALID;
     }

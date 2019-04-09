@@ -5,6 +5,7 @@ import org.apache.uima.jcas.JCas;
 import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.common.exception.SpecmateException;
+import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 
 import de.tudarmstadt.ukp.dkpro.core.api.coref.type.CoreferenceLink;
@@ -13,8 +14,8 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 /**
  * This class replaces every personal pronoun with the corresponding object by
  * using coreferences of the {@link INLPService}
- * 
- * 
+ *
+ *
  * @author Andreas Wehrle
  *
  */
@@ -30,7 +31,7 @@ public class PersonalPronounsReplacer {
 	/**
 	 * Method replace every personal pronoun with the corresponding object using
 	 * coreferences of the {@link INLPService}
-	 * 
+	 *
 	 * @param text
 	 *            Text with personal pronouns
 	 * @return Text with replaced personal pronouns
@@ -38,11 +39,11 @@ public class PersonalPronounsReplacer {
 	public String replacePronouns(String text) {
 		JCas jcas;
 		try {
-			jcas = tagger.processText(text);
+			jcas = tagger.processText(text, ELanguage.EN);
 		} catch (SpecmateException e) {
 			return null;
 		}
-		
+
 		for (Sentence sentence : JCasUtil.select(jcas, Sentence.class)) {
 			boolean changed = false;
 			String satz = sentence.getCoveredText();

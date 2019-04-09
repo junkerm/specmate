@@ -107,23 +107,22 @@ export class Config {
     public static FOLDER_NEW_NAME = 'New Folder';
     public static FOLDER_NEW_DESCRIPTION = '';
 
-    public static ERROR_UNCONNECTED_NODE = 'Unconnected node in model.';
-    public static ERROR_DUPLICATE_IO_VARIABLE = 'Variable appears as cause and effect.';
-    public static ERROR_DUPLICATE_NODE = 'Duplicate node.';
+    public static ERROR_UNCONNECTED_NODE = 'Unconnected node(s) in model.';
+    public static ERROR_DUPLICATE_IO_VARIABLE = 'Variable(s) appears as cause and effect.';
+    public static ERROR_DUPLICATE_NODE = 'Duplicate node(s).';
     public static ERROR_EMPTY_MODEL = 'Model empty.';
     public static ERROR_NOT_ONE_START_NODE = 'Not exactly one start node.';
     public static ERROR_NO_END_NODE = 'No end node.';
-    public static ERROR_NODE_WITHOUT_INCOMING = 'Node without incoming connection.';
-    public static ERROR_NODE_WITHOUT_OUTGOING = 'Node without outgoing connection.';
-    public static ERROR_MISSING_CONDITION = 'Missing condition.';
+    public static ERROR_NODE_WITHOUT_INCOMING = 'Node(s) without incoming connection.';
+    public static ERROR_NODE_WITHOUT_OUTGOING = 'Node(s) without outgoing connection.';
+    public static ERROR_MISSING_CONDITION = 'Missing condition(s).';
     public static ERROR_MISSING_FIELDS = 'Missing fields: {{fields}}';
     public static ERROR_NO_STEPS = 'No steps in model.';
-    public static ERROR_PROCESS_END_OUTGOING_CONNECTION = 'End node with outgoing connection.';
-    public static ERROR_PROCESS_START_INCOMING_CONNECTION = 'Start node with incoming connection.';
-    public static ERROR_PROCESS_NODE_MULTIPLE_OUTGOING_CONNECTIONS = 'Non-decision-node with multiple outgoing connections.';
-    public static ERROR_PROCESS_DECISION_WITH_ONE_OR_LESS_OUTGOING_CONNECTIONS = 'Decision node not at least two outgoing connections.';
+    public static ERROR_PROCESS_END_OUTGOING_CONNECTION = 'End node(s) with outgoing connection.';
+    public static ERROR_PROCESS_START_INCOMING_CONNECTION = 'Start node(s) with incoming connection.';
+    public static ERROR_PROCESS_NODE_MULTIPLE_OUTGOING_CONNECTIONS = 'Non-decision-node(s) with multiple outgoing connections.';
+    public static ERROR_PROCESS_DECISION_WITH_ONE_OR_LESS_OUTGOING_CONNECTIONS = 'Decision node(s) not at least two outgoing connections.';
     public static ERROR_INVALID_NAME = 'Invalid character in name.';
-
     // Number of elements to load at each step in the project explorer
     public static ELEMENT_CHUNK_SIZE = 100;
 }

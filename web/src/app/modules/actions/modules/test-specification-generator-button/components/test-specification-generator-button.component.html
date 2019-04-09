@@ -1,4 +1,1 @@
-<span *ngIf="!enabled" class="model-error"><i aria-hidden="true" class="fa fa-exclamation-triangle"></i>&nbsp;{{'ModelHasErrors'|translate}}&nbsp;</span>
-<button *ngIf="enabled" id="generatetestspec-button" title="{{'testspec.generate' | translate}}" (click)="generate()"
-    class="btn btn-sm btn-outline-primary"><i class="fa fa-indent" aria-hidden="true"></i>&nbsp;{{'testspec.generate' |
-    translate}}</button>
+<button *ngIf="enabled" id="generatetestspec-button" title="{{'testspec.generate' | translate}}" (click)="generate()" class="btn btn-sm btn-outline-primary" [attr.disabled]="!enabled ? '' : null"><i class="fa fa-indent" aria-hidden="true"></i>&nbsp;{{'testspec.generate' | translate}}</button>
