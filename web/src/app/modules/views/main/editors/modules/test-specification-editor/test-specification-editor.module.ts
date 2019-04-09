@@ -5,11 +5,13 @@ import { TestCaseConditionForm } from './components/test-case-condition-form.com
 import { TestCaseNameForm } from './components/test-case-name-form.component';
 import { TestCaseRow } from './components/test-case-row.component';
 import { TestParameterForm } from './components/test-parameter-form.component';
+import { TestCaseResizableInput } from  './components/test-case-resizable-input.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { DragulaModule } from 'ng2-dragula';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavigatorModule } from '../../../../../navigation/modules/navigator/navigator.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { from } from 'rxjs/observable/from';
 
 @NgModule({
   imports: [
@@ -28,7 +30,8 @@ import { TranslateModule } from '@ngx-translate/core';
     TestCaseConditionForm,
     TestCaseNameForm,
     TestCaseRow,
-    TestParameterForm
+    TestParameterForm,
+    TestCaseResizableInput
   ],
   exports: [
     // THE COMPONENTS VISIBLE TO THE OUTSIDE
