@@ -14,6 +14,7 @@ import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
+import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
 
@@ -23,9 +24,9 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 /**
  * Class create a CEGModel from a given text by extracting causes and effects
  * using the {@link INLPService}.
- * 
+ *
  * @author Andreas Wehrle
- * 
+ *
  */
 public class CEGFromRequirementGenerator {
 
@@ -45,26 +46,26 @@ public class CEGFromRequirementGenerator {
 		super();
 		this.logService = logService;
 		this.tagger = tagger;
-		this.patternMatcher = new PatternMatcher();
-		this.andOrSplitter = new AndOrSplitter();
-		this.cegCreation = new CEGCreation();
+		patternMatcher = new PatternMatcher();
+		andOrSplitter = new AndOrSplitter();
+		cegCreation = new CEGCreation();
 	}
 
 	/**
 	 * Add the nodes and connections to the given CEGModel, which are extracted from
 	 * the text.
-	 * 
+	 *
 	 * @param model
 	 *            the CEGModel to add the nodes/connections
 	 * @param text
 	 *            text of the requirement
 	 * @return generated CEGModel
 	 */
-	public CEGModel createModel(CEGModel model, String text) throws SpecmateException{
-		JCas jcas = tagger.processText(text);
+	public CEGModel createModel(CEGModel model, String text) throws SpecmateException {
+		JCas jcas = tagger.processText(text, ELanguage.EN);
 		model.getContents().clear();
 		LinkedList<CEGNode> nodes = new LinkedList<CEGNode>();
-		
+
 		for (Sentence sentence : JCasUtil.select(jcas, Sentence.class)) {
 			detectCausality(sentence, jcas, model, nodes);
 		}
@@ -75,7 +76,7 @@ public class CEGFromRequirementGenerator {
 	/**
 	 * Method add the nodes and connections detected from the sentence to the given
 	 * CEGModel
-	 * 
+	 *
 	 * @param sentence
 	 *            sentences to detect causal relation
 	 * @param jCas
@@ -84,9 +85,10 @@ public class CEGFromRequirementGenerator {
 	 *            CEGModel to add nodes/connections
 	 * @param nodes
 	 *            list of all nodes in the graph
-	 * @throws SpecmateInternalException 
+	 * @throws SpecmateInternalException
 	 */
-	public void detectCausality(Sentence sentence, JCas jCas, CEGModel model, LinkedList<CEGNode> nodes) throws SpecmateInternalException {
+	public void detectCausality(Sentence sentence, JCas jCas, CEGModel model, LinkedList<CEGNode> nodes)
+			throws SpecmateInternalException {
 		String cause = "";
 		String effect = "";
 		String[] causeEffectArray = patternMatcher.detectCauseAndEffect(sentence, jCas);
@@ -251,7 +253,7 @@ public class CEGFromRequirementGenerator {
 
 	/**
 	 * Method split a cause/effect in the variable and the condition
-	 * 
+	 *
 	 * @param jCas
 	 *            NLP tagged text
 	 * @param sentence
@@ -275,7 +277,7 @@ public class CEGFromRequirementGenerator {
 			if (np.getBegin() >= begin && np.getEnd() <= end) {
 				String covered = np.getCoveredText();
 				String[] splitted = covered.split("( and )|( or )");
-				for(int k=0;k<splitted.length;k++){
+				for (int k = 0; k < splitted.length; k++) {
 					if (notReplacement(splitted[k]) != null) {
 						if (text.contains(notReplacement(splitted[k]))) {
 							back[0] = cuttingEnds(notReplacement(splitted[k]));
@@ -297,7 +299,7 @@ public class CEGFromRequirementGenerator {
 
 	/**
 	 * Replace a negation in the sentence.
-	 * 
+	 *
 	 * @param text
 	 * @return text without negation or null if no negation was found
 	 */
@@ -320,7 +322,7 @@ public class CEGFromRequirementGenerator {
 
 	/**
 	 * Remove spaces, dots and commas at the end or beginning of the text.
-	 * 
+	 *
 	 * @param text
 	 * @return
 	 */
@@ -337,7 +339,7 @@ public class CEGFromRequirementGenerator {
 
 	/**
 	 * Return the first verbphrase after the nounphrase with the given position
-	 * 
+	 *
 	 * @param pos
 	 *            position of the nounphrase
 	 * @param sentence
@@ -369,7 +371,7 @@ public class CEGFromRequirementGenerator {
 
 	/**
 	 * Return the next verbphrase before the given position
-	 * 
+	 *
 	 * @param pos
 	 *            position
 	 * @param sentence
@@ -396,7 +398,7 @@ public class CEGFromRequirementGenerator {
 		}
 		return back;
 	}
-	
+
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;

@@ -320,6 +320,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 		addEEnumLiteral(errorCodeEEnum, ErrorCode.SEARCH);
 		addEEnumLiteral(errorCodeEEnum, ErrorCode.TESTGENERATION);
 		addEEnumLiteral(errorCodeEEnum, ErrorCode.TRELLO);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.NLP);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -1,8 +1,9 @@
 Bundle-Version: 0.0.0.${tstamp}
 Private-Package: com.specmate.ui.core
--buildpath:  \
+-buildpath: \
 	org.eclipse.osgi,\
-	org.eclipse.osgi.services 
+	org.eclipse.osgi.services,\
+	javax.servlet-api
 Include-Resource: webcontent=webcontent
 -dsannotations:  \
 	*

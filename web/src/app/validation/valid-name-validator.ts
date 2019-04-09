@@ -1,8 +1,8 @@
-import { Config } from '../config/config';
 import { IContainer } from '../model/IContainer';
 import { MetaInfo } from '../model/meta/field-meta';
 import { ElementValidatorBase } from './element-validator-base';
 import { ValidationResult } from './validation-result';
+import { ValidationMessage } from './validation-message';
 
 export class ValidNameValidator extends ElementValidatorBase<IContainer> {
 
@@ -19,7 +19,7 @@ export class ValidNameValidator extends ElementValidatorBase<IContainer> {
             return ValidationResult.VALID;
         }
         if (!element.name.match(validName)) {
-            let message = Config.ERROR_INVALID_NAME;
+            let message = ValidationMessage.ERROR_INVALID_NAME;
             return new ValidationResult(message, false, [element]);
         }
         return ValidationResult.VALID;

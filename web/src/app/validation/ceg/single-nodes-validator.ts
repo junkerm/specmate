@@ -3,9 +3,9 @@ import { CEGModel } from '../../model/CEGModel';
 import { CEGNode } from '../../model/CEGNode';
 import { IContainer } from '../../model/IContainer';
 import { ValidationResult } from '../validation-result';
-import { Config } from '../../config/config';
 import { Type } from '../../util/type';
 import { Validator } from '../validator-decorator';
+import { ValidationMessage } from '../validation-message';
 
 @Validator(CEGModel)
 export class SingleNodesValidator extends ElementValidatorBase<CEGModel> {
@@ -24,6 +24,6 @@ export class SingleNodesValidator extends ElementValidatorBase<CEGModel> {
         if (invalidNodes.length === 0) {
             return ValidationResult.VALID;
         }
-        return new ValidationResult(Config.ERROR_UNCONNECTED_NODE, false, invalidNodes);
+        return new ValidationResult(ValidationMessage.ERROR_UNCONNECTED_NODE, false, invalidNodes);
     }
 }

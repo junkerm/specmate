@@ -1,8 +1,8 @@
-<tr *ngFor="let error of valResults">
+<tr *ngFor="let error of valResults; let i = index;">
     <th>
         <div><a class="warning-link" (click)="selectElement()" href>{{name}}</a></div>
     </th>
     <th>
-        <div>{{error.message}}</div>
+        <div>{{error.message.getMessageTranslated(translate)}}</div>
     </th>
 </tr>
