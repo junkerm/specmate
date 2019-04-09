@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { MaximizeButton } from './components/maximize-button.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { SpecmateSharedModule } from '../../../../../specmate/specmate.shared.module';
+import { MaximizeButton } from './components/maximize-button.component';
 
 @NgModule({
   imports: [

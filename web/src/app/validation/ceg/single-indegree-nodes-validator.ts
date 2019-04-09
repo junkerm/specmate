@@ -1,11 +1,11 @@
-import { ElementValidatorBase } from '../element-validator-base';
 import { CEGModel } from '../../model/CEGModel';
 import { CEGNode } from '../../model/CEGNode';
 import { IContainer } from '../../model/IContainer';
-import { ValidationResult } from '../validation-result';
 import { Type } from '../../util/type';
-import { Validator } from '../validator-decorator';
+import { ElementValidatorBase } from '../element-validator-base';
 import { ValidationMessage } from '../validation-message';
+import { ValidationResult } from '../validation-result';
+import { Validator } from '../validator-decorator';
 
 @Validator(CEGModel)
 export class SingleIndegreeNodesValidator extends ElementValidatorBase<CEGModel> {

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { PageNotFound } from './components/page-not-found.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SpecmateSharedModule } from '../../../../../specmate/specmate.shared.module';
+import { PageNotFound } from './components/page-not-found.component';
 
 @NgModule({
   imports: [

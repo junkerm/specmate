@@ -7,7 +7,7 @@
     "lint": "tslint ./src/**/*.ts -t verbose --exclude './src/app/model/**/*.ts'",
     "clean": "rimraf ../bundles/specmate-ui-core/webcontent/*",
     "build-dev": "npm run extract && node node_modules/@angular/cli/bin/ng build --configuration=dev",
-    "build-prod": "npm run clean && node node_modules/@angular/cli/bin/ng build --configuration=production",
+    "build-prod": "npm run clean && node node_modules/@angular/cli/bin/ng build --configuration=prod",
     "dep-graph": "ngd -p src/tsconfig.json",
     "init": "npm prune && npm install",
     "license-check": "license-checker --summary --production",

@@ -1,11 +1,11 @@
-import { NavigatorModule } from '../../../../navigation/modules/navigator/navigator.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { TracingLinks } from './components/tracing-links.component';
-import { TracingLink } from './components/tracing-link.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IconsModule } from '../../../../common/modules/icons/icons.module';
+import { NavigatorModule } from '../../../../navigation/modules/navigator/navigator.module';
 import { SpecmateSharedModule } from '../../../../specmate/specmate.shared.module';
+import { TracingLink } from './components/tracing-link.component';
+import { TracingLinks } from './components/tracing-links.component';
 
 @NgModule({
   imports: [

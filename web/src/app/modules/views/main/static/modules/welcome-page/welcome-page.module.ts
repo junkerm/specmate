@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { Welcome } from './components/welcome.component';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { SpecmateSharedModule } from '../../../../../specmate/specmate.shared.module';
+import { Welcome } from './components/welcome.component';
 
 @NgModule({
   imports: [

@@ -1,19 +1,19 @@
-import { Component, Input } from '@angular/core';
-import { ContentContainerBase } from '../base/contents-container-base';
-import { IContainer } from '../../../../../../../model/IContainer';
-import { Type } from '../../../../../../../util/type';
-import { TestSpecification } from '../../../../../../../model/TestSpecification';
-import { TestSpecificationFactory } from '../../../../../../../factory/test-specification-factory';
+import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ElementFactoryBase } from '../../../../../../../factory/element-factory-base';
+import { TestSpecificationFactory } from '../../../../../../../factory/test-specification-factory';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { TestCase } from '../../../../../../../model/TestCase';
+import { TestSpecification } from '../../../../../../../model/TestSpecification';
+import { Id } from '../../../../../../../util/id';
 import { Sort } from '../../../../../../../util/sort';
+import { Type } from '../../../../../../../util/type';
+import { Url } from '../../../../../../../util/url';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
-import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
-import { Id } from '../../../../../../../util/id';
-import { TestCase } from '../../../../../../../model/TestCase';
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
-import { Url } from '../../../../../../../util/url';
+import { ContentContainerBase } from '../base/contents-container-base';
 
 @Component({
     moduleId: module.id.toString(),

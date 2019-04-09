@@ -1,13 +1,13 @@
-import { Validator } from '../validator-decorator';
-import { CEGModel } from '../../model/CEGModel';
-import { ElementValidatorBase } from '../element-validator-base';
-import { IContainer } from '../../model/IContainer';
-import { ValidationResult } from '../validation-result';
-import { CEGNode } from '../../model/CEGNode';
-import { Type } from '../../util/type';
 import { CEGConnection } from '../../model/CEGConnection';
+import { CEGModel } from '../../model/CEGModel';
+import { CEGNode } from '../../model/CEGNode';
+import { IContainer } from '../../model/IContainer';
 import { Arrays } from '../../util/arrays';
+import { Type } from '../../util/type';
+import { ElementValidatorBase } from '../element-validator-base';
 import { ValidationMessage } from '../validation-message';
+import { ValidationResult } from '../validation-result';
+import { Validator } from '../validator-decorator';
 
 type Circle = CEGConnection[];
 

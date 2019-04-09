@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { VERSION } from '../../../../../../environments/version';
 import { ENV } from '../../../../../../environments/environment';
+import { VERSION } from '../../../../../../environments/version';
 
 @Component({
     selector: 'navigation-bar',

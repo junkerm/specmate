@@ -1,10 +1,10 @@
-import { IModelConnection } from '../../../../../../../model/IModelConnection';
-import { CreateToolBase } from './create-tool-base';
-import { IModelNode } from '../../../../../../../model/IModelNode';
+import { ElementFactoryBase } from '../../../../../../../factory/element-factory-base';
 import { IContainer } from '../../../../../../../model/IContainer';
+import { IModelConnection } from '../../../../../../../model/IModelConnection';
+import { IModelNode } from '../../../../../../../model/IModelNode';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
-import { ElementFactoryBase } from '../../../../../../../factory/element-factory-base';
+import { CreateToolBase } from './create-tool-base';
 
 export abstract class ConnectionToolBase<T extends IModelConnection> extends CreateToolBase {
 

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { SpecmateSharedModule } from '../../../../../specmate/specmate.shared.module';
 import { TestCaseParameterMapping } from './components/test-case-parameter-mapping.component';
 import { TestCaseValueForm } from './components/test-case-value-form.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SpecmateSharedModule } from '../../../../../specmate/specmate.shared.module';
 
 @NgModule({
   imports: [

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { GetTestSpecificationSkeletonButton } from './components/get-test-specification-skeleton-button.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { SpecmateSharedModule } from '../../../specmate/specmate.shared.module';
+import { GetTestSpecificationSkeletonButton } from './components/get-test-specification-skeleton-button.component';
 
 @NgModule({
   imports: [

@@ -1,13 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Config } from '../../../config/config';
-import { CEGModel } from '../../../model/CEGModel';
-import { Folder } from '../../../model/Folder';
-import { Process } from '../../../model/Process';
-import { Requirement } from '../../../model/Requirement';
-import { TestProcedure } from '../../../model/TestProcedure';
-import { TestSpecification } from '../../../model/TestSpecification';
-import { Url } from '../../../util/url';
 import { AuthModule } from '../../views/main/authentication/modules/auth/auth.module';
 import { UserPermissionsGuard } from '../../views/main/authentication/modules/auth/guards/user-permissions-guard';
 import { Login } from '../../views/main/authentication/modules/login/components/login.component';
@@ -22,8 +15,7 @@ import { RequirementsDetails } from '../../views/main/editors/modules/requiremen
 import { RequirementsDetailsModule } from '../../views/main/editors/modules/requirements-details/requirements-details.module';
 import { TestProcedureEditor } from '../../views/main/editors/modules/test-procedure-editor/components/test-procedure-editor.component';
 import { TestProcedureEditorModule } from '../../views/main/editors/modules/test-procedure-editor/test-procedure-editor.module';
-import { TestSpecificationEditor } from
-  '../../views/main/editors/modules/test-specification-editor/components/test-specification-editor.component';
+import { TestSpecificationEditor } from '../../views/main/editors/modules/test-specification-editor/components/test-specification-editor.component';
 import { TestSpecificationEditorModule } from '../../views/main/editors/modules/test-specification-editor/test-specification-editor.module';
 import { PageNotFound } from '../../views/main/static/modules/page-not-found/components/page-not-found.component';
 import { PageNotFoundModule } from '../../views/main/static/modules/page-not-found/page-not-found.module';

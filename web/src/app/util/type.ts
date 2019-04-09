@@ -1,4 +1,3 @@
-import { Pipe, PipeTransform } from '@angular/core';
 
 export class Type {
     public static is(o1: {className: string}, o2: {className: string}): boolean {

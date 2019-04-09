@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { GenericForm } from './components/generic-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormTextInput } from './components/form-text-input.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { SpecmateSharedModule } from '../../../specmate/specmate.shared.module';
 import { FormCheckboxInput } from './components/form-checkbox-input.component';
 import { FormLongTextInput } from './components/form-long-text-input.component';
 import { FormSingleSelectionInput } from './components/form-single-selection-input.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { SpecmateSharedModule } from '../../../specmate/specmate.shared.module';
+import { FormTextInput } from './components/form-text-input.component';
+import { GenericForm } from './components/generic-form.component';
 
 @NgModule({
   imports: [

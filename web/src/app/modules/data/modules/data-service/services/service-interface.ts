@@ -1,13 +1,12 @@
-import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Url } from '../../../../../util/url';
-import { IContainer } from '../../../../../model/IContainer';
-import { Objects } from '../../../../../util/objects';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import 'rxjs/add/observable/of';
-import { _throw } from 'rxjs/observable/throw';
-import { UserToken } from '../../../../views/main/authentication/base/user-token';
-import { UserSession } from '../../../../../model/UserSession';
-import { User } from '../../../../../model/User';
 import { BatchOperation } from '../../../../../model/BatchOperation';
+import { IContainer } from '../../../../../model/IContainer';
+import { User } from '../../../../../model/User';
+import { UserSession } from '../../../../../model/UserSession';
+import { Objects } from '../../../../../util/objects';
+import { Url } from '../../../../../util/url';
+import { UserToken } from '../../../../views/main/authentication/base/user-token';
 
 export class ServiceInterface {
 

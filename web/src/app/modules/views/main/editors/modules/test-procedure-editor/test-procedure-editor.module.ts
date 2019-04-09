@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { TestProcedureEditor } from './components/test-procedure-editor.component';
-import { AngularSplitModule } from 'angular-split';
-import { MaximizeButtonModule } from '../maximize-button/maximize-button.module';
-import { DragulaModule } from 'ng2-dragula';
-import { TestStepRow } from './components/test-step-row.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { TestCaseParameterMappingModule } from '../test-case-parameter-mapping/test-case-parameter-mapping.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { AngularSplitModule } from 'angular-split';
+import { DragulaModule } from 'ng2-dragula';
 import { SpecmateSharedModule } from '../../../../../specmate/specmate.shared.module';
+import { MaximizeButtonModule } from '../maximize-button/maximize-button.module';
+import { TestCaseParameterMappingModule } from '../test-case-parameter-mapping/test-case-parameter-mapping.module';
+import { TestProcedureEditor } from './components/test-procedure-editor.component';
+import { TestStepRow } from './components/test-step-row.component';
 
 @NgModule({
   imports: [

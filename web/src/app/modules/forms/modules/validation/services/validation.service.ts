@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Config } from '../../../../../config/config';
 import { Folder } from '../../../../../model/Folder';
 import { IContainer } from '../../../../../model/IContainer';
 import { FieldMetaItem, MetaInfo } from '../../../../../model/meta/field-meta';
 import { Type } from '../../../../../util/type';
 import { ElementValidatorBase } from '../../../../../validation/element-validator-base';
 import { RequiredFieldsValidator } from '../../../../../validation/required-fields-validator';
+import { ValidNameValidator } from '../../../../../validation/valid-name-validator';
 import { ValidationResult } from '../../../../../validation/validation-result';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
 import { ValidationCache } from '../util/validation-cache';
-import { ValidNameValidator } from '../../../../../validation/valid-name-validator';
 
 @Injectable()
 export class ValidationService {

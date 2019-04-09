@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { AuthenticationService } from './services/authentication.service';
 import { CommonModule } from '@angular/common';
-import { UserPermissionsGuard } from './guards/user-permissions-guard';
+import { NgModule } from '@angular/core';
 import { CookieModule } from 'ngx-cookie';
 import { SpecmateSharedModule } from '../../../../../specmate/specmate.shared.module';
+import { UserPermissionsGuard } from './guards/user-permissions-guard';
+import { AuthenticationService } from './services/authentication.service';
 
 
 

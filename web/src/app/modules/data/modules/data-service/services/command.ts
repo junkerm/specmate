@@ -1,10 +1,10 @@
-import { EOperation } from './e-operation';
-import { IContainer } from '../../../../../model/IContainer';
-import { Objects } from '../../../../../util/objects';
 import { Config } from '../../../../../config/config';
+import { IContainer } from '../../../../../model/IContainer';
 import { Operation } from '../../../../../model/Operation';
 import { Proxy } from '../../../../../model/support/proxy';
+import { Objects } from '../../../../../util/objects';
 import { Url } from '../../../../../util/url';
+import { EOperation } from './e-operation';
 
 export class Command {
 
