@@ -50,8 +50,8 @@ public class RequirementOverviewElements {
 		driver.findElement(By.id("requirement-" + modelName + "-show-model-button")).click();	
 	}
 	
-	public void clickOnCreatedProcess(String modelName) {
-		driver.findElement(By.id("requirement-" + modelName + "-show-process-button")).click();	
+	public void clickOnCreatedProcess(String processName) {
+		driver.findElement(By.id("requirement-" + processName + "-show-process-button")).click();	
 	}
 	
 	public void clickOnDuplicateModel(String modelName) {
@@ -95,6 +95,7 @@ public class RequirementOverviewElements {
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.id("requirement-" + processName + "-deleteprocess-button")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("requirement-" + processName + "-show-process-button")));
 		driver.findElement(By.id("requirement-" + processName + "-deleteprocess-button")).click();
 		driver.findElement(discard).click();
 	}
