@@ -95,7 +95,7 @@ public class RequirementOverviewElements {
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.id("requirement-" + processName + "-deleteprocess-button")));
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("requirement-" + processName + "-show-process-button")));
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(discard));
 		driver.findElement(By.id("requirement-" + processName + "-deleteprocess-button")).click();
 		driver.findElement(discard).click();
 	}
