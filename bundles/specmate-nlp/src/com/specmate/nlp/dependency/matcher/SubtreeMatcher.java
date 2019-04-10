@@ -5,6 +5,15 @@ import com.specmate.nlp.dependency.DependencyData;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
+/**
+ * Matches the entire subtree.
+ * Can optionally specified with a regex pattern and a POS tag
+ * for the root node of the subtree.
+ * If no pattern or tag is provided the match is always successful.
+ * 
+ * @author Dominik
+ *
+ */
 public class SubtreeMatcher extends Matcher {
 	
 	private Optional<String> posTag;

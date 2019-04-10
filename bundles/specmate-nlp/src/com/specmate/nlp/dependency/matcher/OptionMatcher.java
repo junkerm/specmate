@@ -4,6 +4,13 @@ import com.specmate.nlp.dependency.DependencyData;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
+/**
+ * Matcher that matches to the first of its options.
+ * Does not do any backtracking.
+ * 
+ * @author Dominik
+ *
+ */
 public class OptionMatcher extends Matcher{
 	private Matcher[] options;
 	

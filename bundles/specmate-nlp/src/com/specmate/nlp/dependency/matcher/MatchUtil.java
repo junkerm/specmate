@@ -8,6 +8,13 @@ import com.specmate.nlp.dependency.DependencyData;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
 public class MatchUtil {
+	/**
+	 * Applies a list of matchers on the given dependency data object.
+	 * 
+	 * @param rules
+	 * @param data
+	 * @return A List of Results for each head of the dependency data object.
+	 */
 	public static List<MatchResult> evaluateRuleset(List<Matcher> rules, DependencyData data) {
 		Vector<MatchResult> out = new Vector<MatchResult>();
 		for(Token head: data.getHeads()) {
@@ -16,6 +23,14 @@ public class MatchUtil {
 		return out; 
 	}
 	
+	/**
+	 * Recursively applies the list of matchers on the given dependency data object starting at the head token.
+	 * 
+	 * @param rules
+	 * @param data
+	 * @param head
+	 * @return
+	 */
 	public static MatchResult evaluateRuleset(List<Matcher> rules, DependencyData data, Token head) {
 		MatchResult out = MatchResult.unsuccessful();
 		for(Matcher rule: rules) {

@@ -6,6 +6,17 @@ import java.util.Set;
 
 import com.specmate.nlp.dependency.DependencyData;
 
+/**
+ * Class storing the result of a dependency matching operation.
+ * Has a field indicating if the match was successfull.
+ * If it was the field matchTree will contain the subtree that was 
+ * matched and submatch will contain the results of any {@link SubtreeMatcher} 
+ * that was part of the matching process. The key of this map is the name
+ * specified in the Subtreematcher class.
+ * 
+ * @author Dominik
+ *
+ */
 public class MatchResult {
 	private boolean isSuccessfulMatch;
 	private Map<String, MatchResult> submatch;

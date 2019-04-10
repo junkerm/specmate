@@ -15,6 +15,12 @@ import org.apache.uima.jcas.JCas;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 
+/**
+ * Representation for a dependency parse.
+ * 
+ * @author Dominik
+ *
+ */
 public class DependencyData {
 	private static String ROOT = "ROOT";
 	
@@ -50,7 +56,7 @@ public class DependencyData {
 		DependencyData out = new DependencyData(token);
 		
 		if(data.hasDependencies(token)) {
-			for (Dependency d: data.getDependencyNode(token).getDependencies()) {
+			for (Dependency d: data.getDependencyNode(token)) {
 				Token child = d.getDependent();
 				if(child == token) {
 					continue;
@@ -101,6 +107,9 @@ public class DependencyData {
 		return this.dependencies.containsKey(token);
 	}
 
+	/**
+	 * Merges tree fragments if they can be merged to a bigger fragment.
+	 */
 	private void minimizeTreeFragments() {
 		for(int i=0; i< this.treeFragments.size(); i++) {
 			TextInterval iInt = this.treeFragments.get(i);

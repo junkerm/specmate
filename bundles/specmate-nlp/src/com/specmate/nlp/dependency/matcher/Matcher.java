@@ -14,6 +14,15 @@ import com.specmate.nlp.dependency.DependencyNode;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 
+/**
+ * Abstract Matcher Parentclass for extention.
+ * Provides methods for adding additional matchers via dependency arcs and
+ * a generic match method that calls the match method on the arcs.
+ * Use super.match to get the desired behavior.
+ * 
+ * @author Dominik
+ *
+ */
 public abstract class Matcher {
 	
 	private HashMap<String, List<Matcher>> arcs;

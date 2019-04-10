@@ -6,6 +6,11 @@ import com.specmate.nlp.dependency.DependencyData;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
+/**
+ * Matches to a single token that fits a given regular expression and has a given POS tag.
+ * @author Dominik
+ *
+ */
 public class TokenMatcher extends Matcher{
 	String pattern;
 	Optional<String> posTag;
