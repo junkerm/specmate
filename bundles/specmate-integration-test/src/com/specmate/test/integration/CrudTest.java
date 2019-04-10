@@ -753,7 +753,7 @@ public class CrudTest extends EmfRestTest {
 	 * by the list recursive service.
 	 */
 	@Test
-	public void testGetListRecursive() {
+	public void testGetListRecursiveFromCEG() {
 		JSONObject requirement = postRequirementToRoot();
 		String requirementId = getId(requirement);
 
