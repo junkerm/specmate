@@ -390,7 +390,7 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	@Test
-	public void testPostTestSpecification() {
+	public void testPostTestSpecificationToCEG() {
 		JSONObject requirement = postRequirementToRoot();
 		String requirementId = getId(requirement);
 
@@ -405,9 +405,26 @@ public class CrudTest extends EmfRestTest {
 		JSONObject retrievedTestSpecification = getObject(requirementId, cegId, testSpecId);
 		Assert.assertTrue(EmfRestTestUtil.compare(retrievedTestSpecification, testSpecification, true));
 	}
+	
+	@Test
+	public void testPostTestSpecificationToProcess() {
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
+
+		// Post process model
+		JSONObject processModel = postProcess(requirementId);
+		String processId = getId(processModel);
+
+		// Post test specification
+		JSONObject testSpecification = postTestSpecification(requirementId, processId);
+		String testSpecId = getId(testSpecification);
+
+		JSONObject retrievedTestSpecification = getObject(requirementId, processId, testSpecId);
+		Assert.assertTrue(EmfRestTestUtil.compare(retrievedTestSpecification, testSpecification, true));
+	}
 
 	@Test
-	public void testGenerateTests() {
+	public void testGenerateTestsFromCEG() {
 		JSONObject requirement = postRequirementToRoot();
 		String requirementId = getId(requirement);
 
@@ -445,6 +462,74 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG,
 				"Retrieved the object " + retrievedTestChilds.toString() + " from url " + retrieveUrl);
 
+		// Expect 4 children: two test cases and two test parameters
+		Assert.assertEquals(4, retrievedTestChilds.length());
+		getResult.getResponse().close();
+	}
+
+	@Test
+	public void testGenerateTestsFromProcess() {
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
+
+		// Post process model
+		JSONObject processModel = postProcess(requirementId);
+		String processId = getId(processModel);
+
+		// post start node
+		JSONObject startNode = postStartNode(requirementId, processId);
+		String startNodeId = getId(startNode);
+		JSONObject retrievedStartNode = getObject(requirementId, processId, startNodeId);
+
+		// post decision node
+		JSONObject decisionNode = postDecisionNode(requirementId, processId);
+		String decisionNodeId = getId(decisionNode);
+		JSONObject retrievedDecisionNode = getObject(requirementId, processId, decisionNodeId);
+
+		// post step connection
+		postStepConnection(retrievedStartNode, retrievedDecisionNode, requirementId, processId);
+
+		// post step node
+		JSONObject stepNode = postStepNode(requirementId, processId);
+		String stepNodeId = getId(stepNode);
+		JSONObject retrievedStepNode = getObject(requirementId, processId, stepNodeId);
+
+		// post end node
+		JSONObject endNode = postEndNode(requirementId, processId);
+		String endNodeId = getId(endNode);
+		JSONObject retrievedEndNode = getObject(requirementId, processId, endNodeId);
+
+		// post decision connection
+		postDecisionConnection(retrievedDecisionNode, retrievedStepNode, requirementId, processId);
+
+		// post decision connection
+		postDecisionConnection(retrievedDecisionNode, retrievedEndNode, requirementId, processId);
+
+		// post connection
+		postStepConnection(retrievedStepNode, retrievedEndNode, requirementId, processId);
+
+		// Post test specification
+		JSONObject testSpec = postTestSpecification(requirementId, processId);
+		String testSpecId = getId(testSpec);
+
+		// Generate test cases
+		String generateUrl = buildUrl("generateTests", requirementId, processId, testSpecId);
+		logService.log(LogService.LOG_DEBUG, "Request test genreation at  url " + generateUrl);
+		RestResult<JSONObject> result = restClient.post(generateUrl, null);
+		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
+
+		String retrieveUrl = listUrl(requirementId, processId, testSpecId);
+		RestResult<JSONArray> getResult = restClient.getList(retrieveUrl);
+		JSONArray retrievedTestChilds = getResult.getPayload();
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedTestChilds.toString() + " from url " + retrieveUrl);
+
+		List<JSONObject> testCases = getTestCases(retrievedTestChilds);
+
+		// Expect 2 tests should be generated
+		Assert.assertEquals(2, testCases.size());
+		
 		// Expect 4 children: two test cases and two test parameters
 		Assert.assertEquals(4, retrievedTestChilds.length());
 		getResult.getResponse().close();
@@ -516,7 +601,7 @@ public class CrudTest extends EmfRestTest {
 	 * cases.
 	 *
 	 */
-	// @Test
+	@Test
 	public void testContradictoryModelTestGeneration() {
 		JSONObject requirement = postRequirementToRoot();
 		String requirementId = getId(requirement);
@@ -589,7 +674,7 @@ public class CrudTest extends EmfRestTest {
 	 * Generates a model where the generation rules potentially lead to a conflict.
 	 *
 	 */
-	// @Test
+	@Test
 	public void testConflictingRuleApplicationModelTestGeneration() {
 		JSONObject requirement = postRequirementToRoot();
 		String requirementId = getId(requirement);
@@ -639,7 +724,7 @@ public class CrudTest extends EmfRestTest {
 
 		List<JSONObject> testCases = getTestCases(retrievedTestChilds);
 
-		// Expect 4 tests should be generated
+		// Expect 3 tests should be generated
 		Assert.assertEquals(3, testCases.size());
 
 		int numberOfInconsistentTests = 0;
@@ -681,6 +766,40 @@ public class CrudTest extends EmfRestTest {
 
 		// Post second test specification
 		JSONObject testSpecification2 = postTestSpecification(requirementId, cegId);
+
+		// Perform recursive list call
+		String listUrl = buildUrl("listRecursive", requirementId);
+		RestResult<JSONArray> listResult = restClient.getList(listUrl, "class", "TestSpecification");
+		Assert.assertEquals(Status.OK.getStatusCode(), listResult.getResponse().getStatus());
+		JSONArray retrievedTestSpecifications = listResult.getPayload();
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedTestSpecifications.toString() + " from url " + listUrl);
+		Assert.assertEquals(2, retrievedTestSpecifications.length());
+		Assert.assertTrue(
+				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(0), testSpecification, true));
+		Assert.assertTrue(
+				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(1), testSpecification2, true));
+		listResult.getResponse().close();
+	}
+	
+	/**
+	 * Posts two test specifications to a Process model and checks if they are retrieved
+	 * by the list recursive service.
+	 */
+	@Test
+	public void testGetListRecursiveFromProcess() {
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
+
+		// Post process model
+		JSONObject processModel = postProcess(requirementId);
+		String processId = getId(processModel);
+
+		// Post test specification
+		JSONObject testSpecification = postTestSpecification(requirementId, processId);
+
+		// Post second test specification
+		JSONObject testSpecification2 = postTestSpecification(requirementId, processId);
 
 		// Perform recursive list call
 		String listUrl = buildUrl("listRecursive", requirementId);
