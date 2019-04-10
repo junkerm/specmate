@@ -2,22 +2,24 @@ package com.specmate.nlp.dependency.matcher;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+
+import com.specmate.nlp.dependency.DependencyData;
 
 public class MatchResult {
 	private boolean isSuccessfulMatch;
-	private Map<String, MatchSubtree> subtrees;
-	private MatchSubtree unmatched;
+	private Map<String, MatchResult> submatch;
+	private DependencyData matchTree;
 	
 	
-	private MatchResult(boolean success, MatchSubtree unmatched) {
-		this.setUnmatched(unmatched);
+	private MatchResult(boolean success, DependencyData matchTree) {
+		this.matchTree = matchTree;
 		this.isSuccessfulMatch = success;
-		this.subtrees = new HashMap<String, MatchSubtree>();
-		
+		this.submatch = new HashMap<String, MatchResult>();
 	}
 	
 	private MatchResult(boolean success) {
-		this(success, new MatchSubtree());
+		this(success, new DependencyData());
 	}
 	
 	private MatchResult() {
@@ -32,9 +34,8 @@ public class MatchResult {
 		return new MatchResult();
 	}
 
-	public static MatchResult success(MatchSubtree unmatched) {
-		MatchResult out = MatchResult.success();
-		out.getUnmatched().addSubtree(unmatched);
+	public static MatchResult success(DependencyData matchTree) {
+		MatchResult out = new MatchResult(true, matchTree);
 		return out;
 	}
 	
@@ -43,23 +44,36 @@ public class MatchResult {
 		return out;
 	}
 	
-	public void addSubresult(MatchResult subresult) {
-		for(String subtreeID: subresult.subtrees.keySet()) {
-			this.subtrees.put(subtreeID, subresult.subtrees.get(subtreeID));
+	public void addSubtree(MatchResult subtree) {
+		for(String subtreeID: subtree.submatch.keySet()) {
+			this.submatch.put(subtreeID, subtree.submatch.get(subtreeID));
 		}
-		this.isSuccessfulMatch = this.isSuccessfulMatch() && subresult.isSuccessfulMatch();
-		this.getUnmatched().addSubtree(subresult.getUnmatched());
+		this.isSuccessfulMatch = this.isSuccessfulMatch() && subtree.isSuccessfulMatch();
+		this.getMatchTree().addSubtree(subtree.getMatchTree());
 	}
 
-	public MatchSubtree getUnmatched() {
-		return unmatched;
+	public DependencyData getMatchTree() {
+		return matchTree;
 	}
 
-	public void setUnmatched(MatchSubtree unmatched) {
-		this.unmatched = unmatched;
+	public void clearMatchTree() {
+		this.matchTree = new DependencyData();
 	}
 
-	public void setSubtree(String subtreeName, MatchSubtree subtree) {
-		this.subtrees.put(subtreeName, subtree);
+	public void addSubmatch(String subtreeName, MatchResult submatch) {
+		this.isSuccessfulMatch = this.isSuccessfulMatch && submatch.isSuccessfulMatch;
+		this.submatch.put(subtreeName, submatch);
+	}
+
+	public boolean hasSubmatch(String subtreeName) {
+		return this.submatch.containsKey(subtreeName);
+	}
+	
+	public MatchResult getSubmatch(String subtreeName) {
+		return this.submatch.get(subtreeName);
+	}
+	
+	public Set<String> getSubmatchNames() {
+		return this.submatch.keySet();
 	}
 }

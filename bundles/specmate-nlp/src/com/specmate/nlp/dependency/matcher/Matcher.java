@@ -3,6 +3,7 @@ package com.specmate.nlp.dependency.matcher;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.Vector;
 
 import org.apache.uima.internal.util.IntHashSet;
@@ -27,9 +28,22 @@ public abstract class Matcher {
 		this.arcs.get(DependencyTag).add(to);
 	}
 	
+	public List<MatchResult> match(DependencyData data) {
+		Vector<MatchResult> out = new Vector<MatchResult>();
+		for (Token head: data.getHeads()) {
+			out.add(this.match(data, head));
+		}
+		return out;
+	}
+	
 	public MatchResult match(DependencyData data, Token head) {
-		DependencyNode dependencies = data.getDependencies(head);
+		DependencyNode dependencies = data.getDependencyNode(head);
 		MatchResult out = MatchResult.success();
+		
+		if(dependencies == null && !this.arcs.isEmpty()) {
+			return MatchResult.unsuccessful();
+		}
+		
 		
 		for(Entry<String, List<Matcher>> entry: this.arcs.entrySet()) {
 			String depTag = entry.getKey();
@@ -40,7 +54,20 @@ public abstract class Matcher {
 			if(!match.isSuccessfulMatch()) {
 				return MatchResult.unsuccessful();
 			}
-			out.addSubresult(match);
+			out.addSubtree(match);
+		}
+		
+		// Add remaining unmatched Subtrees
+		if(dependencies != null) {
+			Set<String> keys = dependencies.getKeySet();
+			keys.removeAll(this.arcs.keySet());
+			for(String key: keys) {
+				List<Dependency> deps = dependencies.getDependenciesFromTag(key);
+				for(Dependency dep: deps) {
+					DependencyData rem = DependencyData.getSubtree(data, dep.getDependent());
+					out.getMatchTree().addSubtree(rem, dep);
+				}
+			}
 		}
 		return out;
 	}
@@ -73,14 +100,14 @@ public abstract class Matcher {
 			for(int i = matching[currentMatcherIndex]; i < candidateSize; i++) {
 				if (availableCandidates.contains(i+1)) {
 					if(matchResults[currentMatcherIndex][i] == null) {
-						Token subHead = candidates.get(i).getGovernor();
+						Token subHead = candidates.get(i).getDependent();
 						matchResults[currentMatcherIndex][i] = currentMatcher.match(data, subHead);
 					}
 					
 					if(matchResults[currentMatcherIndex][i].isSuccessfulMatch()) {
 						unmatched = false;
-						currentMatcherIndex++;
 						matching[currentMatcherIndex] = 0;
+						currentMatcherIndex++;
 						availableCandidates.remove(i+1);
 						break;
 					} else {
@@ -100,16 +127,17 @@ public abstract class Matcher {
 			}
 		}
 		
-		MatchSubtree unmatched = new MatchSubtree();
+		DependencyData unmatched = new DependencyData();
 		for(int remainElement: availableCandidates.toIntArray()) {
 			// Invert the adding 1 from before
 			int remain = remainElement - 1;
-			unmatched.addSubtree(MatchSubtree.getSubtree(data, candidates.get(remain).getGovernor()));
+			Dependency dep = candidates.get(remain);
+			unmatched.addSubtree(DependencyData.getSubtree(data, dep.getGovernor()),dep);
 		}
 		
 		MatchResult out = MatchResult.success(unmatched);
 		for (int i = 0; i < matching.length; i++) {
-			out.addSubresult(matchResults[i][matching[i]]);
+			out.addSubtree(matchResults[i][matching[i]]);
 			// Optional add to discarded Tree 
 		}
 		return out;

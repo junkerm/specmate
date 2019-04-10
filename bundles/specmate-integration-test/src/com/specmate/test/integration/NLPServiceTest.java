@@ -1,6 +1,8 @@
 package com.specmate.test.integration;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
 
 import org.apache.uima.jcas.JCas;
 import org.junit.Assert;
@@ -14,6 +16,12 @@ import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
+import com.specmate.nlp.dependency.DependencyData;
+import com.specmate.nlp.dependency.matcher.MatchResult;
+import com.specmate.nlp.dependency.matcher.MatchUtil;
+import com.specmate.nlp.dependency.matcher.Matcher;
+import com.specmate.nlp.dependency.matcher.SubtreeMatcher;
+import com.specmate.nlp.dependency.matcher.TokenMatcher;
 import com.specmate.nlp.matcher.AndMatcher;
 import com.specmate.nlp.matcher.AnyMatcher;
 import com.specmate.nlp.matcher.ChildrenSequenceMatcher;
@@ -21,7 +29,6 @@ import com.specmate.nlp.matcher.ConstituentTypeMatcher;
 import com.specmate.nlp.matcher.CoveredTextMatcher;
 import com.specmate.nlp.matcher.ExactlyOneConsumer;
 import com.specmate.nlp.matcher.IConstituentTreeMatcher;
-import com.specmate.nlp.matcher.MatchResult;
 import com.specmate.nlp.matcher.SequenceMatcher;
 import com.specmate.nlp.matcher.ZeroOrMoreConsumer;
 import com.specmate.nlp.util.EnglishSentenceUnfolder;
@@ -121,6 +128,69 @@ public class NLPServiceTest {
 
 	}
 
+	@Test
+	public void testDependencyParse() throws SpecmateException {
+		INLPService nlpService = getNLPService();
+		JCas result = nlpService.processText("If the great tool detects an error, it shows a warning window.", ELanguage.EN);
+		DependencyData data = DependencyData.generateFromJCas(result);
+		Assert.assertEquals(data.getHeads().size(), 1);
+		System.out.println(data);
+		
+		// Define a Cause Effect Rule
+		SubtreeMatcher treeMatcherEffect = new SubtreeMatcher("Effect", ".*");
+		SubtreeMatcher treeMatcherCause = new SubtreeMatcher("Cause", ".*");
+		treeMatcherEffect.arcTo(treeMatcherCause,"advcl");
+		TokenMatcher explicitMatcher1 = new TokenMatcher("(?i)if", "IN");
+		treeMatcherCause.arcTo(explicitMatcher1,"mark");
+		// And Rule
+		
+		
+		// Define Subject-Preficate Rule
+		SubtreeMatcher treeMatcherSubject = new SubtreeMatcher("Subject",".*");
+		SubtreeMatcher treeMatcherPredicate = new SubtreeMatcher("Predicate",".*");
+		treeMatcherPredicate.arcTo(treeMatcherSubject, "nsubj");
+		
+		Vector<Matcher> rules = new Vector<Matcher>();
+		rules.add(treeMatcherEffect);
+		rules.add(treeMatcherPredicate);
+		
+		// Run the rules
+		List<MatchResult> results = MatchUtil.evaluateRuleset(rules, data);
+		Assert.assertEquals(data.getHeads().size(), results.size());
+		
+		MatchResult res = results.get(0);
+		Assert.assertTrue(res.isSuccessfulMatch());
+		
+		// Get the result:
+		//Cause
+		Assert.assertTrue(res.hasSubmatch("Cause"));
+		MatchResult cause = res.getSubmatch("Cause");
+		System.out.println("Cause:\n"+cause.getMatchTree());
+		Assert.assertTrue(cause.isSuccessfulMatch());
+		
+		Assert.assertTrue(cause.hasSubmatch("Subject"));
+		MatchResult subj = cause.getSubmatch("Subject");
+		System.out.println("Cause Subject:\n"+subj.getMatchTree());
+		
+		Assert.assertTrue(cause.hasSubmatch("Predicate"));
+		MatchResult pred = cause.getSubmatch("Predicate");
+		System.out.println("Cause Predicate:\n"+pred.getMatchTree());
+		
+		//Effect
+		Assert.assertTrue(res.hasSubmatch("Effect"));
+		MatchResult effect = res.getSubmatch("Effect");
+		System.out.println("Effect:\n"+effect.getMatchTree());
+		Assert.assertTrue(effect.isSuccessfulMatch());
+		
+		Assert.assertTrue(effect.hasSubmatch("Subject"));
+		MatchResult eSubj = effect.getSubmatch("Subject");
+		System.out.println("Effect Subject:\n"+eSubj.getMatchTree());
+		
+		Assert.assertTrue(effect.hasSubmatch("Predicate"));
+		MatchResult ePred = effect.getSubmatch("Predicate");
+		System.out.println("Effect Predicate:\n"+ePred.getMatchTree());
+	}
+	
 	private void checkCauseEffect(String text, ELanguage language, String expectedCause, String expectedEffect)
 			throws SpecmateException {
 		INLPService nlpService = getNLPService();
@@ -135,7 +205,7 @@ public class NLPServiceTest {
 				new ZeroOrMoreConsumer(result, new CoveredTextMatcher(",")),
 				new ZeroOrMoreConsumer(result, new ConstituentTypeMatcher("ADVP")),
 				new ZeroOrMoreConsumer(result, new AnyMatcher(), "effect"))));
-		MatchResult matchResult = matcher.match(cons);
+		com.specmate.nlp.matcher.MatchResult matchResult = matcher.match(cons);
 		Assert.assertTrue(matchResult.isMatch());
 		String effect = matchResult.getMatchGroupAsText("effect");
 		String cause = matchResult.getMatchGroupAsText("cause");

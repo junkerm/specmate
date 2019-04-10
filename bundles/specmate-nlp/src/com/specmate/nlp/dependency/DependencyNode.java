@@ -1,14 +1,16 @@
 package com.specmate.nlp.dependency;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.ArrayListMultimap;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 
-public class DependencyNode implements Iterable<Token> {
+public class DependencyNode implements Iterable<Token>{
 	private ArrayListMultimap<String, Dependency> dependencies;
 
 	public DependencyNode() {
@@ -23,9 +25,16 @@ public class DependencyNode implements Iterable<Token> {
 		return this.dependencies.get(dependencyTag);
 	}
 
-	@Override
-	public Iterator<Token> iterator() {
-		return dependencies.entries().stream().map(e -> e.getValue().getGovernor()).iterator();
+	public Set<String> getKeySet() {
+		return this.dependencies.keys().elementSet();
 	}
 	
+	@Override
+	public Iterator<Token> iterator() {
+		return dependencies.entries().stream().map(e -> e.getValue().getDependent()).iterator();
+	}
+	
+	public Collection<Dependency> getDependencies() {
+		return dependencies.values();
+	}
 }

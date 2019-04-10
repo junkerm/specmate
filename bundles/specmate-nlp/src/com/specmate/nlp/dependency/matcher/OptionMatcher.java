@@ -16,7 +16,7 @@ public class OptionMatcher extends Matcher{
 		for(Matcher option: options) {
 			MatchResult res = option.match(data, head);
 			if(res.isSuccessfulMatch()) {
-				res.addSubresult(super.match(data, head));
+				res.addSubtree(super.match(data, head));
 				return res;
 			}
 		}

@@ -43,10 +43,13 @@ public class SubtreeMatcher extends Matcher {
 		}
 		
 		MatchResult res = super.match(data, head);
-		MatchSubtree thisNode = new MatchSubtree(head);
-		thisNode.addSubtree(res.getUnmatched());
-		res.setSubtree(this.subtreeName, thisNode);
-		res.setUnmatched(null);
+
+		DependencyData thisNode = new DependencyData(head);
+		thisNode.addSubtree(res.getMatchTree());
+		MatchResult subtree = MatchResult.success(thisNode);
+		
+		res.addSubmatch(this.subtreeName, subtree);
+		res.clearMatchTree();
 		return res;
 	}
 }
