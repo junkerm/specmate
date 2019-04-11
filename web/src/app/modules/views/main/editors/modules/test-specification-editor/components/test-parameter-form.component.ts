@@ -94,13 +94,4 @@ export class TestParameterForm extends SimpleInputFormBase {
         }
         return this.testParameters.length > 1;
     }
-    @ViewChild('textArea', { read: ElementRef }) textArea: ElementRef;
-
-    autoGrow(): void {
-        const textArea = this.textArea.nativeElement;
-        textArea.style.overflow = 'hidden';
-        textArea.style.height = '0px';
-        textArea.style.height = 2 + textArea.scrollHeight + 'px';
-    }
-
 }

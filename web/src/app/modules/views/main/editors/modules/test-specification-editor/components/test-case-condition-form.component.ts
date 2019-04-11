@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SimpleInputFormBase } from '../../../../../../forms/modules/generic-form/base/simple-input-form-base';
 import { ParameterAssignment } from '../../../../../../../model/ParameterAssignment';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
@@ -22,13 +22,5 @@ export class TestCaseConditionForm extends SimpleInputFormBase {
 
     constructor(protected dataService: SpecmateDataService) {
         super();
-    }
-    @ViewChild('textArea', { read: ElementRef }) textArea: ElementRef;
-
-    autoGrow(): void {
-        const textArea = this.textArea.nativeElement;
-        textArea.style.overflow = 'hidden';
-        textArea.style.height = '0px';
-        textArea.style.height = 2 + textArea.scrollHeight + 'px';
     }
 }
