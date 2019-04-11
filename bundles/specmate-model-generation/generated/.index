@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="specmate-model-generation" increment="1550498671773">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="specmate-model-generation" increment="1554833911701">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="specmate-model-generation"/>
@@ -18,13 +18,13 @@
       <attribute name="objectClass" value="com.specmate.emfrest.api.IRestService" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="33930" type="Long"/>
+      <attribute name="size" value="48150" type="Long"/>
       <attribute name="url" value="generated/specmate-model-generation.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="7E6B2FF0972D8F981E887A9E0EF85731D374E1F4447998CC66C7D710C8C83B8A"/>
+      <attribute name="osgi.content" value="C37AAFEEB4548057D5D910E06F4608A048B97D3BDB491ED1D8892F5E60225F49"/>
     </capability>
     <capability namespace="bndtools.workspace">
-      <attribute name="bndtools.workspace" value="file:/Users/Dominik/Documents/Arbeit/Qualicen/Workspace"/>
+      <attribute name="bndtools.workspace" value="file:/C:/Users/junkerm/eclipse-workspaces/specmate"/>
       <attribute name="project.path" value="/specmate-model-generation"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
@@ -64,7 +64,13 @@
       <directive name="filter" value="(&amp;(osgi.wiring.package=de.tudarmstadt.ukp.dkpro.core.api.segmentation.type)(&amp;(version&gt;=0.0.0)(!(version&gt;=1.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk)(&amp;(version&gt;=0.0.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent)(&amp;(version&gt;=0.0.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency)(&amp;(version&gt;=0.0.0)(!(version&gt;=1.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=javax.ws.rs.core)(&amp;(version&gt;=2.0.0)(!(version&gt;=3.0.0))))"/>

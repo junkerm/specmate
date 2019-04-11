@@ -2,11 +2,14 @@ package com.specmate.modelgeneration;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
@@ -20,7 +23,9 @@ import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 
 /**
  * Class create a CEGModel from a given text by extracting causes and effects
@@ -299,9 +304,9 @@ public abstract class CEGFromRequirementGenerator {
 			endInSentence = sentence.getEnd();
 		}
 		String[] result = new String[] { text, "" };
-		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
-
-		for (Constituent np : nounPhrases) {
+		List<Annotation> nounPhrases = getSubjectNounPhrases(jCas, sentence);
+		String cons = NLPUtil.printChunks(jCas);
+		for (Annotation np : nounPhrases) {
 			if (np.getBegin() >= beginInSentence && np.getEnd() <= endInSentence) {
 				String covered = np.getCoveredText();
 				String[] splitted = andOrSplitter.splitAndOrSimple(covered);
@@ -340,6 +345,16 @@ public abstract class CEGFromRequirementGenerator {
 			text = text.substring(1, text.length()).trim();
 		}
 		return text;
+	}
+
+	protected List<Annotation> getSubjectNounPhrases(JCas jCas, Sentence sentence) {
+		List<Dependency> subjDeps = NLPUtil.findDependencies(jCas, getLanguage().getSubjectDependencyType(), sentence);
+		return subjDeps.stream().map(dep -> {
+			Token subjToken = dep.getDependent();
+			Optional<Chunk> nounPhrase = JCasUtil.selectCovering(jCas, Chunk.class, subjToken).stream()
+					.filter(c -> c.getChunkValue().contentEquals("NP")).findFirst();
+			return nounPhrase.isPresent() ? nounPhrase.get() : subjToken;
+		}).collect(Collectors.toList());
 	}
 
 	@Reference

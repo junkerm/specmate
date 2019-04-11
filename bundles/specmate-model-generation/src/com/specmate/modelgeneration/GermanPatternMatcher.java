@@ -71,6 +71,7 @@ public class GermanPatternMatcher implements ICauseEffectPatternMatcher {
 		int positionComma = -1;
 		List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
 		List<Chunk> verbPhrases = NLPUtil.getVerbPhraseChunks(jCas, sentence);
+		String chunks = NLPUtil.printChunks(jCas);
 		for (Token token : pos) {
 			if (token.getPosValue().equals("$,")) {
 				positionComma = token.getBegin();

@@ -13,6 +13,8 @@ import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
+import com.specmate.nlp.api.ELanguage;
+
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
@@ -130,6 +132,12 @@ public class NLPUtil {
 		}
 	}
 
+	public static List<Dependency> findDependencies(JCas jCas, String depType, Annotation annotation) {
+		Collection<Dependency> dependencies = JCasUtil.selectCovered(jCas, Dependency.class, annotation);
+		return dependencies.stream().filter(dep -> dep.getDependencyType().equals(depType))
+				.collect(Collectors.toList());
+	}
+
 	public static Optional<Dependency> findDependency(Collection<Dependency> dependencies, Annotation chunk,
 			String depType, boolean isGovernor) {
 		List<Token> tokens;
@@ -146,6 +154,14 @@ public class NLPUtil {
 			}
 		}
 		return Optional.empty();
+	}
+
+	public static ELanguage detectLanguage(String text) {
+		if (text.contains("der") || text.contains("die") || text.contains("das") || text.contains("ein")
+				|| text.contains("eine") || text.contains("einen")) {
+			return ELanguage.DE;
+		}
+		return ELanguage.EN;
 	}
 
 }
