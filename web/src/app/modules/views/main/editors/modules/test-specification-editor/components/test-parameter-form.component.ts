@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SimpleInputFormBase } from '../../../../../../forms/modules/generic-form/base/simple-input-form-base';
 import { IContainer } from '../../../../../../../model/IContainer';
 import { ParameterAssignment } from '../../../../../../../model/ParameterAssignment';
