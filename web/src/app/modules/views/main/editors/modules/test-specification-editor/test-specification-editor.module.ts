@@ -10,7 +10,6 @@ import { DragulaModule } from 'ng2-dragula';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavigatorModule } from '../../../../../navigation/modules/navigator/navigator.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { from } from 'rxjs/observable/from';
 import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 
 @NgModule({
