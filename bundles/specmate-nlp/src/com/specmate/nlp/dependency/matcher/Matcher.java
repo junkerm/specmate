@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import org.apache.uima.internal.util.IntHashSet;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.specmate.nlp.dependency.DependencyData;
 import com.specmate.nlp.dependency.DependencyNode;
 
@@ -25,16 +26,13 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
  */
 public abstract class Matcher {
 	
-	private HashMap<String, List<Matcher>> arcs;
+	private ArrayListMultimap<String, Matcher> arcs;
 	public Matcher() {
-		this.arcs = new HashMap<String, List<Matcher>>();
+		this.arcs = ArrayListMultimap.create();
 	}
 	
-	public void arcTo(Matcher to, String DependencyTag) {
-		if (!this.arcs.containsKey(DependencyTag)) {
-			this.arcs.put(DependencyTag, new Vector<Matcher>());
-		}
-		this.arcs.get(DependencyTag).add(to);
+	public void arcTo(Matcher to, String dependencyTag) {
+		this.arcs.put(dependencyTag, to);
 	}
 	
 	public List<MatchResult> match(DependencyData data) {
@@ -54,9 +52,8 @@ public abstract class Matcher {
 		}
 		
 		
-		for(Entry<String, List<Matcher>> entry: this.arcs.entrySet()) {
-			String depTag = entry.getKey();
-			List<Matcher> matchers = entry.getValue();
+		for(String depTag: this.arcs.keySet()) {
+			List<Matcher> matchers = this.arcs.get(depTag);
 			List<Dependency> candidates = dependencies.getDependenciesFromTag(depTag);
 			MatchResult match = this.matchChildren(data, matchers, candidates);
 			
