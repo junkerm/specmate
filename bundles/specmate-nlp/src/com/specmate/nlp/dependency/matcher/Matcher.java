@@ -1,15 +1,13 @@
 package com.specmate.nlp.dependency.matcher;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Vector;
 
 import org.apache.uima.internal.util.IntHashSet;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.specmate.nlp.dependency.DependencyData;
+import com.specmate.nlp.dependency.DependencyParsetree;
 import com.specmate.nlp.dependency.DependencyNode;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
@@ -35,17 +33,17 @@ public abstract class Matcher {
 		this.arcs.put(dependencyTag, to);
 	}
 	
-	public List<MatchResult> match(DependencyData data) {
-		Vector<MatchResult> out = new Vector<MatchResult>();
+	public List<MatchResult> match(DependencyParsetree data) {
+		Vector<MatchResult> result = new Vector<MatchResult>();
 		for (Token head: data.getHeads()) {
-			out.add(this.match(data, head));
+			result.add(this.match(data, head));
 		}
-		return out;
+		return result;
 	}
 	
-	public MatchResult match(DependencyData data, Token head) {
+	public MatchResult match(DependencyParsetree data, Token head) {
 		DependencyNode dependencies = data.getDependencyNode(head);
-		MatchResult out = MatchResult.success();
+		MatchResult result = MatchResult.success();
 		
 		if(dependencies == null && !this.arcs.isEmpty()) {
 			return MatchResult.unsuccessful();
@@ -60,7 +58,7 @@ public abstract class Matcher {
 			if(!match.isSuccessfulMatch()) {
 				return MatchResult.unsuccessful();
 			}
-			out.addSubtree(match);
+			result.addSubtree(match);
 		}
 		
 		// Add remaining unmatched Subtrees
@@ -70,15 +68,15 @@ public abstract class Matcher {
 			for(String key: keys) {
 				List<Dependency> deps = dependencies.getDependenciesFromTag(key);
 				for(Dependency dep: deps) {
-					DependencyData rem = DependencyData.getSubtree(data, dep.getDependent());
-					out.getMatchTree().addSubtree(rem, dep);
+					DependencyParsetree rem = DependencyParsetree.getSubtree(data, dep.getDependent());
+					result.getMatchTree().addSubtree(rem, dep);
 				}
 			}
 		}
-		return out;
+		return result;
 	}
 	
-	private MatchResult matchChildren(DependencyData data, List<Matcher> matchers, List<Dependency> candidates) {
+	private MatchResult matchChildren(DependencyParsetree data, List<Matcher> matchers, List<Dependency> candidates) {
 		int matchSize = matchers.size();
 		int candidateSize = candidates.size();
 		if (matchSize > candidateSize) {
@@ -133,19 +131,19 @@ public abstract class Matcher {
 			}
 		}
 		
-		DependencyData unmatched = new DependencyData();
+		DependencyParsetree unmatched = new DependencyParsetree(data.getTokenOrder());
 		for(int remainElement: availableCandidates.toIntArray()) {
 			// Invert the adding 1 from before
 			int remain = remainElement - 1;
 			Dependency dep = candidates.get(remain);
-			unmatched.addSubtree(DependencyData.getSubtree(data, dep.getGovernor()),dep);
+			unmatched.addSubtree(DependencyParsetree.getSubtree(data, dep.getGovernor()),dep);
 		}
 		
-		MatchResult out = MatchResult.success(unmatched);
+		MatchResult result = MatchResult.success(unmatched);
 		for (int i = 0; i < matching.length; i++) {
-			out.addSubtree(matchResults[i][matching[i]]);
+			result.addSubtree(matchResults[i][matching[i]]);
 			// Optional add to discarded Tree 
 		}
-		return out;
+		return result;
 	}
 }

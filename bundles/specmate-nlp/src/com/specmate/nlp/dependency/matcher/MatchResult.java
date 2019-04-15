@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.specmate.nlp.dependency.DependencyData;
+import com.specmate.nlp.dependency.DependencyParsetree;
 
 /**
  * Class storing the result of a dependency matching operation.
@@ -20,17 +20,17 @@ import com.specmate.nlp.dependency.DependencyData;
 public class MatchResult {
 	private boolean isSuccessfulMatch;
 	private Map<String, MatchResult> submatch;
-	private DependencyData matchTree;
+	private DependencyParsetree matchTree;
 	
 	
-	private MatchResult(boolean success, DependencyData matchTree) {
+	private MatchResult(boolean success, DependencyParsetree matchTree) {
 		this.matchTree = matchTree;
 		this.isSuccessfulMatch = success;
 		this.submatch = new HashMap<String, MatchResult>();
 	}
 	
 	private MatchResult(boolean success) {
-		this(success, new DependencyData());
+		this(success, new DependencyParsetree());
 	}
 	
 	private MatchResult() {
@@ -45,14 +45,13 @@ public class MatchResult {
 		return new MatchResult();
 	}
 
-	public static MatchResult success(DependencyData matchTree) {
-		MatchResult out = new MatchResult(true, matchTree);
-		return out;
+	public static MatchResult success(DependencyParsetree matchTree) {
+		MatchResult result = new MatchResult(true, matchTree);
+		return result;
 	}
 	
 	public static MatchResult success() {
-		MatchResult out = new MatchResult(true);
-		return out;
+		return new MatchResult(true);
 	}
 	
 	public void addSubtree(MatchResult subtree) {
@@ -63,12 +62,12 @@ public class MatchResult {
 		this.getMatchTree().addSubtree(subtree.getMatchTree());
 	}
 
-	public DependencyData getMatchTree() {
+	public DependencyParsetree getMatchTree() {
 		return matchTree;
 	}
 
 	public void clearMatchTree() {
-		this.matchTree = new DependencyData();
+		this.matchTree = new DependencyParsetree();
 	}
 
 	public void addSubmatch(String subtreeName, MatchResult submatch) {

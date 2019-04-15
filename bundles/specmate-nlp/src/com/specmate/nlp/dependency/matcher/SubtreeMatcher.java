@@ -1,7 +1,7 @@
 package com.specmate.nlp.dependency.matcher;
 
 import com.google.common.base.Optional;
-import com.specmate.nlp.dependency.DependencyData;
+import com.specmate.nlp.dependency.DependencyParsetree;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
@@ -37,7 +37,7 @@ public class SubtreeMatcher extends Matcher {
 	}
 	
 	@Override
-	public MatchResult match(DependencyData data, Token head) {
+	public MatchResult match(DependencyParsetree data, Token head) {
 		if(this.pattern.isPresent()) {
 			String tokenText = head.getCoveredText().trim();
 			if(!tokenText.matches(this.pattern.get())) {
@@ -53,7 +53,7 @@ public class SubtreeMatcher extends Matcher {
 		
 		MatchResult res = super.match(data, head);
 
-		DependencyData thisNode = new DependencyData(head);
+		DependencyParsetree thisNode = new DependencyParsetree(data.getTokenOrder() , head);
 		thisNode.addSubtree(res.getMatchTree());
 		MatchResult subtree = MatchResult.success(thisNode);
 		

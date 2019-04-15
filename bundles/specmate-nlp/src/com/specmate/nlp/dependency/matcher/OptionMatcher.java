@@ -1,6 +1,6 @@
 package com.specmate.nlp.dependency.matcher;
 
-import com.specmate.nlp.dependency.DependencyData;
+import com.specmate.nlp.dependency.DependencyParsetree;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
@@ -19,7 +19,7 @@ public class OptionMatcher extends Matcher{
 	}
 	
 	@Override
-	public MatchResult match(DependencyData data, Token head) {
+	public MatchResult match(DependencyParsetree data, Token head) {
 		for(Matcher option: options) {
 			MatchResult res = option.match(data, head);
 			if(res.isSuccessfulMatch()) {

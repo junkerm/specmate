@@ -3,7 +3,7 @@ package com.specmate.nlp.dependency.matcher;
 import java.util.List;
 import java.util.Vector;
 
-import com.specmate.nlp.dependency.DependencyData;
+import com.specmate.nlp.dependency.DependencyParsetree;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
@@ -15,12 +15,12 @@ public class MatchUtil {
 	 * @param data
 	 * @return A List of Results for each head of the dependency data object.
 	 */
-	public static List<MatchResult> evaluateRuleset(List<Matcher> rules, DependencyData data) {
-		Vector<MatchResult> out = new Vector<MatchResult>();
+	public static List<MatchResult> evaluateRuleset(List<Matcher> rules, DependencyParsetree data) {
+		Vector<MatchResult> result = new Vector<MatchResult>();
 		for(Token head: data.getHeads()) {
-			out.add(MatchUtil.evaluateRuleset(rules, data, head));
+			result.add(MatchUtil.evaluateRuleset(rules, data, head));
 		}
-		return out; 
+		return result; 
 	}
 	
 	/**
@@ -31,14 +31,14 @@ public class MatchUtil {
 	 * @param head
 	 * @return
 	 */
-	public static MatchResult evaluateRuleset(List<Matcher> rules, DependencyData data, Token head) {
-		MatchResult out = MatchResult.unsuccessful();
+	public static MatchResult evaluateRuleset(List<Matcher> rules, DependencyParsetree data, Token head) {
+		MatchResult result = MatchResult.unsuccessful();
 		for(Matcher rule: rules) {
-			out = rule.match(data, head);
-			if(out.isSuccessfulMatch()) {
-				for(String submatchName: out.getSubmatchNames()) {
-					MatchResult sub = out.getSubmatch(submatchName);
-					DependencyData subData = sub.getMatchTree(); 
+			result = rule.match(data, head);
+			if(result.isSuccessfulMatch()) {
+				for(String submatchName: result.getSubmatchNames()) {
+					MatchResult sub = result.getSubmatch(submatchName);
+					DependencyParsetree subData = sub.getMatchTree(); 
 					Token subHead = subData.getHeads().stream().findFirst().get();
 					MatchResult recursiveCall = evaluateRuleset(rules, subData, subHead);
 					if(recursiveCall.isSuccessfulMatch()) {
@@ -51,6 +51,6 @@ public class MatchUtil {
 			}
 		}
 		
-		return out;
+		return result;
 	}
 }

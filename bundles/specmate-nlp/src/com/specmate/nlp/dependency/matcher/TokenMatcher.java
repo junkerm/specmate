@@ -2,7 +2,7 @@ package com.specmate.nlp.dependency.matcher;
 
 import java.util.Optional;
 
-import com.specmate.nlp.dependency.DependencyData;
+import com.specmate.nlp.dependency.DependencyParsetree;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
@@ -26,7 +26,7 @@ public class TokenMatcher extends Matcher{
 	}
 
 	@Override
-	public MatchResult match(DependencyData data, Token head) {
+	public MatchResult match(DependencyParsetree data, Token head) {
 		String tokenText = head.getCoveredText().trim();
 		if(!tokenText.matches(this.pattern)) {
 			return MatchResult.unsuccessful();

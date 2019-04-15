@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import org.apache.uima.fit.util.JCasUtil;
+import org.apache.uima.internal.util.SortedIntSet;
 import org.apache.uima.jcas.JCas;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
@@ -21,39 +22,44 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
  * @author Dominik
  *
  */
-public class DependencyData {
+public class DependencyParsetree {
 	private static String ROOT = "ROOT";
 	
 	private Map<Token, DependencyNode> dependencies;
 	private Set<Token> heads;
 	private List<TextInterval> treeFragments;
+	private SortedIntSet tokenOrder;
 	
-	public static DependencyData generateFromJCas(JCas jcas) {
-		DependencyData out = new DependencyData();
+	public SortedIntSet getTokenOrder() {
+		return this.tokenOrder;
+	}
+	
+	public static DependencyParsetree generateFromJCas(JCas jcas) {
+		DependencyParsetree result = new DependencyParsetree();
 		
 		Collection<Dependency> dependencyList = JCasUtil.select(jcas, Dependency.class);
 		
 		for(Dependency d: dependencyList) {
 			Token governor = d.getGovernor();
 			
-			if(!out.dependencies.containsKey(governor)) {
-				out.dependencies.put(governor, new DependencyNode());
-				out.treeFragments.add(out.new TextInterval(governor));
+			if(!result.dependencies.containsKey(governor)) {
+				result.dependencies.put(governor, new DependencyNode());
+				result.addFragment(governor);
 			} 
 			
 			if(d.getDependencyType().equals(ROOT)) {
-				out.heads.add(governor);
+				result.heads.add(governor);
 			} else {
-				out.dependencies.get(governor).addDepenency(d);
-				out.treeFragments.add(out.new TextInterval(d.getDependent()));
+				result.dependencies.get(governor).addDepenency(d);
+				result.addFragment(d.getDependent());
 			}
 		}
-		out.minimizeTreeFragments();
-		return out;
+		result.minimizeTreeFragments();
+		return result;
 	}
 
-	public static DependencyData getSubtree(DependencyData data, Token token) {
-		DependencyData out = new DependencyData(token);
+	public static DependencyParsetree getSubtree(DependencyParsetree data, Token token) {
+		DependencyParsetree result = new DependencyParsetree(data.tokenOrder, token);
 		
 		if(data.hasDependencies(token)) {
 			for (Dependency d: data.getDependencyNode(token)) {
@@ -61,37 +67,44 @@ public class DependencyData {
 				if(child == token) {
 					continue;
 				}
-				out.addSubtree(DependencyData.getSubtree(data, child), d);
+				result.addSubtree(DependencyParsetree.getSubtree(data, child), d);
 			}
 		}
-		return out;
+		return result;
 	}
 	
-	public DependencyData(Token head) {
+	public DependencyParsetree(SortedIntSet order) {
 		this();
-		this.heads.add(head);
-		this.treeFragments.add(new TextInterval(head));
+		this.tokenOrder = order;
 	}
 	
-	public DependencyData() {
+	public DependencyParsetree(SortedIntSet sortedIntSet, Token head) {
+		this(sortedIntSet);
+		this.heads.add(head);
+		addFragment(head);
+	}
+	
+	public DependencyParsetree() {
 		this.dependencies = new HashMap<Token, DependencyNode>();
 		this.heads = new HashSet<Token>();
-		this.treeFragments = new Vector<DependencyData.TextInterval>();
+		this.treeFragments = new Vector<DependencyParsetree.TextInterval>();
+		this.tokenOrder = new SortedIntSet();
 	}
 	
-	public void addSubtree(DependencyData subtree) {
+	public void addSubtree(DependencyParsetree subtree) {
 		this.dependencies.putAll(subtree.dependencies);
 		this.treeFragments.addAll(subtree.treeFragments);
+		this.tokenOrder.union(subtree.tokenOrder);
 		this.minimizeTreeFragments();
 	}
 	
-	public void addSubtree(DependencyData subtree, Dependency connection) {
-		Token governor = connection.getGovernor();
+	public void addSubtree(DependencyParsetree subtree, Dependency dependency) {
+		Token governor = dependency.getGovernor();
 		if(!this.dependencies.containsKey(governor)) {
 			this.dependencies.put(governor, new DependencyNode());
-			this.treeFragments.add(this.new TextInterval(governor));
+			addFragment(governor);
 		}
-		this.dependencies.get(governor).addDepenency(connection);
+		this.dependencies.get(governor).addDepenency(dependency);
 		this.addSubtree(subtree);
 	}
 	
@@ -107,6 +120,11 @@ public class DependencyData {
 		return this.dependencies.containsKey(token);
 	}
 
+	private void addFragment(Token token) {
+		this.treeFragments.add(new TextInterval(token));
+		this.tokenOrder.add(token.getBegin());
+	}
+	
 	/**
 	 * Merges tree fragments if they can be merged to a bigger fragment.
 	 */
@@ -115,7 +133,7 @@ public class DependencyData {
 			TextInterval iInt = this.treeFragments.get(i);
 			
 			for(int j = i+1; j<this.treeFragments.size(); j++) {
-				TextInterval comb = iInt.combine(this.treeFragments.get(j));
+				TextInterval comb = iInt.combine(this.treeFragments.get(j), this.tokenOrder);
 				if(comb != null) {
 					this.treeFragments.remove(j);
 					this.treeFragments.set(i, comb);
@@ -129,34 +147,34 @@ public class DependencyData {
 	}
 	
 	public String getTreeFragmentText() {
-		String out = "Fragments:\n";
+		String result = "Fragments:\n";
 		for(TextInterval i: this.treeFragments) {
-			out += "\t"+i+"\n";
+			result += "\t"+i+"\n";
 		}
-		return out;
+		return result;
 	}
 	
 	@Override
 	public String toString() {
-		String out = "Roots:\n";
+		String result = "Roots:\n";
 		for(Token root: this.heads) {
-			out+= "\t"+root.getCoveredText()+"\n";
+			result+= "\t"+root.getCoveredText()+"\n";
 		}
 		
-		out+="Dependencies:\n";
+		result+="Dependencies:\n";
 		for(Token t: this.dependencies.keySet()) {
-			out+= "\t"+t.getCoveredText()+"\n";
+			result+= "\t"+t.getCoveredText()+"\n";
 			DependencyNode node = this.getDependencyNode(t);
 			for(String key: node.getKeySet()) {
 				List<Dependency>dependencies = node.getDependenciesFromTag(key);
 				for(Dependency d: dependencies) {
-					out += "\t\t--"+d.getDependencyType()+"-->"+d.getDependent().getCoveredText()+"\n";
+					result += "\t\t--"+d.getDependencyType()+"-->"+d.getDependent().getCoveredText()+"\n";
 				}
 			}
 		}
 			
-		out+= this.getTreeFragmentText();
-		return out;
+		result+= this.getTreeFragmentText();
+		return result;
 	}
 	
 	private class TextInterval implements Comparable<TextInterval>{
@@ -173,7 +191,7 @@ public class DependencyData {
 			this(token.getBegin(), token.getEnd(), token.getCoveredText());
 		}
 		
-		public TextInterval combine(TextInterval other) {
+		public TextInterval combine(TextInterval other, SortedIntSet order) {
 			TextInterval begin = this;
 			TextInterval end = other;
 			
@@ -186,7 +204,7 @@ public class DependencyData {
 				return new TextInterval(begin.from, end.to, begin.text+end.text);
 			}
 			
-			if(begin.to == end.from-1) {
+			if(begin.getLastIndex(order) == end.getFirstIndex(order)-1) {
 				return new TextInterval(begin.from, end.to, begin.text+" "+end.text);
 			}
 			
@@ -195,6 +213,21 @@ public class DependencyData {
 			}
 			
 			return null;
+		}
+		
+		private int getFirstIndex(SortedIntSet order) {
+			return order.find(this.from);
+		}
+		
+		private int getLastIndex(SortedIntSet order) {
+			int i = getFirstIndex(order);
+			while(i < order.size()) {
+				if(this.to < order.get(i)) {
+					break;
+				}
+				i++;
+			}
+			return i-1;
 		}
 		
 		@Override

@@ -16,10 +16,11 @@ import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
-import com.specmate.nlp.dependency.DependencyData;
+import com.specmate.nlp.dependency.DependencyParsetree;
 import com.specmate.nlp.dependency.matcher.MatchResult;
 import com.specmate.nlp.dependency.matcher.MatchUtil;
 import com.specmate.nlp.dependency.matcher.Matcher;
+import com.specmate.nlp.dependency.matcher.OptionMatcher;
 import com.specmate.nlp.dependency.matcher.SubtreeMatcher;
 import com.specmate.nlp.dependency.matcher.TokenMatcher;
 import com.specmate.nlp.matcher.AndMatcher;
@@ -131,21 +132,20 @@ public class NLPServiceTest {
 	@Test
 	public void testDependencyParse() throws SpecmateException {
 		INLPService nlpService = getNLPService();
-		JCas result = nlpService.processText("If the great tool detects an error, it shows a warning window.", ELanguage.EN);
-		DependencyData data = DependencyData.generateFromJCas(result);
+		JCas result = nlpService.processText("If the tool encounters an error then it beeps.", ELanguage.EN);
+		DependencyParsetree data = DependencyParsetree.generateFromJCas(result);
 		Assert.assertEquals(data.getHeads().size(), 1);
-		System.out.println(data);
 		
 		// Define a Cause Effect Rule
 		SubtreeMatcher treeMatcherEffect = new SubtreeMatcher("Effect", ".*");
 		SubtreeMatcher treeMatcherCause = new SubtreeMatcher("Cause", ".*");
 		treeMatcherEffect.arcTo(treeMatcherCause,"advcl");
-		TokenMatcher explicitMatcher1 = new TokenMatcher("(?i)if", "IN");
-		treeMatcherCause.arcTo(explicitMatcher1,"mark");
-		// And Rule
+		TokenMatcher explicitMatcher1 = new TokenMatcher("if", "IN");
+		TokenMatcher explicitMatcher2 = new TokenMatcher("If", "IN");
+		OptionMatcher optionMatcher = new OptionMatcher(explicitMatcher1, explicitMatcher2);
+		treeMatcherCause.arcTo(optionMatcher,"mark");
 		
-		
-		// Define Subject-Preficate Rule
+		// Define Subject-Predicate Rule
 		SubtreeMatcher treeMatcherSubject = new SubtreeMatcher("Subject",".*");
 		SubtreeMatcher treeMatcherPredicate = new SubtreeMatcher("Predicate",".*");
 		treeMatcherPredicate.arcTo(treeMatcherSubject, "nsubj");
@@ -165,30 +165,29 @@ public class NLPServiceTest {
 		//Cause
 		Assert.assertTrue(res.hasSubmatch("Cause"));
 		MatchResult cause = res.getSubmatch("Cause");
-		System.out.println("Cause:\n"+cause.getMatchTree());
-		Assert.assertTrue(cause.isSuccessfulMatch());
-		
+		Assert.assertTrue(cause.isSuccessfulMatch());		
 		Assert.assertTrue(cause.hasSubmatch("Subject"));
-		MatchResult subj = cause.getSubmatch("Subject");
-		System.out.println("Cause Subject:\n"+subj.getMatchTree());
-		
 		Assert.assertTrue(cause.hasSubmatch("Predicate"));
-		MatchResult pred = cause.getSubmatch("Predicate");
-		System.out.println("Cause Predicate:\n"+pred.getMatchTree());
 		
 		//Effect
 		Assert.assertTrue(res.hasSubmatch("Effect"));
 		MatchResult effect = res.getSubmatch("Effect");
-		System.out.println("Effect:\n"+effect.getMatchTree());
 		Assert.assertTrue(effect.isSuccessfulMatch());
-		
 		Assert.assertTrue(effect.hasSubmatch("Subject"));
-		MatchResult eSubj = effect.getSubmatch("Subject");
-		System.out.println("Effect Subject:\n"+eSubj.getMatchTree());
-		
 		Assert.assertTrue(effect.hasSubmatch("Predicate"));
-		MatchResult ePred = effect.getSubmatch("Predicate");
-		System.out.println("Effect Predicate:\n"+ePred.getMatchTree());
+		
+		
+		Vector<Matcher> rules2 = new Vector<Matcher>();
+		rules.add(treeMatcherEffect);
+		
+		JCas result2 = nlpService.processText("When the tool encounters an error then it beeps.", ELanguage.EN);
+		DependencyParsetree data2 = DependencyParsetree.generateFromJCas(result2);
+		
+		List<MatchResult> results2 = MatchUtil.evaluateRuleset(rules2, data2);
+		Assert.assertEquals(data2.getHeads().size(), results2.size());
+		
+		MatchResult res2 = results2.get(0);
+		Assert.assertTrue(!res2.isSuccessfulMatch());
 	}
 	
 	private void checkCauseEffect(String text, ELanguage language, String expectedCause, String expectedEffect)
