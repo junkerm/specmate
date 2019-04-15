@@ -83,9 +83,11 @@ export class ElementTree implements OnInit {
 
     public _expanded = false;
     public get expanded(): boolean {
-        if (!this._expanded && this.isMustOpen) {
-            this._expanded = true;
-        }
+        /* if (this.collapsed) {
+            if (!this._expanded && this.isMustOpen) {
+                 this._expanded = true;
+            }
+        } */
         return this._expanded;
     }
     public set expanded(expanded: boolean) {
@@ -99,7 +101,7 @@ export class ElementTree implements OnInit {
 
     public get isMustOpen(): boolean {
         if (this._currentElement && this.element) {
-            return Url.isParent(this.element.url, this._currentElement.url);
+           return Url.isParent(this.element.url, this._currentElement.url);
         }
         return false;
     }
@@ -115,12 +117,42 @@ export class ElementTree implements OnInit {
         }
     }
 
+    private _collapsed = false;
+
+    public get collapsed(): boolean {
+        return this._collapsed;
+    }
+
+    public set collapsed(collapsed: boolean) {
+        this._collapsed = collapsed;
+    }
+
     public toggle(): void {
         if (this.expanded) {
             this.contract();
+            this.collapsed = true;
+            console.log('Collapsed' + this.element.id);
         } else {
             this.expand();
+            this.collapsed = false;
+            console.log('NOT Collapsed' + this.element.id);
         }
+    }
+
+
+    private collapse(): void {
+        /*
+            TODO:
+            Check if collapse happened in a parent folder 
+
+        */ 
+
+        if (!this.expanded && this.isMustOpen && this.collapsed) { 
+             if (this.navigator.hasNavigated) {
+                 // Es wurde navigiert, klappe den Tree aus
+                 
+             }
+        }   
     }
 
     private expand(): void {
