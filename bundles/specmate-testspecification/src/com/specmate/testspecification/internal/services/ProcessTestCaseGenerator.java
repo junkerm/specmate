@@ -252,7 +252,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 				value = String.valueOf(evaluationEntry.get().getValue().value ? "true" : "");
 			}
 
-			assignment.setValue(String.valueOf(value));
+			//assignment.setValue(String.valueOf(value));
 			assignment.setCondition(String.valueOf(value));
 			testCase.getContents().add(assignment);
 

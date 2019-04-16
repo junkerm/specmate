@@ -212,7 +212,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * @generated
 	 */
 	public String getValue() {
-		return (String)eDynamicGet(TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE, TestspecificationPackage.Literals.PARAMETER_ASSIGNMENT__VALUE, true, true);
+		return "";//(String)eDynamicGet(TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE, TestspecificationPackage.Literals.PARAMETER_ASSIGNMENT__VALUE, true, true);
 	}
 
 	/**
@@ -290,8 +290,8 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__PARAMETER:
 				if (resolve) return getParameter();
 				return basicGetParameter();
-			case TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE:
-				return getValue();
+			//case TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE:
+				//return getValue();
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION:
 				return getCondition();
 		}
@@ -319,7 +319,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 				setParameter((TestParameter)newValue);
 				return;
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE:
-				setValue((String)newValue);
+				//setValue((String)newValue);
 				return;
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION:
 				setCondition((String)newValue);
@@ -349,7 +349,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 				setParameter((TestParameter)null);
 				return;
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE:
-				setValue(VALUE_EDEFAULT);
+				//setValue(VALUE_EDEFAULT);
 				return;
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION:
 				setCondition(CONDITION_EDEFAULT);
