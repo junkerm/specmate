@@ -68,11 +68,17 @@ public class RequirementOverviewElements {
 	}
 	
 	public void deleteModel(String modelName) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.id("requirement-" + modelName + "-deletemodel-button")));
 		driver.findElement(By.id("requirement-" + modelName + "-deletemodel-button")).click();
 		driver.findElement(discard).click();
 	}
 	
 	public void deleteDuplicateModel(String modelName) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button")));
 		driver.findElement(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button")).click();
 		driver.findElement(discard).click();
 	}
