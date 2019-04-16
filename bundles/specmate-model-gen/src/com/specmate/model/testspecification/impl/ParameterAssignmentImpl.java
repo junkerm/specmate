@@ -211,24 +211,6 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getValue() {
-		return "";//(String)eDynamicGet(TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE, TestspecificationPackage.Literals.PARAMETER_ASSIGNMENT__VALUE, true, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setValue(String newValue) {
-		eDynamicSet(TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE, TestspecificationPackage.Literals.PARAMETER_ASSIGNMENT__VALUE, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public String getCondition() {
 		return (String)eDynamicGet(TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION, TestspecificationPackage.Literals.PARAMETER_ASSIGNMENT__CONDITION, true, true);
 	}
@@ -290,8 +272,6 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__PARAMETER:
 				if (resolve) return getParameter();
 				return basicGetParameter();
-			//case TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE:
-				//return getValue();
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION:
 				return getCondition();
 		}
@@ -317,9 +297,6 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 				return;
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__PARAMETER:
 				setParameter((TestParameter)newValue);
-				return;
-			case TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE:
-				//setValue((String)newValue);
 				return;
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION:
 				setCondition((String)newValue);
@@ -348,9 +325,6 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__PARAMETER:
 				setParameter((TestParameter)null);
 				return;
-			case TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE:
-				//setValue(VALUE_EDEFAULT);
-				return;
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION:
 				setCondition(CONDITION_EDEFAULT);
 				return;
@@ -374,8 +348,6 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__PARAMETER:
 				return basicGetParameter() != null;
-			case TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE:
-				return VALUE_EDEFAULT == null ? getValue() != null : !VALUE_EDEFAULT.equals(getValue());
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION:
 				return CONDITION_EDEFAULT == null ? getCondition() != null : !CONDITION_EDEFAULT.equals(getCondition());
 		}
