@@ -29,7 +29,6 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.testspecification.impl.ParameterAssignmentImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.ParameterAssignmentImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.ParameterAssignmentImpl#getParameter <em>Parameter</em>}</li>
- *   <li>{@link com.specmate.model.testspecification.impl.ParameterAssignmentImpl#getValue <em>Value</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.ParameterAssignmentImpl#getCondition <em>Condition</em>}</li>
  * </ul>
  *
@@ -65,16 +64,6 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * @ordered
 	 */
 	protected static final String DESCRIPTION_EDEFAULT = null;
-
-	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getValue()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String VALUE_EDEFAULT = null;
 
 	/**
 	 * The default value of the '{@link #getCondition() <em>Condition</em>}' attribute.

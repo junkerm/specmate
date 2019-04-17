@@ -14,7 +14,6 @@ import com.specmate.model.base.IContentElement;
  * </p>
  * <ul>
  *   <li>{@link com.specmate.model.testspecification.ParameterAssignment#getParameter <em>Parameter</em>}</li>
- *   <li>{@link com.specmate.model.testspecification.ParameterAssignment#getValue <em>Value</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.ParameterAssignment#getCondition <em>Condition</em>}</li>
  * </ul>
  *
