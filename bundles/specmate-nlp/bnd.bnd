@@ -272,6 +272,8 @@ Export-Package: \
 	org.apache.uima,\
 	com.specmate.nlp.api,\
 	org.apache.uima.cas,\
+	com.specmate.nlp.dependency.matcher,\
+	com.specmate.nlp.dependency,\
 	com.specmate.nlp.util,\
 	org.apache.uima.jcas,\
 	org.apache.uima.fit.util,\
