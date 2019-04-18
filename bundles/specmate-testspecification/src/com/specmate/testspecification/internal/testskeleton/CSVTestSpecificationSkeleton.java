@@ -51,7 +51,7 @@ public class CSVTestSpecificationSkeleton extends BaseSkeleton {
 		for (ParameterAssignment assignment : assignments) {
 			String assignmentValue = assignment.getCondition();
 			String characterToEscape = "=";
-			String escapeString = assignmentValue != null && !assignmentValue.isEmpty() ? escapeString(assignmentValue, characterToEscape) : "";
+			String escapeString = StringUtils.isEmpty(assignmentValue) ? "" : escapeString(assignmentValue, characterToEscape);
 			joiner.add(StringUtils.wrap(escapeString + assignmentValue, TEXT_WRAP));
 		}
 		sb.append(joiner.toString());
