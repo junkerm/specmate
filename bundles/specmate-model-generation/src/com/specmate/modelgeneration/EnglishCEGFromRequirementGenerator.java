@@ -24,7 +24,7 @@ public class EnglishCEGFromRequirementGenerator extends CEGFromRequirementGenera
 	@Override
 	protected String replaceNegation(String text) {
 		if (text.contains("no ")) {
-			return text.replace("no ", " ");
+			return text.replace("no ", "a ");
 		}
 		if (text.contains("cannot ")) {
 			return text.replace("cannot ", "can ");

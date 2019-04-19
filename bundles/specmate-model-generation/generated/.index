@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="specmate-model-generation" increment="1554833911701">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="specmate-model-generation" increment="1555661022462">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="specmate-model-generation"/>
@@ -18,10 +18,10 @@
       <attribute name="objectClass" value="com.specmate.emfrest.api.IRestService" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="48150" type="Long"/>
+      <attribute name="size" value="49111" type="Long"/>
       <attribute name="url" value="generated/specmate-model-generation.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="C37AAFEEB4548057D5D910E06F4608A048B97D3BDB491ED1D8892F5E60225F49"/>
+      <attribute name="osgi.content" value="4DE65A2F300DD33361900A36B1261D31E285C9C8BFFB8A9683AC441D258E66C8"/>
     </capability>
     <capability namespace="bndtools.workspace">
       <attribute name="bndtools.workspace" value="file:/C:/Users/junkerm/eclipse-workspaces/specmate"/>

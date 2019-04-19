@@ -27,8 +27,8 @@ import com.specmate.nlp.matcher.ZeroOrMoreConsumer;
 import com.specmate.nlp.util.EnglishSentenceUnfolder;
 import com.specmate.nlp.util.GermanSentenceUnfolder;
 import com.specmate.nlp.util.NLPUtil;
+import com.specmate.nlp.util.SentenceUnfolderBase;
 
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 public class NLPServiceTest {
@@ -70,34 +70,56 @@ public class NLPServiceTest {
 	}
 
 	@Test
-	public void testSentenceUnfolding() throws SpecmateException {
+	public void testSentenceUnfoldingEnglish() throws SpecmateException {
 		INLPService nlpService = getNLPService();
-		JCas result = nlpService.processText(
-				"If the tool has an error or fails, the tool alerts the user and shows a window.", ELanguage.EN);
+		String text = "If the tool has an error or fails, the tool alerts the user and shows a window.";
 
-		Sentence sentence = NLPUtil.getSentences(result).iterator().next();
-
-		String chunkString = NLPUtil.printChunks(result);
-		System.out.println(chunkString);
-
-		String unfolded = new EnglishSentenceUnfolder().insertMissingSubjects(result, sentence);
+		String unfolded = new EnglishSentenceUnfolder().unfold(nlpService, text, ELanguage.EN);
 		System.out.println(unfolded);
 		Assert.assertEquals(
 				"If the tool has an error or the tool fails, the tool alerts the user and the tool shows a window.",
 				unfolded);
+	}
 
-		result = nlpService.processText(
-				"Wenn das Werkzeug fehlschlägt oder einen Fehler hat, blinkt und piept das Werkzeug.", ELanguage.DE);
+	@Test
+	public void testSentenceUnfoldingGerman() throws SpecmateException {
+		INLPService nlpService = getNLPService();
+		SentenceUnfolderBase unfolder = new GermanSentenceUnfolder();
 
-		chunkString = NLPUtil.printChunks(result);
-		String dependencyString = NLPUtil.printDependencies(result);
-
-		sentence = NLPUtil.getSentences(result).iterator().next();
-
-		GermanSentenceUnfolder unfolder = new GermanSentenceUnfolder();
-		unfolded = unfolder.insertMissingSubjects(result, sentence);
-		Assert.assertEquals("Wenn das Werkzeug fehlschlägt oder einen Fehler hat, blinkt und piept das Werkzeug.",
+		String text = "Wenn das Werkzeug fehlschlägt oder einen Fehler oder ein Problem hat, zeigt das Werkzeug ein Warnfenster und einen Fehlermarker an und gibt eine Meldung aus.";
+		String unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
+		Assert.assertEquals(
+				"Wenn das Werkzeug fehlschlägt oder das Werkzeug einen Fehler hat oder das Werkzeug ein Problem hat, zeigt das Werkzeug ein Warnfenster und zeigt das Werkzeug einen Fehlermarker an und gibt das Werkzeug eine Meldung aus.",
 				unfolded);
+
+		text = "Das Magazin hat die schönsten Wanderungen und Ausflugziele.";
+		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
+		Assert.assertEquals("Das Magazin hat die schönsten Wanderungen und Das Magazin hat Ausflugziele.", unfolded);
+
+		text = "Felix Lindner legte sein Abitur ab und nahm dann ein Studium der neueren Sprachen auf.";
+		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
+		Assert.assertEquals(
+				"Felix Lindner legte sein Abitur ab und Felix nahm dann ein Studium der neueren Sprachen auf.",
+				unfolded);
+
+		text = "Der sowjetische Chirurg Fjodorow reist im Jahr 1982 nach Kabul, um dort Vorlesungen zu halten und um in einem Militärkrankenhaus zu arbeiten.";
+		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
+		Assert.assertEquals(
+				"Der sowjetische Chirurg Fjodorow reist im Jahr 1982 nach Kabul, um dort Vorlesungen zu halten und um in einem Militärkrankenhaus zu arbeiten.",
+				unfolded);
+
+		text = "Er versorgt Verwundete beider Seiten und befragt sie nach ihren Erfahrungen und persönlichen Lebensumständen.";
+		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
+		Assert.assertEquals(
+				"Er versorgt Verwundete beider Seiten und Er befragt sie nach ihren Erfahrungen und persönlichen Lebensumständen.",
+				unfolded);
+
+		text = "Der häufige Blätterpilz wächst im Herbst  und fruktifiziert gerne in Hexenringen.";
+		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
+		Assert.assertEquals(
+				"Der häufige Blätterpilz wächst im Herbst  und Der häufige Blätterpilz fruktifiziert gerne in Hexenringen.",
+				unfolded);
+
 	}
 
 	@Test

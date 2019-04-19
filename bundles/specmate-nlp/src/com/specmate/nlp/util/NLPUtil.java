@@ -52,6 +52,17 @@ public class NLPUtil {
 		return getChunks(jCas, sentence, ConstituentType.NP);
 	}
 
+	public static Annotation getCoveringNounPhraseOrToken(JCas jCas, Token token) {
+		List<Chunk> chunk = JCasUtil.selectCovering(jCas, Chunk.class, token);
+		Annotation result;
+		if (chunk.size() > 0 && chunk.get(0).getChunkValue().equals(ConstituentType.NP.getName())) {
+			result = chunk.get(0);
+		} else {
+			result = token;
+		}
+		return result;
+	}
+
 	public static List<Chunk> getChunks(JCas jCas, Sentence sentence, ConstituentType type) {
 		return JCasUtil.selectCovered(jCas, Chunk.class, sentence).stream()
 				.filter(c -> c.getChunkValue().contentEquals(type.getName())).collect(Collectors.toList());
@@ -138,13 +149,18 @@ public class NLPUtil {
 				.collect(Collectors.toList());
 	}
 
-	public static Optional<Dependency> findDependency(Collection<Dependency> dependencies, Annotation chunk,
+	public static Optional<Dependency> findDependency(JCas jCas, Annotation anno, String depType, boolean isGovernor) {
+		Collection<Dependency> dependencies = JCasUtil.select(jCas, Dependency.class);
+		return findDependency(dependencies, anno, depType, isGovernor);
+	}
+
+	public static Optional<Dependency> findDependency(Collection<Dependency> dependencies, Annotation anno,
 			String depType, boolean isGovernor) {
 		List<Token> tokens;
-		if (chunk instanceof Token) {
-			tokens = Arrays.asList((Token) chunk);
+		if (anno instanceof Token) {
+			tokens = Arrays.asList((Token) anno);
 		} else {
-			tokens = JCasUtil.selectCovered(Token.class, chunk);
+			tokens = JCasUtil.selectCovered(Token.class, anno);
 		}
 		for (Dependency dep : dependencies) {
 			if (dep.getDependencyType().equals(depType)) {

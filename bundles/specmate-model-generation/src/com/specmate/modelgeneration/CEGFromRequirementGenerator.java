@@ -37,7 +37,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 public abstract class CEGFromRequirementGenerator {
 
 	private LogService logService;
-	private INLPService tagger;
+	protected INLPService tagger;
 	private ICauseEffectPatternMatcher patternMatcher;
 	private IAndOrSplitter andOrSplitter;
 	private CEGCreation cegCreation;
@@ -82,6 +82,7 @@ public abstract class CEGFromRequirementGenerator {
 	 * @return generated CEGModel
 	 */
 	public CEGModel createModel(CEGModel model, String text) throws SpecmateException {
+		text = preprocess(text);
 		JCas jcas = tagger.processText(text, getLanguage());
 		model.getContents().clear();
 		LinkedList<CEGNode> nodes = new LinkedList<CEGNode>();
@@ -91,6 +92,15 @@ public abstract class CEGFromRequirementGenerator {
 		}
 
 		return model;
+	}
+
+	/**
+	 * To be overwritten by child classes
+	 *
+	 * @throws SpecmateException
+	 */
+	protected String preprocess(String text) throws SpecmateException {
+		return text;
 	}
 
 	/**
@@ -220,15 +230,15 @@ public abstract class CEGFromRequirementGenerator {
 	private void handleAndOrInCause(Sentence sentence, JCas jCas, CEGModel model, LinkedList<CEGNode> nodes,
 			String cause, String[] effects) {
 		String[] causes;
-		causes = andOrSplitter.textSplitterAnd(cause, sentence, jCas);
+		causes = andOrSplitter.textSplitterOr(cause, sentence, jCas);
 		String[] causesTemp = causes.clone();
 		for (int i = 0; i < effects.length; i++) {
 			String[] splittedVariabelAndConditionEffect = splitNodeInVariableAndCondition(jCas, sentence, effects[i]);
 			CEGNode effectNode = cegCreation.createNodeIfNotExist(nodes, model, splittedVariabelAndConditionEffect[0],
-					splittedVariabelAndConditionEffect[1], levelThreeX, levelThreeY, NodeType.AND);
+					splittedVariabelAndConditionEffect[1], levelThreeX, levelThreeY, NodeType.OR);
 			levelThreeY += 100;
 			for (int j = 0; j < causes.length; j++) {
-				String[] causesOr = andOrSplitter.textSplitterOr(causes[j], sentence, jCas);
+				String[] causesOr = andOrSplitter.textSplitterAnd(causes[j], sentence, jCas);
 				causesTemp = ArrayUtils.addAll(causesTemp, causesOr);
 				if (causesOr.length == 1) {
 					String causeNewOr = trimWithPunctuation(causesOr[0]);
@@ -254,7 +264,7 @@ public abstract class CEGFromRequirementGenerator {
 							causes[j]);
 					CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model,
 							splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1], levelTwoX,
-							levelTwoY, NodeType.OR);
+							levelTwoY, NodeType.AND);
 					for (int k = 0; k < causesOr.length; k++) {
 						String causeNewOr = trimWithPunctuation(causesOr[k]);
 						if (replaceNegation(causeNewOr) != null) {
@@ -304,9 +314,9 @@ public abstract class CEGFromRequirementGenerator {
 			endInSentence = sentence.getEnd();
 		}
 		String[] result = new String[] { text, "" };
-		List<Annotation> nounPhrases = getSubjectNounPhrases(jCas, sentence);
+		List<Chunk> nounPhrases = NLPUtil.getNounPhraseChunks(jCas, sentence);
 		String cons = NLPUtil.printChunks(jCas);
-		for (Annotation np : nounPhrases) {
+		for (Chunk np : nounPhrases) {
 			if (np.getBegin() >= beginInSentence && np.getEnd() <= endInSentence) {
 				String covered = np.getCoveredText();
 				String[] splitted = andOrSplitter.splitAndOrSimple(covered);
@@ -344,7 +354,7 @@ public abstract class CEGFromRequirementGenerator {
 		if (text.startsWith(",")) {
 			text = text.substring(1, text.length()).trim();
 		}
-		return text;
+		return text.replaceAll(" +", " ");
 	}
 
 	protected List<Annotation> getSubjectNounPhrases(JCas jCas, Sentence sentence) {

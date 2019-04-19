@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="specmate-nlp" increment="1554833425948">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="specmate-nlp" increment="1555661021390">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="specmate-nlp"/>
@@ -75,7 +75,7 @@
       <attribute name="osgi.wiring.package" value="org.apache.uima.cas"/>
     </capability>
     <capability namespace="osgi.wiring.package">
-      <directive name="uses" value="com.specmate.nlp.api,de.tudarmstadt.ukp.dkpro.core.api.segmentation.type,de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk,de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent,de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency,org.apache.commons.lang3.tuple,org.apache.uima.jcas,org.apache.uima.jcas.tcas"/>
+      <directive name="uses" value="com.specmate.common.exception,com.specmate.nlp.api,de.tudarmstadt.ukp.dkpro.core.api.segmentation.type,de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk,de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent,de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency,org.apache.commons.lang3.tuple,org.apache.uima.jcas,org.apache.uima.jcas.tcas"/>
       <attribute name="version" value="1.0.0" type="Version"/>
       <attribute name="osgi.wiring.package" value="com.specmate.nlp.util"/>
     </capability>
@@ -205,10 +205,10 @@
       <attribute name="objectClass" value="com.specmate.nlp.api.INLPService" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="142962229" type="Long"/>
+      <attribute name="size" value="149021431" type="Long"/>
       <attribute name="url" value="generated/specmate-nlp.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="BD0DF9BF092F6763BD751F07C163BBBC393EA9F69A7AD058EA6CA8E810CF46FE"/>
+      <attribute name="osgi.content" value="8C679B62C6D428CB4D2A1E515E10CCD569765A0120CC093EFC998CBA90C1E26E"/>
     </capability>
     <capability namespace="bndtools.workspace">
       <attribute name="bndtools.workspace" value="file:/C:/Users/junkerm/eclipse-workspaces/specmate"/>

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
@@ -17,7 +18,6 @@ import com.specmate.nlp.matcher.ConstituentTypeMatcher;
 import com.specmate.nlp.matcher.CoveredTextMatcher;
 import com.specmate.nlp.matcher.ExactlyOneConsumer;
 import com.specmate.nlp.matcher.IConstituentTreeMatcher;
-import com.specmate.nlp.matcher.MatchResult;
 import com.specmate.nlp.matcher.SequenceMatcher;
 import com.specmate.nlp.matcher.ZeroOrMoreConsumer;
 import com.specmate.nlp.util.NLPUtil;
@@ -53,7 +53,6 @@ public class EnglishPatternMatcher implements ICauseEffectPatternMatcher {
 			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM,
 					"Could not find sentence constituent for sentence: " + sentenceText);
 		}
-		Constituent sentenceConstituent = optSentenceConstituent.get();
 
 		String cause = "";
 		String effect = "";
@@ -77,28 +76,24 @@ public class EnglishPatternMatcher implements ICauseEffectPatternMatcher {
 			effect = sentenceText.substring(0, posIf - 1);
 		}
 
-		IConstituentTreeMatcher pattern1_1 = buildMatcher1_1(jCas);
-		MatchResult matchResult = pattern1_1.match(sentenceConstituent);
-		if (matchResult.isMatch()) {
-			cause = matchResult.getMatchGroupAsText("cause");
-			effect = matchResult.getMatchGroupAsText("effect");
+		// IConstituentTreeMatcher pattern1_1 = buildMatcher1_1(jCas);
+		// MatchResult matchResult = pattern1_1.match(sentenceConstituent);
+		// if (matchResult.isMatch()) {
+		// cause = matchResult.getMatchGroupAsText("cause");
+		// effect = matchResult.getMatchGroupAsText("effect");
+		// }
+		if (matchPattern1_1(sentence, jCas)) {
+			int posComma = sentenceText.indexOf(",");
+			for (Token constituent : JCasUtil.selectCovered(jCas, Token.class, sentence)) {
+				if (constituent.getPosValue().equals(",")
+						&& constituent.getParent().getType().getShortName().equals("S")
+						&& constituent.getParent().getCoveredText().equals(sentence.getCoveredText())) {
+					posComma = constituent.getBegin() - sentence.getBegin();
+				}
+			}
+			cause = sentenceText.substring(3, posComma);
+			effect = sentenceText.substring(posComma + 2, sentenceText.length() - 1);
 		}
-		// if (matchPattern1_1(sentence, jCas)) {
-		// int posComma = sentenceText.indexOf(",");
-		// for (Token constituent : JCasUtil.selectCovered(jCas, Token.class,
-		// sentence)) {
-		// if (constituent.getPosValue().equals(",")
-		// && constituent.getParent().getType().getShortName().equals("S")
-		// &&
-		// constituent.getParent().getCoveredText().equals(sentence.getCoveredText()))
-		// {
-		// posComma = constituent.getBegin() - sentence.getBegin();
-		// }
-		// }
-		// cause = sentenceText.substring(3, posComma);
-		// effect = sentenceText.substring(posComma + 2, sentenceText.length() -
-		// 1);
-		// }
 		if (matchPattern1_2(sentence, jCas)) {
 			int posIf = sentenceText.indexOf("if");
 
@@ -215,35 +210,34 @@ public class EnglishPatternMatcher implements ICauseEffectPatternMatcher {
 				new ZeroOrMoreConsumer(jCas, new ConstituentTypeMatcher("ADVP")),
 				new ZeroOrMoreConsumer(jCas, new AnyMatcher(), "effect"))));
 	}
-	// public boolean matchPattern1_1(Sentence sentence, JCas jCas) {
-	// String text = sentence.getCoveredText();
-	// int positionComma = -1;
-	// List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
-	// List<Constituent> verbPhrases = JCasUtil.selectCovered(jCas,
-	// Constituent.class, sentence).stream()
-	// .filter(c ->
-	// c.getConstituentType().contentEquals("VP")).collect(Collectors.toList());
-	// ;
-	// for (Token token : pos) {
-	// if (token.getPosValue().equals(",")) {
-	// positionComma = token.getBegin();
-	// }
-	// }
-	// if (text.startsWith("If")) {
-	// boolean start = false;
-	// boolean end = false;
-	// for (Constituent vp : verbPhrases) {
-	// if (vp.getEnd() <= positionComma) {
-	// start = true;
-	// }
-	// if (vp.getBegin() >= positionComma) {
-	// end = true;
-	// }
-	// }
-	// return start && end;
-	// }
-	// return false;
-	// }
+
+	public boolean matchPattern1_1(Sentence sentence, JCas jCas) {
+		String text = sentence.getCoveredText();
+		int positionComma = -1;
+		List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
+		List<Constituent> verbPhrases = JCasUtil.selectCovered(jCas, Constituent.class, sentence).stream()
+				.filter(c -> c.getConstituentType().contentEquals("VP")).collect(Collectors.toList());
+		;
+		for (Token token : pos) {
+			if (token.getPosValue().equals(",")) {
+				positionComma = token.getBegin();
+			}
+		}
+		if (text.startsWith("If")) {
+			boolean start = false;
+			boolean end = false;
+			for (Constituent vp : verbPhrases) {
+				if (vp.getEnd() <= positionComma) {
+					start = true;
+				}
+				if (vp.getBegin() >= positionComma) {
+					end = true;
+				}
+			}
+			return start && end;
+		}
+		return false;
+	}
 
 	/**
 	 * Detect if the sentence matches pattern 1.2: If-sentences(if in the middle)

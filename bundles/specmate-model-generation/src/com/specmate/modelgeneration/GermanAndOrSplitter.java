@@ -1,6 +1,5 @@
 package com.specmate.modelgeneration;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.uima.jcas.JCas;
@@ -8,6 +7,7 @@ import org.apache.uima.jcas.JCas;
 import com.specmate.nlp.util.NLPUtil;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 public class GermanAndOrSplitter implements IAndOrSplitter {
@@ -57,32 +57,35 @@ public class GermanAndOrSplitter implements IAndOrSplitter {
 			return back;
 		}
 
-		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
-		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
-		for (int i = 0; i < back.length; i++) {
-			for (Iterator<Constituent> iterator = verbPhrases.iterator(); iterator.hasNext();) {
-				Constituent vp = iterator.next();
-				if (back[i].startsWith(vp.getCoveredText().split(" falls")[0])) {
-					back[i] = getNPBeforePosition(vp.getBegin(), sentence, jCas).getCoveredText() + " " + back[i];
-				}
-			}
-			for (int j = 0; j < nounPhrases.size(); j++) {
-				Constituent np = nounPhrases.get(j);
-				if (np.getCoveredText().contains(back[i])) {
-					Constituent vp = getVPafterNP(np.getEnd(), sentence, jCas);
-					if (vp != null) {
-						if (vp.getCoveredText().contains(" falls ")) {
-							back[i] = back[i] + " "
-									+ vp.getCoveredText().substring(0, vp.getCoveredText().indexOf(" falls "));
-						} else {
-							back[i] = back[i] + " " + vp.getCoveredText();
-						}
-					} else {
-						back[i] = back[i - 1].replace(nounPhrases.get(j - 1).getCoveredText(), np.getCoveredText());
-					}
-				}
-			}
-		}
+		// List<Chunk> verbPhrases = NLPUtil.getVerbPhraseChunks(jCas, sentence);
+		// List<Chunk> nounPhrases = NLPUtil.getNounPhraseChunks(jCas, sentence);
+		// for (int i = 0; i < back.length; i++) {
+		// for (Iterator<Chunk> iterator = verbPhrases.iterator(); iterator.hasNext();)
+		// {
+		// Chunk vp = iterator.next();
+		// if (back[i].startsWith(vp.getCoveredText().split(" falls")[0])) {
+		// back[i] = getNPBeforePosition(vp.getBegin(), sentence, jCas).getCoveredText()
+		// + " " + back[i];
+		// }
+		// }
+		// for (int j = 0; j < nounPhrases.size(); j++) {
+		// Chunk np = nounPhrases.get(j);
+		// if (np.getCoveredText().contains(back[i])) {
+		// Chunk vp = getVPafterNP(np.getEnd(), sentence, jCas);
+		// if (vp != null) {
+		// if (vp.getCoveredText().contains(" falls ")) {
+		// back[i] = back[i] + " "
+		// + vp.getCoveredText().substring(0, vp.getCoveredText().indexOf(" falls "));
+		// } else {
+		// back[i] = back[i] + " " + vp.getCoveredText();
+		// }
+		// } else {
+		// back[i] = back[i - 1].replace(nounPhrases.get(j - 1).getCoveredText(),
+		// np.getCoveredText());
+		// }
+		// }
+		// }
+		// }
 		return back;
 	}
 
@@ -127,19 +130,19 @@ public class GermanAndOrSplitter implements IAndOrSplitter {
 	 *            NLP tagged text
 	 * @return verbphrase
 	 */
-	public Constituent getVPafterNP(int pos, Sentence sentence, JCas jCas) {
-		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
-		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
-		for (Constituent np : nounPhrases) {
+	public Chunk getVPafterNP(int pos, Sentence sentence, JCas jCas) {
+		List<Chunk> nounPhrases = NLPUtil.getNounPhraseChunks(jCas, sentence);
+		List<Chunk> verbPhrases = NLPUtil.getVerbPhraseChunks(jCas, sentence);
+		for (Chunk np : nounPhrases) {
 			if (pos >= np.getBegin() && pos <= np.getEnd()) {
 				pos = np.getEnd();
 				break;
 			}
 		}
 
-		Constituent back = null;
+		Chunk back = null;
 		int best = Integer.MAX_VALUE;
-		for (Constituent vp : verbPhrases) {
+		for (Chunk vp : verbPhrases) {
 			if (vp.getBegin() >= pos && vp.getBegin() < best) {
 				best = vp.getBegin();
 				back = vp;

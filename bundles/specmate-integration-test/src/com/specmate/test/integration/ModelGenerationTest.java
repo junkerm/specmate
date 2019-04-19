@@ -48,7 +48,7 @@ public class ModelGenerationTest extends EmfRestTest {
 	}
 
 	@Test
-	public void testModelGenerationEn1() {
+	public void testModelGenerationEn1_Or() {
 		String text = "If Specmate detects an error or the user has no login, Specmate shows a warning window and makes a sound.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
@@ -67,19 +67,104 @@ public class ModelGenerationTest extends EmfRestTest {
 	}
 
 	@Test
-	public void testModelGenerationDe1() {
-		String text = "Wenn Specmate einen Fehler erkennt oder der Benutzer keinen Login hat, zeigt Specmate ein Warnfenster an und gibt einen Signalton aus.";
+	public void testModelGenerationEn2_Passive() {
+		String text = "If an error is detected or the user has no login, a warning window is shown and a sound is emitted.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "Specmate", "erkennt einen Fehler", NodeType.AND);
-		CEGNode node2 = createNode(model, "der Benutzer", "hat Login", NodeType.AND);
-		CEGNode node3 = createNode(model, "Spemate", "zeigt ein Warnfenster", NodeType.OR);
-		CEGNode node4 = createNode(model, "Specmate", "gibt einen Signalton aus", NodeType.OR);
+		CEGNode node1 = createNode(model, "an error", "is detected", NodeType.AND);
+		CEGNode node2 = createNode(model, "the user", "has a login", NodeType.AND);
+		CEGNode node3 = createNode(model, "a warning window", "is shown", NodeType.OR);
+		CEGNode node4 = createNode(model, "a sound", "is emitted", NodeType.OR);
 
 		createConnection(model, node1, node3, false);
 		createConnection(model, node2, node3, true);
 		createConnection(model, node1, node4, false);
 		createConnection(model, node2, node4, true);
+
+		JSONArray generated = generateCEGWithModelRequirementsText(text);
+		checkResultingModel(generated, model);
+	}
+
+	@Test
+	public void testModelGenerationEn3_AndOr() {
+		String text = "If the user has no login and login is needed or an error is detected, a warning window is shown and a signal is emitted.";
+		RequirementsFactory f = RequirementsFactory.eINSTANCE;
+		CEGModel model = f.createCEGModel();
+		CEGNode node1 = createNode(model, "an error", "is detected", NodeType.AND);
+		CEGNode node2 = createNode(model, "the user", "has a login", NodeType.AND);
+		CEGNode node3 = createNode(model, "login", "is needed", NodeType.AND);
+		CEGNode node4 = createNode(model, "the user", "has no login and login is needed", NodeType.AND);
+		CEGNode node5 = createNode(model, "a warning window", "is shown", NodeType.OR);
+		CEGNode node6 = createNode(model, "a signal", "is emitted", NodeType.OR);
+
+		createConnection(model, node2, node4, true);
+		createConnection(model, node3, node4, false);
+		createConnection(model, node4, node5, false);
+		createConnection(model, node4, node6, false);
+		createConnection(model, node1, node5, false);
+		createConnection(model, node1, node6, false);
+
+		JSONArray generated = generateCEGWithModelRequirementsText(text);
+		checkResultingModel(generated, model);
+	}
+
+	@Test
+	public void testModelGenerationDe1_Or() {
+		String text = "Wenn das Werkzeug einen Fehler erkennt oder der Benutzer keine Anmeldung hat, zeigt das Werkzeug ein Warnfenster an und gibt einen Signalton aus.";
+		RequirementsFactory f = RequirementsFactory.eINSTANCE;
+		CEGModel model = f.createCEGModel();
+		CEGNode node1 = createNode(model, "Werkzeug", "das einen Fehler erkennt", NodeType.AND);
+		CEGNode node2 = createNode(model, "der Benutzer", "eine Anmeldung hat", NodeType.AND);
+		CEGNode node3 = createNode(model, "das Werkzeug", "zeigt ein Warnfenster an", NodeType.OR);
+		CEGNode node4 = createNode(model, "das Werkzeug", "gibt einen Signalton aus", NodeType.OR);
+
+		createConnection(model, node1, node3, false);
+		createConnection(model, node2, node3, true);
+		createConnection(model, node1, node4, false);
+		createConnection(model, node2, node4, true);
+
+		JSONArray generated = generateCEGWithModelRequirementsText(text);
+		checkResultingModel(generated, model);
+	}
+
+	@Test
+	public void testModelGenerationDe2_Passive() {
+		String text = "Wenn ein Fehler erkannt wird oder der Benutzer keine Anmeldung hat, wird ein Warnfenster angezeigt und ein Signalton ausgegeben.";
+		RequirementsFactory f = RequirementsFactory.eINSTANCE;
+		CEGModel model = f.createCEGModel();
+		CEGNode node1 = createNode(model, "ein Fehler", "erkannt wird", NodeType.AND);
+		CEGNode node2 = createNode(model, "der Benutzer", "eine Anmeldung hat", NodeType.AND);
+		CEGNode node3 = createNode(model, "ein Warnfenster", "wird angezeigt", NodeType.OR);
+		CEGNode node4 = createNode(model, "ein Signalton", "ausgegeben", NodeType.OR);
+
+		createConnection(model, node1, node3, false);
+		createConnection(model, node2, node3, true);
+		createConnection(model, node1, node4, false);
+		createConnection(model, node2, node4, true);
+
+		JSONArray generated = generateCEGWithModelRequirementsText(text);
+		checkResultingModel(generated, model);
+	}
+
+	@Test
+	public void testModelGenerationDe3_AndOr() {
+		String text = "Wenn der Benutzer keine Anmeldung hat und Anmeldepflicht besteht oder ein Fehler erkannt wird, wird ein Warnfenster angezeigt und ein Signalton ausgegeben.";
+		RequirementsFactory f = RequirementsFactory.eINSTANCE;
+		CEGModel model = f.createCEGModel();
+		CEGNode node1 = createNode(model, "ein Fehler", "erkannt wird", NodeType.AND);
+		CEGNode node2 = createNode(model, "der Benutzer", "eine Anmeldung hat", NodeType.AND);
+		CEGNode node3 = createNode(model, "Anmeldepflicht", "besteht", NodeType.AND);
+		CEGNode node4 = createNode(model, "der Benutzer", "keine Anmeldung hat und Anmeldepflicht besteht",
+				NodeType.AND);
+		CEGNode node5 = createNode(model, "ein Warnfenster", "wird angezeigt", NodeType.OR);
+		CEGNode node6 = createNode(model, "ein Signalton", "ausgegeben", NodeType.OR);
+
+		createConnection(model, node2, node4, true);
+		createConnection(model, node3, node4, false);
+		createConnection(model, node4, node5, false);
+		createConnection(model, node4, node6, false);
+		createConnection(model, node1, node5, false);
+		createConnection(model, node1, node6, false);
 
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -96,15 +181,17 @@ public class ModelGenerationTest extends EmfRestTest {
 
 		// Verify node content
 		for (CEGNode node : nodesExp) {
-			Assert.assertTrue(EmfRestTestUtil.matches(generated,
+			boolean matched = (EmfRestTestUtil.matches(generated,
 					MATCHES_VAR_COND(node.getVariable(), node.getCondition(), node.getType().getLiteral())));
+			Assert.assertTrue("Node with variable \"" + node.getVariable() + "\" and condition \"" + node.getCondition()
+					+ "\" not found.", matched);
 		}
 
 		// Verify connections
 		for (CEGConnection conn : connExp) {
 			CEGNode expSource = (CEGNode) conn.getSource();
 			CEGNode expTarget = (CEGNode) conn.getTarget();
-			Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
+			boolean matched = EmfRestTestUtil.matches(generated, obj -> {
 				if (!obj.getString(ECLASS).equals(CEGConnection.class.getSimpleName())) {
 					return false;
 				}
@@ -124,82 +211,12 @@ public class ModelGenerationTest extends EmfRestTest {
 								MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(), expTarget.getCondition()));
 			}
 
-			));
+			);
+
+			Assert.assertTrue("Condition from node (\"" + expSource.getVariable() + "\",\"" + expSource.getCondition()
+					+ "\")" + " to node (\"" + expTarget.getVariable() + "\",\"" + expTarget.getCondition()
+					+ "\")  not found", matched);
 		}
-	}
-
-	private void checkResultingModel(JSONArray generated) {
-		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
-			return obj.getString(ECLASS).equals(CEGNode.class.getSimpleName())
-					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName()).equals("Specmate")
-					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName())
-							.equals("detects an error")
-					&& obj.getString(URL).equals(
-							"iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-2");
-		}));
-
-		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
-			return obj.getString(ECLASS).equals(CEGNode.class.getSimpleName())
-					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName()).equals("the user")
-					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName()).equals("has  login")
-					&& obj.getString(URL).equals(
-							"iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-3");
-		}));
-
-		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
-			return obj.getString(ECLASS).equals(CEGNode.class.getSimpleName())
-					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName()).equals("Specmate")
-					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName())
-							.equals("shows a warning window")
-					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__TYPE.getName()).equals("OR")
-					&& obj.getString(URL).equals(
-							"iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-1");
-		}));
-
-		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
-			return obj.getString(ECLASS).equals(CEGNode.class.getSimpleName())
-					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName()).equals("Specmate")
-					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName()).equals("makes a sound")
-					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__TYPE.getName()).equals("OR")
-					&& obj.getString(URL).equals(
-							"iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-4");
-		}));
-
-		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
-			return obj.getString(ECLASS).equals(CEGConnection.class.getSimpleName())
-					&& !obj.getBoolean(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName())
-					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-2")
-					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-1");
-		}));
-
-		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
-			return obj.getString(ECLASS).equals(CEGConnection.class.getSimpleName())
-					&& !obj.getBoolean(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName())
-					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-2")
-					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-4");
-		}));
-
-		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
-			return obj.getString(ECLASS).equals(CEGConnection.class.getSimpleName())
-					&& obj.getBoolean(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName())
-					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-3")
-					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-1");
-		}));
-
-		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
-			return obj.getString(ECLASS).equals(CEGConnection.class.getSimpleName())
-					&& obj.getBoolean(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName())
-					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-3")
-					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-4");
-		}));
 	}
 
 	private JSONArray generateCEGWithModelRequirementsText(String text) {
