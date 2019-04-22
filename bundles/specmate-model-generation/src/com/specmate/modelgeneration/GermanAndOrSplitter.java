@@ -3,6 +3,7 @@ package com.specmate.modelgeneration;
 import java.util.List;
 
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 
 import com.specmate.nlp.util.NLPUtil;
 
@@ -133,7 +134,7 @@ public class GermanAndOrSplitter implements IAndOrSplitter {
 	public Chunk getVPafterNP(int pos, Sentence sentence, JCas jCas) {
 		List<Chunk> nounPhrases = NLPUtil.getNounPhraseChunks(jCas, sentence);
 		List<Chunk> verbPhrases = NLPUtil.getVerbPhraseChunks(jCas, sentence);
-		for (Chunk np : nounPhrases) {
+		for (Annotation np : nounPhrases) {
 			if (pos >= np.getBegin() && pos <= np.getEnd()) {
 				pos = np.getEnd();
 				break;

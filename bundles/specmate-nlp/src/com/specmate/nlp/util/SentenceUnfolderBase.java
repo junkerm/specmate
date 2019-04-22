@@ -80,8 +80,8 @@ public abstract class SentenceUnfolderBase {
 	/** Inserts implicit verbs into a sentence */
 	private String insertsImplicitVerbs(JCas jCas, Sentence sentence) {
 		List<Pair<Integer, String>> insertions = new ArrayList<Pair<Integer, String>>();
-		List<Chunk> npwv = findNounPhraseWithoutVerb(jCas, sentence);
-		for (Chunk np : npwv) {
+		List<Annotation> npwv = findNounPhraseWithoutVerb(jCas, sentence);
+		for (Annotation np : npwv) {
 			Optional<Triple<Annotation, EWordOrder, ENounRole>> optImplicitVerbs = findImplicitVerbByConjunction(jCas,
 					np);
 			// TODO: collect also connected verbs (conjunction)
@@ -100,10 +100,10 @@ public abstract class SentenceUnfolderBase {
 	}
 
 	/** Finds noun phrases without a dependency (object or subject) to a verb */
-	private List<Chunk> findNounPhraseWithoutVerb(JCas jCas, Sentence sentence) {
-		List<Chunk> result = new ArrayList<>();
+	private List<Annotation> findNounPhraseWithoutVerb(JCas jCas, Sentence sentence) {
+		List<Annotation> result = new ArrayList<>();
 		List<Chunk> nounPhrases = NLPUtil.getNounPhraseChunks(jCas, sentence);
-		for (Chunk np : nounPhrases) {
+		for (Annotation np : nounPhrases) {
 			Optional<Dependency> optVerbDependency = findVerbForNounPhrase(jCas, np);
 			if (!optVerbDependency.isPresent()) {
 				result.add(np);
@@ -162,16 +162,16 @@ public abstract class SentenceUnfolderBase {
 	 * nouns and there verbs
 	 */
 	protected abstract Optional<Triple<Annotation, EWordOrder, ENounRole>> findImplicitVerbByConjunction(JCas jCas,
-			Chunk np);
+			Annotation np);
 
 	/** Finds an object or subject dependency for a noun phrase */
-	protected abstract Optional<Dependency> findVerbForNounPhrase(JCas jCas, Chunk np);
+	protected abstract Optional<Dependency> findVerbForNounPhrase(JCas jCas, Annotation np);
 
 	/**
 	 * Determines where to insert a verb for the given noun phrase, the original
 	 * verb, a word order and the role of the noun
 	 */
-	protected abstract int determineVerbInsertionPoint(JCas jcas, Chunk np, Annotation verb, EWordOrder order,
+	protected abstract int determineVerbInsertionPoint(JCas jcas, Annotation np, Annotation verb, EWordOrder order,
 			ENounRole role);
 
 }

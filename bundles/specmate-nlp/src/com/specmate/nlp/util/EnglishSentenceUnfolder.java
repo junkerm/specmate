@@ -26,6 +26,9 @@ public class EnglishSentenceUnfolder extends SentenceUnfolderBase {
 	/** The dependency type for a subject dependency */
 	private static final String DEPENDENCY_TYPE_SUBJECT = "nsubj";
 
+	/** The dependency type for accusative (direct) objets */
+	private static final String DEPENDENCY_TYPE_ACCUSATIVE_OBJECT = "dobj";
+
 	@Override
 	protected Optional<Dependency> findSubjectDependency(JCas jCas, Annotation vp, boolean isGovernor) {
 		return NLPUtil.findDependency(jCas, vp, DEPENDENCY_TYPE_SUBJECT, isGovernor);
@@ -33,11 +36,10 @@ public class EnglishSentenceUnfolder extends SentenceUnfolderBase {
 
 	@Override
 	protected Optional<Pair<Annotation, EWordOrder>> findImplicitVerbSubjectByConjunction(JCas jCas, Chunk vp) {
-		Collection<Dependency> dependencies = JCasUtil.select(jCas, Dependency.class);
-		Optional<Dependency> conj = NLPUtil.findDependency(dependencies, vp, DEPENDENCY_TYPE_CONJUNCTION, false);
-		if (conj.isPresent()) {
-			Token governor = conj.get().getGovernor();
-			Optional<Dependency> subj = NLPUtil.findDependency(dependencies, governor, DEPENDENCY_TYPE_SUBJECT, true);
+		Optional<Pair<Token, Token>> optRelatedVerb = followConjunctionFromAnnotation(jCas, vp);
+		if (optRelatedVerb.isPresent()) {
+			Token relatedVerb = optRelatedVerb.get().getLeft();
+			Optional<Dependency> subj = NLPUtil.findDependency(jCas, relatedVerb, DEPENDENCY_TYPE_SUBJECT, true);
 			if (subj.isPresent()) {
 				Token subjToken = subj.get().getDependent();
 				List<Chunk> chunk = JCasUtil.selectCovering(jCas, Chunk.class, subjToken);
@@ -77,21 +79,83 @@ public class EnglishSentenceUnfolder extends SentenceUnfolderBase {
 		return vp.getBegin();
 	}
 
+	/** {@inheritDoc} */
 	@Override
-	protected Optional<Dependency> findVerbForNounPhrase(JCas jCas, Chunk np) {
-		// TODO Auto-generated method stub
+	protected Optional<Dependency> findVerbForNounPhrase(JCas jCas, Annotation np) {
+		Optional<Dependency> subjDep = findSubjectDependency(jCas, np, false);
+		if (subjDep.isPresent()) {
+			return subjDep;
+		}
+		return findObjectDependency(jCas, np, false);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	protected Optional<Triple<Annotation, EWordOrder, ENounRole>> findImplicitVerbByConjunction(JCas jCas,
+			Annotation np) {
+		Optional<Pair<Token, Token>> optConjTokens = followConjunctionFromAnnotation(jCas, np);
+		if (!optConjTokens.isPresent()) {
+			return Optional.empty();
+		}
+		Token conjNounToken = optConjTokens.get().getLeft();
+
+		ENounRole role = ENounRole.OBJ;
+		Optional<Dependency> verbDependency = findObjectDependency(jCas, conjNounToken, false);
+		if (!verbDependency.isPresent()) {
+			role = ENounRole.SUBJ;
+			verbDependency = findSubjectDependency(jCas, conjNounToken, false);
+		}
+
+		if (verbDependency.isPresent()) {
+			Token verbToken = verbDependency.get().getGovernor();
+			List<Chunk> verbChunk = JCasUtil.selectCovering(jCas, Chunk.class, verbToken);
+			Annotation conjuctVpOrToken;
+			if (verbChunk.size() > 0 && verbChunk.get(0).getChunkValue().equals(NLPUtil.ConstituentType.VP.getName())) {
+				conjuctVpOrToken = verbChunk.get(0);
+			} else {
+				conjuctVpOrToken = verbToken;
+			}
+			if (conjuctVpOrToken != null) {
+				return Optional.of(Triple.of(conjuctVpOrToken, EWordOrder.SVO, role));
+			}
+		}
+
 		return Optional.empty();
 	}
 
 	@Override
-	protected Optional<Triple<Annotation, EWordOrder, ENounRole>> findImplicitVerbByConjunction(JCas jCas, Chunk np) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+	protected int determineVerbInsertionPoint(JCas jcas, Annotation np, Annotation verb, EWordOrder order,
+			ENounRole role) {
+		return np.getBegin();
 	}
 
-	@Override
-	protected int determineVerbInsertionPoint(JCas jcas, Chunk np, Annotation verb, EWordOrder order, ENounRole role) {
-		return np.getEnd() + 1;
+	/** Determines either an accusative or dative object dependency */
+	private Optional<Dependency> findObjectDependency(JCas jCas, Annotation anno, boolean isGovernor) {
+		Optional<Dependency> obj = NLPUtil.findDependency(jCas, anno, DEPENDENCY_TYPE_ACCUSATIVE_OBJECT, isGovernor);
+		return obj;
+	}
+
+	/** Follows a conjunction to the related Token */
+	private Optional<Pair<Token, Token>> followConjunctionFromAnnotation(JCas jCas, Annotation chunk) {
+		Token relatedToken = null;
+		Optional<Dependency> optConjDep = NLPUtil.findDependency(jCas, chunk, DEPENDENCY_TYPE_CONJUNCTION, false);
+		if (optConjDep.isPresent()) {
+			relatedToken = optConjDep.get().getGovernor();
+		} else {
+			optConjDep = NLPUtil.findDependency(jCas, chunk, DEPENDENCY_TYPE_CONJUNCTION, true);
+			if (optConjDep.isPresent()) {
+				relatedToken = optConjDep.get().getDependent();
+			}
+		}
+		if (relatedToken != null) {
+			Optional<Dependency> optCcDep = NLPUtil.findDependency(jCas, chunk, DEPENDENCY_TYPE_CC, true);
+			Token conjunctionToken = null;
+			if (optCcDep.isPresent()) {
+				conjunctionToken = optCcDep.get().getGovernor();
+			}
+			return Optional.of(Pair.of(relatedToken, conjunctionToken));
+		}
+		return Optional.empty();
 	}
 
 }

@@ -44,7 +44,7 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 
 	/** {@inheritDoc} */
 	@Override
-	protected Optional<Dependency> findVerbForNounPhrase(JCas jCas, Chunk np) {
+	protected Optional<Dependency> findVerbForNounPhrase(JCas jCas, Annotation np) {
 		Optional<Dependency> subjDep = findSubjectDependency(jCas, np, false);
 		if (subjDep.isPresent()) {
 			return subjDep;
@@ -54,7 +54,8 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 
 	/** {@inheritDoc} */
 	@Override
-	protected Optional<Triple<Annotation, EWordOrder, ENounRole>> findImplicitVerbByConjunction(JCas jCas, Chunk np) {
+	protected Optional<Triple<Annotation, EWordOrder, ENounRole>> findImplicitVerbByConjunction(JCas jCas,
+			Annotation np) {
 		Optional<Pair<Token, Token>> optConjTokens = followConjunctionFromAnnotation(jCas, np);
 		if (!optConjTokens.isPresent()) {
 			return Optional.empty();
@@ -172,7 +173,8 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 
 	/** {@inheritDoc} */
 	@Override
-	protected int determineVerbInsertionPoint(JCas jCas, Chunk np, Annotation verb, EWordOrder wo, ENounRole role) {
+	protected int determineVerbInsertionPoint(JCas jCas, Annotation np, Annotation verb, EWordOrder wo,
+			ENounRole role) {
 		Annotation base = np;
 		if (role == ENounRole.OBJ) {
 			Optional<Dependency> optObjDep = findObjectDependency(jCas, verb, true);

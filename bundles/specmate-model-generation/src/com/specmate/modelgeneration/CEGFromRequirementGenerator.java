@@ -315,7 +315,6 @@ public abstract class CEGFromRequirementGenerator {
 		}
 		String[] result = new String[] { text, "" };
 		List<Chunk> nounPhrases = NLPUtil.getNounPhraseChunks(jCas, sentence);
-		String cons = NLPUtil.printChunks(jCas);
 		for (Chunk np : nounPhrases) {
 			if (np.getBegin() >= beginInSentence && np.getEnd() <= endInSentence) {
 				String covered = np.getCoveredText();

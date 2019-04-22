@@ -72,13 +72,16 @@ public class NLPServiceTest {
 	@Test
 	public void testSentenceUnfoldingEnglish() throws SpecmateException {
 		INLPService nlpService = getNLPService();
-		String text = "If the tool has an error or fails, the tool alerts the user and shows a window.";
 
+		String text = "If the tool has an error or fails, the tool alerts the user and shows a window.";
 		String unfolded = new EnglishSentenceUnfolder().unfold(nlpService, text, ELanguage.EN);
-		System.out.println(unfolded);
 		Assert.assertEquals(
 				"If the tool has an error or the tool fails, the tool alerts the user and the tool shows a window.",
 				unfolded);
+
+		text = "The magazine contains the nicest hiking tours and trips.";
+		unfolded = new EnglishSentenceUnfolder().unfold(nlpService, text, ELanguage.EN);
+		Assert.assertEquals("The magazine contains the nicest hiking tours and The magazine contains trips.", unfolded);
 	}
 
 	@Test

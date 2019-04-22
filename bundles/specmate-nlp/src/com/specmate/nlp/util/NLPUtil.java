@@ -52,6 +52,40 @@ public class NLPUtil {
 		return getChunks(jCas, sentence, ConstituentType.NP);
 	}
 
+	public static void refineNpChunks(JCas jCas) {
+		JCasUtil.select(jCas, Chunk.class).stream().filter(c -> c.getChunkValue().contentEquals("NP"))
+				.forEach(c -> replaceWithSubChunks(jCas, c));
+	}
+
+	private static void replaceWithSubChunks(JCas jCas, Chunk npChunk) {
+		List<Dependency> conDep = findDependencies(jCas, "cc", npChunk);
+		conDep.addAll(findDependencies(jCas, "KON", npChunk));
+		if (conDep.size() == 0) {
+			return;
+		}
+		npChunk.removeFromIndexes();
+		int begin = npChunk.getBegin();
+		for (Dependency dep : conDep) {
+			Token ccToken = dep.getDependent();
+			List<Token> preceeding = JCasUtil.selectPreceding(Token.class, ccToken, 1);
+			if (preceeding.size() == 0) {
+				continue;
+			}
+			Token before = preceeding.get(0);
+			Chunk chunk = new Chunk(jCas, begin, before.getEnd());
+			chunk.setChunkValue("NP");
+			chunk.addToIndexes();
+			// result.add(new Chunk(jCas, begin, before.getEnd()));
+			List<Token> following = JCasUtil.selectFollowing(Token.class, ccToken, 1);
+			if (following.size() > 0) {
+				begin = following.get(0).getBegin();
+			}
+		}
+		Chunk chunk = new Chunk(jCas, begin, npChunk.getEnd());
+		chunk.setChunkValue("NP");
+		chunk.addToIndexes();
+	}
+
 	public static Annotation getCoveringNounPhraseOrToken(JCas jCas, Token token) {
 		List<Chunk> chunk = JCasUtil.selectCovering(jCas, Chunk.class, token);
 		Annotation result;
