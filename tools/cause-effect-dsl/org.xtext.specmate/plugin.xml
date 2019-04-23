@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+	<extension point="org.eclipse.emf.ecore.generated_package">
+		<package 
+			uri = "http://www.xtext.org/specmate/SpecDSL"
+			class = "org.xtext.specmate.specDSL.SpecDSLPackage"
+			genModel = "model/generated/SpecDSL.genmodel" />
+	</extension>
+</plugin>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="specmate-nlp" increment="1554390222763">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="specmate-nlp" increment="1556019735516">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="specmate-nlp"/>
@@ -195,6 +195,14 @@
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="version" value="0.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="com.specmate.nlp.dependency.matcher"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="version" value="0.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="com.specmate.cause_effect_patterns.dependency"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="version" value="0.0.0" type="Version"/>
       <attribute name="osgi.wiring.package" value="org.apache.uima.fit.util"/>
     </capability>
     <capability namespace="osgi.wiring.package">
@@ -205,10 +213,10 @@
       <attribute name="objectClass" value="com.specmate.nlp.api.INLPService" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="120919998" type="Long"/>
+      <attribute name="size" value="120920032" type="Long"/>
       <attribute name="url" value="generated/specmate-nlp.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="318F46ED9047452401CD746B7D0DF68E9D6AED970F1396509C1F57EBD39FE628"/>
+      <attribute name="osgi.content" value="8AA9DA90A2D603CE6D70C6FD3BBF57A9CC551F029D539F91D0D88480901DA7B8"/>
     </capability>
     <capability namespace="bndtools.workspace">
       <attribute name="bndtools.workspace" value="file:/Users/Dominik/Documents/Arbeit/Qualicen/Workspace"/>

@@ -240,13 +240,13 @@ Private-Package: \
 	org.codehaus.plexus.util.xml
 	
 Import-Package: \
-	javax.annotation.meta;resolution:=optional ,\
-	org.apache.maven.*;resolution:=optional ,\
-	org.apache.tools.ant.*;resolution:=optional ,\
-	kotlin.*;resolution:=optional ,\
-	joptsimple.*;resolution:=optional ,\
-	groovy.*;resolution:=optional ,\
-	org.aspectj.*;resolution:=optional ,\
+	javax.annotation.meta;resolution:=optional,\
+	org.apache.maven.*;resolution:=optional,\
+	org.apache.tools.ant.*;resolution:=optional,\
+	kotlin.*;resolution:=optional,\
+	joptsimple.*;resolution:=optional,\
+	groovy.*;resolution:=optional,\
+	org.aspectj.*;resolution:=optional,\
 	org.springframework.instrument.*;resolution:=optional,\
 	org.springframework.objenesis.*;resolution:=optional,\
 	org.springframework.cglib.*;resolution:=optional,\
@@ -273,7 +273,7 @@ Export-Package: \
 	com.specmate.nlp.api,\
 	org.apache.uima.cas,\
 	com.specmate.nlp.dependency.matcher,\
-	com.specmate.nlp.dependency,\
+	com.specmate.cause_effect_patterns.dependency,\
 	com.specmate.nlp.util,\
 	org.apache.uima.jcas,\
 	org.apache.uima.fit.util,\

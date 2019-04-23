@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="specmate-model-generation" increment="1554390222925">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="specmate-model-generation" increment="1556019735866">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="specmate-model-generation"/>
@@ -18,10 +18,10 @@
       <attribute name="objectClass" value="com.specmate.emfrest.api.IRestService" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="34028" type="Long"/>
+      <attribute name="size" value="34029" type="Long"/>
       <attribute name="url" value="generated/specmate-model-generation.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="00B3082E14C8DF2BEC53CD2A7C6BE1239F38C19B1CBCF636B4CFE7221ED8ACD7"/>
+      <attribute name="osgi.content" value="3FBFFCEBFCE694B1840DCAF39B6A5D1A32C2D85BAED904BE8050E45D8C4DA6F3"/>
     </capability>
     <capability namespace="bndtools.workspace">
       <attribute name="bndtools.workspace" value="file:/Users/Dominik/Documents/Arbeit/Qualicen/Workspace"/>
