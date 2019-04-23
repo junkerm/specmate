@@ -3,6 +3,7 @@ package com.specmate.modelgeneration;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 
@@ -16,6 +17,10 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 public class GermanPatternMatcher implements ICauseEffectPatternMatcher {
+
+	private static final String CONSTITUENT_TYPE_SENTENCE = "S";
+	private static final String POS_COMMA = "$,";
+	private static final String WENN = "Wenn";
 
 	/**
 	 * Method splits the sentences into the cause and the effect if it matches one
@@ -40,17 +45,16 @@ public class GermanPatternMatcher implements ICauseEffectPatternMatcher {
 		String cause = "";
 		String effect = "";
 
-		if (matchPattern2_1(sentence, jCas)) {
-			int posComma = sentenceText.indexOf(",");
-			for (Token constituent : JCasUtil.selectCovered(jCas, Token.class, sentence)) {
-				if (constituent.getPosValue().equals("$,")
-						&& constituent.getParent().getType().getShortName().equals("S")
-						&& constituent.getParent().getCoveredText().equals(sentence.getCoveredText())) {
-					posComma = constituent.getBegin() - sentence.getBegin();
-				}
-			}
-			cause = sentenceText.substring(5, posComma);
-			effect = sentenceText.substring(posComma + 2, sentenceText.length() - 1);
+		Optional<Pair<String, String>> match = matchPattern_When(sentence, jCas);
+		if (match.isPresent()) {
+			cause = match.get().getLeft();
+			effect = match.get().getRight();
+		}
+
+		match = matchPattern_VVFIN(sentence, jCas);
+		if (match.isPresent()) {
+			cause = match.get().getLeft();
+			effect = match.get().getRight();
 		}
 
 		return new String[] { cause, effect };
@@ -58,39 +62,83 @@ public class GermanPatternMatcher implements ICauseEffectPatternMatcher {
 	}
 
 	/**
-	 * Detect if the sentence matches pattern 2.1: If-sentences with 'when' instead
-	 * of 'if'(starting with when)
+	 * Detect if the sentence matches pattern "Wenn [cause], [effect]"
 	 *
 	 * @param sentence
 	 * @param jCas
 	 *            NLP tagged text
 	 * @return
 	 */
-	public boolean matchPattern2_1(Sentence sentence, JCas jCas) {
+	public Optional<Pair<String, String>> matchPattern_When(Sentence sentence, JCas jCas) {
 		String text = sentence.getCoveredText();
-		int positionComma = -1;
+
+		if (!text.startsWith(WENN)) {
+			return Optional.empty();
+		}
+		int positionComma = getCommaPosition(jCas, sentence);
+
+		if (!hasVerbPhraseBeforeAndAfterPosition(jCas, sentence, positionComma)) {
+			return Optional.empty();
+		}
+
+		String cause = text.substring("When".length(), positionComma);
+		String effect = text.substring(positionComma + 2, text.length() - 1);
+		return Optional.of(Pair.of(cause, effect));
+	}
+
+	/**
+	 * Detect if the sentence matches pattern "[POS=VVFIN] [cause], [effect]"
+	 *
+	 * @param sentence
+	 * @param jCas
+	 *            NLP tagged text
+	 * @return
+	 */
+	public Optional<Pair<String, String>> matchPattern_VVFIN(Sentence sentence, JCas jCas) {
+		String text = sentence.getCoveredText();
+
+		List<Token> tokens = JCasUtil.selectCovered(jCas, Token.class, sentence);
+		if (tokens.size() == 0) {
+			return Optional.empty();
+		}
+		Token firstToken = tokens.get(0);
+		if (!firstToken.getPosValue().contentEquals("VVFIN")) {
+			return Optional.empty();
+		}
+		int positionComma = getCommaPosition(jCas, sentence);
+
+		if (!hasVerbPhraseBeforeAndAfterPosition(jCas, sentence, positionComma)) {
+			return Optional.empty();
+		}
+
+		String cause = text.substring(0, positionComma);
+		String effect = text.substring(positionComma + 2, text.length() - 1);
+		return Optional.of(Pair.of(cause, effect));
+	}
+
+	private int getCommaPosition(JCas jCas, Sentence sentence) {
 		List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
-		List<Chunk> verbPhrases = NLPUtil.getVerbPhraseChunks(jCas, sentence);
-		String chunks = NLPUtil.printChunks(jCas);
+		int positionComma = -1;
 		for (Token token : pos) {
-			if (token.getPosValue().equals("$,")) {
+			if (token.getPosValue().equals(POS_COMMA)) {
 				positionComma = token.getBegin();
 			}
 		}
-		if (text.startsWith("Wenn")) {
-			boolean start = false;
-			boolean end = false;
-			for (Chunk vp : verbPhrases) {
-				if (vp.getEnd() <= positionComma) {
-					start = true;
-				}
-				if (vp.getBegin() >= positionComma) {
-					end = true;
-				}
-			}
-			return start && end;
-		}
-		return false;
+		return positionComma;
 	}
 
+	private boolean hasVerbPhraseBeforeAndAfterPosition(JCas jCas, Sentence sentence, int positionComma) {
+		boolean start = true;
+		boolean end = true;
+		List<Chunk> verbPhrases = NLPUtil.getVerbPhraseChunks(jCas, sentence);
+		for (Chunk vp : verbPhrases) {
+			if (vp.getEnd() <= positionComma) {
+				start = true;
+			}
+			if (vp.getBegin() >= positionComma) {
+				end = true;
+			}
+		}
+		return start && end;
+	}
 }

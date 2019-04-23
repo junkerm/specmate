@@ -1,8 +1,10 @@
 package com.specmate.nlp.util;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
@@ -39,7 +41,15 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 	/** {@inheritDoc} */
 	@Override
 	protected Optional<Dependency> findSubjectDependency(JCas jCas, Annotation anno, boolean isGovernor) {
-		return NLPUtil.findDependency(jCas, anno, DEPENDENCY_TYPE_SUBJECT, isGovernor);
+		Optional<Dependency> subj = NLPUtil.findDependency(jCas, anno, DEPENDENCY_TYPE_SUBJECT, isGovernor);
+		if (!subj.isPresent()) {
+			Optional<Dependency> aux = NLPUtil.findDependency(jCas, anno, "AUX", false);
+			if (aux.isPresent()) {
+				return findSubjectDependency(jCas, aux.get().getGovernor(), isGovernor);
+			}
+			return Optional.empty();
+		}
+		return subj;
 	}
 
 	/** {@inheritDoc} */
@@ -98,8 +108,12 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 			Token subjToken = optSubjDependency.get().getDependent();
 			Annotation subjChunkOrToken = NLPUtil.getCoveringNounPhraseOrToken(jCas, subjToken);
 
-			// Get verb token
+			// Get verb token and check if its an auxillary verb. If yes, get the main verg
 			Token verbToken = optSubjDependency.get().getGovernor();
+			Optional<Dependency> aux = NLPUtil.findDependency(jCas, verbToken, "AUX", true);
+			if (aux.isPresent()) {
+				verbToken = aux.get().getDependent();
+			}
 
 			// Get object token
 			Optional<Dependency> optObjDependency = findObjectDependency(jCas, verbToken, true);
@@ -176,14 +190,20 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 	protected int determineVerbInsertionPoint(JCas jCas, Annotation np, Annotation verb, EWordOrder wo,
 			ENounRole role) {
 		Annotation base = np;
+		Token origObjToken = null;
 		if (role == ENounRole.OBJ) {
 			Optional<Dependency> optObjDep = findObjectDependency(jCas, verb, true);
 			if (optObjDep.isPresent()) {
-				Token origObjToken = optObjDep.get().getDependent();
-				if (origObjToken.getEnd() < np.getBegin() && np.getEnd() < verb.getBegin()) {
-					base = NLPUtil.selectIfCovering(Chunk.class, origObjToken);
-				}
+				origObjToken = optObjDep.get().getDependent();
 			}
+		} else if (role == ENounRole.SUBJ) {
+			Optional<Dependency> optObjDep = findSubjectDependency(jCas, verb, true);
+			if (optObjDep.isPresent()) {
+				origObjToken = optObjDep.get().getDependent();
+			}
+		}
+		if (origObjToken != null && origObjToken.getEnd() < np.getBegin() && np.getEnd() < verb.getBegin()) {
+			base = NLPUtil.selectIfCovering(Chunk.class, origObjToken);
 		}
 		switch (wo) {
 		case SOV:
@@ -209,13 +229,18 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 	private Optional<Dependency> followVerbConjunctionsToSubject(JCas jCas, Chunk vp) {
 		Optional<Dependency> optSubjDependency;
 		Annotation currentVerb = vp;
+		Set<Annotation> seen = new HashSet<>();
 		do {
+			seen.add(currentVerb);
 			Optional<Pair<Token, Token>> optConjToken = followConjunctionFromAnnotation(jCas, currentVerb);
 			if (!optConjToken.isPresent()) {
 				return Optional.empty();
 			}
 			currentVerb = optConjToken.get().getLeft();
-			optSubjDependency = NLPUtil.findDependency(jCas, currentVerb, DEPENDENCY_TYPE_SUBJECT, true);
+			optSubjDependency = findSubjectDependency(jCas, currentVerb, true);
+			if (seen.contains(currentVerb)) {
+				break;
+			}
 		} while (!optSubjDependency.isPresent());
 		return optSubjDependency;
 	}

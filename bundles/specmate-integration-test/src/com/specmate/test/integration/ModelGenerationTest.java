@@ -53,7 +53,7 @@ public class ModelGenerationTest extends EmfRestTest {
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
 		CEGNode node1 = createNode(model, "Specmate", "detects an error", NodeType.AND);
-		CEGNode node2 = createNode(model, "the user", "has  login", NodeType.AND);
+		CEGNode node2 = createNode(model, "the user", "has a login", NodeType.AND);
 		CEGNode node3 = createNode(model, "Specmate", "shows a warning window", NodeType.OR);
 		CEGNode node4 = createNode(model, "Specmate", "makes a sound", NodeType.OR);
 
@@ -109,18 +109,38 @@ public class ModelGenerationTest extends EmfRestTest {
 	}
 
 	@Test
-	public void testModelGenerationDe1_Or() {
-		String text = "Wenn das Werkzeug einen Fehler erkennt oder der Benutzer keine Anmeldung hat, zeigt das Werkzeug ein Warnfenster an und gibt einen Signalton aus.";
+	public void testModelGenerationEn4_SpecmateExamples() {
+		String text = "When the user selects the option to create a process model in the Process Models section of the Requirements Overview, an empty process model is displayed in the Process Model Editor.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "Werkzeug", "das einen Fehler erkennt", NodeType.AND);
+		CEGNode node1 = createNode(model, "the user",
+				"selects the option to create a process model in the Process Models section of the Requirements Overview",
+				NodeType.AND);
+		CEGNode node2 = createNode(model, "an empty process model", "is displayed in the Process Model Editor",
+				NodeType.AND);
+
+		createConnection(model, node1, node2, false);
+
+		JSONArray generated = generateCEGWithModelRequirementsText(text);
+		checkResultingModel(generated, model);
+	}
+
+	@Test
+	public void testModelGenerationDe1_Or() {
+		String text = "Wenn das Werkzeug einen Fehler oder ein Problem erkennt oder der Benutzer keine Anmeldung hat, zeigt das Werkzeug ein Warnfenster an und gibt einen Signalton aus.";
+		RequirementsFactory f = RequirementsFactory.eINSTANCE;
+		CEGModel model = f.createCEGModel();
+		CEGNode node1 = createNode(model, "das Werkzeug", "einen Fehler erkennt", NodeType.AND);
+		CEGNode node1b = createNode(model, "das Werkzeug", "ein Problem erkennt", NodeType.AND);
 		CEGNode node2 = createNode(model, "der Benutzer", "eine Anmeldung hat", NodeType.AND);
 		CEGNode node3 = createNode(model, "das Werkzeug", "zeigt ein Warnfenster an", NodeType.OR);
 		CEGNode node4 = createNode(model, "das Werkzeug", "gibt einen Signalton aus", NodeType.OR);
 
 		createConnection(model, node1, node3, false);
+		createConnection(model, node1b, node3, false);
 		createConnection(model, node2, node3, true);
 		createConnection(model, node1, node4, false);
+		createConnection(model, node1b, node4, false);
 		createConnection(model, node2, node4, true);
 
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
@@ -129,13 +149,13 @@ public class ModelGenerationTest extends EmfRestTest {
 
 	@Test
 	public void testModelGenerationDe2_Passive() {
-		String text = "Wenn ein Fehler erkannt wird oder der Benutzer keine Anmeldung hat, wird ein Warnfenster angezeigt und ein Signalton ausgegeben.";
+		String text = "Wenn ein Fehler erkannt wird oder der Benutzer keine Anmeldung hat, wird ein Warnfenster angezeigt und hervorgehoben.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
 		CEGNode node1 = createNode(model, "ein Fehler", "erkannt wird", NodeType.AND);
 		CEGNode node2 = createNode(model, "der Benutzer", "eine Anmeldung hat", NodeType.AND);
 		CEGNode node3 = createNode(model, "ein Warnfenster", "wird angezeigt", NodeType.OR);
-		CEGNode node4 = createNode(model, "ein Signalton", "ausgegeben", NodeType.OR);
+		CEGNode node4 = createNode(model, "ein Warnfenster", "hervorgehoben", NodeType.OR);
 
 		createConnection(model, node1, node3, false);
 		createConnection(model, node2, node3, true);
@@ -148,7 +168,7 @@ public class ModelGenerationTest extends EmfRestTest {
 
 	@Test
 	public void testModelGenerationDe3_AndOr() {
-		String text = "Wenn der Benutzer keine Anmeldung hat und Anmeldepflicht besteht oder ein Fehler erkannt wird, wird ein Warnfenster angezeigt und ein Signalton ausgegeben.";
+		String text = "Wenn der Benutzer keine Anmeldung hat und Anmeldepflicht besteht oder ein Fehler erkannt wird, zeigt das Werkzeug ein Warnfenster an und gibt einen Signalton aus.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
 		CEGNode node1 = createNode(model, "ein Fehler", "erkannt wird", NodeType.AND);
@@ -156,8 +176,8 @@ public class ModelGenerationTest extends EmfRestTest {
 		CEGNode node3 = createNode(model, "Anmeldepflicht", "besteht", NodeType.AND);
 		CEGNode node4 = createNode(model, "der Benutzer", "keine Anmeldung hat und Anmeldepflicht besteht",
 				NodeType.AND);
-		CEGNode node5 = createNode(model, "ein Warnfenster", "wird angezeigt", NodeType.OR);
-		CEGNode node6 = createNode(model, "ein Signalton", "ausgegeben", NodeType.OR);
+		CEGNode node5 = createNode(model, "das Werkzeug", "zeigt ein Warnfenster an", NodeType.OR);
+		CEGNode node6 = createNode(model, "das Werkzeug", "gibt einen Signalton aus", NodeType.OR);
 
 		createConnection(model, node2, node4, true);
 		createConnection(model, node3, node4, false);
@@ -165,6 +185,24 @@ public class ModelGenerationTest extends EmfRestTest {
 		createConnection(model, node4, node6, false);
 		createConnection(model, node1, node5, false);
 		createConnection(model, node1, node6, false);
+
+		JSONArray generated = generateCEGWithModelRequirementsText(text);
+		checkResultingModel(generated, model);
+	}
+
+	@Test
+	public void testModelGenerationDe4_SpecmateExamples() {
+		// TODO: Fix variable/condition split
+		String text = "Wenn der Benutzer die Option zum Anlegen eines Prozessmodells im Abschnitt Prozessmodelle der Anforderungsübersicht wählt, wird im Prozessmodell-Editor ein leeres Prozessmodell angezeigt.";
+		RequirementsFactory f = RequirementsFactory.eINSTANCE;
+		CEGModel model = f.createCEGModel();
+		CEGNode node1 = createNode(model, "der Benutzer",
+				"die Option zum Anlegen eines Prozessmodells im Abschnitt Prozessmodelle der Anforderungsübersicht wählt",
+				NodeType.AND);
+		CEGNode node2 = createNode(model, "Prozessmodell-Editor", "wird im ein leeres Prozessmodell angezeigt",
+				NodeType.AND);
+
+		createConnection(model, node1, node2, false);
 
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);

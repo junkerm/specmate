@@ -357,7 +357,7 @@ public abstract class CEGFromRequirementGenerator {
 	}
 
 	protected List<Annotation> getSubjectNounPhrases(JCas jCas, Sentence sentence) {
-		List<Dependency> subjDeps = NLPUtil.findDependencies(jCas, getLanguage().getSubjectDependencyType(), sentence);
+		List<Dependency> subjDeps = NLPUtil.findCoveredDependencies(jCas, getLanguage().getSubjectDependencyType(), sentence);
 		return subjDeps.stream().map(dep -> {
 			Token subjToken = dep.getDependent();
 			Optional<Chunk> nounPhrase = JCasUtil.selectCovering(jCas, Chunk.class, subjToken).stream()

@@ -2,8 +2,10 @@ package com.specmate.nlp.util;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,6 +17,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 import com.specmate.nlp.api.ELanguage;
 
+import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
@@ -53,13 +56,28 @@ public class NLPUtil {
 	}
 
 	public static void refineNpChunks(JCas jCas) {
-		JCasUtil.select(jCas, Chunk.class).stream().filter(c -> c.getChunkValue().contentEquals("NP"))
-				.forEach(c -> replaceWithSubChunks(jCas, c));
+		JCasUtil.select(jCas, Chunk.class).stream().filter(c -> c.getChunkValue().contentEquals("NP")).forEach(c -> {
+			replaceWithSubChunks(jCas, c);
+			mergeDeterminerToChunk(jCas, c);
+		});
+	}
+
+	private static void mergeDeterminerToChunk(JCas jCas, Chunk c) {
+		List<POS> preceedingPOS = JCasUtil.selectPreceding(POS.class, c, 1);
+		if (preceedingPOS.size() == 1) {
+			POS pos = preceedingPOS.get(0);
+			if (pos.getPosValue().contentEquals("ART")) {
+				c.removeFromIndexes();
+				Chunk newChunk = new Chunk(jCas, pos.getBegin(), c.getEnd());
+				newChunk.setChunkValue("NP");
+				newChunk.addToIndexes();
+			}
+		}
 	}
 
 	private static void replaceWithSubChunks(JCas jCas, Chunk npChunk) {
-		List<Dependency> conDep = findDependencies(jCas, "cc", npChunk);
-		conDep.addAll(findDependencies(jCas, "KON", npChunk));
+		List<Dependency> conDep = findCoveredDependencies(jCas, "cc", npChunk);
+		conDep.addAll(findCoveredDependencies(jCas, "KON", npChunk));
 		if (conDep.size() == 0) {
 			return;
 		}
@@ -177,7 +195,7 @@ public class NLPUtil {
 		}
 	}
 
-	public static List<Dependency> findDependencies(JCas jCas, String depType, Annotation annotation) {
+	public static List<Dependency> findCoveredDependencies(JCas jCas, String depType, Annotation annotation) {
 		Collection<Dependency> dependencies = JCasUtil.selectCovered(jCas, Dependency.class, annotation);
 		return dependencies.stream().filter(dep -> dep.getDependencyType().equals(depType))
 				.collect(Collectors.toList());
@@ -212,6 +230,25 @@ public class NLPUtil {
 			return ELanguage.DE;
 		}
 		return ELanguage.EN;
+	}
+
+	public static Set<Annotation> collectAllDependents(JCas jCas, Annotation anno) {
+		Set<Annotation> result = new HashSet<Annotation>();
+		List<Token> tokens = JCasUtil.selectCovered(Token.class, anno);
+		for (Token token : tokens) {
+			collectAllDependents(jCas, token, result);
+		}
+		return result;
+	}
+
+	private static void collectAllDependents(JCas jCas, Token token, Set<Annotation> result) {
+		result.add(token);
+		Collection<Dependency> deps = JCasUtil.select(jCas, Dependency.class);
+		for (Dependency dep : deps) {
+			if (dep.getDependent() == token && dep.getGovernor() != token) {
+				collectAllDependents(jCas, dep.getGovernor(), result);
+			}
+		}
 	}
 
 }

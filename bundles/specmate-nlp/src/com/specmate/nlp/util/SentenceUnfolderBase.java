@@ -3,6 +3,7 @@ package com.specmate.nlp.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
@@ -97,6 +98,17 @@ public abstract class SentenceUnfolderBase {
 			}
 		}
 		return insert(sentence.getCoveredText(), insertions);
+	}
+
+	private String toTextWithDependents(JCas jCas, Annotation anno) {
+		Set<Annotation> allWithDeps = NLPUtil.collectAllDependents(jCas, anno);
+		int begin = Integer.MAX_VALUE;
+		int end = 0;
+		for (Annotation a : allWithDeps) {
+			begin = Math.min(a.getBegin(), begin);
+			end = Math.max(a.getEnd(), end);
+		}
+		return jCas.getDocumentText().substring(begin, end + 1);
 	}
 
 	/** Finds noun phrases without a dependency (object or subject) to a verb */

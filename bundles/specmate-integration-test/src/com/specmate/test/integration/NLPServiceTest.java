@@ -54,7 +54,7 @@ public class NLPServiceTest {
 		Assert.assertEquals(
 				"Wenn (KOUS) das (ART) Werkzeug (NN) einen (ART) Fehler (NN) erkennt (VVFIN) , ($,) zeigt (VVFIN) es (PPER) ein (ART) Warnfenster (NN) . ($.)",
 				NLPUtil.printPOSTags(result));
-		Assert.assertEquals("das Werkzeug einen Fehler (NP) erkennt (VP) zeigt (VP) ein Warnfenster (NP)",
+		Assert.assertEquals("das Werkzeug (NP) einen Fehler (NP) erkennt (VP) zeigt (VP) ein Warnfenster (NP)",
 				NLPUtil.printChunks(result));
 
 		Assert.assertEquals("erkennt <--KONJ-- Wenn\n" + "Werkzeug <--DET-- das\n"
