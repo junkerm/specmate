@@ -1,12 +1,12 @@
-package com.specmate.cause_effect_patterns.dependency.matcher;
+package com.specmate.cause_effect_patterns.parse.matcher;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.specmate.cause_effect_patterns.dependency.DependencyParsetree;
-import com.specmate.cause_effect_patterns.dependency.matcher.MatchResult;
-import com.specmate.cause_effect_patterns.dependency.matcher.SubtreeMatcher;
+import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
+import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
+import com.specmate.cause_effect_patterns.parse.matcher.SubtreeMatcher;
 
 /**
  * Class storing the result of a dependency matching operation.

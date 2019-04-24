@@ -5,6 +5,7 @@ package com.specmate.cause_effect_patterns.internal.serializer;
 
 import com.google.inject.Inject;
 import com.specmate.cause_effect_patterns.internal.services.SpecDSLGrammarAccess;
+
 import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.IGrammarAccess;

@@ -1,8 +1,8 @@
-package com.specmate.cause_effect_patterns.dependency.matcher;
+package com.specmate.cause_effect_patterns.parse.matcher;
 
-import com.specmate.cause_effect_patterns.dependency.DependencyParsetree;
-import com.specmate.cause_effect_patterns.dependency.matcher.MatchResult;
-import com.specmate.cause_effect_patterns.dependency.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
+import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
+import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 

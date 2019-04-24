@@ -16,6 +16,7 @@ import com.specmate.cause_effect_patterns.internal.serializer.SpecDSLSyntacticSe
 import com.specmate.cause_effect_patterns.internal.services.SpecDSLGrammarAccess;
 import com.specmate.cause_effect_patterns.internal.validation.SpecDSLConfigurableIssueCodesProvider;
 import com.specmate.cause_effect_patterns.internal.validation.SpecDSLValidator;
+
 import java.util.Properties;
 import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.IGrammarAccess;

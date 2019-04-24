@@ -1,4 +1,4 @@
-package com.specmate.cause_effect_patterns.dependency.matcher;
+package com.specmate.cause_effect_patterns.parse.matcher;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -11,10 +11,11 @@ import org.apache.uima.internal.util.IntHashSet;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ArrayListMultimap;
-import com.specmate.cause_effect_patterns.dependency.DependencyNode;
-import com.specmate.cause_effect_patterns.dependency.DependencyParsetree;
-import com.specmate.cause_effect_patterns.dependency.matcher.MatchResult;
-import com.specmate.cause_effect_patterns.dependency.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.DependencyNode;
+import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
+import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
+import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.matcher.MatcherException;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
@@ -28,7 +29,6 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
  * @author Dominik
  *
  */
-@SuppressWarnings("restriction")
 public abstract class Matcher {
 	private Optional<Matcher> parent;
 	private Set<Matcher> children;

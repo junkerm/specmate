@@ -1,6 +1,10 @@
-package com.specmate.cause_effect_patterns.dependency.matcher;
+package com.specmate.cause_effect_patterns.parse.matcher;
 
 import java.util.Set;
+
+import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.matcher.MatcherException;
+import com.specmate.cause_effect_patterns.parse.matcher.SubtreeMatcher;
 
 public class MatcherException extends Exception {
 	

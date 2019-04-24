@@ -1,4 +1,6 @@
-package com.specmate.cause_effect_patterns.dependency.matcher;
+package com.specmate.cause_effect_patterns.parse.matcher;
+
+import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
 
 public class MatchRule {
 	public Matcher matcher;

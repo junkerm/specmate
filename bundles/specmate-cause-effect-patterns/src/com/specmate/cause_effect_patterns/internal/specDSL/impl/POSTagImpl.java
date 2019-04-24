@@ -3,10 +3,10 @@
  */
 package com.specmate.cause_effect_patterns.internal.specDSL.impl;
 
+import org.eclipse.emf.ecore.EClass;
+
 import com.specmate.cause_effect_patterns.internal.specDSL.POSTag;
 import com.specmate.cause_effect_patterns.internal.specDSL.SpecDSLPackage;
-
-import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->

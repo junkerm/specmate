@@ -13,12 +13,12 @@ import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.validation.Issue;
 
 import com.google.inject.Injector;
-import com.specmate.cause_effect_patterns.dependency.matcher.MatchRule;
-import com.specmate.cause_effect_patterns.dependency.matcher.Matcher;
-import com.specmate.cause_effect_patterns.dependency.matcher.MatcherException;
 import com.specmate.cause_effect_patterns.internal.SpecDSLStandaloneSetup;
 import com.specmate.cause_effect_patterns.internal.specDSL.Model;
 import com.specmate.cause_effect_patterns.internal.specDSL.Rule;
+import com.specmate.cause_effect_patterns.parse.matcher.MatchRule;
+import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.matcher.MatcherException;
 import com.specmate.cause_effect_patterns.resolve.util.RuleUtility;
 
 public class XTextUtil {

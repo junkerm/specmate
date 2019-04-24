@@ -6,6 +6,7 @@ package com.specmate.cause_effect_patterns.internal.parser.antlr;
 import com.google.inject.Inject;
 import com.specmate.cause_effect_patterns.internal.parser.antlr.internal.InternalSpecDSLParser;
 import com.specmate.cause_effect_patterns.internal.services.SpecDSLGrammarAccess;
+
 import org.eclipse.xtext.parser.antlr.AbstractAntlrParser;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream;
 

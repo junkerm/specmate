@@ -13,12 +13,12 @@ import org.junit.Test;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import com.specmate.cause_effect_patterns.dependency.DependencyParsetree;
-import com.specmate.cause_effect_patterns.dependency.matcher.MatchResult;
-import com.specmate.cause_effect_patterns.dependency.matcher.MatchRule;
-import com.specmate.cause_effect_patterns.dependency.matcher.MatchUtil;
-import com.specmate.cause_effect_patterns.dependency.matcher.Matcher;
-import com.specmate.cause_effect_patterns.dependency.matcher.MatcherException;
+import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
+import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
+import com.specmate.cause_effect_patterns.parse.matcher.MatchRule;
+import com.specmate.cause_effect_patterns.parse.matcher.MatchUtil;
+import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.matcher.MatcherException;
 import com.specmate.cause_effect_patterns.resolve.XTextUtil;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.nlp.api.ELanguage;
@@ -40,9 +40,9 @@ public class CauseEffectPatternTest {
 	public void testDependencyParse() throws SpecmateException, MatcherException, URISyntaxException {
 		INLPService nlpService = NLPServiceTest.getNLPService();
 		JCas result = nlpService.processText("If the tool encounters an error then it beeps.", ELanguage.EN);
+		
 		DependencyParsetree data = DependencyParsetree.generateFromJCas(result);
 		Assert.assertEquals(data.getHeads().size(), 1);
-		
 		
 		List<Matcher> rules = convertMatchRule(loadRules("/resources/test_ruleset.spec"));
 		
@@ -69,8 +69,7 @@ public class CauseEffectPatternTest {
 		Assert.assertTrue(effect.hasSubmatch("Predicate"));
 		
 		
-		/*Vector<Matcher> rules2 = new Vector<Matcher>();
-		rules.add(treeMatcherEffect);
+		List<Matcher> rules2 = rules.stream().limit(1).collect(Collectors.toList());
 		
 		JCas result2 = nlpService.processText("When the tool encounters an error then it beeps.", ELanguage.EN);
 		DependencyParsetree data2 = DependencyParsetree.generateFromJCas(result2);
@@ -79,7 +78,7 @@ public class CauseEffectPatternTest {
 		Assert.assertEquals(data2.getHeads().size(), results2.size());
 		
 		MatchResult res2 = results2.get(0);
-		Assert.assertTrue(!res2.isSuccessfulMatch());*/
+		Assert.assertTrue(!res2.isSuccessfulMatch());
 	}
 	
 	private URI getLocalFile(String fileName) throws URISyntaxException {

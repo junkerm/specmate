@@ -3,14 +3,14 @@
  */
 package com.specmate.cause_effect_patterns.internal.specDSL.impl;
 
-import com.specmate.cause_effect_patterns.internal.specDSL.Import;
-import com.specmate.cause_effect_patterns.internal.specDSL.SpecDSLPackage;
-
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import com.specmate.cause_effect_patterns.internal.specDSL.Import;
+import com.specmate.cause_effect_patterns.internal.specDSL.SpecDSLPackage;
 
 /**
  * <!-- begin-user-doc -->

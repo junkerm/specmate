@@ -3,15 +3,15 @@
  */
 package com.specmate.cause_effect_patterns.internal.specDSL.impl;
 
-import com.specmate.cause_effect_patterns.internal.specDSL.SpecDSLPackage;
-import com.specmate.cause_effect_patterns.internal.specDSL.TreeTag;
-
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import com.specmate.cause_effect_patterns.internal.specDSL.SpecDSLPackage;
+import com.specmate.cause_effect_patterns.internal.specDSL.TreeTag;
 
 /**
  * <!-- begin-user-doc -->

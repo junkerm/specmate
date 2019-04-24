@@ -3,10 +3,6 @@
  */
 package com.specmate.cause_effect_patterns.internal.specDSL.impl;
 
-import com.specmate.cause_effect_patterns.internal.specDSL.AbstractElement;
-import com.specmate.cause_effect_patterns.internal.specDSL.Model;
-import com.specmate.cause_effect_patterns.internal.specDSL.SpecDSLPackage;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -20,6 +16,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+
+import com.specmate.cause_effect_patterns.internal.specDSL.AbstractElement;
+import com.specmate.cause_effect_patterns.internal.specDSL.Model;
+import com.specmate.cause_effect_patterns.internal.specDSL.SpecDSLPackage;
 
 /**
  * <!-- begin-user-doc -->

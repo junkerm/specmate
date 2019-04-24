@@ -1,4 +1,4 @@
-package com.specmate.cause_effect_patterns.dependency;
+package com.specmate.cause_effect_patterns.parse;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -13,8 +13,8 @@ import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.internal.util.SortedIntSet;
 import org.apache.uima.jcas.JCas;
 
-import com.specmate.cause_effect_patterns.dependency.DependencyNode;
-import com.specmate.cause_effect_patterns.dependency.DependencyParsetree;
+import com.specmate.cause_effect_patterns.parse.DependencyNode;
+import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
@@ -25,7 +25,6 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
  * @author Dominik
  *
  */
-@SuppressWarnings("restriction")
 public class DependencyParsetree {
 	private static String ROOT = "ROOT";
 	

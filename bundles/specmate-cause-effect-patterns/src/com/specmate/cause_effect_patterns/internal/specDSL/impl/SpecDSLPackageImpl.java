@@ -3,6 +3,13 @@
  */
 package com.specmate.cause_effect_patterns.internal.specDSL.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import com.specmate.cause_effect_patterns.internal.specDSL.AbstractElement;
 import com.specmate.cause_effect_patterns.internal.specDSL.DepDef;
 import com.specmate.cause_effect_patterns.internal.specDSL.DepTag;
@@ -22,13 +29,6 @@ import com.specmate.cause_effect_patterns.internal.specDSL.Tag;
 import com.specmate.cause_effect_patterns.internal.specDSL.TreeDef;
 import com.specmate.cause_effect_patterns.internal.specDSL.TreeNode;
 import com.specmate.cause_effect_patterns.internal.specDSL.TreeTag;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-
-import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
  * <!-- begin-user-doc -->

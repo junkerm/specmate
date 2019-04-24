@@ -1,4 +1,4 @@
-package com.specmate.cause_effect_patterns.dependency;
+package com.specmate.cause_effect_patterns.parse;
 
 import java.util.Iterator;
 import java.util.List;

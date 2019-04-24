@@ -297,6 +297,3 @@ Bundle-Version: 0.0.0.${tstamp}
 Private-Package: \
 	com.specmate.test.integration,\
 	com.specmate.test.integration.support
-Import-Package: \
-	,\
-	*

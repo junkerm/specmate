@@ -3,12 +3,12 @@
  */
 package com.specmate.cause_effect_patterns.internal.specDSL.impl;
 
-import com.specmate.cause_effect_patterns.internal.specDSL.AbstractElement;
-import com.specmate.cause_effect_patterns.internal.specDSL.SpecDSLPackage;
-
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import com.specmate.cause_effect_patterns.internal.specDSL.AbstractElement;
+import com.specmate.cause_effect_patterns.internal.specDSL.SpecDSLPackage;
 
 /**
  * <!-- begin-user-doc -->

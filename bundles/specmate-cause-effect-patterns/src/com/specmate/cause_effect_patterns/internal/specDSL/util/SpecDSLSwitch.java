@@ -3,12 +3,12 @@
  */
 package com.specmate.cause_effect_patterns.internal.specDSL.util;
 
-import com.specmate.cause_effect_patterns.internal.specDSL.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.Switch;
+
+import com.specmate.cause_effect_patterns.internal.specDSL.*;
 
 /**
  * <!-- begin-user-doc -->

@@ -8,10 +8,8 @@
 	org.eclipse.xtext.xbase.lib,\
 	com.google.guava,\
 	specmate-nlp
--privatepackage: \
-	com.specmate.cause_effect_patterns.internal,\
+Private-Package: \
 	com.specmate.cause_effect_patterns.internal.specDSL.impl,\
-	com.specmate.cause_effect_patterns.internal.specDSL.util,\
 	com.specmate.cause_effect_patterns.internal.parser.antlr.internal,\
 	com.specmate.cause_effect_patterns.internal.generator,\
 	com.specmate.cause_effect_patterns.internal.parser.antlr,\
@@ -20,14 +18,16 @@
 	com.specmate.cause_effect_patterns.internal.services,\
 	com.specmate.cause_effect_patterns.internal.specDSL,\
 	com.specmate.cause_effect_patterns.internal.validation,\
-	com.specmate.cause_effect_patterns.resolve.util
+	com.specmate.cause_effect_patterns.resolve.util,\
+	com.specmate.cause_effect_patterns.internal.specDSL.util,\
+	com.specmate.cause_effect_patterns.internal
 Export-Package: \
-	com.specmate.cause_effect_patterns.resolve,\
-	com.specmate.cause_effect_patterns.dependency,\
-	com.specmate.cause_effect_patterns.dependency.matcher
+	com.specmate.cause_effect_patterns.parse,\
+	com.specmate.cause_effect_patterns.parse.matcher,\
+	com.specmate.cause_effect_patterns.resolve
 Import-Package: \
 	org.eclipse.xtext.smap;resolution:=optional,\
-	org.apache.uima.internal.util;resolution:=optional,\
 	*
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
+Bundle-Version: 0.0.0.${tstamp}

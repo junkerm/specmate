@@ -20,6 +20,7 @@ import com.specmate.cause_effect_patterns.internal.specDSL.Subtree;
 import com.specmate.cause_effect_patterns.internal.specDSL.TreeDef;
 import com.specmate.cause_effect_patterns.internal.specDSL.TreeNode;
 import com.specmate.cause_effect_patterns.internal.specDSL.TreeTag;
+
 import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;

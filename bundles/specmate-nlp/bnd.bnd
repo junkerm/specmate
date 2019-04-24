@@ -94,7 +94,6 @@ Private-Package: \
     org.apache.uima.flow,\
 	org.apache.uima.flow.impl,\
 	org.apache.uima.impl,\
-	org.apache.uima.internal.util,\
 	org.apache.uima.internal.util.rb_trees,\
 	org.apache.uima.jcas.impl,\
 	org.apache.uima.pear.tools,\
@@ -273,8 +272,9 @@ Export-Package: \
 	com.specmate.nlp.api,\
 	org.apache.uima.cas,\
 	com.specmate.nlp.dependency.matcher,\
-	com.specmate.cause_effect_patterns.dependency,\
+	com.specmate.causeeffectpatterns.dependency,\
 	com.specmate.nlp.util,\
+	org.apache.uima.internal.util,\
 	org.apache.uima.jcas,\
 	org.apache.uima.fit.util,\
 	org.apache.uima.cas.text,\

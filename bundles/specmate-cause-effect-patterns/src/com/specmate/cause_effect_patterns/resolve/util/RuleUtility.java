@@ -13,11 +13,11 @@ import com.specmate.cause_effect_patterns.internal.specDSL.OptionNode;
 import com.specmate.cause_effect_patterns.internal.specDSL.Rule;
 import com.specmate.cause_effect_patterns.internal.specDSL.Tag;
 import com.specmate.cause_effect_patterns.internal.specDSL.TreeNode;
-import com.specmate.cause_effect_patterns.dependency.matcher.Matcher;
-import com.specmate.cause_effect_patterns.dependency.matcher.MatcherException;
-import com.specmate.cause_effect_patterns.dependency.matcher.OrMatcher;
-import com.specmate.cause_effect_patterns.dependency.matcher.SubtreeMatcher;
-import com.specmate.cause_effect_patterns.dependency.matcher.TokenMatcher;
+import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.matcher.MatcherException;
+import com.specmate.cause_effect_patterns.parse.matcher.OrMatcher;
+import com.specmate.cause_effect_patterns.parse.matcher.SubtreeMatcher;
+import com.specmate.cause_effect_patterns.parse.matcher.TokenMatcher;
 
 public class RuleUtility {
 	private static Map<String, SubtreeMatcher> treeMatcher;
