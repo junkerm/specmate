@@ -10,6 +10,7 @@ import { DragulaModule } from 'ng2-dragula';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavigatorModule } from '../../../../../navigation/modules/navigator/navigator.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     ReactiveFormsModule,
     NavigatorModule,
-    TranslateModule
+    TranslateModule,
+    TextareaAutosizeModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
