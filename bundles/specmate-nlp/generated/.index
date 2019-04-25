@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="specmate-nlp" increment="1554390222763">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="specmate-nlp" increment="1555661021390">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="specmate-nlp"/>
@@ -75,7 +75,7 @@
       <attribute name="osgi.wiring.package" value="org.apache.uima.cas"/>
     </capability>
     <capability namespace="osgi.wiring.package">
-      <directive name="uses" value="de.tudarmstadt.ukp.dkpro.core.api.segmentation.type,de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk,de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent,de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency,org.apache.commons.lang3.tuple,org.apache.uima.jcas,org.apache.uima.jcas.tcas"/>
+      <directive name="uses" value="com.specmate.common.exception,com.specmate.nlp.api,de.tudarmstadt.ukp.dkpro.core.api.segmentation.type,de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk,de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent,de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency,org.apache.commons.lang3.tuple,org.apache.uima.jcas,org.apache.uima.jcas.tcas"/>
       <attribute name="version" value="1.0.0" type="Version"/>
       <attribute name="osgi.wiring.package" value="com.specmate.nlp.util"/>
     </capability>
@@ -205,13 +205,13 @@
       <attribute name="objectClass" value="com.specmate.nlp.api.INLPService" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="120919998" type="Long"/>
+      <attribute name="size" value="149021431" type="Long"/>
       <attribute name="url" value="generated/specmate-nlp.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="318F46ED9047452401CD746B7D0DF68E9D6AED970F1396509C1F57EBD39FE628"/>
+      <attribute name="osgi.content" value="8C679B62C6D428CB4D2A1E515E10CCD569765A0120CC093EFC998CBA90C1E26E"/>
     </capability>
     <capability namespace="bndtools.workspace">
-      <attribute name="bndtools.workspace" value="file:/Users/Dominik/Documents/Arbeit/Qualicen/Workspace"/>
+      <attribute name="bndtools.workspace" value="file:/C:/Users/junkerm/eclipse-workspaces/specmate"/>
       <attribute name="project.path" value="/specmate-nlp"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
@@ -364,14 +364,6 @@
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=org.codehaus.groovy.runtime.typehandling))"/>
-      <directive name="resolution" value="optional"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.apple.eio))"/>
-      <directive name="resolution" value="optional"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.uima.fit.legacy))"/>
       <directive name="resolution" value="optional"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
@@ -625,6 +617,10 @@
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=org.xml.sax.helpers))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.uima.fit.legacy))"/>
+      <directive name="resolution" value="optional"/>
     </requirement>
     <requirement namespace="osgi.extender">
       <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>

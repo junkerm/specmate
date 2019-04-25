@@ -78,6 +78,16 @@ public class EmfRestTestUtil {
 		return false;
 	}
 
+	public static int count(JSONArray jsonArray, Predicate<JSONObject> pred) {
+		int c = 0;
+		for (int i = 0; i < jsonArray.length(); i++) {
+			if (pred.test(jsonArray.getJSONObject(i))) {
+				c++;
+			}
+		}
+		return c;
+	}
+
 	public static JSONObject proxy(JSONObject object) {
 		String url = object.getString(URL_KEY);
 		JSONObject proxy = new JSONObject();
