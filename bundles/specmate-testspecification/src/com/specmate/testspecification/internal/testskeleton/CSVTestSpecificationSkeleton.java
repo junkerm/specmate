@@ -49,7 +49,7 @@ public class CSVTestSpecificationSkeleton extends BaseSkeleton {
 	protected void generateTestCaseParameterAssignments(StringBuilder sb, List<ParameterAssignment> assignments) {
 		StringJoiner joiner = new StringJoiner(COL_SEP);
 		for (ParameterAssignment assignment : assignments) {
-			String assignmentValue = assignment.getValue();
+			String assignmentValue = assignment.getCondition();
 			String characterToEscape = "=";
 			joiner.add(StringUtils.wrap(escapeString(assignmentValue, characterToEscape) + assignmentValue, TEXT_WRAP));
 		}
@@ -60,7 +60,7 @@ public class CSVTestSpecificationSkeleton extends BaseSkeleton {
 	protected String generateFileName(TestSpecification testSpecification) {
 		return replaceInvalidChars(testSpecification.getName()) + ".csv";
 	}
-	
+
 	protected String escapeString(String stringToCheck, String characterToEscape) {
 		String escapeCharacter = (stringToCheck.substring(0, 1).equals(characterToEscape)) ? "'" : "";
 		return escapeCharacter;
