@@ -26,8 +26,9 @@ after_success:
 - cd bundles/specmate-std-env/generated/distributions/executable/
 - mv dev-specmate-all.jar dev-specmate-all-$TRAVIS_TAG.jar 
 - mv prod-specmate-all.jar prod-specmate-all-$TRAVIS_TAG.jar
-- mv prod-specmate-cdo-server-$TRAVIS_TAG.jar
-- mv prod-specmate-no-cdo-server-$TRAVIS_TAG.jar
+- mv prod-specmate-cdo-server.jar prod-specmate-cdo-server-$TRAVIS_TAG.jar
+- mv prod-specmate-no-cdo-server.jar prod-specmate-no-cdo-server-$TRAVIS_TAG.jar
+- cd ../../../../..
 cache:
   directories:
   - cnf/cache/stable
