@@ -22,6 +22,7 @@ script:
 - cd ..
 after_success:
 - git status
+- echo $TRAVIS_TAG
 - cd bundles/specmate-std-env/generated/distributions/executable/
 - mv dev-specmate-all.jar dev-specmate-all-$TRAVIS_TAG.jar 
 - mv prod-specmate-all.jar prod-specmate-all-$TRAVIS_TAG.jar
@@ -42,5 +43,5 @@ deploy:
     - bundles/specmate-std-env/generated/distributions/executable/prod-specmate-no-cdo-server-$TRAVIS_TAG.jar
   on:
     repo: junkerm/specmate
-    condition: $TRAVIS_TAG =~ ^v[\.\d]+(-dev-\d+)?$
+    condition: $TRAVIS_TAG =~ ^v[\.0-9]+(-dev-[0-9]+)?$
     tags: true
