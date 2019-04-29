@@ -13,7 +13,7 @@ import com.specmate.cause_effect_patterns.internal.specDSL.OptionNode;
 import com.specmate.cause_effect_patterns.internal.specDSL.Rule;
 import com.specmate.cause_effect_patterns.internal.specDSL.Tag;
 import com.specmate.cause_effect_patterns.internal.specDSL.TreeNode;
-import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.matcher.MatcherBase;
 import com.specmate.cause_effect_patterns.parse.matcher.MatcherException;
 import com.specmate.cause_effect_patterns.parse.matcher.OrMatcher;
 import com.specmate.cause_effect_patterns.parse.matcher.SubtreeMatcher;
@@ -22,14 +22,14 @@ import com.specmate.cause_effect_patterns.parse.matcher.TokenMatcher;
 public class RuleUtility {
 	private static Map<String, SubtreeMatcher> treeMatcher;
 	
-	public static synchronized Matcher transform(Rule rule) throws MatcherException {
-		HeadFindStructure<Matcher> headFinder = new HeadFindStructure<Matcher>();
+	public static synchronized MatcherBase transform(Rule rule) throws MatcherException {
+		HeadFindStructure<MatcherBase> headFinder = new HeadFindStructure<MatcherBase>();
 		treeMatcher = new HashMap<String, SubtreeMatcher>();
 		
 		for (DependencyRule dRule: rule.getDependencies()) {
-			Matcher lNode = resolveMatcher(dRule.getLeftNode());
+			MatcherBase lNode = resolveMatcher(dRule.getLeftNode());
 			
-			Matcher ruleHead = lNode;
+			MatcherBase ruleHead = lNode;
 			if(!headFinder.contains(ruleHead)) {
 				headFinder.add(ruleHead);	
 			}
@@ -37,7 +37,7 @@ public class RuleUtility {
 			while(! (dRule.getRightNode() instanceof Node)) {
 				String dTag = resolveTag(dRule.getDTag());
 				dRule = (DependencyRule) dRule.getRightNode();
-				Matcher rNode = resolveMatcher(dRule.getLeftNode());
+				MatcherBase rNode = resolveMatcher(dRule.getLeftNode());
 				if (headFinder.contains(rNode)) {
 					headFinder.setHead(rNode, ruleHead);
 				} else {
@@ -47,7 +47,7 @@ public class RuleUtility {
 				lNode.arcTo(rNode, dTag);
 				lNode = rNode;
 			}
-			Matcher rNode = resolveMatcher((Node)dRule.getRightNode());
+			MatcherBase rNode = resolveMatcher((Node)dRule.getRightNode());
 			if (headFinder.contains(rNode)) {
 				headFinder.setHead(rNode, ruleHead);
 			} else {
@@ -58,7 +58,7 @@ public class RuleUtility {
 			lNode.arcTo(rNode, dTag);
 		}
 		
-		Set<Matcher> headSet = headFinder.getHeadSet();
+		Set<MatcherBase> headSet = headFinder.getHeadSet();
 		if (headSet.size() > 1) {
 			throw MatcherException.multipleMatchheads(headSet);
 		}
@@ -69,7 +69,7 @@ public class RuleUtility {
 		return headSet.iterator().next();
 	}
 	
-	private static Matcher resolveMatcher(Node node) throws MatcherException {
+	private static MatcherBase resolveMatcher(Node node) throws MatcherException {
 		if (node instanceof ExplicitNode) {
 			// Explicit Node
 			ExplicitNode eNode = (ExplicitNode) node;
@@ -90,7 +90,7 @@ public class RuleUtility {
 			// Option Node
 			OptionNode oNode = (OptionNode) node;
 			
-			Matcher[] matchers = new Matcher[oNode.getRightNodes().size()+1];
+			MatcherBase[] matchers = new MatcherBase[oNode.getRightNodes().size()+1];
 			EList<ExplicitNode> nodes = oNode.getRightNodes();
 			for (int i = 0; i < nodes.size(); i++) {
 				matchers[i] = resolveMatcher(nodes.get(i)); 

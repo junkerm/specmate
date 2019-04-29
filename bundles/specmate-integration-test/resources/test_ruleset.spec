@@ -9,5 +9,5 @@ def rule Condition {
 }
 
 def rule SubjPred {
-	[Subject] - nsubj -> [Predicate]
+	[Predicate] - nsubj -> [Subject]
 }

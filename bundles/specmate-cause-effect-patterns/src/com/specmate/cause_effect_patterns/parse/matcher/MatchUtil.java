@@ -6,7 +6,7 @@ import java.util.Vector;
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchUtil;
-import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.matcher.MatcherBase;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
@@ -18,7 +18,7 @@ public class MatchUtil {
 	 * @param data
 	 * @return A List of Results for each head of the dependency data object.
 	 */
-	public static List<MatchResult> evaluateRuleset(List<Matcher> rules, DependencyParsetree data) {
+	public static List<MatchResult> evaluateRuleset(List<MatcherBase> rules, DependencyParsetree data) {
 		Vector<MatchResult> result = new Vector<MatchResult>();
 		for(Token head: data.getHeads()) {
 			result.add(MatchUtil.evaluateRuleset(rules, data, head));
@@ -34,9 +34,9 @@ public class MatchUtil {
 	 * @param head
 	 * @return
 	 */
-	public static MatchResult evaluateRuleset(List<Matcher> rules, DependencyParsetree data, Token head) {
+	public static MatchResult evaluateRuleset(List<MatcherBase> rules, DependencyParsetree data, Token head) {
 		MatchResult result = MatchResult.unsuccessful();
-		for(Matcher rule: rules) {
+		for(MatcherBase rule: rules) {
 			result = rule.match(data, head);
 			if(result.isSuccessfulMatch()) {
 				for(String submatchName: result.getSubmatchNames()) {

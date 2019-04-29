@@ -4,17 +4,18 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Vector;
 
 import org.apache.uima.internal.util.IntHashSet;
 
-import com.google.common.base.Optional;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.specmate.cause_effect_patterns.parse.DependencyNode;
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
-import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.matcher.MatcherBase;
 import com.specmate.cause_effect_patterns.parse.matcher.MatcherException;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
@@ -29,18 +30,18 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
  * @author Dominik
  *
  */
-public abstract class Matcher {
-	private Optional<Matcher> parent;
-	private Set<Matcher> children;
-	private ArrayListMultimap<String, Matcher> arcs;
+public abstract class MatcherBase {
+	private Optional<MatcherBase> parent;
+	private Set<MatcherBase> children;
+	private ArrayListMultimap<String, MatcherBase> arcs;
 	
-	public Matcher() {
-		this.children = new HashSet<Matcher>();
-		this.parent = Optional.absent();
+	public MatcherBase() {
+		this.children = new HashSet<MatcherBase>();
+		this.parent = Optional.empty();
 		this.arcs = ArrayListMultimap.create();
 	}
 	
-	public void arcTo(Matcher to, String dependencyTag) throws MatcherException {
+	public void arcTo(MatcherBase to, String dependencyTag) throws MatcherException {
 		if(to.parent.isPresent() && this.parent.isPresent()) {
 			if(!to.parent.get().equals(this.parent.get())) {
 				throw MatcherException.illegalTwoParentNode(to, this, to.parent.get());
@@ -56,14 +57,14 @@ public abstract class Matcher {
 		this.arcs.put(dependencyTag, to);
 	}
 	
-	public Collection<Matcher> getArcChildren() {
+	public Collection<MatcherBase> getArcChildren() {
 		return this.arcs.values();
 	}
 	
 	@Override
 	public String toString() {
 		String result = "";
-		for (Entry<String,Matcher> arc : arcs.entries()) {
+		for (Entry<String,MatcherBase> arc : arcs.entries()) {
 			result+= this.getRepresentation() +" -- " + arc.getKey()+" --> "+arc.getValue().getRepresentation()+"\n"+arc.getValue();
 		}
 		return result.trim();
@@ -91,7 +92,7 @@ public abstract class Matcher {
 		
 		
 		for(String depTag: this.arcs.keySet()) {
-			List<Matcher> matchers = this.arcs.get(depTag);
+			List<MatcherBase> matchers = this.arcs.get(depTag);
 			List<Dependency> candidates = dependencies.getDependenciesFromTag(depTag);
 			MatchResult match = this.matchChildren(data, matchers, candidates);
 			
@@ -116,7 +117,7 @@ public abstract class Matcher {
 		return result;
 	}
 	
-	private MatchResult matchChildren(DependencyParsetree data, List<Matcher> matchers, List<Dependency> candidates) {
+	private MatchResult matchChildren(DependencyParsetree data, List<MatcherBase> matchers, List<Dependency> candidates) {
 		int matchSize = matchers.size();
 		int candidateSize = candidates.size();
 		if (matchSize > candidateSize) {
@@ -138,7 +139,7 @@ public abstract class Matcher {
 		int currentMatcherIndex = 0;
 		
 		while(currentMatcherIndex < matchSize) {
-			Matcher currentMatcher = matchers.get(currentMatcherIndex);
+			MatcherBase currentMatcher = matchers.get(currentMatcherIndex);
 			boolean unmatched = true;
 			
 			for(int i = matching[currentMatcherIndex]; i < candidateSize; i++) {

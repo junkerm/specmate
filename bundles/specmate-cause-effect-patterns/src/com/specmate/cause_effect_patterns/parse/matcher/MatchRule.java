@@ -1,12 +1,12 @@
 package com.specmate.cause_effect_patterns.parse.matcher;
 
-import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.matcher.MatcherBase;
 
 public class MatchRule {
-	public Matcher matcher;
+	public MatcherBase matcher;
 	public String ruleName;
 	
-	public MatchRule(Matcher matcher, String name) {
+	public MatchRule(MatcherBase matcher, String name) {
 		this.matcher = matcher;
 		this.ruleName = name;
 	}

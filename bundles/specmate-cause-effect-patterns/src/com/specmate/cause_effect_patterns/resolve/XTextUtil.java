@@ -1,6 +1,7 @@
 package com.specmate.cause_effect_patterns.resolve;
 
 import java.util.List;
+import java.util.Vector;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
@@ -17,12 +18,12 @@ import com.specmate.cause_effect_patterns.internal.SpecDSLStandaloneSetup;
 import com.specmate.cause_effect_patterns.internal.specDSL.Model;
 import com.specmate.cause_effect_patterns.internal.specDSL.Rule;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchRule;
-import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.matcher.MatcherBase;
 import com.specmate.cause_effect_patterns.parse.matcher.MatcherException;
 import com.specmate.cause_effect_patterns.resolve.util.RuleUtility;
 
 public class XTextUtil {
-	public static List<MatchRule> generateMatchers(URI resourcePath, URI... definitionPaths) {
+	public static List<MatchRule> generateMatchers(URI resourcePath, URI... definitionPaths) throws XTextException {
 		// do this only once per application
 		Injector injector = new SpecDSLStandaloneSetup().createInjectorAndDoEMFRegistration();
 		 
@@ -39,31 +40,31 @@ public class XTextUtil {
 		// Validation
 		IResourceValidator validator = ((XtextResource)resource).getResourceServiceProvider().getResourceValidator();
 		List<Issue> issues = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
-		for (Issue issue : issues) {
-		  System.err.println(issue.getMessage());
-		}
 		if(issues.size() > 0) {
-			return null;
+			String issueText = issues.stream().map(Issue::getMessage).collect(Collectors.joining("\n"));
+			throw new XTextException("Validation encountered issues:\n"+issueText);
 		}
 		
-		List<MatchRule> out = resource.getContents().stream()
+		List<Rule> rules = resource.getContents().stream()
 				.filter(e -> e instanceof Model)
 				.flatMap(m -> ((Model)m).getElements().stream())
 				.filter(e -> e instanceof Rule)
-				.map(r -> resolveRule((Rule)r))
-				.filter(e -> e != null)
+				.map(r -> (Rule) r)
 				.collect(Collectors.toList());
+		List<MatchRule> result = new Vector<MatchRule>();
+		for (Rule r:rules) {
+			try {
+				result.add(resolveRule(r));
+			} catch (MatcherException e) {
+				throw new XTextException(e.getMessage());
+			}
+		}
 		
-		return out;
+		return result;
 	}
 	
-	private static MatchRule resolveRule(Rule r) {
-		try {
-			Matcher match = RuleUtility.transform(r);
-			return new MatchRule(match, r.getName());	
-		} catch (MatcherException e) {
-			e.printStackTrace();
-		}
-		return null;
+	private static MatchRule resolveRule(Rule r) throws MatcherException {
+		MatcherBase match = RuleUtility.transform(r);
+		return new MatchRule(match, r.getName());	
 	}
 }

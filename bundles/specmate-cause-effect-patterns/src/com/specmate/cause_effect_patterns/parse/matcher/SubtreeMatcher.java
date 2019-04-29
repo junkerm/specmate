@@ -1,9 +1,10 @@
 package com.specmate.cause_effect_patterns.parse.matcher;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
+
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
-import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.matcher.MatcherBase;
 import com.specmate.cause_effect_patterns.parse.matcher.MatcherException;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
@@ -17,7 +18,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
  * @author Dominik
  *
  */
-public class SubtreeMatcher extends Matcher {
+public class SubtreeMatcher extends MatcherBase {
 	
 	private Optional<String> posTag;
 	private Optional<String> pattern;
@@ -39,8 +40,8 @@ public class SubtreeMatcher extends Matcher {
 	
 	public SubtreeMatcher(String subtreeName) {
 		this.subtreeName = subtreeName;
-		this.pattern = Optional.absent();
-		this.posTag = Optional.absent();
+		this.pattern = Optional.empty();
+		this.posTag = Optional.empty();
 	}
 	
 	@Override

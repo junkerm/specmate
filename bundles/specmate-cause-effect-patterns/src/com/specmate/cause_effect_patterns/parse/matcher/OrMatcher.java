@@ -2,7 +2,7 @@ package com.specmate.cause_effect_patterns.parse.matcher;
 
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
-import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.matcher.MatcherBase;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
@@ -13,17 +13,17 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
  * @author Dominik
  *
  */
-public class OrMatcher extends Matcher{
-	private Matcher[] options;
+public class OrMatcher extends MatcherBase{
+	private MatcherBase[] options;
 	
-	public OrMatcher(Matcher...options) {
+	public OrMatcher(MatcherBase...options) {
 		this.options = options;
 	}
 	
 	@Override
 	public String getRepresentation() {
 		String result = "(";
-		for (Matcher matcher : this.getArcChildren()) {
+		for (MatcherBase matcher : this.getArcChildren()) {
 			if(result.length() > 1) {
 				result+=" | ";
 			}
@@ -34,7 +34,7 @@ public class OrMatcher extends Matcher{
 	
 	@Override
 	public MatchResult match(DependencyParsetree data, Token head) {
-		for(Matcher option: options) {
+		for(MatcherBase option: options) {
 			MatchResult res = option.match(data, head);
 			if(res.isSuccessfulMatch()) {
 				res.addSubtree(super.match(data, head));

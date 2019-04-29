@@ -149,6 +149,14 @@ public class DependencyParsetree {
 		Collections.sort(this.treeFragments);
 	}
 	
+	public int getTextIntervallCount() {
+		return this.treeFragments.size();
+	}
+	
+	public TextInterval getTextInterval(int index) {
+		return this.treeFragments.get(index);
+	}
+	
 	public String getTreeFragmentText() {
 		String result = "Fragments:\n";
 		for(TextInterval i: this.treeFragments) {
@@ -180,7 +188,7 @@ public class DependencyParsetree {
 		return result;
 	}
 	
-	private class TextInterval implements Comparable<TextInterval>{
+	public class TextInterval implements Comparable<TextInterval>{
 		public int from, to;
 		public String text;
 		

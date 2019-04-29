@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
-import com.specmate.cause_effect_patterns.parse.matcher.Matcher;
+import com.specmate.cause_effect_patterns.parse.matcher.MatcherBase;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
@@ -13,7 +13,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
  * @author Dominik
  *
  */
-public class TokenMatcher extends Matcher{
+public class TokenMatcher extends MatcherBase{
 	String pattern;
 	Optional<String> posTag;
 	
