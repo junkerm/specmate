@@ -1,4 +1,4 @@
-const SPECMATE_VERSION = '0.3.1-dev-1'
+const SPECMATE_VERSION = '0.3.1-dev-2'
 
 
 const webpack = require('webpack');

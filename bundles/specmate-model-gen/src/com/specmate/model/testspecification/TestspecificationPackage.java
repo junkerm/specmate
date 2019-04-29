@@ -380,22 +380,13 @@ public interface TestspecificationPackage extends EPackage {
 	int PARAMETER_ASSIGNMENT__PARAMETER = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PARAMETER_ASSIGNMENT__VALUE = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Condition</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PARAMETER_ASSIGNMENT__CONDITION = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
+	int PARAMETER_ASSIGNMENT__CONDITION = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Parameter Assignment</em>' class.
@@ -404,7 +395,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAMETER_ASSIGNMENT_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 3;
+	int PARAMETER_ASSIGNMENT_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Parameter Assignment</em>' class.
@@ -734,17 +725,6 @@ public interface TestspecificationPackage extends EPackage {
 	EReference getParameterAssignment_Parameter();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.testspecification.ParameterAssignment#getValue <em>Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Value</em>'.
-	 * @see com.specmate.model.testspecification.ParameterAssignment#getValue()
-	 * @see #getParameterAssignment()
-	 * @generated
-	 */
-	EAttribute getParameterAssignment_Value();
-
-	/**
 	 * Returns the meta object for the attribute '{@link com.specmate.model.testspecification.ParameterAssignment#getCondition <em>Condition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -938,14 +918,6 @@ public interface TestspecificationPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PARAMETER_ASSIGNMENT__PARAMETER = eINSTANCE.getParameterAssignment_Parameter();
-
-		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute PARAMETER_ASSIGNMENT__VALUE = eINSTANCE.getParameterAssignment_Value();
 
 		/**
 		 * The meta object literal for the '<em><b>Condition</b></em>' attribute feature.
