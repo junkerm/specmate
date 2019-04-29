@@ -7,7 +7,8 @@
 	org.eclipse.emf.common,\
 	org.eclipse.xtext.xbase.lib,\
 	com.google.guava,\
-	specmate-nlp
+	specmate-nlp,\
+	org.glassfish.hk2.external.javax.inject
 Private-Package: \
 	com.specmate.cause_effect_patterns.internal.specDSL.impl,\
 	com.specmate.cause_effect_patterns.internal.parser.antlr.internal,\
