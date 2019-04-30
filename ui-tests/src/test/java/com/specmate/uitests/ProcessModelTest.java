@@ -138,10 +138,12 @@ public class ProcessModelTest extends TestBase {
 		// Delete duplicate
 		processEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
 		requirementOverview.deleteDuplicateProcess(processName);
+		// The process should be deleted, thus, use assertFalse
 		assertFalse(requirementOverview.checkForDeletedDuplicateProcess(processName));
 
 		// Delete created process
 		requirementOverview.deleteProcess(processName);
+		// The should should be deleted, thus, use assertFalse
 		assertFalse(requirementOverview.checkForDeletedProcess(processName));
 
 		requirementOverview.refreshRequirementOverviewPage();

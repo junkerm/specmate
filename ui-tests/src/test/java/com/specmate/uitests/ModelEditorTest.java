@@ -106,11 +106,12 @@ public class ModelEditorTest extends TestBase {
 		// Delete duplicate
 		cegEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
 		requirementOverview.deleteDuplicateModel(modelName);
-		// The requirement should be deleted, thus, assertFalse is used
+		// The model should be deleted, thus, use assertFalse
 		assertFalse(requirementOverview.checkForDeletedDuplicateModel(modelName));
 
 		// Delete created model 
-		requirementOverview.deleteModel(modelName);		
+		requirementOverview.deleteModel(modelName);
+		// The model should be deleted, thus, use assertFalse
 		assertFalse(requirementOverview.checkForDeletedModel(modelName));
 	 }
 }
