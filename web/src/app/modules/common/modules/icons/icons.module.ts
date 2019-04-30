@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { IconSelector } from './components/icon-selector.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { IconSelector } from './components/icon-selector.component';
 
 @NgModule({
   imports: [

@@ -1,9 +1,9 @@
 import { IContainer } from '../model/IContainer';
 import { MetaInfo } from '../model/meta/field-meta';
 import { ElementValidatorBase } from './element-validator-base';
-import { ValidationResult } from './validation-result';
-import { ValidationMessage } from './validation-message';
 import { ValidationErrorSeverity } from './validation-error-severity';
+import { ValidationMessage } from './validation-message';
+import { ValidationResult } from './validation-result';
 
 export class ValidNameValidator extends ElementValidatorBase<IContainer> {
 

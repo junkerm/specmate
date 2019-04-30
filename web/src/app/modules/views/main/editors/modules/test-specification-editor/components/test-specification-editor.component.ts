@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
-import { DraggableSupportingViewBase } from '../../../base/draggable-supporting-view-base';
-import { TestSpecification } from '../../../../../../../model/TestSpecification';
-import { IContentElement } from '../../../../../../../model/IContentElement';
-import { IPositionable } from '../../../../../../../model/IPositionable';
-import { Type } from '../../../../../../../util/type';
-import { TestCase } from '../../../../../../../model/TestCase';
-import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
-import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 import { ActivatedRoute } from '@angular/router';
-import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
+import { TranslateService } from '@ngx-translate/core';
 import { DragulaService } from 'ng2-dragula';
-import { IContainer } from '../../../../../../../model/IContainer';
-import { TestParameter } from '../../../../../../../model/TestParameter';
 import { TestCaseFactory } from '../../../../../../../factory/test-case-factory';
-import { TestParameterFactory } from '../../../../../../../factory/test-parameter-factory';
 import { TestInputParameterFactory } from '../../../../../../../factory/test-input-parameter-factory';
 import { TestOutputParameterFactory } from '../../../../../../../factory/test-output-parameter-factory';
-import { TranslateService } from '@ngx-translate/core';
+import { TestParameterFactory } from '../../../../../../../factory/test-parameter-factory';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { IContentElement } from '../../../../../../../model/IContentElement';
+import { IPositionable } from '../../../../../../../model/IPositionable';
+import { TestCase } from '../../../../../../../model/TestCase';
+import { TestParameter } from '../../../../../../../model/TestParameter';
+import { TestSpecification } from '../../../../../../../model/TestSpecification';
+import { Type } from '../../../../../../../util/type';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
+import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
+import { DraggableSupportingViewBase } from '../../../base/draggable-supporting-view-base';
 
 @Component({
     moduleId: module.id.toString(),

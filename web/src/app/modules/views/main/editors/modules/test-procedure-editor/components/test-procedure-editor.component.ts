@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
-import { DraggableSupportingViewBase } from '../../../base/draggable-supporting-view-base';
-import { TestProcedure } from '../../../../../../../model/TestProcedure';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { DragulaService } from 'ng2-dragula';
+import { TestStepFactory } from '../../../../../../../factory/test-step-factory';
+import { IContainer } from '../../../../../../../model/IContainer';
 import { IContentElement } from '../../../../../../../model/IContentElement';
 import { IPositionable } from '../../../../../../../model/IPositionable';
-import { IContainer } from '../../../../../../../model/IContainer';
 import { TestParameter } from '../../../../../../../model/TestParameter';
+import { TestProcedure } from '../../../../../../../model/TestProcedure';
 import { Type } from '../../../../../../../util/type';
+import { Url } from '../../../../../../../util/url';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
-import { ActivatedRoute } from '@angular/router';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
-import { DragulaService } from 'ng2-dragula';
-import { Url } from '../../../../../../../util/url';
-import { TestStepFactory } from '../../../../../../../factory/test-step-factory';
-import { TranslateService } from '@ngx-translate/core';
+import { DraggableSupportingViewBase } from '../../../base/draggable-supporting-view-base';
 
 @Component({
     moduleId: module.id.toString(),

@@ -1,7 +1,7 @@
-import { ProviderBase } from './provider-base';
+import { CEGNode } from '../../../../../../../../model/CEGNode';
 import { IContainer } from '../../../../../../../../model/IContainer';
 import { Type } from '../../../../../../../../util/type';
-import { CEGNode } from '../../../../../../../../model/CEGNode';
+import { ProviderBase } from './provider-base';
 
 export class HiddenFieldsProvider extends ProviderBase {
 

@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { IContainer } from '../../../../../../../model/IContainer';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
-import { EditorToolsService } from '../services/editor-tools.service';
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
-import { IContainer } from '../../../../../../../model/IContainer';
-import { ToolBase } from '../tools/tool-base';
 import { ElementProvider } from '../../graphical-editor/providers/properties/element-provider';
-import { Id } from '../../../../../../../util/id';
-import { TranslateService } from '@ngx-translate/core';
+import { EditorToolsService } from '../services/editor-tools.service';
+import { ToolBase } from '../tools/tool-base';
 
 @Component({
     moduleId: module.id.toString(),

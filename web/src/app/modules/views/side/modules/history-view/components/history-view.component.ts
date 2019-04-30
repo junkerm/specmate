@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavigatorService } from '../../../../../navigation/modules/navigator/services/navigator.service';
-import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
 import { HistoryEntry } from '../../../../../../model/HistoryEntry';
+import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
+import { NavigatorService } from '../../../../../navigation/modules/navigator/services/navigator.service';
 import { HistoryProvider } from '../base/history-provider';
 
 @Component({

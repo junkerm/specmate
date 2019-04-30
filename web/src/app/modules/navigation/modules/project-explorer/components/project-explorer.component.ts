@@ -1,18 +1,18 @@
-import { Component, OnInit, group, ViewChild, ElementRef } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { IContainer } from '../../../../../model/IContainer';
-import { IContentElement } from '../../../../../model/IContentElement';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { NavigatorService } from '../../navigator/services/navigator.service';
-import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
-import { Search } from '../../../../../util/search';
+import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '../../../../../../../node_modules/@ngx-translate/core';
 import { Config } from '../../../../../config/config';
 import { Folder } from '../../../../../model/Folder';
+import { IContainer } from '../../../../../model/IContainer';
+import { IContentElement } from '../../../../../model/IContentElement';
+import { Search } from '../../../../../util/search';
 import { Type } from '../../../../../util/type';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
+import { NavigatorService } from '../../navigator/services/navigator.service';
 
 
 @Component({
@@ -74,7 +74,7 @@ export class ProjectExplorer implements OnInit {
         return this._rootLibraries.length > this.numLibraryFoldersDisplayed;
     }
 
-    protected search(query: string): void {
+    public search(query: string): void {
         this.searchQueries.next(query);
     }
 

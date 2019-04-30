@@ -1,6 +1,6 @@
 import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISpecmatePositionableModelObject';
+import { Area, Square } from '../util/area';
 import { GraphicalElementBase } from './graphical-element-base';
-import { Square, Area } from '../util/area';
 
 export abstract class GraphicalNodeBase<T extends ISpecmatePositionableModelObject> extends GraphicalElementBase<T> {
 

@@ -1,11 +1,11 @@
-import { OnInit, Input } from '@angular/core';
-import { TestCase } from '../../../../../../../model/TestCase';
-import { Type } from '../../../../../../../util/type';
-import { TestParameter } from '../../../../../../../model/TestParameter';
-import { IContentElement } from '../../../../../../../model/IContentElement';
-import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { Input, OnInit } from '@angular/core';
 import { IContainer } from '../../../../../../../model/IContainer';
+import { IContentElement } from '../../../../../../../model/IContentElement';
 import { ParameterAssignment } from '../../../../../../../model/ParameterAssignment';
+import { TestCase } from '../../../../../../../model/TestCase';
+import { TestParameter } from '../../../../../../../model/TestParameter';
+import { Type } from '../../../../../../../util/type';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 
 export class TestCaseComponentBase implements OnInit {
 

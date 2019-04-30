@@ -1,13 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { IContainer } from '../../../../../model/IContainer';
+import { TranslateService } from '@ngx-translate/core';
 import { CEGModel } from '../../../../../model/CEGModel';
+import { IContainer } from '../../../../../model/IContainer';
+import { Requirement } from '../../../../../model/Requirement';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
-import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Requirement } from '../../../../../model/Requirement';
-import { SelectedElementService } from '../../../../views/side/modules/selected-element/services/selected-element.service';
 import { ElementProvider } from '../../../../views/main/editors/modules/graphical-editor/providers/properties/element-provider';
+import { SelectedElementService } from '../../../../views/side/modules/selected-element/services/selected-element.service';
 
 @Component({
     moduleId: module.id.toString(),

@@ -1,8 +1,7 @@
 import { Input } from '@angular/core';
-import { FormGroup, ValidationErrors } from '@angular/forms';
-import { FieldMetaItem } from '../../../../../model/meta/field-meta';
+import { FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { formArrayNameProvider } from '@angular/forms/src/directives/reactive_directives/form_group_name';
+import { FieldMetaItem } from '../../../../../model/meta/field-meta';
 
 export abstract class FormElement {
 

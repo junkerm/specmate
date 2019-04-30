@@ -1,10 +1,10 @@
-import { IContainer } from '../../../../../../../model/IContainer';
-import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
-import { ValidationService } from '../../../../../../forms/modules/validation/services/validation.service';
-import { Type } from '../../../../../../../util/type';
-import { Square } from '../util/area';
-import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
 import { OnDestroy } from '@angular/core';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { Type } from '../../../../../../../util/type';
+import { ValidationService } from '../../../../../../forms/modules/validation/services/validation.service';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
+import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
+import { Square } from '../util/area';
 
 export abstract class GraphicalElementBase<T extends IContainer> implements OnDestroy {
     public abstract get element(): T;

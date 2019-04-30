@@ -1,12 +1,11 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs/Rx';
+import { Config } from '../../../../../config/config';
+import { ServiceInterface } from '../../../../data/modules/data-service/services/service-interface';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
 import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ServiceInterface } from '../../../../data/modules/data-service/services/service-interface';
-import { TranslateService } from '@ngx-translate/core';
-import { Config } from '../../../../../config/config';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/timer';
 
 @Injectable()
 export class ServerConnectionService {

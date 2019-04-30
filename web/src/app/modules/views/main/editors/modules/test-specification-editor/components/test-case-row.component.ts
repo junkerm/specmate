@@ -1,17 +1,17 @@
 import { Component, Input } from '@angular/core';
-import { TestCase } from '../../../../../../../model/TestCase';
-import { Type } from '../../../../../../../util/type';
+import { TranslateService } from '@ngx-translate/core';
+import { TestProcedureFactory } from '../../../../../../../factory/test-procedure-factory';
 import { IContainer } from '../../../../../../../model/IContainer';
+import { ParameterAssignment } from '../../../../../../../model/ParameterAssignment';
+import { TestCase } from '../../../../../../../model/TestCase';
+import { TestParameter } from '../../../../../../../model/TestParameter';
+import { TestProcedure } from '../../../../../../../model/TestProcedure';
+import { Id } from '../../../../../../../util/id';
+import { Type } from '../../../../../../../util/type';
 import { Url } from '../../../../../../../util/url';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
-import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
-import { TestProcedure } from '../../../../../../../model/TestProcedure';
-import { TestProcedureFactory } from '../../../../../../../factory/test-procedure-factory';
-import { TestParameter } from '../../../../../../../model/TestParameter';
-import { Id } from '../../../../../../../util/id';
-import { ParameterAssignment } from '../../../../../../../model/ParameterAssignment';
-import { TranslateService } from '@ngx-translate/core';
+import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
 
 @Component({
     moduleId: module.id.toString(),

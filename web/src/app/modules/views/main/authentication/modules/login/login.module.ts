@@ -1,20 +1,20 @@
-import { NgModule } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
-import { Login } from './components/login.component';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthModule } from '../auth/auth.module';
-import { I18NModule } from '../../../../../common/modules/i18n/i18n.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { I18NModule } from '../../../../../common/modules/i18n/i18n.module';
+import { SpecmateSharedModule } from '../../../../../specmate/specmate.shared.module';
+import { AuthModule } from '../auth/auth.module';
+import { Login } from './components/login.component';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
-    TranslateModule,
     I18NModule,
     CommonModule,
     FormsModule,
     AuthModule,
+    SpecmateSharedModule,
     NgbModule
   ],
   declarations: [

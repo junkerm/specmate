@@ -1,9 +1,9 @@
-import { ElementFactoryBase } from './element-factory-base';
 import { CEGModel } from '../model/CEGModel';
-import { Process } from '../model/Process';
 import { IContainer } from '../model/IContainer';
+import { Process } from '../model/Process';
 import { Id } from '../util/id';
 import { Url } from '../util/url';
+import { ElementFactoryBase } from './element-factory-base';
 
 export abstract class ModelFactoryBase extends ElementFactoryBase<CEGModel | Process> {
 
