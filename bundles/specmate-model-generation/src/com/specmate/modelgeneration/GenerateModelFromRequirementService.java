@@ -1,7 +1,6 @@
 package com.specmate.modelgeneration;
 
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
@@ -13,12 +12,14 @@ import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.Requirement;
+import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
+import com.specmate.nlp.util.NLPUtil;
 import com.specmate.rest.RestResult;
 
 /**
  * Service to create automatic a CEGModel from a requirement
- * 
+ *
  * @author Andreas Wehrle
  *
  */
@@ -53,7 +54,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 	/**
 	 * Add the nodes and connections to the model extracted from the text
-	 * 
+	 *
 	 * @param model
 	 *            CEGModel
 	 * @param requirement
@@ -61,11 +62,20 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	 */
 	private CEGModel generateModelFromDescription(CEGModel model, Requirement requirement) throws SpecmateException {
 		String text = model.getModelRequirements();
-		if(text==null || StringUtils.isEmpty(text)){
+		if (text == null || StringUtils.isEmpty(text)) {
 			return model;
 		}
 		text = new PersonalPronounsReplacer(tagger).replacePronouns(text);
-		new CEGFromRequirementGenerator(logService, tagger).createModel(model, text);
+		ELanguage lang = NLPUtil.detectLanguage(text);
+		CEGFromRequirementGenerator generator;
+		switch (lang) {
+		case DE:
+			generator = new GermanCEGFromRequirementGenerator(logService, tagger);
+			break;
+		default:
+			generator = new EnglishCEGFromRequirementGenerator(logService, tagger);
+		}
+		generator.createModel(model, text);
 		return model;
 	}
 

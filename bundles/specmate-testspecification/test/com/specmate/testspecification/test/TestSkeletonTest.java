@@ -12,6 +12,7 @@ import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestSpecificationSkeleton;
 import com.specmate.model.testspecification.TestspecificationFactory;
+import com.specmate.testspecification.internal.testskeleton.CSVTestSpecificationSkeleton;
 import com.specmate.testspecification.internal.testskeleton.JavaTestSpecificationSkeleton;
 
 public class TestSkeletonTest {
@@ -23,8 +24,22 @@ public class TestSkeletonTest {
 		TestSpecificationSkeleton result = skel.generate(ts);
 		String code = result.getCode();
 
-		Assert.assertTrue(code.contains("public void TSTest___in1__in11___in2__in12___out1__out11___out2__out12()"));
+		Assert.assertTrue(code.contains("public void TSTest___in1__in11___in2_____out1__out11___out2__out12()"));
 		Assert.assertTrue(code.contains("public void TSTest___in1__in21___in2__in22___out1__out21___out2__out22()"));
+	}
+	
+	@Test
+	public void testCSVSkeleton() {
+		TestSpecification ts = getTestSpecification();
+
+		CSVTestSpecificationSkeleton skel = new CSVTestSpecificationSkeleton("CSV");
+		TestSpecificationSkeleton result = skel.generate(ts);
+		String code = result.getCode();
+		
+		Assert.assertTrue(code.contains("\"TC\";\"INPUT - in1\";\"INPUT - in2\";\"OUTPUT - out1\";\"OUTPUT - out2\""));
+		Assert.assertTrue(code.contains("tc1;\"in11\";;\"out11\";\"out12\""));
+		Assert.assertTrue(code.contains("tc2;\"in21\";\"in22\";\"out21\";\"out22\""));
+
 	}
 
 	private TestSpecification getTestSpecification() {
@@ -60,22 +75,19 @@ public class TestSkeletonTest {
 
 		ParameterAssignment assIn11 = f.createParameterAssignment();
 		assIn11.setParameter(input1);
-		assIn11.setValue("in11");
 		assIn11.setCondition("in11");
 
+		//empty input assignment
 		ParameterAssignment assIn12 = f.createParameterAssignment();
 		assIn12.setParameter(input2);
-		assIn12.setValue("in12");
-		assIn12.setCondition("in12");
+		assIn12.setCondition("");
 
 		ParameterAssignment assOut11 = f.createParameterAssignment();
 		assOut11.setParameter(output1);
-		assOut11.setValue("out11");
 		assOut11.setCondition("out11");
 
 		ParameterAssignment assOut12 = f.createParameterAssignment();
 		assOut12.setParameter(output2);
-		assOut12.setValue("out12");
 		assOut12.setCondition("out12");
 		tc1.getContents().addAll(Arrays.asList(assIn11, assIn12, assOut11, assOut12));
 
@@ -85,22 +97,18 @@ public class TestSkeletonTest {
 
 		ParameterAssignment assIn21 = f.createParameterAssignment();
 		assIn21.setParameter(input1);
-		assIn21.setValue("in21");
 		assIn21.setCondition("in21");
 
 		ParameterAssignment assIn22 = f.createParameterAssignment();
 		assIn22.setParameter(input2);
-		assIn22.setValue("in22");
 		assIn22.setCondition("in22");
 
 		ParameterAssignment assOut21 = f.createParameterAssignment();
 		assOut21.setParameter(output1);
-		assOut21.setValue("out21");
 		assOut21.setCondition("out21");
 
 		ParameterAssignment assOut22 = f.createParameterAssignment();
 		assOut22.setParameter(output2);
-		assOut22.setValue("out22");
 		assOut22.setCondition("out22");
 		tc2.getContents().addAll(Arrays.asList(assIn21, assIn22, assOut21, assOut22));
 
