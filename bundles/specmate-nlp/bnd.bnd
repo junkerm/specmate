@@ -94,7 +94,6 @@ Private-Package: \
     org.apache.uima.flow,\
 	org.apache.uima.flow.impl,\
 	org.apache.uima.impl,\
-	org.apache.uima.internal.util,\
 	org.apache.uima.internal.util.rb_trees,\
 	org.apache.uima.jcas.impl,\
 	org.apache.uima.pear.tools,\
@@ -240,13 +239,13 @@ Private-Package: \
 	org.codehaus.plexus.util.xml
 	
 Import-Package: \
-	javax.annotation.meta;resolution:=optional ,\
-	org.apache.maven.*;resolution:=optional ,\
-	org.apache.tools.ant.*;resolution:=optional ,\
-	kotlin.*;resolution:=optional ,\
-	joptsimple.*;resolution:=optional ,\
-	groovy.*;resolution:=optional ,\
-	org.aspectj.*;resolution:=optional ,\
+	javax.annotation.meta;resolution:=optional,\
+	org.apache.maven.*;resolution:=optional,\
+	org.apache.tools.ant.*;resolution:=optional,\
+	kotlin.*;resolution:=optional,\
+	joptsimple.*;resolution:=optional,\
+	groovy.*;resolution:=optional,\
+	org.aspectj.*;resolution:=optional,\
 	org.springframework.instrument.*;resolution:=optional,\
 	org.springframework.objenesis.*;resolution:=optional,\
 	org.springframework.cglib.*;resolution:=optional,\
@@ -273,8 +272,9 @@ Export-Package: \
 	com.specmate.nlp.api,\
 	org.apache.uima.cas,\
 	com.specmate.nlp.dependency.matcher,\
-	com.specmate.nlp.dependency,\
+	com.specmate.causeeffectpatterns.dependency,\
 	com.specmate.nlp.util,\
+	org.apache.uima.internal.util,\
 	org.apache.uima.jcas,\
 	org.apache.uima.fit.util,\
 	org.apache.uima.cas.text,\
