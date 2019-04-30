@@ -83,11 +83,11 @@ export class ElementTree implements OnInit {
 
     public _expanded = false;
     public get expanded(): boolean {
-        /* if (this.collapsed) {
+        if (this._collapsed) {
             if (!this._expanded && this.isMustOpen) {
                  this._expanded = true;
             }
-        } */
+        }
         return this._expanded;
     }
     public set expanded(expanded: boolean) {
@@ -117,7 +117,7 @@ export class ElementTree implements OnInit {
         }
     }
 
-    private _collapsed = false;
+    private _collapsed = true;
 
     public get collapsed(): boolean {
         return this._collapsed;
@@ -129,12 +129,12 @@ export class ElementTree implements OnInit {
 
     public toggle(): void {
         if (this.expanded) {
+            this._collapsed = true;
             this.contract();
-            this.collapsed = true;
             console.log('Collapsed' + this.element.id);
+            this._collapsed = false;
         } else {
             this.expand();
-            this.collapsed = false;
             console.log('NOT Collapsed' + this.element.id);
         }
     }
@@ -143,16 +143,13 @@ export class ElementTree implements OnInit {
     private collapse(): void {
         /*
             TODO:
-            Check if collapse happened in a parent folder 
-
-        */ 
-
-        if (!this.expanded && this.isMustOpen && this.collapsed) { 
+            Check if collapse happened in a parent folder
+        */
+        if (!this.expanded && this.isMustOpen && this.collapsed) {
              if (this.navigator.hasNavigated) {
                  // Es wurde navigiert, klappe den Tree aus
-                 
              }
-        }   
+        }
     }
 
     private expand(): void {
