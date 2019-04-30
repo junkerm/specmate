@@ -136,18 +136,26 @@ public class RequirementOverviewElements {
 	}
 	
 	public boolean checkForDeletedModel(String modelName) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ceg-model-container")));
 		return isElementPresent(By.id("requirement-" + modelName + "-deletemodel-button"));
 	}
 	
 	public boolean checkForDeletedDuplicateModel(String modelName) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ceg-model-container")));
 		return isElementPresent(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button"));
 	}
 	
 	public boolean checkForDeletedProcess(String processName) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ceg-model-container")));
 		return isElementPresent(By.id("requirement-" + processName + "-deleteprocess-button"));
 	}
 	
 	public boolean checkForDeletedDuplicateProcess(String processName) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ceg-model-container")));
 		return isElementPresent(By.id("requirement-Copy 1 of " + processName + "-deleteprocess-button"));
 	}
 
