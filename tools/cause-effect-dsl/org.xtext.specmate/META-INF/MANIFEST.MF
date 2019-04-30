@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: org.xtext.specmate
+Bundle-ManifestVersion: 2
+Bundle-Name: org.xtext.specmate
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: org.xtext.specmate; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtext.util,
+ org.eclipse.emf.common,
+ org.eclipse.xtend.lib;bundle-version="2.14.0",
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.xtext.specmate.parser.antlr,
+ org.xtext.specmate.validation,
+ org.xtext.specmate.scoping,
+ org.xtext.specmate,
+ org.xtext.specmate.parser.antlr.internal,
+ org.xtext.specmate.specDSL,
+ org.xtext.specmate.serializer,
+ org.xtext.specmate.generator,
+ org.xtext.specmate.specDSL.impl,
+ org.xtext.specmate.specDSL.util,
+ org.xtext.specmate.services
+Import-Package: org.apache.log4j,
+ org.xtext.specmate.specDSL

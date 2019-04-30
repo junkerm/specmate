@@ -94,5 +94,4 @@ export class TestParameterForm extends SimpleInputFormBase {
         }
         return this.testParameters.length > 1;
     }
-
 }

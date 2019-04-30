@@ -21,6 +21,7 @@ import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
+import com.specmate.nlp.util.NLPUtil;
 
 import de.tudarmstadt.ukp.dkpro.core.maltparser.MaltParser;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpChunker;
@@ -145,6 +146,7 @@ public class NLPServiceImpl implements INLPService {
 			// Catch any kind of runtime or checked exception
 			throw new SpecmateInternalException(ErrorCode.NLP, "NLP: Tagging failed. Reason: " + e.getMessage());
 		}
+		NLPUtil.refineNpChunks(jcas);
 		return jcas;
 	}
 

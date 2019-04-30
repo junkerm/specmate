@@ -1,6 +1,7 @@
 import { IContainer } from '../model/IContainer';
 import { MetaInfo } from '../model/meta/field-meta';
 import { ElementValidatorBase } from './element-validator-base';
+import { ValidationErrorSeverity } from './validation-error-severity';
 import { ValidationMessage } from './validation-message';
 import { ValidationResult } from './validation-result';
 
@@ -20,7 +21,7 @@ export class ValidNameValidator extends ElementValidatorBase<IContainer> {
         }
         if (!element.name.match(validName)) {
             let message = ValidationMessage.ERROR_INVALID_NAME;
-            return new ValidationResult(message, false, [element]);
+            return new ValidationResult(message, false, [element], ValidationErrorSeverity.SAVE_DISABLED);
         }
         return ValidationResult.VALID;
     }
