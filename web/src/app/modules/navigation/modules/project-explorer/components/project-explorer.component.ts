@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -126,13 +126,6 @@ export class ProjectExplorer implements OnInit {
         this._rootLibraries = undefined;
         this.searchQueries = undefined;
         this.searchResults = undefined;
-    }
-
-
-    @ViewChild('searchBox') searchBox: ElementRef;
-
-    clearSearch() {
-        this.searchBox.nativeElement.value = null;
     }
 
     public get projectName(): string {
