@@ -1,4 +1,4 @@
-package SpecmatePageClasses;
+package com.specmate.uitests.pagemodel;
 
 import java.util.concurrent.TimeUnit;
 
@@ -8,13 +8,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-//Page Class
-//Requirements Overview
+/**
+ * Page Class
+ * Requirements Overview
+ */
 public class RequirementOverviewElements {
 
 	WebDriver driver;
 	
-	//Elements and their locators
+	/**Elements and their locators*/
 	By createModel = By.id("requirement-createmodel-button");
 	By createProcessModel = By.id("requirement-createprocess-button");
 	By createTestSpec = By.id("requirement-createtestspec-button");
@@ -22,12 +24,11 @@ public class RequirementOverviewElements {
 	By cegModelInputField = By.id("cegModelNameForm");
 	By processModelInputField = By.id("processModelNameForm");
 	
-	//Pop-Up Elements and their locators
+	/**Pop-Up Elements and their locators*/ 
 	By discard = By.id("popup-accept-button");
 	By cancel = By.id("popup-dismiss-button");
 	
 	public RequirementOverviewElements(WebDriver driver1) {
-		
 		this.driver = driver1; 
 	}
 	
@@ -118,7 +119,7 @@ public class RequirementOverviewElements {
 		driver.findElement(By.id("requirement-" + testSpecName + "-deletetestspec-button")).click();
 	}
 	
-	// Generate test specification for a given model
+	/**Generate test specification for a given model*/
 	public void generateTestSpecification(String modelName) {
 		driver.findElement(By.id(modelName + "-generate-testspec-button")).click();
 	}
@@ -132,6 +133,22 @@ public class RequirementOverviewElements {
 		driver.navigate().refresh();
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("related-requirements-container")));
+	}
+	
+	public boolean checkForDeletedModel(String modelName) {
+		return isElementPresent(By.id("requirement-" + modelName + "-deletemodel-button"));
+	}
+	
+	public boolean checkForDeletedDuplicateModel(String modelName) {
+		return isElementPresent(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button"));
+	}
+	
+	public boolean checkForDeletedProcess(String processName) {
+		return isElementPresent(By.id("requirement-" + processName + "-deleteprocess-button"));
+	}
+	
+	public boolean checkForDeletedDuplicateProcess(String processName) {
+		return isElementPresent(By.id("requirement-Copy 1 of " + processName + "-deleteprocess-button"));
 	}
 
 	protected boolean isElementPresent(By selector) {

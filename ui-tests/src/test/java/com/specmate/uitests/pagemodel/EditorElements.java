@@ -1,4 +1,4 @@
-package SpecmatePageClasses;
+package com.specmate.uitests.pagemodel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,26 +13,30 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+/**
+ * Page Class
+ * Editor Elements
+ */
 public class EditorElements {
 	protected WebDriver driver;
 	protected Actions builder;
 	
-	// Property Editor Elements and their locators
+	/**Property Editor Elements and their locators*/
 	protected By propertiesName = By.id("properties-name-textfield");
 	protected By propertiesDescription = By.id("properties-description-textfield");
 	protected By propertiesCondition = By.id("properties-condition-textfield");
 	
-	// Editor elements
+	/**Editor elements*/
 	protected By toolbarMove = By.id("toolbar-tools.select-button");
 	protected By toolbarDelete = By.id("toolbar-tools.delete-button");
 	protected By toolbarClear = By.id("toolbar-clear-button");
 	protected By editor = By.id("editor-field");
 	
-	// Pop-Up Elements and their locators
+	/**Pop-Up Elements and their locators*/
 	protected By accept = By.id("popup-accept-button");
 	protected By cancel = By.id("popup-dismiss-button");
 	
-	// Links & Actions
+	/**Links & Actions*/
 	By generateTestSpec = By.id("generatetestspec-button");
 	By relatedRequirement = By.id("traces-addrequirement-textfield");
 	

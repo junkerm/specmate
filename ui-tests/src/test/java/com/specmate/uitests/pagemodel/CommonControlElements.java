@@ -1,14 +1,17 @@
-package SpecmatePageClasses;
+package com.specmate.uitests.pagemodel;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-//Page Class
+/**
+ * Page Class
+ * Common Control Elements
+ */
 public class CommonControlElements {
 	
 	WebDriver driver;
 	
-	//Elements and their locators
+	/**Elements and their locators*/
 	By specmate = By.id("commoncontrol-specmate-button");
 	By save = By.id("commoncontrol-save-button");
 	By undo = By.id("commoncontrol-undo-button");
@@ -21,8 +24,7 @@ public class CommonControlElements {
 	
 	
 	public CommonControlElements(WebDriver driver1) {
-		
-		this.driver = driver1; //constructor
+		this.driver = driver1;
 	}
 	
 	/**click on specmate icon*/

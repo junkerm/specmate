@@ -1,17 +1,17 @@
-package de.qualicen.maven.ui_tests;
+package com.specmate.uitests;
 
 import org.junit.Test;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import java.sql.Timestamp;
+import com.specmate.uitests.pagemodel.CEGEditorElements;
+import com.specmate.uitests.pagemodel.CommonControlElements;
+import com.specmate.uitests.pagemodel.LoginElements;
+import com.specmate.uitests.pagemodel.ProjectExplorerElements;
+import com.specmate.uitests.pagemodel.RequirementOverviewElements;
 
-import SpecmatePageClasses.CEGEditorElements;
-import SpecmatePageClasses.CommonControlElements;
-import SpecmatePageClasses.LoginElements;
-import SpecmatePageClasses.ProjectExplorerElements;
-import SpecmatePageClasses.RequirementOverviewElements;
+import java.sql.Timestamp;
 
 import static org.junit.Assert.*;
 
@@ -39,10 +39,7 @@ public class ModelEditorTest extends TestBase {
 		driver.get("http://localhost:8080/");
 		
 		if(!login.isLoggedIn()) {
-			login.username("username");
-			login.password("password");
-			login.changeToProject("test-data");
-			login.login(); 
+			performLogin(login); 
 			assertTrue(login.isLoggedIn());
 		} 
 			
@@ -68,19 +65,6 @@ public class ModelEditorTest extends TestBase {
 		
 		// Check if error message is hidden (Assert false)
 		assertTrue(cegEditor.noWarningsMessageDisplayed());
-		
-		// Last action was creating a connection, so the connection should be removed
-		/*
-		commonControl.undo();
-		
-		// Check if we have only one connection (Assert true)
-		assertTrue(cegEditor.checkUndoConnection());
-		
-		// Redo connecting the two nodes
-		cegEditor.connect(nodeFS, nodeAutofahren); */
-		
-		// Move CEG node
-		//cegEditor.moveCEGNode(nodeFS, 100, 450);
 		
 		// Negate Connection
 		cegEditor.toggleNegateButtonOnLastConnection();
@@ -122,8 +106,11 @@ public class ModelEditorTest extends TestBase {
 		// Delete duplicate
 		cegEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
 		requirementOverview.deleteDuplicateModel(modelName);
+		// The requirement should be deleted, thus, assertFalse is used
+		assertFalse(requirementOverview.checkForDeletedDuplicateModel(modelName));
 
 		// Delete created model 
 		requirementOverview.deleteModel(modelName);		
+		assertFalse(requirementOverview.checkForDeletedModel(modelName));
 	 }
 }

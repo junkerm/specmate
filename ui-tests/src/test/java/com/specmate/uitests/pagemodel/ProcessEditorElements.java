@@ -1,4 +1,4 @@
-package SpecmatePageClasses;
+package com.specmate.uitests.pagemodel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+/**
+ * Page Class
+ * Process Editor Elements
+ */
 public class ProcessEditorElements extends EditorElements {
 
 	By toolbarStep = By.id("toolbar-tools.addStep-button");

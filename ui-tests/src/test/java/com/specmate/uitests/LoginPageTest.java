@@ -1,8 +1,9 @@
-package de.qualicen.maven.ui_tests;
+package com.specmate.uitests;
 
-import SpecmatePageClasses.*;
 import org.junit.Test;
 import org.openqa.selenium.InvalidElementStateException;
+
+import com.specmate.uitests.pagemodel.*;
 
 import static org.junit.Assert.*;
 
@@ -23,12 +24,7 @@ public class LoginPageTest extends TestBase {
 			
 		LoginElements login = new LoginElements(driver);
 			
-		login.username("username");
-		login.password("password");
-		login.changeToEnglish();
-		login.changeToGerman();
-		login.changeToProject("test-data");
-		login.login(); 
+		performLogin(login);
 
 		assertTrue(login.isLoggedIn());
 	 }

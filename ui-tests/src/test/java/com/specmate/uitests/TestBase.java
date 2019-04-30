@@ -1,4 +1,4 @@
-package de.qualicen.maven.ui_tests;
+package com.specmate.uitests;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
 
@@ -13,6 +13,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.saucelabs.junit.SauceOnDemandTestWatcher;
+import com.specmate.uitests.pagemodel.LoginElements;
 
 import java.net.URL;
 import java.util.LinkedList;
@@ -31,7 +32,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
    
     public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication();
 
-    //Mark the Sauce Job as passed/failed when the test succeeds or fails
+    /**Mark the Sauce Job as passed/failed when the test succeeds or fails*/
     @Rule
     public SauceOnDemandTestWatcher resultReportingTestWatcher = new SauceOnDemandTestWatcher(this, authentication);
 
@@ -51,7 +52,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     protected WebDriver driver;
 
  
-    // Constructor for test instances
+    /**Constructor for test instances*/
     public TestBase(String os, String version, String browser, String deviceName, String deviceOrientation) {
         super();
         this.os = os;
@@ -61,7 +62,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
         this.deviceOrientation = deviceOrientation;
     }
 
-    // Browser configurations
+    /**Browser configurations*/
     @Parameters
     public static LinkedList<String[]> browsersStrings() {
         LinkedList<String[]> browsers = new LinkedList<String[]>();
@@ -118,4 +119,13 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
             buildTag = System.getenv("SAUCE_BUILD_NAME");
         }
     }
+    
+	public void performLogin(LoginElements login) {
+		login.username("username");
+		login.password("password");
+		login.changeToEnglish();
+		login.changeToGerman();
+		login.changeToProject("test-data");
+		login.login();
+	}
 }

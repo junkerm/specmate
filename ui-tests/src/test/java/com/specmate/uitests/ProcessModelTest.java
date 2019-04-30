@@ -1,4 +1,4 @@
-package de.qualicen.maven.ui_tests;
+package com.specmate.uitests;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -10,11 +10,11 @@ import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import SpecmatePageClasses.CommonControlElements;
-import SpecmatePageClasses.LoginElements;
-import SpecmatePageClasses.ProcessEditorElements;
-import SpecmatePageClasses.ProjectExplorerElements;
-import SpecmatePageClasses.RequirementOverviewElements;
+import com.specmate.uitests.pagemodel.CommonControlElements;
+import com.specmate.uitests.pagemodel.LoginElements;
+import com.specmate.uitests.pagemodel.ProcessEditorElements;
+import com.specmate.uitests.pagemodel.ProjectExplorerElements;
+import com.specmate.uitests.pagemodel.RequirementOverviewElements;
 
 public class ProcessModelTest extends TestBase {
 
@@ -39,10 +39,7 @@ public class ProcessModelTest extends TestBase {
 		driver.get("http://localhost:8080/");
 		
 		if(!login.isLoggedIn()) {
-			login.username("username");
-			login.password("password");
-			login.changeToProject("test-data");
-			login.login(); 
+			performLogin(login); 
 			assertTrue(login.isLoggedIn());
 		} 
 			
@@ -50,9 +47,9 @@ public class ProcessModelTest extends TestBase {
 		projectExplorer.expand("Evaluation");
 		projectExplorer.open("Erlaubnis Autofahren");
 		
-		// Creating and opening new model
-		String modelName = "Process Model By Automated UI Test " +  new Timestamp(System.currentTimeMillis());
-		requirementOverview.createProcessModelFromRequirement(modelName);		
+		// Creating and opening new process
+		String processName = "Process Model By Automated UI Test " +  new Timestamp(System.currentTimeMillis());
+		requirementOverview.createProcessModelFromRequirement(processName);		
 
 		// Create Start node
 		WebElement startNode = processEditor.createStart(300, 50);
@@ -130,20 +127,22 @@ public class ProcessModelTest extends TestBase {
 		// Assert that the related requirement is shown in the requirement overview
 		assertTrue(requirementOverview.checkForRelatedRequirement());
 		
-		requirementOverview.clickOnCreatedProcess(modelName);
+		requirementOverview.clickOnCreatedProcess(processName);
 
 		// Duplicate process
 		processEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
-		requirementOverview.duplicateProcess(modelName);
+		requirementOverview.duplicateProcess(processName);
 		// Click on it, to check if the duplication created a new model
-		requirementOverview.clickOnDuplicateProcess(modelName);
+		requirementOverview.clickOnDuplicateProcess(processName);
 
 		// Delete duplicate
 		processEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
-		requirementOverview.deleteDuplicateProcess(modelName);
+		requirementOverview.deleteDuplicateProcess(processName);
+		assertFalse(requirementOverview.checkForDeletedDuplicateProcess(processName));
 
 		// Delete created process
-		requirementOverview.deleteProcess(modelName);
+		requirementOverview.deleteProcess(processName);
+		assertFalse(requirementOverview.checkForDeletedProcess(processName));
 
 		requirementOverview.refreshRequirementOverviewPage();
 

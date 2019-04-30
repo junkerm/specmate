@@ -1,17 +1,17 @@
-package SpecmatePageClasses;
+package com.specmate.uitests.pagemodel;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-//Page Class
+/** 
+ * Page Class
+ */
 public class ProjectExplorerElements {
 	WebDriver driver;
 	
 	
 	public ProjectExplorerElements(WebDriver driver1) {
-		
-		this.driver = driver1; //constructor
-		
+		this.driver = driver1;
 	}
 	
 	/**open element <name> in the editor or in detailed view

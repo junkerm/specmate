@@ -1,4 +1,4 @@
-package SpecmatePageClasses;
+package com.specmate.uitests.pagemodel;
 
 import java.util.Objects;
 
@@ -8,12 +8,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-//Page Class
+/**
+ * Page Class
+ * Login Elements
+ */
 public class LoginElements {
 	
 	WebDriver driver;
 	
-	//Elements and their locators
+	/**Elements and their locators*/
 	By username = By.id("login-username-textfield");
 	By password = By.id("login-password-textfield");
 	By login = By.id("login-button");
@@ -24,8 +27,7 @@ public class LoginElements {
 	
 	
 	public LoginElements(WebDriver driver1) {
-		
-		this.driver = driver1; //constructor
+		this.driver = driver1;
 	}
 	
 	/**enter username to username field*/

@@ -1,4 +1,4 @@
-package SpecmatePageClasses;
+package com.specmate.uitests.pagemodel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +10,17 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-//Page Class
+/**
+ * Page Class
+ * CEG Editor Elements
+ */
 public class CEGEditorElements extends EditorElements {
 
-	// Editor Elements and their locators
+	/**Editor Elements and their locators*/
 	By toolbarNode = By.id("toolbar-tools.addCegNode-button");
 	By toolbarConnection = By.id("toolbar-tools.addCegConnection-button");
 
-	// Property Editor Elements and their locators
+	/**Property Editor Elements and their locators*/
 	By propertiesVariable = By.id("properties-variable-textfield");
 	By propertiesCondition = By.id("properties-condition-textfield");
 	By propertiesType = By.id("properties-type-dropdown");
