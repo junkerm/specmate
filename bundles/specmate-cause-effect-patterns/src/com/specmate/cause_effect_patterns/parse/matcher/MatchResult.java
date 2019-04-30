@@ -2,6 +2,7 @@ package com.specmate.cause_effect_patterns.parse.matcher;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
@@ -23,12 +24,13 @@ public class MatchResult {
 	private boolean isSuccessfulMatch;
 	private Map<String, MatchResult> submatch;
 	private DependencyParsetree matchTree;
-	
+	private Optional<String> ruleName;
 	
 	private MatchResult(boolean success, DependencyParsetree matchTree) {
 		this.matchTree = matchTree;
 		this.isSuccessfulMatch = success;
 		this.submatch = new HashMap<String, MatchResult>();
+		this.ruleName = Optional.empty();
 	}
 	
 	private MatchResult(boolean success) {
@@ -37,6 +39,24 @@ public class MatchResult {
 	
 	private MatchResult() {
 		this(false);
+	}
+	
+	public void setRuleName(String ruleName) {
+		this.ruleName = Optional.of(ruleName);
+		for(String sub: this.submatch.keySet()) {
+			MatchResult subRes = this.submatch.get(sub);
+			if(!subRes.hasRuleName()) {
+				subRes.setRuleName(ruleName);
+			}
+		}
+	}
+	
+	public boolean hasRuleName() {
+		return this.ruleName.isPresent();
+	}
+	
+	public String getRuleName() {
+		return this.ruleName.get();
 	}
 	
 	public boolean isSuccessfulMatch() {
