@@ -52,7 +52,7 @@ export class LanguageChooser implements OnInit {
     public set language(language: string) {
         this.translate.use(language);
         this.setLangAttr(language);
-        this.storeInCookie();
+        this.storeInCookie(language);
     }
 
     public get language(): string {
@@ -71,8 +71,8 @@ export class LanguageChooser implements OnInit {
         return Config.LANGUAGE_CHOOSER_ENABLED;
     }
 
-    private storeInCookie(): void {
-        this.cookie.put(LanguageChooser.LANGUAGE_KEY, this.language);
+    private storeInCookie(language: string): void {
+        this.cookie.put(LanguageChooser.LANGUAGE_KEY, language);
     }
 
     private setLangAttr(language: string): void {
