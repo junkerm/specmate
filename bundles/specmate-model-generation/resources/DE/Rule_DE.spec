@@ -143,10 +143,14 @@ def rule Condition14_2 {
 	[Effect] - KON -> [Cause]
 }
 
+// Für alle Computer mit deutscher Tastertur gibt es eine Dokumentation.
+def rule Condition15 {
+	[Effect] - PP -> APPR:'für' - PN -> [Cause] - DET -> PIAT:'alle'
+}
 
 // TODO Das Werkzeug zeigt ein Fenster an, auch wenn das Werkzeug einen Fehler findet.
 // TODO Auch wenn das Werkzeug einen Fehler findet, zeigt das Werkzeug einen Fehler an.
-//def rule Condition15{
+//def rule Condition16{
 //	[Effect] - ADV -> ADV:'auch' - UNKOWN -> [Cause] - KONJ -> KOUS:'wenn'
 //}
 

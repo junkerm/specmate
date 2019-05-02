@@ -1,4 +1,4 @@
--includeresource: 
+-includeresource: \
 	resources = resources
 -buildpath: \
 	osgi.core,\
@@ -17,5 +17,7 @@
 	specmate-common;version=latest,\
 	specmate-model-support;version=latest,\
 	org.apache.commons.lang3,\
-	specmate-cause-effect-patterns;version=latest
-Private-Package: com.specmate.modelgeneration
+	specmate-cause-effect-patterns
+Private-Package: \
+	com.specmate.modelgeneration,\
+	com.specmate.modelgeneration.hardcoded

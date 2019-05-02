@@ -1,4 +1,4 @@
-package com.specmate.modelgeneration;
+package com.specmate.modelgeneration.hardcoded;
 
 import java.util.List;
 import java.util.Optional;

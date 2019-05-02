@@ -1,4 +1,4 @@
-package com.specmate.modelgeneration;
+package com.specmate.modelgeneration.hardcoded;
 
 import org.osgi.service.log.LogService;
 

@@ -1,4 +1,4 @@
-package com.specmate.modelgeneration;
+package com.specmate.modelgeneration.hardcoded;
 
 import java.util.Collection;
 import java.util.StringJoiner;

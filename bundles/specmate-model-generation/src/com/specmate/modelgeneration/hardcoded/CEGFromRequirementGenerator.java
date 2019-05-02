@@ -1,4 +1,4 @@
-package com.specmate.modelgeneration;
+package com.specmate.modelgeneration.hardcoded;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +18,8 @@ import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
+import com.specmate.modelgeneration.CEGCreation;
+import com.specmate.modelgeneration.ICEGFromRequirementGenerator;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
@@ -34,7 +36,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
  * @author Andreas Wehrle
  *
  */
-public abstract class CEGFromRequirementGenerator {
+public abstract class CEGFromRequirementGenerator implements ICEGFromRequirementGenerator {
 
 	private LogService logService;
 	protected INLPService tagger;
