@@ -2,14 +2,19 @@
     <span aria-hidden="true">&times;</span>
 </button>
 
-<form *ngIf="checkboxGroupForm" [formGroup]="checkboxGroupForm">
-    <div class="btn-group" data-toggle="buttons">
-        <label *ngFor="let severityName of severityNames" class="btn btn-sm" [title]="severityName" style="min-width: 200px;" ngbButtonLabel [ngClass]="'btn-' + color(severityName)" [class.active]="isChecked(severityName)">
-            <input type="checkbox" [formControlName]="severityName" style="visibility: collapse">
-            <i class="pull-left fa" [class.fa-square]="!isChecked(severityName)" [class.fa-check-square]="isChecked(severityName)" aria-hidden="true"></i>&nbsp;<i class="fa" [ngClass]="'fa-' + icon(severityName)" aria-hidden="true"></i>&nbsp;{{severityName}}
-        </label>
-    </div>
-</form>
+<div class="input-group input-group-sm">
+    <form *ngIf="checkboxGroupForm" [formGroup]="checkboxGroupForm">
+        <div class="btn-group" data-toggle="buttons">
+            <label *ngFor="let severityName of severityNames" class="btn" [title]="severityName" style="min-width: 200px;"
+                ngbButtonLabel [ngClass]="'btn-' + color(severityName)" [class.active]="isChecked(severityName)">
+                <input type="checkbox" [formControlName]="severityName" style="visibility: collapse">
+                <i class="pull-left fa" [class.fa-square]="!isChecked(severityName)" [class.fa-check-square]="isChecked(severityName)"
+                    aria-hidden="true"></i>&nbsp;<i class="fa" [ngClass]="'fa-' + icon(severityName)" aria-hidden="true"></i>&nbsp;{{severityName}}
+            </label>
+        </div>
+    </form>
+</div>
 <ul class="list-group">
-    <li log-entry *ngFor="let logElement of log" class="list-group-item list-group-item-action flex-column align-items-start" [logElement]="logElement"></li>
+    <li log-entry *ngFor="let logElement of log" class="list-group-item list-group-item-action flex-column align-items-start"
+        [logElement]="logElement"></li>
 </ul>

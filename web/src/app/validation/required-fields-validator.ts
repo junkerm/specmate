@@ -1,7 +1,7 @@
-import { ElementValidatorBase } from './element-validator-base';
 import { IContainer } from '../model/IContainer';
-import { ValidationResult } from './validation-result';
+import { ElementValidatorBase } from './element-validator-base';
 import { ValidationMessage } from './validation-message';
+import { ValidationResult } from './validation-result';
 
 export class RequiredFieldsValidator extends ElementValidatorBase<IContainer> {
 

@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { CEGNode } from '../../../../../../model/CEGNode';
 import { IContainer } from '../../../../../../model/IContainer';
+import { Type } from '../../../../../../util/type';
 import { ValidationResult } from '../../../../../../validation/validation-result';
 import { AdditionalInformationService } from '../../links-actions/services/additional-information.service';
 import { SelectedElementService } from '../../selected-element/services/selected-element.service';
-import { Type } from '../../../../../../util/type';
-import { CEGNode } from '../../../../../../model/CEGNode';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: '[warning]',

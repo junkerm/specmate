@@ -1,15 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ISpecmateModelObject } from '../../../../../model/ISpecmateModelObject';
-import { Folder } from '../../../../../model/Folder';
 import { CEGModel } from '../../../../../model/CEGModel';
+import { Folder } from '../../../../../model/Folder';
+import { IContainer } from '../../../../../model/IContainer';
 import { Process } from '../../../../../model/Process';
 import { Requirement } from '../../../../../model/Requirement';
-import { TestSpecification } from '../../../../../model/TestSpecification';
 import { TestProcedure } from '../../../../../model/TestProcedure';
+import { TestSpecification } from '../../../../../model/TestSpecification';
 import { Type } from '../../../../../util/type';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { Url } from '../../../../../util/url';
-import { IContainer } from '../../../../../model/IContainer';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 
 @Component({
     selector: 'icon-selector',

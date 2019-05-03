@@ -1,10 +1,9 @@
-import { ModelFactoryBase } from './model-factory-base';
-import { IContainer } from '../model/IContainer';
-import { Folder } from '../model/Folder';
 import { Config } from '../config/config';
-import { ElementFactoryBase } from './element-factory-base';
+import { Folder } from '../model/Folder';
+import { IContainer } from '../model/IContainer';
 import { Id } from '../util/id';
 import { Url } from '../util/url';
+import { ElementFactoryBase } from './element-factory-base';
 
 export class FolderFactory extends ElementFactoryBase<Folder> {
 

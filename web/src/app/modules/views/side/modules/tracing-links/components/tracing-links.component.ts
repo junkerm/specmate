@@ -1,18 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/filter';
+import { Component } from '@angular/core';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
-import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
-import { SelectedElementService } from '../../selected-element/services/selected-element.service';
+import { Observable } from 'rxjs';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
+import { of } from 'rxjs/observable/of';
 import { IContainer } from '../../../../../../model/IContainer';
 import { ISpecmateModelObject } from '../../../../../../model/ISpecmateModelObject';
-import { TestSpecification } from '../../../../../../model/TestSpecification';
 import { Proxy } from '../../../../../../model/support/proxy';
-import { Id } from '../../../../../../util/id';
 import { Arrays } from '../../../../../../util/arrays';
+import { Id } from '../../../../../../util/id';
 import { Search } from '../../../../../../util/search';
+import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
+import { SelectedElementService } from '../../selected-element/services/selected-element.service';
 
 
 @Component({
@@ -21,6 +20,9 @@ import { Search } from '../../../../../../util/search';
     templateUrl: 'tracing-links.component.html'
 })
 export class TracingLinks {
+
+    public searching = false;
+    public searchFailed = false;
 
     /** is the control collapsed? */
     public isCollapsed = false;

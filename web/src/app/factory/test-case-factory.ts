@@ -1,13 +1,12 @@
-import { ElementFactoryBase } from './element-factory-base';
-import { TestCase } from '../model/TestCase';
-import { SpecmateDataService } from '../modules/data/modules/data-service/services/specmate-data.service';
+import { Config } from '../config/config';
 import { IContainer } from '../model/IContainer';
+import { TestCase } from '../model/TestCase';
+import { TestParameter } from '../model/TestParameter';
+import { SpecmateDataService } from '../modules/data/modules/data-service/services/specmate-data.service';
 import { Id } from '../util/id';
 import { Url } from '../util/url';
-import { Config } from '../config/config';
-import { TestParameter } from '../model/TestParameter';
+import { ElementFactoryBase } from './element-factory-base';
 import { ParameterAssignmentFactory } from './parameter-assignment-factory';
-import { TranslateService } from '@ngx-translate/core';
 
 export class TestCaseFactory extends ElementFactoryBase<TestCase> {
 

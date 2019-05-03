@@ -1,13 +1,13 @@
-import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISpecmatePositionableModelObject';
-import { GraphicalNodeBase } from './graphical-node-base';
-import { Input, SecurityContext } from '@angular/core';
-import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { Input } from '@angular/core';
 import { Config } from '../../../../../../../config/config';
+import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISpecmatePositionableModelObject';
 import { Id } from '../../../../../../../util/id';
-import { Coords } from '../util/coords';
-import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { ValidationService } from '../../../../../../forms/modules/validation/services/validation.service';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
+import { Coords } from '../util/coords';
+import { GraphicalNodeBase } from './graphical-node-base';
 
 export abstract class DraggableElementBase<T extends ISpecmatePositionableModelObject> extends GraphicalNodeBase<T> {
     constructor(sel: SelectedElementService, val: ValidationService,

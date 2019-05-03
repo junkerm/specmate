@@ -1,8 +1,8 @@
-import { ModelFactoryBase } from './model-factory-base';
-import { IContainer } from '../model/IContainer';
-import { CEGModel } from '../model/CEGModel';
 import { Config } from '../config/config';
+import { CEGModel } from '../model/CEGModel';
+import { IContainer } from '../model/IContainer';
 import { ElementFactoryBase } from './element-factory-base';
+import { ModelFactoryBase } from './model-factory-base';
 
 export class CEGModelFactory extends ModelFactoryBase {
     protected get simpleModel(): IContainer {

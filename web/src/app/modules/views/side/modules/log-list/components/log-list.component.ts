@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ViewControllerService } from '../../../../controller/modules/view-controller/services/view-controller.service';
 import { LogPresentation } from '../base/log-presentation';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { ELogSeverity } from '../services/e-log-severity';
 import { LogElement } from '../services/log-element';
 import { LoggingService } from '../services/logging.service';
-import { ViewControllerService } from '../../../../controller/modules/view-controller/services/view-controller.service';
-import { ELogSeverity } from '../services/e-log-severity';
 
 @Component({
     moduleId: module.id.toString(),

@@ -3,7 +3,8 @@
         <span class="fa fa-language"></span>
     </button>
     <div ngbDropdownMenu aria-labelledby="languageDropDown">
-        <button id="language-{{otherLanguage}}" *ngFor="let otherLanguage of otherLanguages; let i = index" (click)="$event.stopPropagation(); language = otherLanguage; dropdownRef.close();" (focus)="setSelectionIndex(i)" (mouseenter)="setSelectionIndex(i)" class="dropdown-item {{i == selectionIndex ? 'active': ''}}">
+        <button id="language-{{otherLanguage}}" *ngFor="let otherLanguage of otherLanguages; let i = index" (click)="$event.stopPropagation(); language = otherLanguage; dropdownRef.close();"
+            (focus)="setSelectionIndex(i)" (mouseenter)="setSelectionIndex(i)" class="dropdown-item {{i == selectionIndex ? 'active': ''}}">
             <span class="flag-icon flag-icon-{{otherLanguage}}"></span>&nbsp;{{getLanguageName(otherLanguage)}}
         </button>
     </div>

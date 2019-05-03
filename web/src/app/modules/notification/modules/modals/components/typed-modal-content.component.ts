@@ -1,11 +1,11 @@
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, Input } from '@angular/core';
-import { ViewControllerService } from '../../../../views/controller/modules/view-controller/services/view-controller.service';
-import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
-import { Dialogtype } from '../modal-dialog-type';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
+import { ViewControllerService } from '../../../../views/controller/modules/view-controller/services/view-controller.service';
 import { ModalBase } from '../base/modal-base';
+import { Dialogtype } from '../modal-dialog-type';
 
 @Component({
     moduleId: module.id.toString(),

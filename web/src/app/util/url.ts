@@ -1,7 +1,7 @@
+import { ActivatedRouteSnapshot, NavigationExtras, Params, UrlSegment } from '@angular/router';
 import { Config } from '../config/config';
-import { Strings } from './strings';
-import { Params, Router, UrlSegment, ActivatedRouteSnapshot, NavigationExtras } from '@angular/router';
 import { UserToken } from '../modules/views/main/authentication/base/user-token';
+import { Strings } from './strings';
 
 export class Url {
 

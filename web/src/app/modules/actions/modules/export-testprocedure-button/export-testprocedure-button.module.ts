@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { ExportTestprocedureButton } from './components/export-testprocedure-button.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { TranslateModule } from '@ngx-translate/core';
+import { SpecmateSharedModule } from '../../../specmate/specmate.shared.module';
+import { ExportTestprocedureButton } from './components/export-testprocedure-button.component';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
     BrowserModule,
-    TranslateModule
+    SpecmateSharedModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
