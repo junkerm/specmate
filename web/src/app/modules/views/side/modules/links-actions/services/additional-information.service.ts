@@ -1,15 +1,15 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { Requirement } from '../../../../../../model/Requirement';
+import { Injectable } from '@angular/core';
+import { CEGModel } from '../../../../../../model/CEGModel';
 import { IContainer } from '../../../../../../model/IContainer';
+import { Process } from '../../../../../../model/Process';
+import { Requirement } from '../../../../../../model/Requirement';
+import { TestProcedure } from '../../../../../../model/TestProcedure';
 import { TestSpecification } from '../../../../../../model/TestSpecification';
+import { Sort } from '../../../../../../util/sort';
+import { Type } from '../../../../../../util/type';
+import { Url } from '../../../../../../util/url';
 import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../../../../navigation/modules/navigator/services/navigator.service';
-import { Sort } from '../../../../../../util/sort';
-import { Url } from '../../../../../../util/url';
-import { Type } from '../../../../../../util/type';
-import { TestProcedure } from '../../../../../../model/TestProcedure';
-import { CEGModel } from '../../../../../../model/CEGModel';
-import { Process } from '../../../../../../model/Process';
 import { AuthenticationService } from '../../../../main/authentication/modules/auth/services/authentication.service';
 
 @Injectable()
@@ -24,13 +24,18 @@ export class AdditionalInformationService {
             this.element = element;
             this.load();
         });
+        auth.authChanged.subscribe(() => this.reset());
+    }
+
+    private reset(): void {
+        this.element = undefined;
+        this.parents = undefined;
+        this._testSpecifications = undefined;
     }
 
     private async load(): Promise<void> {
-        await Promise.all([
-            this.loadParents(),
-            this.loadTestSpecifications()
-        ]);
+        await this.loadParents();
+        await this.loadTestSpecifications();
     }
 
     private async loadTestSpecifications(): Promise<void> {
@@ -60,8 +65,7 @@ export class AdditionalInformationService {
             url = Url.parent(url);
         }
 
-        const parentElements = await Promise.all(parentUrls.map(url => this.dataService.readElement(url)));
-        this.parents = parentElements;
+        this.parents = await Promise.all(parentUrls.map(url => this.dataService.readElement(url)));
     }
 
     public get hasAdditionalInformation(): boolean {
@@ -98,7 +102,7 @@ export class AdditionalInformationService {
     }
 
     public get canGenerateTestSpecifications(): boolean {
-        return this.element && this.isModel(this.element);
+        return this.element && ((this.isModel(this.element) && this.requirement !== undefined) || Type.is(this.element, Requirement));
     }
 
     public get canAddTestSpecifications(): boolean {
@@ -111,6 +115,10 @@ export class AdditionalInformationService {
 
     public get canExportTestspecification(): boolean {
         return Type.is(this.element, TestSpecification);
+    }
+
+    public get canGenerateCEGModel(): boolean {
+        return Type.is(this.element, CEGModel);
     }
 
     private isModel(element: IContainer): boolean {

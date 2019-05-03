@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "lib": [
+            "es2015",
+            "dom"
+        ],
+        "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "allowSyntheticDefaultImports": true,
+        "typeRoots": [
+            "../node_modules/@types"
+        ],
+        "types": [
+            "node"
+        ],
+        "baseUrl": "./",
+        "paths": {
+            "core-js/es7/reflect": [
+                "../node_modules/core-js/proposals/reflect-metadata"
+            ],
+            "core-js/es6/*": [
+                "../node_modules/core-js/es/*"
+            ],
+            "core-js/es6": [
+                "../node_modules/core-js/es"
+            ]
+        }
+    }
+}

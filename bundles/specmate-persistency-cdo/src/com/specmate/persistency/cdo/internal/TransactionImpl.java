@@ -1,5 +1,7 @@
 package com.specmate.persistency.cdo.internal;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,12 +14,13 @@ import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.net4j.util.concurrent.TimeoutRuntimeException;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.common.exception.SpecmateValidationException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.INamed;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -25,6 +28,11 @@ import com.specmate.persistency.IChange;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.event.EChangeKind;
+import com.specmate.persistency.validation.ConnectionValidator;
+import com.specmate.persistency.validation.IDValidator;
+import com.specmate.persistency.validation.NameValidator;
+import com.specmate.persistency.validation.TextLengthValidator;
+import com.specmate.persistency.validation.TopLevelValidator;
 import com.specmate.rest.RestResult;
 
 /**
@@ -40,6 +48,11 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	/* Listeners that are notified on commits */
 	private List<IChangeListener> changeListeners;
+
+	private List<IChangeListener> validators;
+
+	private boolean validatorsEnabled;
+
 	private IStatusService statusService;
 
 	public TransactionImpl(CDOPersistencyService persistency, CDOTransaction transaction, String resourceName,
@@ -48,8 +61,15 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		this.transaction = transaction;
 		this.logService = logService;
 		this.statusService = statusService;
-		this.changeListeners = listeners;
+		changeListeners = listeners;
 
+		validators = new ArrayList<>();
+		validators.add(new IDValidator());
+		validators.add(new NameValidator());
+		validators.add(new TextLengthValidator());
+		validators.add(new ConnectionValidator());
+		validators.add(new TopLevelValidator());
+		validatorsEnabled = true;
 	}
 
 	@Override
@@ -63,13 +83,14 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	private <T> void commit(T object) throws SpecmateException {
 		if (!isActive()) {
-			throw new SpecmateException("Attempt to commit but transaction is not active");
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY,
+					"Attempt to commit but transaction is not active.");
 		}
 		if (!isDirty()) {
 			return;
 		}
 		if (statusService != null && statusService.getCurrentStatus().isReadOnly()) {
-			throw new SpecmateException("Attempt to commit when in read-only mode");
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Attempt to commit when in read-only mode.");
 		}
 		try {
 			List<CDOIDAndVersion> detachedObjects;
@@ -79,43 +100,27 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				for (CDOIDAndVersion id : detachedObjects) {
 					SpecmateEcoreUtil.unsetAllReferences(transaction.getObject(id.getID()));
 				}
-			} catch (SpecmateException s) {
-				try {
-					rollback();
-				} catch (SpecmateException rbe) {
-				}
-				throw (new SpecmateException("Error while preparing commit, transaction rolled back", s));
+			} catch (SpecmateValidationException s) {
+				transaction.rollback();
+				logService.log(LogService.LOG_ERROR, "Error during commit due to invalid data.", s);
+				throw s;
 			}
 			setMetadata(object, detachedObjects);
 			transaction.commit();
 		} catch (CommitException e) {
-			try {
-				transaction.rollback();
-			} catch (Exception ex) {
-			}
-			String message = "Error during commit, transaction rolled back";
-			logService.log(LogService.LOG_ERROR, message);
-			throw new SpecmateException(message, e);
-
-		} catch (TimeoutRuntimeException e) {
-			try {
-				transaction.rollback();
-			} catch (Exception ex) {
-			}
-			String message = "Timeout occured while comitting, probably too high load. Try setting up the timeout or reduce the load.";
-			logService.log(LogService.LOG_ERROR, message);
-			throw new SpecmateException(message);
+			transaction.rollback();
+			logService.log(LogService.LOG_DEBUG, "Error during commit, transaction rolled back.", e);
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Error during commit, transaction rolled back.",
+					e);
 		}
 	}
 
 	@Override
-	public <T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException {
+	public <T> T doAndCommit(IChange<T> change) throws SpecmateException {
 		int maxAttempts = 10;
 		boolean success = false;
 		int attempts = 1;
 		T result = null;
-
-		SpecmateException lastException = null;
 
 		while (!success && attempts <= maxAttempts) {
 
@@ -123,12 +128,11 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 			try {
 				commit(result);
-			} catch (SpecmateException e) {
-				lastException = e;
+			} catch (SpecmateInternalException e) {
 				try {
 					Thread.sleep(attempts * 50);
 				} catch (InterruptedException ie) {
-					throw new SpecmateException("Interrupted during commit.", ie);
+					throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Interrupted during commit.", ie);
 				}
 				attempts += 1;
 				continue;
@@ -136,7 +140,8 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			success = true;
 		}
 		if (!success) {
-			throw new SpecmateException("Could not commit after " + maxAttempts + " attempts.", lastException);
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY,
+					"Could not commit after " + attempts + " attempts.");
 		}
 		return result;
 	}
@@ -155,7 +160,10 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			comment.append(extractDeletedObjects(detachedObjects));
 		}
 
-		transaction.setCommitComment(comment.toString());
+		// FIXME: Workaround as CDO creates comment field with length 255
+		if (comment.length() <= 255) {
+			transaction.setCommitComment(comment.toString());
+		}
 	}
 
 	private <T> String extractUserName(T object) {
@@ -194,36 +202,58 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		return names.toString();
 	}
 
-	private void notifyListeners() throws SpecmateException {
+	private void notifyListeners() throws SpecmateValidationException {
 		CDOChangeSetData data = transaction.getChangeSetData();
 		DeltaProcessor processor = new DeltaProcessor(data) {
 
 			@Override
-			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap) {
+			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap)
+					throws SpecmateValidationException {
 				StringBuilder builder = new StringBuilder();
 				CDOIDUtil.write(builder, id);
 				String idAsString = builder.toString();
 				for (IChangeListener listener : changeListeners) {
-					listener.newObject(idAsString, className, featureMap);
+					listener.newObject(transaction.getObject(id), idAsString, className, featureMap);
 				}
+
+				if (validatorsEnabled) {
+					for (IChangeListener listener : validators) {
+						listener.newObject(transaction.getObject(id), idAsString, className, featureMap);
+					}
+				}
+
 			}
 
 			@Override
-			protected void detachedObject(CDOID id, int version) {
+			protected void detachedObject(CDOID id, int version) throws SpecmateValidationException {
 				for (IChangeListener listener : changeListeners) {
 					listener.removedObject(transaction.getObject(id));
+				}
+
+				if (validatorsEnabled) {
+					for (IChangeListener listener : validators) {
+						listener.removedObject(transaction.getObject(id));
+					}
 				}
 			}
 
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-					Object newValue, int index, String objectClassName) {
+					Object newValue, int index, String objectClassName) throws SpecmateValidationException {
+				if (newValue instanceof CDOID) {
+					newValue = transaction.getObject((CDOID) newValue);
+				}
+
+				CDOObject obj = transaction.getObject(id);
+
 				for (IChangeListener listener : changeListeners) {
-					if (newValue instanceof CDOID) {
-						newValue = transaction.getObject((CDOID) newValue);
+					listener.changedObject(obj, feature, changeKind, oldValue, newValue, objectClassName);
+				}
+
+				if (validatorsEnabled) {
+					for (IChangeListener listener : validators) {
+						listener.changedObject(obj, feature, changeKind, oldValue, newValue, objectClassName);
 					}
-					listener.changedObject(transaction.getObject(id), feature, changeKind, oldValue, newValue,
-							objectClassName);
 				}
 			}
 
@@ -233,26 +263,19 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	}
 
-	public void addListener(IChangeListener listener) {
-		changeListeners.add(listener);
-	}
-
 	public CDOTransaction getInternalTransaction() {
 		return transaction;
 	}
 
 	@Override
-	public void rollback() throws SpecmateException {
-		try {
-			transaction.rollback();
-		} catch (Exception e) {
-			throw new SpecmateException("Error on transaction rollback", e);
-		}
+	public void rollback() {
+		transaction.rollback();
+
 	}
 
 	@Override
 	public List<Object> query(String queryString, Object context) {
-		CDOQuery cdoQuery = this.transaction.createQuery("ocl", queryString, context);
+		CDOQuery cdoQuery = transaction.createQuery("ocl", queryString, context);
 		return cdoQuery.getResult();
 	}
 
@@ -264,5 +287,31 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	public void update(CDOTransaction transaction) {
 		super.update(transaction);
 		this.transaction = transaction;
+	}
+
+	@Override
+	public void addValidator(IChangeListener v) {
+		validators.add(v);
+	}
+
+	@Override
+	public void removeValidator(String clazz) {
+		Iterator<IChangeListener> it = validators.iterator();
+		while (it.hasNext()) {
+			IChangeListener v = it.next();
+			if (v.getClass().getName().equals(clazz)) {
+				it.remove();
+			}
+		}
+	}
+
+	@Override
+	public void clearValidators() {
+		validators.clear();
+	}
+
+	@Override
+	public void enableValidators(boolean enable) {
+		validatorsEnabled = enable;
 	}
 }

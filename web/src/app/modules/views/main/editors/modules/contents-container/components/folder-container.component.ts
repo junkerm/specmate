@@ -1,15 +1,15 @@
-import { Component, Input } from '@angular/core';
-import { ContentContainerBase } from '../base/contents-container-base';
+import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { FolderFactory } from '../../../../../../../factory/folder-factory';
+import { Folder } from '../../../../../../../model/Folder';
 import { IContainer } from '../../../../../../../model/IContainer';
+import { Id } from '../../../../../../../util/id';
 import { Type } from '../../../../../../../util/type';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
-import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
-import { Id } from '../../../../../../../util/id';
-import { Folder } from '../../../../../../../model/Folder';
-import { FolderFactory } from '../../../../../../../factory/folder-factory';
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
+import { ContentContainerBase } from '../base/contents-container-base';
 
 @Component({
     moduleId: module.id.toString(),

@@ -20,3 +20,7 @@
 .test-case-inconsistent {
     background-color: #ffe4e1 !important;
 }
+
+.parameter-input {
+    min-width: 170px;
+}

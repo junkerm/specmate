@@ -13,12 +13,14 @@ import org.json.JSONObject;
 
 import com.specmate.common.AssertUtil;
 import com.specmate.common.ISerializationConfiguration;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.urihandler.IURIFactory;
 
 /**
  * Serializer for EMF models to JSON
- * 
+ *
  * @author junkerm
  *
  */
@@ -74,7 +76,7 @@ public class EMFJsonSerializer {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param uriFactory
 	 *            The IURIFactory that is used for generating URIs from EObjects
 	 * @param stopPredicate
@@ -87,7 +89,7 @@ public class EMFJsonSerializer {
 
 	/**
 	 * Serializes an {@link EObject} to JSON
-	 * 
+	 *
 	 * @param eObject
 	 *            The {@link EObject} to serialize
 	 * @return The JSON representation of <code>object</code>
@@ -98,32 +100,32 @@ public class EMFJsonSerializer {
 		try {
 			return serializeObject(eObject);
 		} catch (Exception e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.SERALIZATION, e);
 		}
 	}
 
 	/**
 	 * Serializes a list of {@link EObject} to JSON
-	 * 
+	 *
 	 * @param list
 	 *            The list of {@link EObject}s to serialize
 	 * @return The JSON representation of <code>list</code>
 	 * @throws SpecmateException
-	 *             If the object cannnot be serialized
+	 *             If the object cannot be serialized
 	 */
 	public JSONArray serialize(List<?> list) throws JSONException, SpecmateException {
 		try {
 			return serializeList(list);
 		} catch (Exception e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.SERALIZATION, e);
 		}
 	}
 
 	/**
 	 * Serializes an {@link EObject} to JSON at certain serializing depth. Stops
-	 * serializing if indicated by {@link ISerializerStopPredicate.stopAtDepth}
-	 * from the currently set stop predicate.
-	 * 
+	 * serializing if indicated by {@link ISerializerStopPredicate.stopAtDepth} from
+	 * the currently set stop predicate.
+	 *
 	 * @param eObject
 	 *            The {@link EObject} to serialize
 	 * @return The JSON representation of <code>eObject</code>
@@ -139,12 +141,11 @@ public class EMFJsonSerializer {
 	}
 
 	/**
-	 * Serializes the type informations (namespace URI and class name) of
-	 * eObject to the given {@link JSONObject}.
-	 * 
+	 * Serializes the type informations (namespace URI and class name) of eObject to
+	 * the given {@link JSONObject}.
+	 *
 	 * @param eObject
-	 *            The {@link EObject} for which to serialize the type
-	 *            information
+	 *            The {@link EObject} for which to serialize the type information
 	 * @param jsonObj
 	 *            The JSON object where to put the serialized type information.
 	 * @throws JSONException
@@ -159,7 +160,7 @@ public class EMFJsonSerializer {
 
 	/**
 	 * Serializes the URI of eObject into the given {@link JSONObject}.
-	 * 
+	 *
 	 * @param eObject
 	 *            The {@link EObject} of which to serialize the URI
 	 * @param jsonObj
@@ -173,7 +174,7 @@ public class EMFJsonSerializer {
 	/**
 	 * Serializes a value. EObjects and Lists are handled recursively, any other
 	 * type of object is serialized as String.
-	 * 
+	 *
 	 * @param value
 	 *            The value to serialize
 	 * @return The JSON representation of <code>value</code>
@@ -195,11 +196,11 @@ public class EMFJsonSerializer {
 
 	/**
 	 * Serializes a list of objects
-	 * 
+	 *
 	 * @param list
 	 *            The list of objects to serialize
-	 * @return A {@link JSONArray} containing the JSON representation of all
-	 *         members of <code>list</code>
+	 * @return A {@link JSONArray} containing the JSON representation of all members
+	 *         of <code>list</code>
 	 * @throws SpecmateException
 	 */
 	private JSONArray serializeList(List<?> list) throws SpecmateException {
@@ -214,7 +215,7 @@ public class EMFJsonSerializer {
 	 * Serializes an EObject or a List as proxy JSON structures. That means
 	 * value<code>value</code> is not completely serialized but only the URI
 	 * inforamtion.
-	 * 
+	 *
 	 * @param value
 	 *            The value to serialize as proxy
 	 * @return A JSON proxy structure
@@ -239,7 +240,7 @@ public class EMFJsonSerializer {
 	/**
 	 * Transforms an {@link EObject} into a JSON proxy structure, i.e. a
 	 * {@link JSONObject} that contains the uri of the {@link EObject}.
-	 * 
+	 *
 	 * @param eObject
 	 *            The {@link EObject} for which to obtain a proxy
 	 * @return The JSON proxy structure
@@ -256,7 +257,7 @@ public class EMFJsonSerializer {
 	/**
 	 * Serializes all feature of an {@link EObject} into the JSON object
 	 * <code>jsonObj</code>. For references the method obtains proxies.
-	 * 
+	 *
 	 * @param eObject
 	 *            The {@link EObject} for which to serialize all features
 	 * @param jsonObj

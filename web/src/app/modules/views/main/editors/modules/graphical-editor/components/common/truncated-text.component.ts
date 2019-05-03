@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
     moduleId: module.id.toString(),
     selector: '[truncated-text]',
-    templateUrl: 'truncated-text.component.svg',
+    templateUrl: 'truncated-text.component.html',
     styleUrls: ['truncated-text.component.css']
 })
 export class TruncatedText {
@@ -38,28 +38,37 @@ export class TruncatedText {
         const width = this.width / 10;
         const numLines = this.height / this.lineHeight;
         const lineBags: string[][] = [];
-        const wordSep = ' ';
+        const sepBags: string[][] = [];
+        const wordSep = /[\s,;\-]/g;
         const words = this.text.split(wordSep).map(word => this.truncate(word, width, this.ellipsis));
+        let sepMatches = this.text.match(wordSep) || [''];
         let wordIndex = 0;
         let lineIndex = 0;
         while (wordIndex < words.length && lineIndex < numLines) {
             if (lineBags[lineIndex] === undefined) {
                 lineBags[lineIndex] = [];
+                sepBags[lineIndex] = [];
             }
 
             const currentWord = words[wordIndex];
-            const contentLength = lineBags[lineIndex].join(wordSep).length;
-            const contentLengthWithWord = contentLength + (contentLength === 0 ? 0 : wordSep.length) + currentWord.length;
+            const contentLength = lineBags[lineIndex].join(' ').length;
+            const contentLengthWithWord = contentLength + (contentLength === 0 ? 0 : 1) + currentWord.length;
 
             if (contentLengthWithWord <= width) {
                 lineBags[lineIndex].push(currentWord);
+                sepBags[lineIndex].push(sepMatches[wordIndex]);
                 wordIndex++;
             } else {
                 lineIndex++;
             }
         }
 
-        const lines = lineBags.map(words => words.join(wordSep));
+        const lines = lineBags.map((lineWords, lineIndex) => lineWords.map((word, wordIndex) => {
+            const sep = sepBags[lineIndex][wordIndex];
+            return (sep == undefined) ? word : word + sep;
+        }).join(''));
+
+
         if (wordIndex < words.length) {
             lines[lines.length - 1] = this.truncate(lines[lines.length - 1], width, this.ellipsis, wordIndex < words.length);
         }

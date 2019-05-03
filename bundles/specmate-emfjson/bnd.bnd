@@ -5,6 +5,7 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.json;version=latest,\
 	specmate-common;version=latest,\
 	org.apache.commons.lang3,\
-	specmate-model-support;version=latest
+	specmate-model-support;version=latest,\
+	specmate-model-gen;version=latest
 Export-Package:  \
 	com.specmate.emfjson

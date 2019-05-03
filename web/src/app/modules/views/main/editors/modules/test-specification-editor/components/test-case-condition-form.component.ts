@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { SimpleInputFormBase } from '../../../../../../forms/modules/generic-form/base/simple-input-form-base';
 import { ParameterAssignment } from '../../../../../../../model/ParameterAssignment';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { SimpleInputFormBase } from '../../../../../../forms/modules/generic-form/base/simple-input-form-base';
 
 @Component({
     moduleId: module.id.toString(),

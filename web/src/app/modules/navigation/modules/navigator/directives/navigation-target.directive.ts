@@ -1,8 +1,7 @@
-import { Directive, OnInit, Input, HostListener, ElementRef } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { IContainer } from '../../../../../model/IContainer';
 import { NavigatorService } from '../services/navigator.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Key } from '../../../../../util/keycode';
 
 @Directive({ selector: '[navigationTarget]' })
 export class NavigationTargetDirective implements OnInit {
@@ -17,11 +16,16 @@ export class NavigationTargetDirective implements OnInit {
 
     constructor(private elementRef: ElementRef, private navigatorService: NavigatorService, private translate: TranslateService) {
         elementRef.nativeElement.href = '';
+        translate.onLangChange.subscribe(() => this.setTooltip());
     }
 
     ngOnInit() {
+        this.setTooltip();
+    }
+
+    private setTooltip(): void {
         if (this.target) {
-            this.elementRef.nativeElement.title = this.translate.instant('navigateTo', {name: this.target.name});
+            this.elementRef.nativeElement.title = this.translate.instant('navigateTo', { name: this.target.name });
         }
     }
 }

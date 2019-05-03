@@ -10,7 +10,8 @@
 	org.apache.commons.lang3,\
 	org.eclipse.emf.cdo.server.db;version=latest,\
 	org.eclipse.net4j.db;version=latest,\
-	org.eclipse.net4j.db.oracle
+	org.eclipse.net4j.db.oracle,\
+	specmate-model-gen
 Private-Package: \
 	specmate.dbprovider.oracle,\
 	oracle.*
@@ -26,4 +27,4 @@ Import-Package: \
 	javax.resource*;resolution:=optional, \
 	sun.*;resolution:=optional, \
 	oracle.*;resolution:=optional,\
-	*;resolution:=optional
+	*

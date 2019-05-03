@@ -36,6 +36,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.base.impl.FolderImpl#getContents <em>Contents</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.FolderImpl#getTracesTo <em>Traces To</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.FolderImpl#getTracesFrom <em>Traces From</em>}</li>
+ *   <li>{@link com.specmate.model.base.impl.FolderImpl#isLibrary <em>Library</em>}</li>
  * </ul>
  *
  * @generated
@@ -70,6 +71,16 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * @ordered
 	 */
 	protected static final String DESCRIPTION_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #isLibrary() <em>Library</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isLibrary()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean LIBRARY_EDEFAULT = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -189,6 +200,24 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isLibrary() {
+		return (Boolean)eDynamicGet(BasePackage.FOLDER__LIBRARY, BasePackage.Literals.FOLDER__LIBRARY, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLibrary(boolean newLibrary) {
+		eDynamicSet(BasePackage.FOLDER__LIBRARY, BasePackage.Literals.FOLDER__LIBRARY, newLibrary);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -239,6 +268,8 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 				return getTracesTo();
 			case BasePackage.FOLDER__TRACES_FROM:
 				return getTracesFrom();
+			case BasePackage.FOLDER__LIBRARY:
+				return isLibrary();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -273,6 +304,9 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 				getTracesFrom().clear();
 				getTracesFrom().addAll((Collection<? extends ITracingElement>)newValue);
 				return;
+			case BasePackage.FOLDER__LIBRARY:
+				setLibrary((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -303,6 +337,9 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 			case BasePackage.FOLDER__TRACES_FROM:
 				getTracesFrom().clear();
 				return;
+			case BasePackage.FOLDER__LIBRARY:
+				setLibrary(LIBRARY_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -327,6 +364,8 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 				return !getTracesTo().isEmpty();
 			case BasePackage.FOLDER__TRACES_FROM:
 				return !getTracesFrom().isEmpty();
+			case BasePackage.FOLDER__LIBRARY:
+				return isLibrary() != LIBRARY_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

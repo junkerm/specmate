@@ -1,10 +1,10 @@
+import { LowerCasePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { TestSpecification } from '../../../../../model/TestSpecification';
 import { TranslateService } from '@ngx-translate/core';
 import { saveAs } from 'file-saver';
-import { LowerCasePipe } from '@angular/common';
+import { TestSpecification } from '../../../../../model/TestSpecification';
 import { TestSpecificationSkeleton } from '../../../../../model/TestSpecificationSkeleton';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -18,6 +18,8 @@ export class GetTestSpecificationSkeletonButton {
     private _testspecification: TestSpecification;
 
     private _lang: string;
+
+    private static UTF8_BOM = '\ufeff';
 
     @Input()
     public set testspecification(testspecification: TestSpecification) {
@@ -47,7 +49,7 @@ export class GetTestSpecificationSkeletonButton {
             throw new Error('Could not load test specification skeleton for ' + this._lang);
         }
 
-        saveAs(new Blob([data.code], {type: 'text/plain;charset=utf-8'}), data.name);
+        saveAs(new Blob([GetTestSpecificationSkeletonButton.UTF8_BOM + data.code], {type: 'text/plain;charset=utf-8'}), data.name);
     }
 
     public get language(): string {

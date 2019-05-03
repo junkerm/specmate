@@ -10,7 +10,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.config.api.IConfigService;
 
 @Component(immediate = true)
@@ -20,31 +20,32 @@ public class HPServerProxyConfig {
 	public static final String KEY_HOST = "hpproxy.hpConnectorHost";
 	public static final String KEY_PORT = "hpproxy.hpConnectorPort";
 	public static final String KEY_TIMEOUT = "hpproxy.hpConnectorTimeout";
+	public static final Object KEY_HP_PROJECT_NAME = "hpproxy.hpProjectName";
 
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
 	private LogService logService;
 
 	/**
-	 * Configures the CDO persistency service.
-	 * 
+	 * Configures the HP Proxy service.
+	 *
 	 * @throws SpecmateException
 	 */
 	@Activate
 	private void configureHPProxy() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		String host = configService.getConfigurationProperty(KEY_HOST);
-		String port = configService.getConfigurationProperty(KEY_PORT);
-		String timeout = configService.getConfigurationProperty(KEY_TIMEOUT);
+		String host = this.configService.getConfigurationProperty(KEY_HOST);
+		String port = this.configService.getConfigurationProperty(KEY_PORT);
+		String timeout = this.configService.getConfigurationProperty(KEY_TIMEOUT);
 
 		if (host != null && port != null && timeout != null) {
 			properties.put(KEY_HOST, host);
 			properties.put(KEY_TIMEOUT, Integer.parseInt(timeout));
 			properties.put(KEY_PORT, port);
-			logService.log(LogService.LOG_DEBUG,
-					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
+			this.logService.log(LogService.LOG_DEBUG,
+					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties) + ".");
 
-			OSGiUtil.configureService(configurationAdmin, CONNECTOR_PID, properties);
+			OSGiUtil.configureService(this.configurationAdmin, CONNECTOR_PID, properties);
 		}
 
 	}

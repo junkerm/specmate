@@ -2,7 +2,7 @@ package com.specmate.dbprovider.api.migration;
 
 import java.util.Date;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 
 /**
  * This interface defines operations that reflect changes of object attributes

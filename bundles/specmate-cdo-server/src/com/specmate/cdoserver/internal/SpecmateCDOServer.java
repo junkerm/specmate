@@ -28,7 +28,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.net4j.Net4jUtil;
 import org.eclipse.net4j.acceptor.IAcceptor;
-import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.tcp.TCPUtil;
 import org.eclipse.net4j.util.StringUtil;
 import org.eclipse.net4j.util.container.IPluginContainer;
@@ -50,11 +49,13 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.cdoserver.ICDOServer;
 import com.specmate.cdoserver.config.SpecmateCDOServerConfig;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.dbprovider.api.DBConfigChangedCallback;
 import com.specmate.dbprovider.api.IDBProvider;
 import com.specmate.migration.api.IMigratorService;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.persistency.IPackageProvider;
 
 @Component(immediate = true, configurationPid = SpecmateCDOServerConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
@@ -104,7 +105,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	private boolean active = false;
 
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		readConfig(properties);
 		start();
 	}
@@ -118,47 +119,47 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	 * Reads the config properties
 	 *
 	 * @param properties
-	 * @throws SpecmateValidationException
+	 * @throws SpecmateInternalException
 	 *             if the configuration is invalid
 	 */
-	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
-		this.hostAndPort = (String) properties.get(SpecmateCDOServerConfig.KEY_SERVER_HOST_PORT);
-		if (StringUtil.isEmpty(this.hostAndPort)) {
-			throw new SpecmateValidationException("No server host and port given");
+	private void readConfig(Map<String, Object> properties) throws SpecmateException {
+		hostAndPort = (String) properties.get(SpecmateCDOServerConfig.KEY_SERVER_HOST_PORT);
+		if (StringUtil.isEmpty(hostAndPort)) {
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No server host and port given.");
 		}
 
-		this.repositoryName = (String) properties.get(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME);
-		if (StringUtil.isEmpty(this.repositoryName)) {
-			throw new SpecmateValidationException("No repository name given");
+		repositoryName = (String) properties.get(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME);
+		if (StringUtil.isEmpty(repositoryName)) {
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No repository name given.");
 		}
 
-		this.cdoUser = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_USER);
-		if (StringUtil.isEmpty(this.cdoUser)) {
-			throw new SpecmateValidationException("No CDO user name given");
+		cdoUser = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_USER);
+		if (StringUtil.isEmpty(cdoUser)) {
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No CDO user name given.");
 		}
 
-		this.cdoPassword = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_PASSWORD);
-		if (StringUtil.isEmpty(this.cdoPassword)) {
-			throw new SpecmateValidationException("No CDO password given");
+		cdoPassword = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_PASSWORD);
+		if (StringUtil.isEmpty(cdoPassword)) {
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No CDO password given");
 		}
 
-		this.masterHostAndPort = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER);
-		if (!StringUtil.isEmpty(this.masterHostAndPort)) {
-			this.isClone = true;
-			this.masterRepositoryNme = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER_REPOSITORY);
-			if (StringUtil.isEmpty(this.masterRepositoryNme)) {
+		masterHostAndPort = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER);
+		if (!StringUtil.isEmpty(masterHostAndPort)) {
+			isClone = true;
+			masterRepositoryNme = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER_REPOSITORY);
+			if (StringUtil.isEmpty(masterRepositoryNme)) {
 				throw new SpecmateValidationException(
 						"Server should be configured as clone, but no master repository is given.");
 			}
 
-			this.masterUser = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER_USER);
-			if (StringUtil.isEmpty(this.masterUser)) {
+			masterUser = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER_USER);
+			if (StringUtil.isEmpty(masterUser)) {
 				throw new SpecmateValidationException(
 						"Server should be configured as clone, but no master user is given.");
 			}
 
-			this.masterPassword = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER_PASSWORD);
-			if (StringUtil.isEmpty(this.masterPassword)) {
+			masterPassword = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER_PASSWORD);
+			if (StringUtil.isEmpty(masterPassword)) {
 				throw new SpecmateValidationException(
 						"Server should be configured as clone, but no master password is given.");
 			}
@@ -202,7 +203,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
 	/** Creates and prepares the container */
 	private void createContainer() {
-		this.container = IPluginContainer.INSTANCE;
+		container = IPluginContainer.INSTANCE;
 		OMPlatform.INSTANCE.setDebugging(true);
 		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
 		Net4jUtil.prepareContainer(container);
@@ -213,26 +214,26 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	/** Create a CDO repository */
 	private void createRepository() throws SpecmateException {
 		Map<String, String> props = new HashMap<>();
-		props.put(IRepository.Props.OVERRIDE_UUID, this.repositoryName);
+		props.put(IRepository.Props.OVERRIDE_UUID, repositoryName);
 		props.put(IRepository.Props.SUPPORTING_AUDITS, "true");
 		props.put(IRepository.Props.SUPPORTING_BRANCHES, "true");
 		props.put(IRepository.Props.ID_GENERATION_LOCATION, "CLIENT");
 
 		IStore store = dbProviderService.createStore();
 
-		if (!StringUtil.isEmpty(this.masterHostAndPort)) {
-			if (StringUtil.isEmpty(this.masterRepositoryNme)) {
-				throw new SpecmateException("Should be configured as clone bu not master repository name is given.");
+		if (!StringUtil.isEmpty(masterHostAndPort)) {
+			if (StringUtil.isEmpty(masterRepositoryNme)) {
+				throw new SpecmateValidationException(
+						"Should be configured as clone bu not master repository name is given.");
 			}
 
-			logService.log(LogService.LOG_INFO, "Configuring as clone of " + this.masterHostAndPort);
-			IRepositorySynchronizer synchronizer = createRepositorySynchronizer(this.masterHostAndPort,
-					this.masterRepositoryNme);
-			this.repository = (InternalRepository) CDOServerUtil.createOfflineClone(this.repositoryName, store, props,
+			logService.log(LogService.LOG_INFO, "Configuring as clone of " + masterHostAndPort);
+			IRepositorySynchronizer synchronizer = createRepositorySynchronizer(masterHostAndPort, masterRepositoryNme);
+			repository = (InternalRepository) CDOServerUtil.createOfflineClone(repositoryName, store, props,
 					synchronizer);
 		} else {
 			logService.log(LogService.LOG_INFO, "Configuring as master");
-			this.repository = (InternalRepository) CDOServerUtil.createRepository(this.repositoryName, store, props);
+			repository = (InternalRepository) CDOServerUtil.createRepository(repositoryName, store, props);
 		}
 
 		InternalSessionManager sessionManager = (InternalSessionManager) CDOServerUtil.createSessionManager();
@@ -294,17 +295,19 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		return new CDOSessionConfigurationFactory() {
 			@Override
 			public CDONet4jSessionConfiguration createSessionConfiguration() {
-//				IConnector connector = createConnector(SpecmateCDOServer.this.masterHostAndPort);
-//				connector.setOpenChannelTimeout(6000000);
+				// IConnector connector =
+				// createConnector(SpecmateCDOServer.this.masterHostAndPort);
+				// connector.setOpenChannelTimeout(6000000);
 				return SpecmateCDOServer.this.createSessionConfiguration(repositoryName);
 			}
 		};
 	}
 
 	protected CDONet4jSessionConfiguration createSessionConfiguration(String repositoryName) {
-		 ReconnectingCDOSessionConfiguration configuration = CDONet4jUtil.createReconnectingSessionConfiguration(this.masterHostAndPort, repositoryName, container);
-//		configuration.setConnector(connector);
-//		configuration.setRepositoryName(repositoryName);
+		ReconnectingCDOSessionConfiguration configuration = CDONet4jUtil
+				.createReconnectingSessionConfiguration(masterHostAndPort, repositoryName, container);
+		// configuration.setConnector(connector);
+		// configuration.setRepositoryName(repositoryName);
 		configuration.setHeartBeatEnabled(false);
 		configuration.setHeartBeatPeriod(5000);
 		configuration.setHeartBeatTimeout(10000);
@@ -312,7 +315,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		configuration.setReconnectInterval(2000);
 		configuration.setMaxReconnectAttempts(10);
 		configuration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
-		configuration.setCredentialsProvider(new PasswordCredentialsProvider(this.masterUser, this.masterPassword));
+		configuration.setCredentialsProvider(new PasswordCredentialsProvider(masterUser, masterPassword));
 		configuration.addListener(new IListener() {
 			@Override
 			public void notifyEvent(IEvent event) {
@@ -336,8 +339,8 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
 	/** Creates the TCP acceptor */
 	private void createAcceptors() {
-		logService.log(LogService.LOG_INFO, "Starting server on " + this.hostAndPort);
-		this.acceptorTCP = (IAcceptor) IPluginContainer.INSTANCE.getElement("org.eclipse.net4j.acceptors", "tcp",
+		logService.log(LogService.LOG_INFO, "Starting server on " + hostAndPort);
+		acceptorTCP = (IAcceptor) IPluginContainer.INSTANCE.getElement("org.eclipse.net4j.acceptors", "tcp",
 				hostAndPort);
 		logService.log(LogService.LOG_INFO, "Server started");
 	}
@@ -374,6 +377,6 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
 	@Reference
 	public void setModelProvider(IPackageProvider provider) {
-		this.packageProvider = provider;
+		packageProvider = provider;
 	}
 }

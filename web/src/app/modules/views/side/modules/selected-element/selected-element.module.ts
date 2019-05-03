@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
+import { AuthModule } from '../../../main/authentication/modules/auth/auth.module';
 import { SelectedElementService } from './services/selected-element.service';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
+    AuthModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

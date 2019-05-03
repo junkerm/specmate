@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 
 public abstract class SQLMapper {
 	protected static final String SPECMATE_URL = "http://specmate.com/";
@@ -48,7 +48,7 @@ public abstract class SQLMapper {
 	}
 
 	protected int getLatestId() throws SpecmateException {
-		return SQLUtil.getIntResult("SELECT id FROM CDO_EXTERNAL_REFS ORDER BY id ASC", 1, connection);
+		return SQLUtil.getFirstIntResult("SELECT id FROM CDO_EXTERNAL_REFS ORDER BY id ASC", 1, connection);
 	}
 
 	private String getBaseURI(String objectName) {

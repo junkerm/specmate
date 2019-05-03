@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.dbprovider.api.migration.IObjectToSQLMapper;
 import com.specmate.dbprovider.api.migration.SQLMapper;
 import com.specmate.dbprovider.api.migration.SQLUtil;

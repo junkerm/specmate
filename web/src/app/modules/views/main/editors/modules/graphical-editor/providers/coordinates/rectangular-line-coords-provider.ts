@@ -1,5 +1,5 @@
-import { LineCoordsProviderBase } from './line-coords-provider-base';
 import { Angles } from '../../util/angles';
+import { LineCoordsProviderBase } from './line-coords-provider-base';
 
 export class RectangularLineCoordsProvider extends LineCoordsProviderBase {
     constructor(source: {x: number, y: number}, target: {x: number, y: number}, private dimensions: {width: number, height: number}) {

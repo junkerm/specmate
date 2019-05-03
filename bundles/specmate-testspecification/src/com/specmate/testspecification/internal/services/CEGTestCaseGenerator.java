@@ -1,6 +1,7 @@
 package com.specmate.testspecification.internal.services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -27,7 +29,9 @@ import org.sat4j.tools.GateTranslator;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.specmate.common.AssertUtil;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IModelConnection;
@@ -65,7 +69,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 
 	/**
 	 * Determines if a node is an input, output or intermediate node.
-	 * 
+	 *
 	 * @param node
 	 * @return ParameterType.INPUT, if the nodes is an input node,
 	 *         ParameterType.OUTPUT, if the node is an output node,
@@ -143,8 +147,8 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			String parameterValue = StringUtils.join(constraints, ",");
 			ParameterAssignment assignment = TestspecificationFactory.eINSTANCE.createParameterAssignment();
 			assignment.setId(SpecmateEcoreUtil.getIdForChild(testCase, assignment.eClass()));
+			assignment.setName(assignment.getId());
 			assignment.setParameter(parameter);
-			assignment.setValue(parameterValue);
 			assignment.setCondition(parameterValue);
 			testCase.getContents().add(assignment);
 		}
@@ -168,10 +172,10 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Node evaluations are a precursor to test cases. This method computes the
-	 * node evaluations according to the rules in the Specmate systems
-	 * requirements documentation.
-	 * 
+	 * Node evaluations are a precursor to test cases. This method computes the node
+	 * evaluations according to the rules in the Specmate systems requirements
+	 * documentation.
+	 *
 	 * @param nodes
 	 * @return
 	 * @throws SpecmateException
@@ -211,8 +215,8 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Returns the inital evaluations for the CEG model, where all output nodes
-	 * are set one time true and one time false.
+	 * Returns the inital evaluations for the CEG model, where all output nodes are
+	 * set one time true and one time false.
 	 */
 	private Set<NodeEvaluation> getInitialEvaluations() {
 		Set<NodeEvaluation> evaluations = new HashSet<>();
@@ -247,8 +251,8 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Returns evaluations that have intermediate nodes (i.e. nodes that have to
-	 * be evaluated)
+	 * Returns evaluations that have intermediate nodes (i.e. nodes that have to be
+	 * evaluated)
 	 */
 	private Set<NodeEvaluation> getIntermediateEvaluations(Set<NodeEvaluation> evaluations) {
 		HashSet<NodeEvaluation> intermediate = new HashSet<>();
@@ -322,9 +326,9 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Sets the value of a node in an evaluation but checks first if it is
-	 * already set with a different value
-	 * 
+	 * Sets the value of a node in an evaluation but checks first if it is already
+	 * set with a different value
+	 *
 	 * @return false if an inconsistent value would be set in the node
 	 */
 	private boolean checkAndSet(NodeEvaluation evaluation, CEGNode node, TaggedBoolean effectiveValue)
@@ -338,9 +342,9 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Runs through the list of evaluations and merges the ones that can be
-	 * merged. Identifiey inconsistent evaluations
-	 * 
+	 * Runs through the list of evaluations and merges the ones that can be merged.
+	 * Identify inconsistent evaluations
+	 *
 	 * @throws SpecmateException
 	 */
 	private Pair<Set<NodeEvaluation>, Set<NodeEvaluation>> mergeCompatibleEvaluations(Set<NodeEvaluation> evaluations)
@@ -385,13 +389,13 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			pushCEGStructure(translator);
 			var2EvalMap = pushEvaluations(evaluations, translator, maxSat, maxVar);
 		} catch (ContradictionException c) {
-			throw new SpecmateException(c);
+			throw new SpecmateInternalException(ErrorCode.TESTGENERATION, c);
 		}
 		try {
 			int[] model = maxSat.findModel();
 			return extractEnabledEvaluations(var2EvalMap, model);
 		} catch (TimeoutException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.TESTGENERATION, e);
 		}
 	}
 
@@ -441,10 +445,11 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 		return nodes.size() + i;
 	}
 
-	private IVecInt getVectorForVariables(int... vars) {
+	private IVecInt getVectorForVariables(Integer... vars) {
 		IVecInt vector = new VecInt(vars.length + 1);
-		for (int i = 0; i < vars.length; i++)
+		for (int i = 0; i < vars.length; i++) {
 			vector.push(vars[i]);
+		}
 		return vector;
 	}
 
@@ -463,20 +468,21 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			NodeEvaluation filled = new NodeEvaluation();
 			int[] model = solver.findModel();
 			if (model == null) {
-				throw new SpecmateException("Could not determine consistent test values.");
+				throw new SpecmateInternalException(ErrorCode.TESTGENERATION,
+						"Could not determine consistent test values.");
 			}
 			for (int v : model) {
 				setModelValue(evaluation, filled, v);
 			}
 			return filled;
 		} catch (TimeoutException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.TESTGENERATION, e);
 		}
 	}
 
 	/**
-	 * Sets the value in an evaluation based on an original evaluation and a
-	 * model value.
+	 * Sets the value in an evaluation based on an original evaluation and a model
+	 * value.
 	 */
 	private void setModelValue(NodeEvaluation originalEvaluation, NodeEvaluation targetEvaluation, int varNameValue) {
 		boolean value = varNameValue > 0;
@@ -497,7 +503,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			pushCEGStructure(translator);
 			pushEvaluation(evaluation, translator);
 		} catch (ContradictionException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.TESTGENERATION, e);
 		}
 		return translator;
 	}
@@ -516,6 +522,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 		}
 	}
 
+	/** Feeds constraints representing the CEG structure to the solver */
 	private void pushCEGStructure(GateTranslator translator) throws ContradictionException {
 		for (IModelNode node : nodes) {
 			int varForNode = getVarForNode(node);
@@ -528,6 +535,35 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 				}
 			}
 		}
+		pushMutualExclusiveConstraints(translator);
+	}
+
+	private void pushMutualExclusiveConstraints(GateTranslator translator) throws ContradictionException {
+		Collection<Collection<CEGNode>> mutualExclusiveNodeSets = getMutualExclusiveNodeSets();
+		for (Collection<CEGNode> mutexSet : mutualExclusiveNodeSets) {
+			Integer[] variables = mutexSet.stream().map(node -> getVarForNode(node)).collect(Collectors.toList())
+					.toArray(new Integer[0]);
+			translator.addAtMost(getVectorForVariables(variables), 1);
+		}
+	}
+
+	private Collection<Collection<CEGNode>> getMutualExclusiveNodeSets() {
+		Collection<Collection<CEGNode>> result = new ArrayList<>();
+		Map<String, Set<CEGNode>> multiMap = new HashMap<String, Set<CEGNode>>();
+		for (IModelNode node : nodes) {
+			CEGNode cegNode = (CEGNode) node;
+			if (cegNode.getCondition().trim().startsWith("=")) {
+				String variable = cegNode.getVariable();
+				if (!multiMap.containsKey(variable)) {
+					multiMap.put(variable, new HashSet<CEGNode>());
+				}
+				multiMap.get(variable).add(cegNode);
+			}
+		}
+		for (String key : multiMap.keySet()) {
+			result.add(multiMap.get(key));
+		}
+		return result;
 	}
 
 	/** Returns the CEG node for a given variable (given as int) */
@@ -545,7 +581,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 		IVecInt vector = new VecInt();
 		for (IModelConnection conn : node.getIncomingConnections()) {
 			IModelNode pre = conn.getSource();
-			int var = getVarForNode((CEGNode) pre);
+			int var = getVarForNode(pre);
 			if (((CEGConnection) conn).isNegate()) {
 				var *= -1;
 			}
@@ -555,9 +591,9 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Equality checker that ignores differences in the fields id, name and
-	 * position
+	 * Equality checker that ignores differences in the fields id, name and position
 	 */
+	@SuppressWarnings("serial")
 	private class IdNamePositionIgnoreEqualityHelper extends EqualityHelper {
 		@Override
 		protected boolean haveEqualFeature(EObject eObject1, EObject eObject2, EStructuralFeature feature) {

@@ -1,7 +1,9 @@
 Bundle-Version: 0.0.0.${tstamp}
 Export-Package: \
 	com.specmate.common,\
-	com.specmate.urihandler
+	com.specmate.urihandler,\
+	com.specmate.common.cache,\
+	com.specmate.common.exception
 -buildpath: \
 	org.eclipse.osgi.services,\
 	org.eclipse.emf.common,\
@@ -12,4 +14,7 @@ Export-Package: \
 	org.eclipse.net4j.util,\
 	org.apache.commons.lang3,\
 	org.json;version=latest,\
-	specmate-config-api;version=latest
+	specmate-config-api;version=latest,\
+	com.google.guava;version=21.0,\
+	org.apache.servicemix.bundles.junit;version=4.12
+Private-Package: com.specmate.common.cache.internal

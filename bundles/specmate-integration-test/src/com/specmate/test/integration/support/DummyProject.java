@@ -1,8 +1,9 @@
 package com.specmate.test.integration.support;
 
 import java.util.Collection;
+import java.util.List;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.connectors.api.IExportService;
 import com.specmate.connectors.api.IProject;
 import com.specmate.connectors.api.IRequirementsSource;
@@ -11,15 +12,15 @@ import com.specmate.model.requirements.Requirement;
 import com.specmate.model.testspecification.TestProcedure;
 
 public class DummyProject implements IProject {
-	private String projectName;
+	private String projectId;
 
-	public DummyProject(String projectName) {
-		this.projectName = projectName;
+	public DummyProject(String projectId) {
+		this.projectId = projectId;
 	}
 
 	@Override
-	public String getName() {
-		return this.projectName;
+	public String getID() {
+		return this.projectId;
 	}
 
 	@Override
@@ -62,5 +63,10 @@ public class DummyProject implements IProject {
 				// Nothing to do
 			}
 		};
+	}
+
+	@Override
+	public List<String> getLibraryFolders() {
+		return null;
 	}
 }

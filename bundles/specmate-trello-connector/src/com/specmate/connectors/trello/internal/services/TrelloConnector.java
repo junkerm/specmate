@@ -17,17 +17,18 @@ import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.rest.RestClient;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.config.ProjectConfigService;
 import com.specmate.connectors.trello.config.TrelloConnectorConfig;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
+import com.specmate.rest.RestClient;
 import com.specmate.rest.RestResult;
 
 @Component(immediate = true, service = IRequirementsSource.class, configurationPid = TrelloConnectorConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
@@ -43,23 +44,22 @@ public class TrelloConnector implements IRequirementsSource {
 	private String id;
 
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		validateConfig(properties);
 		this.boardId = (String) properties.get(TrelloConnectorConfig.KEY_BOARD_ID);
 		this.key = (String) properties.get(TrelloConnectorConfig.KEY_TRELLO_KEY);
 		this.token = (String) properties.get(TrelloConnectorConfig.KEY_TRELLO_TOKEN);
 		this.id = (String) properties.get(ProjectConfigService.KEY_CONNECTOR_ID);
 		this.restClient = new RestClient(TRELLO_API_BASE_URL, TIMEOUT, this.logService);
-		this.logService.log(LogService.LOG_INFO, "Initialized HP Server Proxy with " + properties.toString());
 	}
 
-	private void validateConfig(Map<String, Object> properties) throws SpecmateValidationException {
+	private void validateConfig(Map<String, Object> properties) throws SpecmateException {
 		String aBoardId = (String) properties.get(TrelloConnectorConfig.KEY_BOARD_ID);
 		String aKey = (String) properties.get(TrelloConnectorConfig.KEY_TRELLO_KEY);
 		String aToken = (String) properties.get(TrelloConnectorConfig.KEY_TRELLO_TOKEN);
 
 		if (isEmpty(aBoardId) || isEmpty(aKey) || isEmpty(aToken)) {
-			throw new SpecmateValidationException("Trello Connector is not well configured.");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "Trello Connector is not well configured.");
 		}
 	}
 
@@ -75,9 +75,10 @@ public class TrelloConnector implements IRequirementsSource {
 
 	@Override
 	public Collection<Requirement> getRequirements() throws SpecmateException {
-		RestResult<JSONArray> restResult = restClient.getList("/1/boards/" + boardId + "/cards", "key", this.key,
-				"token", this.token);
+		RestResult<JSONArray> restResult = this.restClient.getList("/1/boards/" + this.boardId + "/cards", "key",
+				this.key, "token", this.token);
 		if (restResult.getResponse().getStatus() == Status.OK.getStatusCode()) {
+			restResult.getResponse().close();
 			List<Requirement> requirements = new ArrayList<>();
 			JSONArray cardsArray = restResult.getPayload();
 			for (int i = 0; i < cardsArray.length(); i++) {
@@ -86,26 +87,29 @@ public class TrelloConnector implements IRequirementsSource {
 			}
 			return requirements;
 		} else {
-			throw new SpecmateException("Could not retrieve list of trello cards.");
+			restResult.getResponse().close();
+			throw new SpecmateInternalException(ErrorCode.TRELLO, "Could not retrieve list of trello cards.");
 		}
 	}
 
 	@Override
 	public IContainer getContainerForRequirement(Requirement requirement) throws SpecmateException {
-		RestResult<JSONObject> restResult = restClient.get("/1/cards/" + requirement.getExtId2() + "/list", "key",
+		RestResult<JSONObject> restResult = this.restClient.get("/1/cards/" + requirement.getExtId2() + "/list", "key",
 				this.key, "token", this.token);
 		if (restResult.getResponse().getStatus() == Status.OK.getStatusCode()) {
 			JSONObject listObject = restResult.getPayload();
 			return makeFolderFromList(listObject);
 		} else {
-			throw new SpecmateException("Could not retrieve list for trello card: " + requirement.getExtId2());
+			throw new SpecmateInternalException(ErrorCode.TRELLO,
+					"Could not retrieve list for trello card: " + requirement.getExtId2() + ".");
 		}
 	}
 
 	public List<Folder> getLists() throws SpecmateException {
-		RestResult<JSONArray> restResult = restClient.getList("/1/boards/" + boardId + "/lists", "cards", "open", "key",
-				this.key, "token", this.token);
+		RestResult<JSONArray> restResult = this.restClient.getList("/1/boards/" + this.boardId + "/lists", "cards",
+				"open", "key", this.key, "token", this.token);
 		if (restResult.getResponse().getStatus() == Status.OK.getStatusCode()) {
+			restResult.getResponse().close();
 			List<Folder> folders = new ArrayList<>();
 			JSONArray listsArray = restResult.getPayload();
 			for (int i = 0; i < listsArray.length(); i++) {
@@ -115,7 +119,8 @@ public class TrelloConnector implements IRequirementsSource {
 			}
 			return folders;
 		}
-		throw new SpecmateException("Could not load Trello Lists.");
+		restResult.getResponse().close();
+		throw new SpecmateInternalException(ErrorCode.TRELLO, "Could not load Trello Lists.");
 	}
 
 	private Folder makeFolderFromList(JSONObject listObject) {

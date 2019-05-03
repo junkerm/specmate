@@ -1,11 +1,11 @@
-import { IModelConnection } from '../../../../../../../model/IModelConnection';
-import { GraphicalElementBase } from './graphical-element-base';
-import { IModelNode } from '../../../../../../../model/IModelNode';
-import { LineCoordsProviderBase } from '../providers/coordinates/line-coords-provider-base';
 import { Input } from '@angular/core';
+import { IModelConnection } from '../../../../../../../model/IModelConnection';
+import { IModelNode } from '../../../../../../../model/IModelNode';
 import { Proxy } from '../../../../../../../model/support/proxy';
 import { LineCoordinateProvider } from '../providers/coordinates/line-coordinate-provider';
+import { LineCoordsProviderBase } from '../providers/coordinates/line-coords-provider-base';
 import { Area, Line, Square } from '../util/area';
+import { GraphicalElementBase } from './graphical-element-base';
 
 export abstract class GraphicalConnectionBase<T extends IModelConnection> extends GraphicalElementBase<T> {
 

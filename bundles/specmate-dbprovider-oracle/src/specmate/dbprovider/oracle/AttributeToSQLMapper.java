@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.dbprovider.api.migration.IAttributeToSQLMapper;
 import com.specmate.dbprovider.api.migration.IDataType;
 import com.specmate.dbprovider.api.migration.SQLMapper;
 import com.specmate.dbprovider.api.migration.SQLUtil;
+import com.specmate.model.administration.ErrorCode;
 
 import specmate.dbprovider.oracle.config.OracleProviderConfig;
 
@@ -142,9 +144,11 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 		int id = Math.abs(getLatestId());
 		id++;
 		String idStr = Integer.toString(id);
+
 		String suffix = "_FLS" + idStr;
 		if (suffix.length() > attributeName.length()) {
-			throw new SpecmateException("Could not shorten list table name for attribute " + attributeName);
+			throw new SpecmateInternalException(ErrorCode.MIGRATION,
+					"Could not shorten list table name for attribute " + attributeName + ".");
 		}
 		String tableName = firstShot.substring(0, ORACLE_MAX_TABLE_NAME_LENGTH - suffix.length()) + suffix;
 		return tableName;
@@ -157,12 +161,13 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 		String failmsg = "Migration: Could not rename column " + oldAttributeName + " in table " + objectName + ".";
 		List<String> queries = new ArrayList<>();
 		queries.add("ALTER TABLE " + objectName + " RENAME COLUMN " + oldAttributeName + " TO " + newAttributeName);
+		queries.add(renameExternalReference(objectName, oldAttributeName, newAttributeName));
 		SQLUtil.executeStatements(queries, connection, failmsg);
 	}
 
 	@Override
 	public void migrateChangeType(String objectName, String attributeName, IDataType targetType)
 			throws SpecmateException {
-		throw new SpecmateException("Not yet supported for oracle DB");
+		throw new SpecmateInternalException(ErrorCode.MIGRATION, "Not yet supported for oracle DB.");
 	}
 }

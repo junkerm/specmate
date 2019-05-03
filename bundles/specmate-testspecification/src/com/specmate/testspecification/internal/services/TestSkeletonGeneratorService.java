@@ -9,13 +9,15 @@ import javax.ws.rs.core.Response;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestSpecificationSkeleton;
 import com.specmate.rest.RestResult;
 import com.specmate.testspecification.internal.testskeleton.BaseSkeleton;
+import com.specmate.testspecification.internal.testskeleton.CSVTestSpecificationSkeleton;
 import com.specmate.testspecification.internal.testskeleton.JavaTestSpecificationSkeleton;
 import com.specmate.testspecification.internal.testskeleton.JavascriptTestSpecificationSkeleton;
 
@@ -24,14 +26,15 @@ public class TestSkeletonGeneratorService extends RestServiceBase {
 	private final String LPARAM = "language";
 	private final String JAVA = "java";
 	private final String JAVASCRIPT = "javascript";
-	private final String TYPESCRIPT = "typescript";
+	private final String CSV = "csv";
 	private Map<String, BaseSkeleton> skeletonGenerators;
 
 	@Activate
 	public void activate() {
-		skeletonGenerators = new HashMap<>();
-		skeletonGenerators.put(JAVA, new JavaTestSpecificationSkeleton(JAVA));
-		skeletonGenerators.put(JAVASCRIPT, new JavascriptTestSpecificationSkeleton(JAVASCRIPT));
+		this.skeletonGenerators = new HashMap<>();
+		this.skeletonGenerators.put(this.JAVA, new JavaTestSpecificationSkeleton(this.JAVA));
+		this.skeletonGenerators.put(this.JAVASCRIPT, new JavascriptTestSpecificationSkeleton(this.JAVASCRIPT));
+		this.skeletonGenerators.put(this.CSV, new CSVTestSpecificationSkeleton(this.CSV));
 	}
 
 	@Override
@@ -48,18 +51,19 @@ public class TestSkeletonGeneratorService extends RestServiceBase {
 	public RestResult<?> get(Object object, MultivaluedMap<String, String> queryParams, String token)
 			throws SpecmateException {
 
-		String language = queryParams.getFirst(LPARAM);
+		String language = queryParams.getFirst(this.LPARAM);
 		if (language == null) {
-			return new RestResult<>(Response.Status.BAD_REQUEST);
+			throw new SpecmateValidationException("Language for test skeleton not specified.");
 		}
 
-		BaseSkeleton generator = skeletonGenerators.get(language);
+		BaseSkeleton generator = this.skeletonGenerators.get(language);
 		if (generator == null) {
-			return new RestResult<>(Response.Status.BAD_REQUEST);
+			throw new SpecmateValidationException("Generator for langauge " + language + " does not exist.");
 		}
 
 		if (!(object instanceof TestSpecification)) {
-			return new RestResult<>(Response.Status.BAD_REQUEST);
+			throw new SpecmateValidationException(
+					"Cannot generate test skeleton for object of type " + object.getClass().getName());
 		}
 
 		TestSpecification ts = (TestSpecification) object;

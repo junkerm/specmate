@@ -1,8 +1,11 @@
 package com.specmate.scheduler;
 
 import java.util.Arrays;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import java.util.Date;
+
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.scheduler.iterators.DailyIterator;
 import com.specmate.scheduler.iterators.HourlyIterator;
 import com.specmate.scheduler.iterators.MinuteIterator;
@@ -16,38 +19,42 @@ public class SchedulerIteratorFactory {
 
 	private static final String DELIM = " ";
 
-	public static ScheduleIterator create(String schedule) throws SpecmateException, SpecmateValidationException {
-		validate(schedule);
-		schedule = normalizeScheduleString(schedule);
-		return constructScheduleIterator(schedule);
+	public static ScheduleIterator create(String schedule) throws SpecmateException {
+		return create(schedule, new Date());
 	}
 
-	private static ScheduleIterator constructScheduleIterator(String schedule) throws SpecmateException {
+	public static ScheduleIterator create(String schedule, Date date) throws SpecmateException {
 
+		validate(schedule);
+		schedule = normalizeScheduleString(schedule);
+		return constructScheduleIterator(schedule, date);
+	}
+
+	private static ScheduleIterator constructScheduleIterator(String schedule, Date date) throws SpecmateException {
 		String type = getType(schedule);
 		int[] args = getArgs(schedule);
 
 		if (type.equalsIgnoreCase(DAY)) {
-			return new DailyIterator(args);
+			return new DailyIterator(date, args);
 		}
 		if (type.equalsIgnoreCase(HOUR)) {
-			return new HourlyIterator(args);
+			return new HourlyIterator(date, args);
 		}
 		if (type.equalsIgnoreCase(MINUTE)) {
-			return new MinuteIterator(args);
+			return new MinuteIterator(date, args);
 		}
-		throw new SpecmateException("Invalid scheduler type");
+		throw new SpecmateInternalException(ErrorCode.SCHEDULER, "Invalid scheduler type.");
 	}
 
-	public static void validate(String schedule) throws SpecmateValidationException {
+	public static void validate(String schedule) throws SpecmateException {
 		if (schedule == null) {
-			throw new SpecmateValidationException("Schedule must not be null.");
+			throw new SpecmateInternalException(ErrorCode.SCHEDULER, "Schedule must not be null.");
 		}
 
 		schedule = normalizeScheduleString(schedule);
 
 		if (schedule.length() < 0) {
-			throw new SpecmateValidationException("Schedule length must be greater than 0.");
+			throw new SpecmateInternalException(ErrorCode.SCHEDULER, "Schedule length must be greater than 0.");
 		}
 
 		String type = getType(schedule);
@@ -56,7 +63,7 @@ public class SchedulerIteratorFactory {
 		boolean isValidType = Arrays.stream(validTypesStr)
 				.anyMatch(validType -> validType.compareToIgnoreCase(type) == 0);
 		if (!isValidType) {
-			throw new SpecmateValidationException(
+			throw new SpecmateInternalException(ErrorCode.SCHEDULER,
 					"Invalid type (" + type + "). Valid types are " + String.join(", ", validTypesStr));
 		}
 
@@ -65,7 +72,7 @@ public class SchedulerIteratorFactory {
 			try {
 				Integer.parseInt(argStr);
 			} catch (NumberFormatException nfe) {
-				throw new SpecmateValidationException(
+				throw new SpecmateInternalException(ErrorCode.SCHEDULER,
 						"Invalid argument for schedule: " + argStr + " (Must be integer)");
 			}
 		}
@@ -92,7 +99,7 @@ public class SchedulerIteratorFactory {
 			String[] empty = new String[0];
 			return empty;
 		}
-		String[] argumentsStr = Arrays.copyOfRange(parts, 1, parts.length - 1);
+		String[] argumentsStr = Arrays.copyOfRange(parts, 1, parts.length);
 		return argumentsStr;
 	}
 }

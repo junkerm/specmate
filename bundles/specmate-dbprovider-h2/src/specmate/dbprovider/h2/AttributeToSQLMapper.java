@@ -9,11 +9,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.dbprovider.api.migration.IAttributeToSQLMapper;
 import com.specmate.dbprovider.api.migration.IDataType;
 import com.specmate.dbprovider.api.migration.SQLMapper;
 import com.specmate.dbprovider.api.migration.SQLUtil;
+import com.specmate.model.administration.ErrorCode;
 
 import specmate.dbprovider.h2.config.H2ProviderConfig;
 
@@ -112,7 +114,7 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 		List<String> queries = new ArrayList<>();
 		queries.add("ALTER TABLE " + objectName + " ADD COLUMN " + attributeName + " INTEGER");
 
-		queries.add("CREATE TABLE " + tableNameList + " (" + "CDO_SOURCE VARCHAR(255) NOT NULL, "
+		queries.add("CREATE TABLE " + tableNameList + " (" + "CDO_SOURCE BIGINT NOT NULL, "
 				+ "CDO_BRANCH INTEGER NOT NULL, " + "CDO_VERSION INTEGER NOT NULL, " + "CDO_IDX INTEGER NOT NULL, "
 				+ "CDO_VALUE " + type + ")");
 
@@ -133,6 +135,7 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 		List<String> queries = new ArrayList<>();
 		queries.add(
 				"ALTER TABLE " + objectName + " ALTER COLUMN " + oldAttributeName + " RENAME TO " + newAttributeName);
+		queries.add(renameExternalReference(objectName, oldAttributeName, newAttributeName));
 		SQLUtil.executeStatements(queries, connection, failmsg);
 	}
 
@@ -153,27 +156,27 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 				sourceSize = result.getInt(2);
 				SQLUtil.closeResult(result);
 			} else {
-				throw new SpecmateException(failmsg);
+				throw new SpecmateInternalException(ErrorCode.MIGRATION, failmsg);
 			}
 		} catch (SQLException e) {
-			throw new SpecmateException(failmsg);
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY, failmsg, e);
 		}
 
 		if (sourceTypeString == null) {
-			throw new SpecmateException(failmsg);
+			throw new SpecmateInternalException(ErrorCode.MIGRATION, failmsg);
 		}
 
 		failmsg = "Migration: The attribute " + attributeName + " can not be migrated.";
 		IDataType sourceType = H2DataType.getFromTypeName(sourceTypeString);
 		if (sourceType == null) {
-			throw new SpecmateException(failmsg);
+			throw new SpecmateInternalException(ErrorCode.MIGRATION, failmsg);
 		}
 
 		sourceType.setSize(sourceSize);
 		failmsg = "Migration: Not possible to convert " + attributeName + " from " + sourceType.getTypeName() + " to "
 				+ targetType.getTypeName() + ".";
 		if (!sourceType.isConversionPossibleTo(targetType)) {
-			throw new SpecmateException(failmsg);
+			throw new SpecmateInternalException(ErrorCode.MIGRATION, failmsg);
 		}
 
 		failmsg = "Migration: The attribute " + attributeName + " in object " + objectName + " could not be migrated.";

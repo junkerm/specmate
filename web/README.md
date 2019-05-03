@@ -1,5 +1,9 @@
 # This is the Specmate UI
 
+## Node JS
+
+Install Node JS. Currently, we support version 10.15.3 with npm version 6.4.1.
+
 ## Setup VS Code
 
 Install some extensions to make your life easier:

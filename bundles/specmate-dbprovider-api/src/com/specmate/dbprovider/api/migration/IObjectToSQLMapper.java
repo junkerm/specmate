@@ -1,6 +1,6 @@
 package com.specmate.dbprovider.api.migration;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 
 /**
  * This interface defines operations that reflect creating a new object in an

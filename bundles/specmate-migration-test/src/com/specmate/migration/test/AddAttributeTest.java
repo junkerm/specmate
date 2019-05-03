@@ -10,7 +10,7 @@ import java.util.Date;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.migration.test.attributeadded.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram;
 import com.specmate.migration.test.attributeadded.testmodel.base.BasePackage;
@@ -29,6 +29,7 @@ public class AddAttributeTest extends MigrationTestBase {
 	@Override
 	protected void checkMigrationPostconditions() throws Exception {
 		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		Resource resource = transaction.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
 		assertNotNull(root);

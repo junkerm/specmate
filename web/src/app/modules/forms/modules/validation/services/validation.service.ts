@@ -1,19 +1,34 @@
+import { Injectable } from '@angular/core';
+import { Folder } from '../../../../../model/Folder';
 import { IContainer } from '../../../../../model/IContainer';
 import { FieldMetaItem, MetaInfo } from '../../../../../model/meta/field-meta';
-import { ElementValidatorBase } from '../../../../../validation/element-validator-base';
-import { ValidationResult } from '../../../../../validation/validation-result';
-import { Injectable } from '@angular/core';
-import { RequiredFieldsValidator } from '../../../../../validation/required-fields-validator';
-import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
-import { Folder } from '../../../../../model/Folder';
 import { Type } from '../../../../../util/type';
+import { ElementValidatorBase } from '../../../../../validation/element-validator-base';
+import { RequiredFieldsValidator } from '../../../../../validation/required-fields-validator';
+import { TextLengthValidator } from '../../../../../validation/text-length-validator';
+import { ValidNameValidator } from '../../../../../validation/valid-name-validator';
+import { ValidationErrorSeverity } from '../../../../../validation/validation-error-severity';
+import { ValidationResult } from '../../../../../validation/validation-result';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
+import { ValidationCache } from '../util/validation-cache';
 
 @Injectable()
 export class ValidationService {
 
     private static DISABLED_CHILD_VALIDATION_TYPES: { className: string }[] = [Folder];
+    private validationCache: ValidationCache;
+    private validNameValidator: ValidNameValidator = new ValidNameValidator();
+    private textLengthValidator: TextLengthValidator = new TextLengthValidator();
 
-    constructor(private navigator: NavigatorService) { }
+    constructor(private navigator: NavigatorService, private dataService: SpecmateDataService) {
+        this.validationCache = new ValidationCache();
+        dataService.elementChanged.subscribe( (url: string) => this.validationCache.removeEntry.call(this.validationCache, url));
+    }
+
+    public findValidationResults( parentElement: IContainer, resultFilter?: (result: ValidationResult) => boolean) {
+        return this.validationCache.findValidationResults(parentElement, resultFilter);
+    }
 
     private static requiredFieldValidatorMap: {[className: string]: RequiredFieldsValidator};
 
@@ -24,11 +39,25 @@ export class ValidationService {
     }
 
     private validateElement(element: IContainer, contents: IContainer[] = []): ValidationResult[] {
+        if (element === undefined) {
+            return [];
+        }
+        let contURLs = contents.map(c => c.url);
+        if (this.validationCache.isCached(element.url, contURLs)) {
+            return this.validationCache.getEntry(element.url);
+        }
         const requiredFieldsResults: ValidationResult = this.getRequiredFieldsValidator(element).validate(element);
+        const validNameResult: ValidationResult = this.validNameValidator.validate(element);
+        const textLengthValidationResult: ValidationResult = this.textLengthValidator.validate(element);
         const elementValidators = this.getElementValidators(element) || [];
         let elementResults: ValidationResult[] =
-            elementValidators.map((validator: ElementValidatorBase<IContainer>) => validator.validate(element, contents));
-        return elementResults.concat(requiredFieldsResults);
+            elementValidators.map((validator: ElementValidatorBase<IContainer>) => validator.validate(element, contents))
+                             .concat(requiredFieldsResults)
+                             .concat(validNameResult)
+                             .concat(textLengthValidationResult);
+
+        this.validationCache.addEntriesToCache(element.url, contURLs, elementResults);
+        return elementResults;
     }
 
     private validateAll(elements: IContainer[]): ValidationResult[] {
@@ -53,6 +82,11 @@ export class ValidationService {
         return this.isValid(this.navigator.currentElement, contents);
     }
 
+    public get currentSeverities(): ValidationErrorSeverity[] {
+        return this.validate(this.navigator.currentElement, this.navigator.currentContents)
+            .map(validationResult => validationResult.severity);
+    }
+
     public get currentInvalidElements(): IContainer[] {
         if (this.navigator.currentElement === undefined) {
             return [];
@@ -67,7 +101,7 @@ export class ValidationService {
         if (!contents) {
             return true;
         }
-        return !contents.some((element: IContainer) => !this.isValid(element));
+        return contents.every((element: IContainer) => this.isValid(element));
     }
 
     private getRequiredFieldsValidator(element: IContainer): RequiredFieldsValidator {

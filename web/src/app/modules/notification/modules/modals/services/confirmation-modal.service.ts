@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { TranslateService } from '@ngx-translate/core';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { TypedModalContent } from '../components/typed-modal-content.component';
 import { Dialogtype } from '../modal-dialog-type';
 

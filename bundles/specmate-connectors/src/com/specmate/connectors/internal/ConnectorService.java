@@ -16,15 +16,16 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.internal.config.ConnectorServiceConfig;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.validation.TopLevelValidator;
 import com.specmate.scheduler.Scheduler;
 import com.specmate.scheduler.SchedulerIteratorFactory;
 import com.specmate.scheduler.SchedulerTask;
+import com.specmate.search.api.IModelSearchService;
 
 @Component(immediate = true, configurationPid = ConnectorServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class ConnectorService {
@@ -32,59 +33,60 @@ public class ConnectorService {
 	List<IRequirementsSource> requirementsSources = new ArrayList<>();
 	private LogService logService;
 	private IPersistencyService persistencyService;
+	private IModelSearchService modelSearchService;
 	private ITransaction transaction;
 
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		validateConfig(properties);
 
 		String schedule = (String) properties.get(KEY_POLL_SCHEDULE);
 		if (schedule == null) {
 			return;
 		}
-		
+
 		this.transaction = this.persistencyService.openTransaction();
+		this.transaction.removeValidator(TopLevelValidator.class.getName());
 
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				
+
 				// Ensure that requirements source are loaded.
-				while(requirementsSources.size() == 0) {
+				while (requirementsSources.size() == 0) {
 					try {
 						logService.log(LogService.LOG_INFO, "No requirement sources here yet. Waiting.");
+						// Requirements Sources could be added after the
+						// component is activated
 						Thread.sleep(20 * 1000);
 					} catch (InterruptedException e) {
 						logService.log(LogService.LOG_ERROR, e.getMessage());
 					}
 				}
-				
-				SchedulerTask connectorRunnable = new ConnectorTask(requirementsSources, transaction, logService);
-				connectorRunnable.run();
 
-				Scheduler scheduler = new Scheduler();
 				try {
+					SchedulerTask connectorRunnable = new ConnectorTask(requirementsSources, transaction, logService);
+					connectorRunnable.run();
+					modelSearchService.startReIndex();
+					Scheduler scheduler = new Scheduler();
 					scheduler.schedule(connectorRunnable, SchedulerIteratorFactory.create(schedule));
 				} catch (SpecmateException e) {
 					e.printStackTrace();
-				} catch (SpecmateValidationException e) {
-					e.printStackTrace();
+					logService.log(LogService.LOG_ERROR, "Could not create schedule iterator.", e);
 				}
 			}
 		}, "connector-service-initializer").start();
 
 	}
 
-	private void validateConfig(Map<String, Object> properties) throws SpecmateValidationException {
+	private void validateConfig(Map<String, Object> properties) throws SpecmateException {
 		SchedulerIteratorFactory.validate((String) properties.get(KEY_POLL_SCHEDULE));
 		logService.log(LogService.LOG_DEBUG, "Connector service config validated.");
 	}
 
 	@Deactivate
 	public void deactivate() {
-		if(this.transaction!=null) {
-			transaction.close();
-		}
+		transaction.close();
 	}
 
 	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
@@ -104,6 +106,11 @@ public class ConnectorService {
 	@Reference
 	public void setPersistency(IPersistencyService persistencyService) {
 		this.persistencyService = persistencyService;
+	}
+
+	@Reference
+	public void setModelSearchService(IModelSearchService modelSearchService) {
+		this.modelSearchService = modelSearchService;
 	}
 
 	public void unsetPersistency(IPersistencyService persistencyService) {
