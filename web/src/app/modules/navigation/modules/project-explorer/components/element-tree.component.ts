@@ -131,26 +131,10 @@ export class ElementTree implements OnInit {
 
     public toggle(): void {
         if (this.expanded) {
-            this._collapsed = true;
             this.contract();
-            console.log('Collapsed' + this.element.id);
             this._collapsed = false;
         } else {
             this.expand();
-            console.log('NOT Collapsed' + this.element.id);
-        }
-    }
-
-
-    private collapse(): void {
-        /*
-            TODO:
-            Check if collapse happened in a parent folder
-        */
-        if (!this.expanded && this.isMustOpen && this.collapsed) {
-             if (this.navigator.hasNavigated) {
-                 // Es wurde navigiert, klappe den Tree aus
-             }
         }
     }
 
