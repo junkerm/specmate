@@ -23,3 +23,20 @@ hs_err_pid*
 bundles/specmate-std-env/workspace/.metadata/.log
 bundles/specmate-ui-core/webcontent/COMMITHASH
 /cnf/bin/
+
+# maven
+ui-tests/target/
+ui-tests/pom.xml.tag
+ui-tests/pom.xml.releaseBackup
+ui-tests/pom.xml.versionsBackup
+ui-tests/pom.xml.next
+ui-tests/release.properties
+ui-tests/dependency-reduced-pom.xml
+ui-tests/buildNumber.properties
+ui-tests/.mvn/timing.properties
+ui-tests/.mvn/wrapper/maven-wrapper.jar
+
+# ui-tests
+ui-tests/.idea/
+ui-tests/.project
+ui-tests/.classpath

@@ -224,7 +224,7 @@ public abstract class MigrationTestBase {
 		persistencyTracker.open();
 		IPersistencyService persistency;
 		try {
-			persistency = persistencyTracker.waitForService(20000);
+			persistency = persistencyTracker.waitForService(50000);
 		} catch (InterruptedException e) {
 			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
