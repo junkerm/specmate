@@ -15,6 +15,12 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 public class MasterCloneTest {
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_GREEN = "\u001B[32m";
+	public static final String ANSI_YELLOW = "\u001B[33m";
+	public static final String ANSI_BLUE = "\u001B[34m";
+	public static final String ANSI_PURPLE = "\u001B[35m";
+
 	public static void main(String[] args) throws Exception {
 		new MasterCloneTest(args);
 	}
@@ -49,22 +55,26 @@ public class MasterCloneTest {
 			System.exit(1);
 		}
 
-		Process masterProc = startSpecmate("master", specmate, master, masterArgs);
-		Process cloneProc = startSpecmate("clone", specmate, clone, cloneArgs);
-
+		Process masterProc = startSpecmate("master", ANSI_BLUE, specmate, master, masterArgs);
 		Thread.sleep(20000);
+		Process cloneProc = startSpecmate("clone", ANSI_GREEN, specmate, clone, cloneArgs);
+
+		System.in.read();
+		masterProc.destroy();
+		cloneProc.destroy();
 	}
 
-	private Process startSpecmate(String name, String specmate, String config, String args) throws IOException {
+	private Process startSpecmate(String name, String color, String specmate, String config, String args)
+			throws IOException {
 		ProcessBuilder procBuilder = new ProcessBuilder("java", args, "-jar", specmate, "--configurationFile", config);
 		Process process = procBuilder.start();
 		System.out.println(name + " started");
-		startStreamReader(name, process.getInputStream(), System.out);
-		startStreamReader(name, process.getErrorStream(), System.err);
+		startStreamReader(name, color, process.getInputStream(), System.out);
+		startStreamReader(name, color, process.getErrorStream(), System.err);
 		return process;
 	}
 
-	private void startStreamReader(String name, InputStream inputStream, PrintStream outputStream) {
+	private void startStreamReader(String name, String color, InputStream inputStream, PrintStream outputStream) {
 		new Thread() {
 			@Override
 			public void run() {
@@ -72,8 +82,7 @@ public class MasterCloneTest {
 				String line;
 				try {
 					while ((line = reader.readLine()) != null) {
-						outputStream.print(name + ": ");
-						outputStream.println(line);
+						outputStream.println(color + name + ": " + line + ANSI_RESET);
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
