@@ -60,6 +60,7 @@ export class ElementTree implements OnInit {
         this._currentElement = currentElement;
         if (this.isMustOpen) {
             this.initContents();
+            this._collapsed = true;
         }
     }
 
@@ -86,6 +87,7 @@ export class ElementTree implements OnInit {
         if (this._collapsed) {
             if (!this._expanded && this.isMustOpen) {
                  this._expanded = true;
+                 this._collapsed = false;
             }
         }
         return this._expanded;
