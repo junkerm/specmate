@@ -16,6 +16,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
 import com.specmate.nlp.api.ELanguage;
+import com.specmate.nlp.util.NLPUtil.ConstituentType;
 
 import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
@@ -249,6 +250,15 @@ public class NLPUtil {
 				collectAllDependents(jCas, dep.getGovernor(), result);
 			}
 		}
+	}
+
+	public static String printLemmas(JCas result) {
+		StringBuilder builder = new StringBuilder();
+		Collection<Token> tokens = JCasUtil.select(result, Token.class);
+		for (Token token : tokens) {
+			builder.append(token.getCoveredText()).append(" (").append(token.getLemmaValue()).append(") ");
+		}
+		return builder.toString();
 	}
 
 }
