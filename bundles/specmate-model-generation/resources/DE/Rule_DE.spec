@@ -188,3 +188,9 @@ def rule Conjunction_AND_2 {
 	[PartA] - KON -> KON: 'sowohl' 
 	[PartA] - KOM -> KOKOM:'als' - CJ -> [PartB] - ADV -> ADV:'auch'
 }
+
+def subtrees Variable, Condition
+
+def rule SubjPred {
+	[Condition] - SUBJ -> [Variable]
+}

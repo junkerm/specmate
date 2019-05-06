@@ -157,6 +157,16 @@ public class DependencyParsetree {
 		return this.treeFragments.get(index);
 	}
 	
+	public String getRepresentationString() {
+		for (int i = 0; i < this.getTextIntervallCount(); i++) {
+			String result = getTextInterval(i).text;
+			if(result.length() > 1) {
+				return result;
+			}
+		}
+		return getTextInterval(0).text;
+	}
+	
 	public String getTreeFragmentText() {
 		String result = "Fragments:\n";
 		for(TextInterval i: this.treeFragments) {

@@ -219,3 +219,9 @@ def rule Conjunction_AND_2 {
 def rule Negation {
 	[Head] - neg -> RB:*
 }
+
+def subtrees Variable, Condition
+
+def rule SubjPred {
+	[Condition] - nsubj -> [Variable]
+}

@@ -15,6 +15,7 @@ import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchRule;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchUtil;
+import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultWrapper;
 import com.specmate.cause_effect_patterns.resolve.XTextException;
 import com.specmate.cause_effect_patterns.resolve.XTextUtil;
 import com.specmate.common.exception.SpecmateException;
@@ -23,6 +24,9 @@ import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
+import com.specmate.nlp.util.EnglishSentenceUnfolder;
+import com.specmate.nlp.util.GermanSentenceUnfolder;
+import com.specmate.nlp.util.SentenceUnfolderBase;
 
 public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 	private INLPService tagger;
@@ -56,26 +60,39 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 		return URI.createURI(bundle.getResource(fileName).toURI().toString());
 	}
 	
+	private String preprocessData(String text) throws SpecmateException {
+		SentenceUnfolderBase unfolder;
+		if(this.lang == ELanguage.DE) {
+			unfolder = new GermanSentenceUnfolder();
+		} else {
+			unfolder = new EnglishSentenceUnfolder();
+		}
+		return unfolder.unfold(this.tagger, text, this.lang);
+	}
+	
 	public CEGModel createModel(CEGModel model, String text) throws SpecmateException {
+		text = preprocessData(text);
 		JCas tagResult = this.tagger.processText(text, this.lang);
 		DependencyParsetree data = DependencyParsetree.generateFromJCas(tagResult);
 		List<MatchResult> results = MatchUtil.evaluateRuleset(this.rules, data);
-		
 		LinkedList<CEGNode> nodes = new LinkedList<CEGNode>();
 		
 		for(MatchResult result: results) {
-			if(result.isSuccessfulMatch() && result.hasSubmatch("Cause") && result.hasSubmatch("Effect")) {
+			MatchResultWrapper res = new MatchResultWrapper(result);
+			
+			if(res.isCondition()) {
 				// Resolve Cause & Effect
-				MatchResult cause = result.getSubmatch("Cause");
-				MatchResult effect = result.getSubmatch("Effect");
 				
-				Vector<MatchResult> causes = new Vector<MatchResult>();
+				MatchResultWrapper cause = res.getFirstArgument();
+				MatchResultWrapper effect= res.getSecondArgument();
+				
+				Vector<MatchResultWrapper> causes = new Vector<MatchResultWrapper>();
 				causes.add(cause);
 				// If Effect is a cause/effect itself
-				while(effect.hasSubmatch("Cause") && effect.hasSubmatch("Effect")) {
-					causes.add(effect.getSubmatch("Cause"));
+				while(effect.isCondition()) {
+					causes.add(effect.getFirstArgument());
 					// Decent until we reach the final effect
-					effect = effect.getSubmatch("Effect");
+					effect = effect.getSecondArgument();
 				}
 				
 				// Get Maximal Depth
@@ -98,10 +115,10 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 		return model;
 	}
 	
-	private DirectCause resolveCauses(CEGModel model, LinkedList<CEGNode> nodes, List<MatchResult> causes, int[] positioningTable, int offset) {
+	private DirectCause resolveCauses(CEGModel model, LinkedList<CEGNode> nodes, List<MatchResultWrapper> causes, int[] positioningTable, int offset) {
 		DirectCause result = new DirectCause();
 		for(int i=0; i<causes.size(); i++) {
-			MatchResult cause = causes.get(i);
+			MatchResultWrapper cause = causes.get(i);
 			// Resolve Single Cause
 			int trueOffset = (causes.size() > 1)? offset-1: offset;
 			DirectCause dirCause = resolveCause(model, nodes, cause, positioningTable, trueOffset);
@@ -130,13 +147,13 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 	 * @param causes
 	 * @return
 	 */
-	private int getCauseDepth(MatchResult cause) {
-		if(cause.hasSubmatch("PartA") && cause.hasSubmatch("PartB")) {
-			int dA = getCauseDepth(cause.getSubmatch("PartA"));
-			int dB = getCauseDepth(cause.getSubmatch("PartB"));
+	private int getCauseDepth(MatchResultWrapper cause) {
+		if(cause.isConjunction()) {
+			int dA = getCauseDepth(cause.getFirstArgument());
+			int dB = getCauseDepth(cause.getSecondArgument());
 			int result = Math.max(dA, dB);
 			
-			if(cause.getRuleName().contains("_XOR")) {
+			if(cause.isXorConjunction()) {
 				// max(A,B)+2 for XOR
 				return result + 2;
 			} 
@@ -144,24 +161,24 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 			return result + 1;
 		}
 		
-		if(cause.hasSubmatch("Head")) {
+		if(cause.isNegation()) {
 			// A+0 for NOT
-			return getCauseDepth(cause.getSubmatch("Head"));
+			return getCauseDepth(cause.getFirstArgument());
 		}
 		return 1;
 	}
 	
-	private DirectCause resolveCause(CEGModel model, LinkedList<CEGNode> nodes, MatchResult cause, int[] posTable, int offset) {
+	private DirectCause resolveCause(CEGModel model, LinkedList<CEGNode> nodes, MatchResultWrapper cause, int[] posTable, int offset) {
 		DirectCause result = new DirectCause();
 		
-		if(cause.hasSubmatch("PartA") && cause.hasSubmatch("PartB")) {
+		if(cause.isConjunction()) {
 			int subOffset = 1;
-			if(cause.getRuleName().contains("_XOR")) {
+			if(cause.isXorConjunction()) {
 				subOffset = 2;
 			}
-			DirectCause dA = resolveCause(model, nodes, cause.getSubmatch("PartA"), posTable, offset - subOffset);
+			DirectCause dA = resolveCause(model, nodes, cause.getFirstArgument(), posTable, offset - subOffset);
 			int dACauseCount = dA.negativeCauses.size() + dA.positiveCauses.size();
-			DirectCause dB = resolveCause(model, nodes, cause.getSubmatch("PartB"), posTable, offset - subOffset);
+			DirectCause dB = resolveCause(model, nodes, cause.getSecondArgument(), posTable, offset - subOffset);
 			int dBCauseCount = dB.negativeCauses.size() + dB.positiveCauses.size();
 			
 			if(dACauseCount > 1) {
@@ -184,7 +201,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 				dB.positiveCauses.add(node);
 			}
 			
-			if(cause.getRuleName().contains("_XOR")) {
+			if(cause.isXorConjunction()) {
 				// Create inner XOR Nodes use them as new positive set
 				// Create XOR Node
 				// Directly connect all other nodes normally
@@ -210,7 +227,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 				dB.negativeCauses.clear();
 				dB.positiveCauses.clear();
 				result.effectType = NodeType.OR;				
-			} else if(cause.getRuleName().contains("_NOR")) {
+			} else if(cause.isNorConjunction()) {
 				// Swap positive & negative causes, then AND
 				List<CEGNode> tmp = dA.negativeCauses;
 				dA.negativeCauses = dA.positiveCauses;
@@ -219,7 +236,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 				tmp = dB.negativeCauses;
 				dB.negativeCauses = dB.positiveCauses;
 				dB.positiveCauses = tmp;
-			} else if(cause.getRuleName().contains("_OR")) {
+			} else if(cause.isOrConjunction()) {
 				result.effectType = NodeType.OR;
 				// Swap result type, then AND
 			}
@@ -227,8 +244,8 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 			// Combine positive & negative causes of dA & dB in result
 			result.addCauses(dA);
 			result.addCauses(dB);
-		} else if(cause.hasSubmatch("Head")) {
-			DirectCause dHead = resolveCause(model, nodes, cause.getSubmatch("Head"), posTable, offset);
+		} else if(cause.isNegation()) {
+			DirectCause dHead = resolveCause(model, nodes, cause.getFirstArgument(), posTable, offset);
 			result.positiveCauses = dHead.negativeCauses;
 			result.negativeCauses = dHead.positiveCauses;
 			if(dHead.effectType.equals(NodeType.AND)) {
@@ -236,8 +253,16 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 			}
 		} else {
 			// Create Direct Node
-			String causeText = cause.getMatchTree().getTextInterval(0).text; 
-			CEGNode node = addNode(model, nodes, causeText, "", posTable, offset, NodeType.AND);
+			String variable = "";
+			String condition = "";
+			
+			if(cause.isSubjPred()) {
+				variable = cause.getFirstArgument().result.getMatchTree().getRepresentationString();
+				condition = cause.getSecondArgument().result.getMatchTree().getRepresentationString();
+			} else {
+				variable = cause.result.getMatchTree().getRepresentationString();
+			} 
+			CEGNode node = addNode(model, nodes, variable, condition, posTable, offset, NodeType.AND);
 			result.positiveCauses.add(node);
 		}
 		return result;
@@ -254,7 +279,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 		return node;
 	}
 	
-	private void fullyConnect(CEGModel model,DirectCause dirCause, CEGNode node) {
+	private void fullyConnect(CEGModel model, DirectCause dirCause, CEGNode node) {
 		for(CEGNode pCause: dirCause.positiveCauses) {
 			this.creation.createConnection(model, pCause, node, false);
 		}
@@ -280,18 +305,24 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 		}
 	}
 
-	private void resolveEffect(CEGModel model, LinkedList<CEGNode> nodes, DirectCause directCause, MatchResult effect, int[] positioningTable, int offset) {
-		
-		if(effect.hasSubmatch("PartA") && effect.hasSubmatch("PartB")) { 
+	private void resolveEffect(CEGModel model, LinkedList<CEGNode> nodes, DirectCause directCause, MatchResultWrapper effect, int[] positioningTable, int offset) {
+		if(effect.isConjunction()) { 
 			// Resolve Conjunctions
-			resolveEffect(model, nodes, directCause, effect.getSubmatch("PartA"), positioningTable, offset);
-			resolveEffect(model, nodes, directCause, effect.getSubmatch("PartB"), positioningTable, offset);
-		} else if(effect.hasSubmatch("Head")) {
+			resolveEffect(model, nodes, directCause, effect.getFirstArgument(), positioningTable, offset);
+			resolveEffect(model, nodes, directCause, effect.getSecondArgument(), positioningTable, offset);
+		} else if(effect.isNegation()) {
 			// Resolve Negations
-			resolveEffect(model, nodes, directCause.swapPosNegCauses(), effect.getSubmatch("Head"), positioningTable, offset);
+			resolveEffect(model, nodes, directCause.swapPosNegCauses(), effect.getFirstArgument(), positioningTable, offset);
 		} else {
-			String variable = effect.getMatchTree().getTextInterval(0).text;
+			String variable = "";
 			String condition = "";
+			
+			if(effect.isSubjPred()) {
+				variable = effect.getFirstArgument().result.getMatchTree().getRepresentationString();
+				condition = effect.getSecondArgument().result.getMatchTree().getRepresentationString();
+			} else {
+				variable = effect.result.getMatchTree().getRepresentationString();
+			}
 			CEGNode node = addNode(model, nodes, variable, condition, positioningTable, offset, directCause.effectType);
 			fullyConnect(model, directCause, node);
 		}

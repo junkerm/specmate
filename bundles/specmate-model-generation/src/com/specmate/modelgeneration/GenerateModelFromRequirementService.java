@@ -17,7 +17,6 @@ import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.Requirement;
-import com.specmate.modelgeneration.hardcoded.GermanCEGFromRequirementGenerator;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
@@ -50,8 +49,11 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		CEGModel model = (CEGModel) parent;
 		Requirement req = (Requirement) model.eContainer();
 		try {
+			this.logService.log(LogService.LOG_INFO, "Model Generation STARTED");
 			model = generateModelFromDescription(model, req);
+			this.logService.log(LogService.LOG_INFO, "Model Generation FINISHED");
 		} catch (SpecmateException e) {
+			this.logService.log(LogService.LOG_ERROR, "Model Generation failed with following error:\n"+e.getMessage());
 			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
 		}
 		req.getContents().add(model);
@@ -76,18 +78,14 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		text = new PersonalPronounsReplacer(tagger).replacePronouns(text);
 		ELanguage lang = NLPUtil.detectLanguage(text);
 		ICEGFromRequirementGenerator generator;
-		switch (lang) {
-		case DE:
-			generator = new GermanCEGFromRequirementGenerator(logService, tagger);
-			break;
-		default:
-			try {
-				generator = new PatternbasedCEGGenerator(lang, tagger); // new EnglishCEGFromRequirementGenerator(logService, tagger);
-			} catch (URISyntaxException | XTextException e) {
-				throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM,
-						"An error occured during creating the PatternbasedCEGGenerator:\n" + e.getMessage());
-			} 
-		}
+		
+		try {
+			generator = new PatternbasedCEGGenerator(lang, tagger);
+		} catch (URISyntaxException | XTextException e) {
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM,
+					"An error occured during creating the PatternbasedCEGGenerator:\n" + e.getMessage());
+		} 
+		
 		generator.createModel(model, text);
 		return model;
 	}

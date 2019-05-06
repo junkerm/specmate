@@ -25,6 +25,7 @@ Private-Package: \
 Export-Package: \
 	com.specmate.cause_effect_patterns.parse,\
 	com.specmate.cause_effect_patterns.parse.matcher,\
+	com.specmate.cause_effect_patterns.parse.wrapper,\
 	com.specmate.cause_effect_patterns.resolve
 Import-Package: \
 	org.eclipse.xtext.smap;resolution:=optional,\
