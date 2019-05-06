@@ -14,6 +14,9 @@
 	"-duplicateprocess-button": "",
 	"-duplicatetestspec-button": "",
 	"-input": "",
+	"-link": "",
+	"-show-model-button": "",
+	"-show-process-button": "",
 	"-textfield": "",
 	"Action": "Action",
 	"CEGGenerator": {
@@ -167,6 +170,7 @@
 	"noTestSpecificationsFound": "No test specifications found",
 	"notAuthorizedToExport": "User not authorized to export",
 	"null": {
+		"Requirement": "",
 		"restoreZoom": ""
 	},
 	"ok": "OK",

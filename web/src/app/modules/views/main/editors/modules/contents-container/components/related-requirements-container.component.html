@@ -13,7 +13,7 @@
             <table style="width:100%">
                 <tr>
                     <td>
-                        <a [navigationTarget]="element">
+                        <a [navigationTarget]="element" id="{{'related-requirement-overview-' + element.url}}">
                             <icon-selector [model]="element"></icon-selector>&nbsp;{{element.name}}
                         </a>
                         &nbsp;

@@ -56,10 +56,11 @@ public class NLPServiceTest {
 		Assert.assertEquals("das Werkzeug (NP) einen Fehler (NP) erkennt (VP) zeigt (VP) ein Warnfenster (NP)",
 				NLPUtil.printChunks(result));
 
-		Assert.assertEquals("erkennt <--KONJ-- Wenn\n" + "Werkzeug <--DET-- das\n"
-				+ "erkennt <--SUBJ-- Werkzeug\nFehler <--DET-- einen\n" + "erkennt <--OBJA-- Fehler\n"
-				+ "erkennt <--ROOT-- erkennt\n" + ", <--ROOT-- ,\n" + "zeigt <--ROOT-- zeigt\n" + "zeigt <--SUBJ-- es\n"
-				+ "Warnfenster <--DET-- ein\n" + "zeigt <--OBJA-- Warnfenster\n" + ". <--ROOT-- .",
+		Assert.assertEquals(
+				"erkennt <--KONJ-- Wenn\n" + "Werkzeug <--DET-- das\n" + "erkennt <--SUBJ-- Werkzeug\n"
+						+ "Fehler <--DET-- einen\n" + "erkennt <--OBJA-- Fehler\n" + "zeigt <--NEB-- erkennt\n"
+						+ "zeigt <--ROOT-- ,\n" + "zeigt <--ROOT-- zeigt\n" + "zeigt <--SUBJ-- es\n"
+						+ "Warnfenster <--DET-- ein\n" + "zeigt <--OBJA-- Warnfenster\n" + ". <--ROOT-- .",
 				NLPUtil.printDependencies(result));
 
 		Assert.assertEquals(
@@ -145,7 +146,7 @@ public class NLPServiceTest {
 		checkCauseEffect(text, ELanguage.EN, expectedCause, expectedEffect);
 
 	}
-	
+
 	private void checkCauseEffect(String text, ELanguage language, String expectedCause, String expectedEffect)
 			throws SpecmateException {
 		INLPService nlpService = getNLPService();

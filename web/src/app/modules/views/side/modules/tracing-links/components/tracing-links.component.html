@@ -29,9 +29,8 @@
               <tracing-link [traceProxy]="trace"></tracing-link>
             </td>
             <td style="text-align:right">
-
               <div class="input-group input-group-sm">
-                <button title="{{'delete' | translate}}" (click)="delete(trace)" class="btn btn-sm btn-outline-danger"><i
+                <button title="{{'delete' | translate}}" (click)="delete(trace)" class="btn btn-sm btn-outline-danger" id="{{'delete-related-requirement' + trace.url}}"><i
                     class="fa fa-trash" aria-hidden="true"></i></button>
               </div>
             </td>
