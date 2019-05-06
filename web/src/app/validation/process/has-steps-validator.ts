@@ -1,15 +1,15 @@
-import { ElementValidatorBase } from '../element-validator-base';
-import { Process } from '../../model/Process';
-import { Validator } from '../validator-decorator';
 import { IContainer } from '../../model/IContainer';
-import { ValidationResult } from '../validation-result';
 import { IModelNode } from '../../model/IModelNode';
-import { Type } from '../../util/type';
+import { Process } from '../../model/Process';
+import { ProcessDecision } from '../../model/ProcessDecision';
 import { ProcessEnd } from '../../model/ProcessEnd';
 import { ProcessStart } from '../../model/ProcessStart';
-import { ProcessDecision } from '../../model/ProcessDecision';
 import { ProcessStep } from '../../model/ProcessStep';
-import { Config } from '../../config/config';
+import { Type } from '../../util/type';
+import { ElementValidatorBase } from '../element-validator-base';
+import { ValidationMessage } from '../validation-message';
+import { ValidationResult } from '../validation-result';
+import { Validator } from '../validator-decorator';
 
 @Validator(Process)
 export class HasStepsValidator extends ElementValidatorBase<Process> {
@@ -22,7 +22,7 @@ export class HasStepsValidator extends ElementValidatorBase<Process> {
                 Type.is(element, ProcessStep)) as IModelNode[];
         let processSteps: IModelNode[] = processNodes.filter((element: IModelNode) => Type.is(element, ProcessStep));
         if (processSteps.length === 0) {
-            return new ValidationResult(Config.ERROR_NO_STEPS, false, []);
+            return new ValidationResult(ValidationMessage.ERROR_NO_STEPS, false, []);
         }
         return ValidationResult.VALID;
     }

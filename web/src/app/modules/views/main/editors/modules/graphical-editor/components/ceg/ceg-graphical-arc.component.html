@@ -1,0 +1,6 @@
+<svg:g *ngIf="isVisible">
+    <svg:path [attr.d]="arcD" style="fill:none;stroke:#000;stroke-width:1px;" />
+    <svg:circle [attr.cx]="markerPosition.x" [attr.cy]="markerPosition.y" r="8" stroke-width="3" fill="white" fill-opacity="0.7" />
+    <svg:path *ngIf="type === 'AND'" [attr.d]="'M' + markerPosition.x + ',' + markerPosition.y + 'm-5,3.5 l5,-7 l5,7'" style="stroke-width:2;stroke:#000;fill:none" />
+    <svg:path *ngIf="type === 'OR'" [attr.d]="'M' + markerPosition.x + ',' + markerPosition.y + 'm-5,-3.5 l5,7 l5,-7'" style="stroke-width:2;stroke:#000;fill:none" />
+</svg:g>

@@ -25,7 +25,7 @@ public class CSVTestSpecificationSkeleton extends BaseSkeleton {
 		StringJoiner joiner = new StringJoiner(COL_SEP);
 		joiner.add("\"TC\"");
 		for (TestParameter param : parameters) {
-			joiner.add(StringUtils.wrap(param.getName(), TEXT_WRAP));
+			joiner.add(StringUtils.wrap(param.getType().toString() + " - " + param.getName(), TEXT_WRAP));
 		}
 		sb.append(joiner).append("\n");
 	}
@@ -49,7 +49,10 @@ public class CSVTestSpecificationSkeleton extends BaseSkeleton {
 	protected void generateTestCaseParameterAssignments(StringBuilder sb, List<ParameterAssignment> assignments) {
 		StringJoiner joiner = new StringJoiner(COL_SEP);
 		for (ParameterAssignment assignment : assignments) {
-			joiner.add(StringUtils.wrap(assignment.getValue(), TEXT_WRAP));
+			String assignmentValue = assignment.getCondition();
+			String characterToEscape = "=";
+			String escapeString = StringUtils.isEmpty(assignmentValue) ? "" : escapeString(assignmentValue, characterToEscape);
+			joiner.add(StringUtils.wrap(escapeString + assignmentValue, TEXT_WRAP));
 		}
 		sb.append(joiner.toString());
 	}
@@ -57,6 +60,11 @@ public class CSVTestSpecificationSkeleton extends BaseSkeleton {
 	@Override
 	protected String generateFileName(TestSpecification testSpecification) {
 		return replaceInvalidChars(testSpecification.getName()) + ".csv";
+	}
+
+	protected String escapeString(String stringToCheck, String characterToEscape) {
+		String escapeCharacter = (stringToCheck.substring(0, 1).equals(characterToEscape)) ? "'" : "";
+		return escapeCharacter;
 	}
 
 }

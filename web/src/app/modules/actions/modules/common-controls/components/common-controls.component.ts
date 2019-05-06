@@ -5,6 +5,7 @@ import { UISafe } from '../../../../common/modules/ui/ui-safe-decorator';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
+import { ValidationErrorSeverity } from '../../../../../validation/validation-error-severity';
 
 @Component({
     moduleId: module.id.toString(),
@@ -60,7 +61,9 @@ export class CommonControls {
     }
 
     public get isSaveEnabled(): boolean {
-        return this.isEnabled && this.hasCommits && this.validator.currentValid;
+        const hasSaveDisablingError =
+            this.validator.currentSeverities.find(severity => severity === ValidationErrorSeverity.SAVE_DISABLED) !== undefined;
+        return this.isEnabled && this.hasCommits && !hasSaveDisablingError;
     }
 
     public get isUndoEnabled(): boolean {

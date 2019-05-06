@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
     moduleId: module.id.toString(),
     selector: '[truncated-text]',
-    templateUrl: 'truncated-text.component.svg',
+    templateUrl: 'truncated-text.component.html',
     styleUrls: ['truncated-text.component.css']
 })
 export class TruncatedText {

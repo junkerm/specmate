@@ -8,7 +8,6 @@ import { Process } from '../../../../../model/Process';
 import { TestSpecification } from '../../../../../model/TestSpecification';
 import { Id } from '../../../../../util/id';
 import { Url } from '../../../../../util/url';
-import { ValidationResult } from '../../../../../validation/validation-result';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';

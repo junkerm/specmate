@@ -1,15 +1,15 @@
-import { ElementValidatorBase } from '../element-validator-base';
-import { Process } from '../../model/Process';
-import { Validator } from '../validator-decorator';
 import { IContainer } from '../../model/IContainer';
-import { ValidationResult } from '../validation-result';
-import { Type } from '../../util/type';
 import { IModelNode } from '../../model/IModelNode';
+import { Process } from '../../model/Process';
+import { ProcessDecision } from '../../model/ProcessDecision';
 import { ProcessEnd } from '../../model/ProcessEnd';
 import { ProcessStart } from '../../model/ProcessStart';
-import { ProcessDecision } from '../../model/ProcessDecision';
 import { ProcessStep } from '../../model/ProcessStep';
-import { Config } from '../../config/config';
+import { Type } from '../../util/type';
+import { ElementValidatorBase } from '../element-validator-base';
+import { ValidationMessage } from '../validation-message';
+import { ValidationResult } from '../validation-result';
+import { Validator } from '../validator-decorator';
 
 @Validator(Process)
 export class NodeNoIncomingValidator extends ElementValidatorBase<Process> {
@@ -26,7 +26,7 @@ export class NodeNoIncomingValidator extends ElementValidatorBase<Process> {
                     (element.incomingConnections && element.incomingConnections.length === 0)) &&
                 !Type.is(element, ProcessStart));
         if (nodesWithoutIncomingConnections.length > 0) {
-            return new ValidationResult(Config.ERROR_NODE_WITHOUT_INCOMING, false, nodesWithoutIncomingConnections);
+            return new ValidationResult(ValidationMessage.ERROR_NODE_WITHOUT_INCOMING, false, nodesWithoutIncomingConnections);
         }
         return ValidationResult.VALID;
     }

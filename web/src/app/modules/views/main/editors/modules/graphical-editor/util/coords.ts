@@ -1,6 +1,6 @@
-import { Point } from './area';
-import { Angles } from './angles';
 import { Config } from '../../../../../../../config/config';
+import { Angles } from './angles';
+import { Point } from './area';
 
 export class Coords {
     public static getCenter(x: number, y: number, width: number, height: number): {x: number, y: number} {

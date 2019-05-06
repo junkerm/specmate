@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { AuthenticationService } from '../../auth/services/authentication.service';
-import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { TranslateService } from '@ngx-translate/core';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
+import { AuthenticationService } from '../../auth/services/authentication.service';
 
 @Component({
     moduleId: module.id.toString(),

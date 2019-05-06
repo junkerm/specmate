@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { SpecmateDataService } from './services/specmate-data.service';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { LogListModule } from '../../../views/side/modules/log-list/log-list.module';
+import { SpecmateDataService } from './services/specmate-data.service';
 
 @NgModule({
   imports: [

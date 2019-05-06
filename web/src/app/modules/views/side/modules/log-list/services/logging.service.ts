@@ -1,9 +1,9 @@
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Injectable } from '@angular/core';
-import { LogElement } from './log-element';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { Config } from '../../../../../../config/config';
 import { ELogSeverity } from './e-log-severity';
+import { LogElement } from './log-element';
 
 @Injectable()
 export class LoggingService {

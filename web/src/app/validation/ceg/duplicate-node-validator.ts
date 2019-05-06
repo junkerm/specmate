@@ -1,11 +1,11 @@
-import { ElementValidatorBase } from '../element-validator-base';
-import { Validator } from '../validator-decorator';
 import { CEGModel } from '../../model/CEGModel';
-import { ValidationResult } from '../validation-result';
 import { CEGNode } from '../../model/CEGNode';
 import { IContainer } from '../../model/IContainer';
 import { Type } from '../../util/type';
-import { Config } from '../../config/config';
+import { ElementValidatorBase } from '../element-validator-base';
+import { ValidationMessage } from '../validation-message';
+import { ValidationResult } from '../validation-result';
+import { Validator } from '../validator-decorator';
 
 @Validator(CEGModel)
 export class DuplicateNodeValidator extends ElementValidatorBase<CEGModel> {
@@ -26,7 +26,7 @@ export class DuplicateNodeValidator extends ElementValidatorBase<CEGModel> {
 
         let dupList = Array.from(duplicates.keys());
         if (dupList.length > 0) {
-            return new ValidationResult(Config.ERROR_DUPLICATE_NODE, false, dupList);
+            return new ValidationResult(ValidationMessage.ERROR_DUPLICATE_NODE, false, dupList);
         }
         return ValidationResult.VALID;
     }

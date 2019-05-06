@@ -1,10 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IContainer } from '../../../../../../../../model/IContainer';
 
 @Component({
     moduleId: module.id.toString(),
     selector: '[generic-graphical-connection]',
-    templateUrl: 'generic-graphical-connection.component.svg',
+    templateUrl: 'generic-graphical-connection.component.html',
     styleUrls: ['generic-graphical-connection.component.css']
 })
 

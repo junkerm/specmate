@@ -1,10 +1,10 @@
-import { ConnectionElementFactoryBase } from './connection-element-factory-base';
+import { Config } from '../config/config';
 import { CEGConnection } from '../model/CEGConnection';
 import { IContainer } from '../model/IContainer';
+import { Proxy } from '../model/support/proxy';
 import { Id } from '../util/id';
 import { Url } from '../util/url';
-import { Config } from '../config/config';
-import { Proxy } from '../model/support/proxy';
+import { ConnectionElementFactoryBase } from './connection-element-factory-base';
 import { ElementFactoryBase } from './element-factory-base';
 
 export class CEGConnectionFactory extends ConnectionElementFactoryBase<CEGConnection> {

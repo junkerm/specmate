@@ -3,16 +3,16 @@
   <img src="../../../../assets/img/default_background.png" class="login-background-image">
 </div>
 <div [ngClass]="{'login-top-space': !isAuthenticated, 'specmate-container': isAuthenticated }">
-    <split direction="vertical" [gutterSize]="7">
-        <split-area [size]="80">
-            <split direction="horizontal" [gutterSize]="7">
-                <split-area [size]="leftWidth" [order]="0" class="project-explorer-container" [visible]="leftShown">
+    <as-split direction="vertical" [gutterSize]="7">
+        <as-split-area [size]="80">
+            <as-split direction="horizontal" [gutterSize]="7">
+                <as-split-area [size]="leftWidth" [order]="0" class="project-explorer-container" [visible]="leftShown">
                     <project-explorer #projectExplorer *ngIf="isAuthenticated"></project-explorer>
-                </split-area>
-                <split-area [size]="midWidth" [order]="1" class="content-container">
+                </as-split-area>
+                <as-split-area [size]="midWidth" [order]="1" class="content-container">
                     <router-outlet></router-outlet>
-                </split-area>
-                <split-area [size]="rightWidth" [order]="2" [visible]="rightShown">
+                </as-split-area>
+                <as-split-area [size]="rightWidth" [order]="2" [visible]="rightShown">
                     <ng-container *ngIf="isAuthenticated">
                         <properties-editor></properties-editor>
                         <errors-warnings></errors-warnings>
@@ -22,19 +22,19 @@
                         </ng-container>
                         <history-view></history-view>
                     </ng-container>
-                </split-area>
-            </split>
-        </split-area>
-        <split-area [size]="20" class="content-container" [visible]="loggingShown" [style.display]="loggingShown ? 'block' : 'none'">
-            <split direction="horizontal" [gutterSize]="7">
-                <split-area [size]="50" [order]="1" class="content-container">
+                </as-split-area>
+            </as-split>
+        </as-split-area>
+        <as-split-area [size]="20" class="content-container" [visible]="loggingShown" [style.display]="loggingShown ? 'block' : 'none'">
+            <as-split direction="horizontal" [gutterSize]="7">
+                <as-split-area [size]="50" [order]="1" class="content-container">
                     <log-list *ngIf="isAuthenticated"></log-list>
-                </split-area>
-                <split-area [size]="50" [order]="2" class="content-container">
+                </as-split-area>
+                <as-split-area [size]="50" [order]="2" class="content-container">
                     <local-history *ngIf="isAuthenticated"></local-history>
-                </split-area>
-            </split>
-        </split-area>
-    </split>
+                </as-split-area>
+            </as-split>
+        </as-split-area>
+    </as-split>
 </div>
 <ng-template ngbModalContainer></ng-template>

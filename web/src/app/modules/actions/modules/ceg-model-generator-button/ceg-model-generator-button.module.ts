@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CegModelGeneratorButton } from './components/ceg-model-generator-button.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import { CegModelGeneratorButton } from './components/ceg-model-generator-button.component';
 
 @NgModule({
   imports: [

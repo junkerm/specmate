@@ -28,6 +28,7 @@ import org.osgi.service.log.LogService;
 import com.atlassian.jira.rest.client.api.JiraRestClient;
 import com.atlassian.jira.rest.client.api.RestClientException;
 import com.atlassian.jira.rest.client.api.domain.Issue;
+import com.atlassian.jira.rest.client.api.domain.IssueField;
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
 import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientFactory;
 import com.specmate.common.cache.ICache;
@@ -255,10 +256,13 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 		requirement.setStatus(story.getStatus().getName());
 		requirement.setLive(true);
 		try {
-			JSONObject teamObject = (JSONObject) story.getFieldByName("Team").getValue();
-			if (teamObject != null) {
-				String team = (String) teamObject.get("value");
-				requirement.setImplementingITTeam(team);
+			IssueField teamField = story.getFieldByName("Team");
+			if (teamField != null) {
+				JSONObject teamObject = (JSONObject) teamField.getValue();
+				if (teamObject != null) {
+					String team = (String) teamObject.get("value");
+					requirement.setImplementingITTeam(team);
+				}
 			}
 		} catch (JSONException e) {
 			throw new SpecmateInternalException(ErrorCode.JIRA, e);
