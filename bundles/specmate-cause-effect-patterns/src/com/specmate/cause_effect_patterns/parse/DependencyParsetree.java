@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.internal.util.SortedIntSet;
@@ -158,13 +159,11 @@ public class DependencyParsetree {
 	}
 	
 	public String getRepresentationString() {
-		for (int i = 0; i < this.getTextIntervallCount(); i++) {
-			String result = getTextInterval(i).text;
-			if(result.length() > 1) {
-				return result;
-			}
-		}
-		return getTextInterval(0).text;
+		String result = this.treeFragments.stream()
+						  				  .map(f -> f.text)
+						  				  .filter(str -> str.length() > 1)
+						  				  .collect(Collectors.joining(" "));
+		return result.substring(0, 1).toUpperCase() + result.substring(1);
 	}
 	
 	public String getTreeFragmentText() {
