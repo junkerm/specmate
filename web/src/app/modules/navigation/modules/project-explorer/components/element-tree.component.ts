@@ -101,7 +101,7 @@ export class ElementTree implements OnInit {
 
     public get isMustOpen(): boolean {
         if (this._currentElement && this.element) {
-           return Url.isParent(this.element.url, this._currentElement.url);
+            return Url.isParent(this.element.url, this._currentElement.url);
         }
         return false;
     }
@@ -118,14 +118,6 @@ export class ElementTree implements OnInit {
     }
 
     private _collapsed = true;
-
-    public get collapsed(): boolean {
-        return this._collapsed;
-    }
-
-    public set collapsed(collapsed: boolean) {
-        this._collapsed = collapsed;
-    }
 
     public toggle(): void {
         if (this.expanded) {
