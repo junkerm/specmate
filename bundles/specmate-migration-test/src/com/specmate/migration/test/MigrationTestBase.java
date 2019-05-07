@@ -155,7 +155,7 @@ public abstract class MigrationTestBase {
 		OSGiUtil.configureService(configAdmin, CDOPersistencyServiceConfig.PID, properties);
 
 		// Alow time for the persistency to be started
-		Thread.sleep(2000);
+		Thread.sleep(15000);
 
 		persistency = getPersistencyService();
 	}
