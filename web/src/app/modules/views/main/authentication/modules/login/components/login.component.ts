@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../../auth/services/authentication.service';
 import { User } from '../../../../../../../model/User';
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
+import { AuthenticationService } from '../../auth/services/authentication.service';
 
 @Component({
     moduleId: module.id.toString(),

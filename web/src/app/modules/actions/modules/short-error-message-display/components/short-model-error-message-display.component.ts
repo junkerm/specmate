@@ -1,19 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Config } from '../../../../../config/config';
-import { ElementFactoryBase } from '../../../../../factory/element-factory-base';
 import { CEGModel } from '../../../../../model/CEGModel';
 import { IContainer } from '../../../../../model/IContainer';
 import { Process } from '../../../../../model/Process';
-import { TestSpecification } from '../../../../../model/TestSpecification';
-import { Id } from '../../../../../util/id';
-import { Url } from '../../../../../util/url';
-import { ValidationResult } from '../../../../../validation/validation-result';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
-import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
-import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
-import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
 
 @Component({
     moduleId: module.id.toString(),

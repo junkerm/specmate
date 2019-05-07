@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Type } from '../../../../../util/type';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { FieldMetaItem, MetaInfo } from '../../../../../model/meta/field-meta';
 import { Arrays } from '../../../../../util/arrays';
+import { Id } from '../../../../../util/id';
+import { Type } from '../../../../../util/type';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { Converters } from '../conversion/converters';
-import { Id } from '../../../../../util/id';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     moduleId: module.id.toString(),
@@ -19,7 +19,7 @@ export class GenericForm {
         return this.translate.instant('fieldInvalid');
     }
 
-    private formGroup: FormGroup;
+    public formGroup: FormGroup;
 
     private ready = false;
 

@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { Welcome } from './components/welcome.component';
-import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { SpecmateSharedModule } from '../../../../../specmate/specmate.shared.module';
+import { Welcome } from './components/welcome.component';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
-    TranslateModule,
-    CommonModule
+    CommonModule,
+    SpecmateSharedModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

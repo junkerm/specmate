@@ -1,26 +1,30 @@
 <div *ngIf="modelHistoryEntries" class="card">
   <h5 class="card-header">
     {{'Changes' | translate}}
-    <button id="simplehistory-expand-button" type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
+    <button id="simplehistory-expand-button" type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed"
+      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i
+        *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
   </h5>
   <ul class="list-group list-group-flush" *ngIf="!isCollapsed">
     <li *ngFor="let entry of modelHistoryEntries" class="list-group-item">
       <span class="text-muted">{{getDate(entry.timestamp) | date:'yyyy-MM-dd HH:mm:ss'}}</span>&nbsp;<span>{{entry.user}}</span>
       <ul class="historyentry">
-          <li *ngFor="let deletedObject of entry.deletedObjects" class="list-unstyled">
-            <i class="fa fa-trash fa-sm" aria-hidden="true"></i>&nbsp;{{getDeletedObjectName(deletedObject)}}&nbsp;<span class="text-muted">{{getDeletedObjectType(deletedObject)}}</span>
-          </li>
+        <li *ngFor="let deletedObject of entry.deletedObjects" class="list-unstyled">
+          <i class="fa fa-trash fa-sm" aria-hidden="true"></i>&nbsp;{{getDeletedObjectName(deletedObject)}}&nbsp;<span
+            class="text-muted">{{getDeletedObjectType(deletedObject)}}</span>
+        </li>
       </ul>
       <ul class="historyentry">
-          <li *ngFor="let change of entry.changes" class="list-unstyled">
-            <div *ngIf="!change.isCreate && !change.isDelete">
-              <i class="fa fa-edit fa-sm" aria-hidden="true"></i>&nbsp;{{change.objectName}}&nbsp;<span class="text-muted">({{change.objectType}})</span>
-              <br>{{change.feature | translate | titlecase }}&nbsp;{{ 'ChangedTo' | translate }}:&nbsp;{{change.newValue}}
-            </div>
-            <div *ngIf="change.isCreate">
-              <i class="fa fa-plus fa-sm" aria-hidden="true"></i>&nbsp;{{change.objectName}}&nbsp;<span class="text-muted">({{change.objectType}})</span>
-            </div>
-          </li>
+        <li *ngFor="let change of entry.changes" class="list-unstyled">
+          <div *ngIf="!change.isCreate && !change.isDelete">
+            <i class="fa fa-edit fa-sm" aria-hidden="true"></i>&nbsp;{{change.objectName}}&nbsp;<span class="text-muted">({{change.objectType}})</span>
+            <br>{{change.feature | translate | titlecase }}&nbsp;{{ 'ChangedTo' | translate
+            }}:&nbsp;{{change.newValue}}
+          </div>
+          <div *ngIf="change.isCreate">
+            <i class="fa fa-plus fa-sm" aria-hidden="true"></i>&nbsp;{{change.objectName}}&nbsp;<span class="text-muted">({{change.objectType}})</span>
+          </div>
+        </li>
       </ul>
     </li>
   </ul>

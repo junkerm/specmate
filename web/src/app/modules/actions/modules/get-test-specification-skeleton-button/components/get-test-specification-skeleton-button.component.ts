@@ -1,10 +1,10 @@
+import { LowerCasePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { TestSpecification } from '../../../../../model/TestSpecification';
 import { TranslateService } from '@ngx-translate/core';
 import { saveAs } from 'file-saver';
-import { LowerCasePipe } from '@angular/common';
+import { TestSpecification } from '../../../../../model/TestSpecification';
 import { TestSpecificationSkeleton } from '../../../../../model/TestSpecificationSkeleton';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 
 @Component({
     moduleId: module.id.toString(),

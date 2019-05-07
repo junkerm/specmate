@@ -1,5 +1,5 @@
-import { ValidationResult } from '../../../../../validation/validation-result';
 import { IContainer } from '../../../../../model/IContainer';
+import { ValidationResult } from '../../../../../validation/validation-result';
 
 export class ValidationCache {
     constructor() {

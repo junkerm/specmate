@@ -1,12 +1,12 @@
-import { NavigatorModule } from '../../../../navigation/modules/navigator/navigator.module';
 import { NgModule } from '@angular/core';
-import { PropertiesEditor } from './components/properties-editor.component';
-import { GenericFormModule } from '../../../../forms/modules/generic-form/generic-form.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconsModule } from '../../../../common/modules/icons/icons.module';
-import { TranslateModule } from '@ngx-translate/core';
+import { GenericFormModule } from '../../../../forms/modules/generic-form/generic-form.module';
+import { NavigatorModule } from '../../../../navigation/modules/navigator/navigator.module';
+import { SpecmateSharedModule } from '../../../../specmate/specmate.shared.module';
+import { PropertiesEditor } from './components/properties-editor.component';
 
 @NgModule({
   imports: [
@@ -17,8 +17,8 @@ import { TranslateModule } from '@ngx-translate/core';
     NgbModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    IconsModule,
-    TranslateModule
+    SpecmateSharedModule,
+    IconsModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

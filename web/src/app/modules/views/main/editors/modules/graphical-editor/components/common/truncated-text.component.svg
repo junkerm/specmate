@@ -1,1 +1,0 @@
-<svg:text *ngFor="let line of lines; index as i" [attr.x]="position.x" [attr.y]="position.y + (i * lineHeight)" class="text" [ngClass]="{'selected': selected, 'centered': centered}">{{line}}</svg:text>

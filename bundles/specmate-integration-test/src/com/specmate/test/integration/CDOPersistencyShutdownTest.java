@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.common.exception.SpecmateInternalException;
-import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;

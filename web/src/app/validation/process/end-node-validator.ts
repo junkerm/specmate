@@ -1,11 +1,11 @@
-import { ElementValidatorBase } from '../element-validator-base';
-import { Process } from '../../model/Process';
-import { Validator } from '../validator-decorator';
 import { IContainer } from '../../model/IContainer';
-import { ValidationResult } from '../validation-result';
-import { Type } from '../../util/type';
+import { Process } from '../../model/Process';
 import { ProcessEnd } from '../../model/ProcessEnd';
+import { Type } from '../../util/type';
+import { ElementValidatorBase } from '../element-validator-base';
 import { ValidationMessage } from '../validation-message';
+import { ValidationResult } from '../validation-result';
+import { Validator } from '../validator-decorator';
 
 @Validator(Process)
 export class EndNodeValidator extends ElementValidatorBase<Process> {

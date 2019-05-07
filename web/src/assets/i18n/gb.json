@@ -1,4 +1,23 @@
 {
+	"1": {
+		"0-0": ""
+	},
+	"-button": "",
+	"-copy-button": "",
+	"-copyprocess-button": "",
+	"-deletefolder-button": "",
+	"-deletemodel-button": "",
+	"-deleteprocess-button": "",
+	"-deletetestspec-button": "",
+	"-dropdown": "",
+	"-duplicatemodel-button": "",
+	"-duplicateprocess-button": "",
+	"-duplicatetestspec-button": "",
+	"-input": "",
+	"-link": "",
+	"-show-model-button": "",
+	"-show-process-button": "",
+	"-textfield": "",
 	"Action": "Action",
 	"CEGGenerator": {
 		"confirm": "Generate Cause-Effect-Model",
@@ -94,6 +113,7 @@
 	"createTestStep": "Create test step",
 	"csv": "CSV",
 	"delete": "Delete",
+	"description": "Description",
 	"discard": "Discard",
 	"discardUnsavedChangesConfirmation": "You have unsaved changes. Do you really want to discard them?",
 	"doYouReallyWantToDelete": "Do you really want to delete \"{{name}}\"?",
@@ -149,6 +169,10 @@
 	"noTestSpecifications": "No test specifications",
 	"noTestSpecificationsFound": "No test specifications found",
 	"notAuthorizedToExport": "User not authorized to export",
+	"null": {
+		"Requirement": "",
+		"restoreZoom": ""
+	},
 	"ok": "OK",
 	"operation": "Operation",
 	"operationCouldNotBePerformed": "Operation could not be performed",

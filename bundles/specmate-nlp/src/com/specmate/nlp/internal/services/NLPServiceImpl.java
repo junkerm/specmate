@@ -21,9 +21,11 @@ import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
+import com.specmate.nlp.util.NLPUtil;
 
 import de.tudarmstadt.ukp.dkpro.core.maltparser.MaltParser;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpChunker;
+import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpLemmatizer;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpParser;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
@@ -88,6 +90,7 @@ public class NLPServiceImpl implements INLPService {
 	private void createGermanPipeline() throws SpecmateInternalException {
 		logService.log(LogService.LOG_DEBUG, "Initializing german NLP pipeline");
 		AnalysisEngineDescription segmenter = null;
+		AnalysisEngineDescription lemmatizer = null;
 		AnalysisEngineDescription posTagger = null;
 		AnalysisEngineDescription chunker = null;
 		AnalysisEngineDescription parser = null;
@@ -97,8 +100,10 @@ public class NLPServiceImpl implements INLPService {
 
 		try {
 			segmenter = createEngineDescription(OpenNlpSegmenter.class, OpenNlpSegmenter.PARAM_LANGUAGE, lang);
+			lemmatizer = createEngineDescription(OpenNlpLemmatizer.class, OpenNlpLemmatizer.PARAM_LANGUAGE, lang,
+					OpenNlpLemmatizer.PARAM_MODEL_LOCATION, "classpath:/models/de-lemmatizer.bin");
 			posTagger = createEngineDescription(OpenNlpPosTagger.class, OpenNlpPosTagger.PARAM_LANGUAGE, lang,
-					OpenNlpPosTagger.PARAM_VARIANT, "maxent");
+					OpenNlpPosTagger.PARAM_MODEL_LOCATION, "classpath:/models/de-pos.bin");
 			chunker = createEngineDescription(OpenNlpChunker.class, OpenNlpParser.PARAM_PRINT_TAGSET, true,
 					OpenNlpChunker.PARAM_LANGUAGE, lang, OpenNlpChunker.PARAM_MODEL_LOCATION,
 					"classpath:/models/de-chunker.bin");
@@ -111,7 +116,7 @@ public class NLPServiceImpl implements INLPService {
 					"classpath:/models/de-parser-chunking.bin");
 
 			AnalysisEngine engine = createEngine(
-					createEngineDescription(segmenter, posTagger, chunker, parser, dependencyParser));
+					createEngineDescription(segmenter, lemmatizer, posTagger, chunker, parser, dependencyParser));
 
 			engines.put(lang, engine);
 		} catch (Throwable e) {
@@ -145,6 +150,7 @@ public class NLPServiceImpl implements INLPService {
 			// Catch any kind of runtime or checked exception
 			throw new SpecmateInternalException(ErrorCode.NLP, "NLP: Tagging failed. Reason: " + e.getMessage());
 		}
+		NLPUtil.refineNpChunks(jcas);
 		return jcas;
 	}
 

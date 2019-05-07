@@ -1,9 +1,9 @@
-import { IContainer } from '../../../../../../model/IContainer';
-import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
-import { History } from '../../../../../../model/History';
-import { Type } from '../../../../../../util/type';
 import { Folder } from '../../../../../../model/Folder';
+import { History } from '../../../../../../model/History';
 import { HistoryEntry } from '../../../../../../model/HistoryEntry';
+import { IContainer } from '../../../../../../model/IContainer';
+import { Type } from '../../../../../../util/type';
+import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
 
 type HistoryType = 'single' | 'container' | 'recursive';
 

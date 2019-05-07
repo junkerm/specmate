@@ -13,7 +13,7 @@
             <table style="width:100%">
                 <tr>
                     <td>
-                        <a [navigationTarget]="element">
+                        <a [navigationTarget]="element" id="{{'requirement-' + element.name + '-show-model-button'}}">
                             <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{element.name}}
                         </a>
                         &nbsp;
@@ -23,13 +23,13 @@
                         <short-model-error-message-display [model]="element"></short-model-error-message-display>
                         <test-specification-generator-button *ngIf="canGenerateTestSpecification" id="{{element.name + '-generate-testspec-button'}}"
                             [model]="element"></test-specification-generator-button>
-                        <button id="{{'requirement-' + element.name + '-copy-button'}}" title="{{'copy' | translate}}"
+                        <button id="{{'requirement-' + element.name + '-copy-button'}}" title="{{'copy' | translate}}"
                             (click)="copy(element)" class="btn btn-sm btn-outline-primary">
-                            <i class="fa fa-copy" aria-hidden="true"></i>&nbsp;{{'copy' | translate}}
+                            <i class="fa fa-copy" aria-hidden="true"></i>&nbsp;{{'copy' | translate}}
                         </button>
-                        <button id="{{'requirement-' + element.name + '-duplicatemodel-button'}}" title="{{'duplicate' | translate}}"
+                        <button id="{{'requirement-' + element.name + '-duplicatemodel-button'}}" title="{{'duplicate' | translate}}"
                             (click)="duplicate(element)" class="btn btn-sm btn-outline-primary">
-                            <i class="fa fa-clone" aria-hidden="true"></i>&nbsp;{{'duplicate' | translate}}
+                            <i class="fa fa-clone" aria-hidden="true"></i>&nbsp;{{'duplicate' | translate}}
                         </button>
                         <button id="{{'requirement-' + element.name + '-deletemodel-button'}}" title="{{'delete' | translate}}"
                             (click)="delete(element)" class="btn btn-sm btn-outline-danger">
@@ -44,9 +44,9 @@
         <div class="row">
             <div class="col">
                 <div class="input-group">
-                    <input type="text" #newNameInput (keyup)="0" class="form-control form-control-sm" placeholder="{{'name' | translate}}" />
+                    <input type="text" #newNameInput (keyup)="0" id="cegModelNameForm" class="form-control form-control-sm" placeholder="{{'name' | translate}}" />
                     <div class="input-group-append">
-                        <button id="requirement-createprocess-button" title="{{'createModel' | translate}}" (click)="create(newNameInput.value)"
+                        <button id="requirement-createceg-button" title="{{'createModel' | translate}}" (click)="create(newNameInput.value)"
                             class="btn btn-sm btn-outline-primary" [disabled]="!isCreateButtonEnabled(newNameInput.value)"
                             [class.disabled]="!isCreateButtonEnabled(newNameInput.value)">
                             <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createModel' | translate}}
@@ -61,10 +61,10 @@
                 <div class="input-group">
                     <input type="text" #pasteNameInput (keyup)="0" class="form-control form-control-sm" [placeholder]="clipboardModelName" [disabled]="!canPaste" />
                     <div class="input-group-append">
-                        <button id="requirement-paste-button" title="{{'paste' | translate}}" (click)="paste(pasteNameInput.value)" class="btn btn-sm btn-outline-primary"
+                        <button id="requirement-paste-button" title="{{'paste' | translate}}" (click)="paste(pasteNameInput.value)" class="btn btn-sm btn-outline-primary"
                             [disabled]="!canPaste || !validPattern(pasteNameInput.value)"
                             [class.disabled]="!canPaste || !validPattern(pasteNameInput.value)">
-                            <i class="fa fa-paste" aria-hidden="true"></i>&nbsp;{{'paste' | translate}}
+                            <i class="fa fa-paste" aria-hidden="true"></i>&nbsp;{{'paste' | translate}}
                         </button>
                     </div>
                 </div>

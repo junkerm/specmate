@@ -1,4 +1,4 @@
-import { GraphElementFactorySelector, Coords } from '../../../../../../../factory/util/graph-element-factory-selector';
+import { Coords, GraphElementFactorySelector } from '../../../../../../../factory/util/graph-element-factory-selector';
 import { IConnection } from '../../../../../../../model/IConnection';
 import { IContainer } from '../../../../../../../model/IContainer';
 import { IModelConnection } from '../../../../../../../model/IModelConnection';
@@ -7,11 +7,11 @@ import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISp
 import { FieldMetaItem, MetaInfo } from '../../../../../../../model/meta/field-meta';
 import { Proxy } from '../../../../../../../model/support/proxy';
 import { Arrays } from '../../../../../../../util/arrays';
+import { Objects } from '../../../../../../../util/objects';
 import { Url } from '../../../../../../../util/url';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 import { ElementProvider } from '../../graphical-editor/providers/properties/element-provider';
-import { Objects } from '../../../../../../../util/objects';
 
 export class GraphTransformer {
     private elementProvider: ElementProvider;

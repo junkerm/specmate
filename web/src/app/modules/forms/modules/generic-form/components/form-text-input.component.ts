@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FormElement } from '../base/form-element';
 import { TranslateService } from '@ngx-translate/core';
+import { FormElement } from '../base/form-element';
 
 @Component({
     moduleId: module.id.toString(),

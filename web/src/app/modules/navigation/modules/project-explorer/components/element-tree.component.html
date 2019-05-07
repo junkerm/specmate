@@ -5,10 +5,10 @@
             <i *ngIf="!expanded" class="fa fa-plus-square-o" aria-hidden="true"></i>
             <i *ngIf="expanded" class="fa fa-minus-square-o" aria-hidden="true"></i>
         </button>
-        <button type="button" *ngIf="!hasLink" type="button" (click)="toggle()" (keydown)="handleKey($event, true);" title="{{element.name}}">
-            <icon-selector [model]="element" [expanded]="expanded && withExpand"></icon-selector>{{element.name}}
+        <button type="button" *ngIf="!hasLink" type="button" (click)="toggle()" (keydown)="handleKey($event, true);" title="{{element.name}}" class="btn btn-sm">
+            <icon-selector [model]="element" [expanded]="expanded && withExpand"></icon-selector>&nbsp;{{element.name}}
         </button>
-        <a *ngIf="hasLink" id="{{element['extId'] ? element['extId'] + ': ' : ''}}{{element.name}}" [navigationTarget]="element" (keydown)="handleKey($event, true);" class="treeLink" [class.selected]="isActive">
+        <a *ngIf="hasLink" id="{{element['extId'] ? element['extId'] + ': ' : ''}}{{element.name}}" [navigationTarget]="element" (keydown)="handleKey($event, true);" class="treeLink btn btn-sm" [ngClass]="isActive ? 'btn-primary fg-white' : ''">
             <icon-selector [model]="element" [expanded]="expanded && withExpand"></icon-selector>&nbsp;{{element['extId'] ? element['extId'] + ': ' : ''}}{{element.name}}
         </a>
     </span>
@@ -16,7 +16,7 @@
     <ul *ngIf="expanded && canExpand">
         <element-tree #treeItem *ngFor="let childElement of contents" [baseUrl]="childElement.url" [parent]="element" [currentElement]="currentElement" [withExpand]="true" [library]="library" class="element-tree"></element-tree>
         <li *ngIf="canLoadMore">
-            <button (click)="loadMore()" class="btn btn btn-outline-primary btn-sm">
+            <button (click)="loadMore()" class="btn btn-sm btn-outline-primary">
                 <i class="fa fa-ellipsis-v"></i>&nbsp;{{'loadMore' | translate}}
             </button>
         </li>

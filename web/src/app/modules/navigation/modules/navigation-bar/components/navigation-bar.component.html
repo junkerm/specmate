@@ -1,14 +1,15 @@
 <nav class="navbar navbar-toggleable-md fixed-top navbar-dark bg-dark">
     <a id="commoncontrol-specmate-button" title="{{'restart' | translate}}" class="navbar-brand" href="/index.html">
-        <img src="../../../../../../assets/img/specmate_logo_horizontal_small.png" height="30" class="d-inline-block align-top" alt="{{'specmate.logo' | translate}}">
+        <img src="../../../../../../assets/img/specmate_logo_horizontal_small.png" height="30" class="d-inline-block align-top"
+            alt="{{'specmate.logo' | translate}}">
     </a>
     <div class="mr-auto">
         <common-controls></common-controls>
     </div>
     <span class="navbar-text">
-        {{'version' | translate}}:&nbsp;@@version&nbsp;
+        {{'version' | translate}}:&nbsp;{{version}}&nbsp;
         <operation-monitor></operation-monitor>&nbsp;
         <language-chooser class="brighter-secondary-outline"></language-chooser>&nbsp;
         <logout></logout>
-        </span>
+    </span>
 </nav>

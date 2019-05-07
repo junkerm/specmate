@@ -1,22 +1,19 @@
-import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
-import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
+import { Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IContainer } from '../../../../../../../model/IContainer';
-import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
+import { MetaInfo } from '../../../../../../../model/meta/field-meta';
 import { Id } from '../../../../../../../util/id';
-import { OnInit, Input, Type } from '@angular/core';
 import { Objects } from '../../../../../../../util/objects';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
+import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
 import { GraphTransformer } from '../../tool-pallette/util/graph-transformer';
-import { FieldMetaItem, MetaInfo } from '../../../../../../../model/meta/field-meta';
-import { Meta } from '@angular/platform-browser';
-import { FieldType } from '../../../../../../forms/modules/generic-form/components/generic-form.component';
-import { isNgContainer } from '@angular/compiler';
 
 export abstract class ContentContainerBase<T extends IContainer> implements OnInit {
 
     protected abstract get condition(): (element: IContainer) => boolean;
-    protected contents: IContainer[];
+    public contents: IContainer[];
 
     private _parent: IContainer;
 

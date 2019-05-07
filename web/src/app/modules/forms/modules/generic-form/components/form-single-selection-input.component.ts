@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FormElement } from '../base/form-element';
 import { TranslateService } from '@ngx-translate/core';
+import { FormElement } from '../base/form-element';
 
 @Component({
     moduleId: module.id.toString(),
@@ -13,7 +13,7 @@ export class FormSingleSelectionInput extends FormElement {
         super(translate);
     }
 
-    private get options(): string[] {
+    public get options(): string[] {
         return JSON.parse(this.meta.values);
     }
 }

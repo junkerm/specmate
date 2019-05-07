@@ -1,5 +1,5 @@
-import { ElementValidatorBase } from './element-validator-base';
 import { ValidationService } from '../modules/forms/modules/validation/services/validation.service';
+import { ElementValidatorBase } from './element-validator-base';
 
 export function Validator(elementType: {className: string}) {
     return function(validatorTarget: any) {
