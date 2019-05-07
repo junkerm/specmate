@@ -60,6 +60,7 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
     protected sanitizeContentPositions(update: boolean): void {
         this.dataService.sanitizeContentPositions(this.relevantElements, update);
         Sort.sortArrayInPlace(this.contents);
+        this.dataService.commit(this.translate.instant('save'));
     }
 
     public onElementResolved(element: IContainer): Promise<void> {
