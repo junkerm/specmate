@@ -46,19 +46,7 @@ public class NLPServiceTest {
 		Assert.assertEquals(
 				"If (IN) the (DT) tool (NN) detects (VBZ) an (DT) error (NN) , (,) it (PRP) shows (VBZ) a (DT) warning (NN) window (NN) . (.)",
 				posString);
-
-		result = nlpService.processText(
-				"Wenn die USA auf diesem Gebiet einen Krieg beginnen, müssen sie damit rechnen, selbst etwas abzubekommen.",
-				ELanguage.DE);
-		String dep = NLPUtil.printDependencies(result);
-
-		result = nlpService.processText("Klickt der Nutzer auf den Knopf, gibt das System eine Meldung aus.",
-				ELanguage.DE);
-
-		Assert.assertEquals(
-				"Klickt (VVFIN) der (ART) Nutzer (NN) auf (APPR) den (ART) Knopf (NN) , ($,) gibt (VVFIN) das (ART) System (NN) eine (ART) Meldung (NN) aus (PTKVZ) . ($.)",
-				NLPUtil.printPOSTags(result));
-
+		
 		result = nlpService.processText("Wenn das Werkzeug einen Fehler erkennt, zeigt es ein Warnfenster.",
 				ELanguage.DE);
 
@@ -157,7 +145,7 @@ public class NLPServiceTest {
 		checkCauseEffect(text, ELanguage.EN, expectedCause, expectedEffect);
 
 	}
-
+	
 	private void checkCauseEffect(String text, ELanguage language, String expectedCause, String expectedEffect)
 			throws SpecmateException {
 		INLPService nlpService = getNLPService();
