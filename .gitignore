@@ -41,7 +41,7 @@ ui-tests/.idea/
 ui-tests/.project
 ui-tests/.classpath
 
-# generated files
+# generated during build
 bundles/specmate-model-support/.project
 bundles/specmate-model-support/OSGI-INF/com.specmate.model.support.internal.EObjectUriFactory.xml
 bundles/specmate-model-support/OSGI-INF/com.specmate.model.support.internal.EObjectUriResolver.xml
