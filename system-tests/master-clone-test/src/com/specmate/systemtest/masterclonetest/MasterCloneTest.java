@@ -13,6 +13,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.json.JSONObject;
 
 public class MasterCloneTest {
 	public static final String ANSI_RESET = "\u001B[0m";
@@ -20,12 +21,20 @@ public class MasterCloneTest {
 	public static final String ANSI_YELLOW = "\u001B[33m";
 	public static final String ANSI_BLUE = "\u001B[34m";
 	public static final String ANSI_PURPLE = "\u001B[35m";
+	private static final String LOGIN_JSON = "{\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"className\":\"User\",\"userName\":\"user\",\"passWord\":\"password\",\"projectName\":\"artificial\"}";;
 
 	public static void main(String[] args) throws Exception {
 		new MasterCloneTest(args);
 	}
 
+	private RestClient masterClient;
+	private RestClient cloneClient;
+	private String currentSessionId;
+
 	public MasterCloneTest(String[] args) throws ParseException, IOException, InterruptedException {
+		masterClient = new RestClient("http://localhost:8080");
+		cloneClient = new RestClient("http://localhost:8081");
+
 		CommandLine cmd = parseCommandLine(args);
 		if (cmd == null) {
 			return;
@@ -58,6 +67,9 @@ public class MasterCloneTest {
 		Process masterProc = startSpecmate("master", ANSI_BLUE, specmate, master, masterArgs);
 		Thread.sleep(20000);
 		Process cloneProc = startSpecmate("clone", ANSI_GREEN, specmate, clone, cloneArgs);
+		Thread.sleep(20000);
+
+		performTests();
 
 		System.in.read();
 		masterProc.destroy();
@@ -112,5 +124,29 @@ public class MasterCloneTest {
 		}
 
 		return cmd;
+	}
+
+	private void performTests() {
+		testLogin();
+		// testCreateModel();
+	}
+
+	private void testLogin() {
+		loginOnMaster();
+		// killMaster();
+		// verifyLoggedInOnClone();
+		// restartMaster();
+		// verifyLoggedInOnMaster();
+		// killMaster();
+		// verifyLoggedInOnClone();
+		// logoutOnClone();
+		// restartMaster();
+		// verifyLoggedOutOnMaster();
+	}
+
+	private void loginOnMaster() {
+		RestResult<JSONObject> result = masterClient.post("/services/rest/login", new JSONObject(LOGIN_JSON));
+		currentSessionId = result.getPayload().getString("id");
+
 	}
 }

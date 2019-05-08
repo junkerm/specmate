@@ -5,5 +5,15 @@
 	<classpathentry kind="lib" path="jar/commons-cli-1.4.jar"/>
 	<classpathentry kind="lib" path="jar/commons-lang3-3.5.jar"/>
 	<classpathentry kind="lib" path="jar/commons-collections4-4.3.jar"/>
+	<classpathentry kind="lib" path="jar/hk2-api-2.5.0-b42.jar"/>
+	<classpathentry kind="lib" path="jar/hk2-locator-2.5.0-b42.jar"/>
+	<classpathentry kind="lib" path="jar/hk2-utils-2.5.0-b42.jar"/>
+	<classpathentry kind="lib" path="jar/javax.annotation-api-1.2.jar"/>
+	<classpathentry kind="lib" path="jar/javax.inject-2.5.0-b42.jar"/>
+	<classpathentry kind="lib" path="jar/javax.ws.rs-api-2.1.jar"/>
+	<classpathentry kind="lib" path="jar/jersey-client.jar"/>
+	<classpathentry kind="lib" path="jar/jersey-common.jar"/>
+	<classpathentry kind="lib" path="jar/jersey-hk2.jar"/>
+	<classpathentry kind="lib" path="jar/json-20180130.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
