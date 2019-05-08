@@ -47,6 +47,6 @@ bundles/specmate-model-support/OSGI-INF/com.specmate.model.support.internal.EObj
 bundles/specmate-model-support/OSGI-INF/com.specmate.model.support.internal.EObjectUriResolver.xml
 bundles/specmate-model-support/OSGI-INF/com.specmate.model.support.internal.ModelProviderImpl.xml
 bundles/specmate-model-support/OSGI-INF/com.specmate.model.support.internal.SerializationConfiguration.xml
-**/generated/buildfiles
+generated/
 bundles/cnf/releaserepo/index.xml.sha
 bundles/specmate-model-generators-typescript/src/com/specmate/model/generators/typescript/GenerateAngular.java
