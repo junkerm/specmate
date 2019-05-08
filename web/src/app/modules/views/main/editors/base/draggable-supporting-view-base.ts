@@ -74,7 +74,6 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
         }
         return this.dataService.readContents(this.element.url)
             .then((contents: IContainer[]) => this.contents = contents as IContentElement[])
-            .then(() => this.sanitizeContentPositions(true))
             .then(() => this.dataService.commit(this.translate.instant('save')));
     }
 }
