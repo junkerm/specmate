@@ -141,7 +141,6 @@ public abstract class MatcherBase {
 		while(currentMatcherIndex < matchSize) {
 			MatcherBase currentMatcher = matchers.get(currentMatcherIndex);
 			boolean unmatched = true;
-			
 			for(int i = matching[currentMatcherIndex]; i < candidateSize; i++) {
 				if (availableCandidates.contains(i+1)) {
 					if(matchResults[currentMatcherIndex][i] == null) {
@@ -151,7 +150,7 @@ public abstract class MatcherBase {
 					
 					if(matchResults[currentMatcherIndex][i].isSuccessfulMatch()) {
 						unmatched = false;
-						matching[currentMatcherIndex] = 0;
+						matching[currentMatcherIndex] = i;
 						currentMatcherIndex++;
 						availableCandidates.remove(i+1);
 						break;
@@ -163,6 +162,7 @@ public abstract class MatcherBase {
 			
 			if (unmatched) {
 				if (currentMatcherIndex > 0) {
+					matching[currentMatcherIndex] = 0;
 					currentMatcherIndex--;
 					availableCandidates.add(1+matching[currentMatcherIndex]);
 					matching[currentMatcherIndex]++;

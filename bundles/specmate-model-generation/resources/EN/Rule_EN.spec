@@ -188,7 +188,13 @@ def rule DanglingConditional2 {
 
 def subtrees  PartA, PartB, Head
 
-def rule Conjunction_NOR {
+def rule Conjunction_NOR_1 {
+	[PartA] - preconj -> CC:'neither'
+	[PartA] - cc -> CC: 'nor'
+	[PartA] - conj -> [PartB]
+}
+
+def rule Conjunction_NOR_2 {
 	[PartA] - preconj -> CC:'neither'
 	[PartA] - cc -> CC: 'nor'
 	[PartA] - conj -> [PartB]
@@ -222,6 +228,12 @@ def rule Negation {
 
 def subtrees Variable, Condition
 
-def rule SubjPred {
+def rule CondVar {
 	[Condition] - nsubj -> [Variable]
+}
+
+def subtrees Verb, Object
+
+def rule VerbObject {
+	[Verb] - dobj -> [Object]
 }

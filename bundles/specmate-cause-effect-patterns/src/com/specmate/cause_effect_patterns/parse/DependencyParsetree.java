@@ -27,7 +27,14 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
  *
  */
 public class DependencyParsetree {
+	private static Set<String> ignoreDependency;
+	static {
+		DependencyParsetree.ignoreDependency = new HashSet<String>();
+		DependencyParsetree.ignoreDependency.add("punct");
+	}
+	
 	private static String ROOT = "ROOT";
+	
 	
 	private Map<Token, DependencyNode> dependencies;
 	private Set<Token> heads;
@@ -45,6 +52,10 @@ public class DependencyParsetree {
 		
 		for(Dependency d: dependencyList) {
 			Token governor = d.getGovernor();
+			
+			if(DependencyParsetree.ignoreDependency.contains(d.getDependencyType())) {
+				continue;
+			}
 			
 			if(!result.dependencies.containsKey(governor)) {
 				result.dependencies.put(governor, new DependencyNode());
@@ -158,12 +169,16 @@ public class DependencyParsetree {
 		return this.treeFragments.get(index);
 	}
 	
-	public String getRepresentationString() {
+	public String getRepresentationString(boolean capitalize) {
 		String result = this.treeFragments.stream()
 						  				  .map(f -> f.text)
 						  				  .filter(str -> str.length() > 1)
 						  				  .collect(Collectors.joining(" "));
-		return result.substring(0, 1).toUpperCase() + result.substring(1);
+		if(capitalize) {
+			result = result.substring(0, 1).toUpperCase() + result.substring(1); 
+		}
+		
+		return result;
 	}
 	
 	public String getTreeFragmentText() {

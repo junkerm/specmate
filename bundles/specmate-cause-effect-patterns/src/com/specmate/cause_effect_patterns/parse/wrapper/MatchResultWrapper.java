@@ -12,13 +12,16 @@ public class MatchResultWrapper {
 		public static final String HEAD = "Head";
 		public static final String CONDITION ="Condition";
 		public static final String VARIABLE = "Variable";
+		public static final String VERB = "Verb";
+		public static final String OBJECT = "Object";
 	}
 	
 	public static class RuleNames {
 		public static final String CONDITION = "Condition";
 		public static final String CONJUNCTION = "Conjunction";
 		public static final String NEGATION = "Negation";
-		public static final String SUBJ_PRED = "SubjPred";
+		public static final String CONDITION_VARIABLE = "CondVar";
+		public static final String VERB_OBJECT = "VerbObject";
 		public static final String XOR = "_XOR";
 		public static final String NOR = "_NOR";
 		public static final String OR = "_OR";
@@ -78,9 +81,15 @@ public class MatchResultWrapper {
 		return name && subMatches && isSucessfull();
 	}
 	
-	public boolean isSubjPred() {
-		boolean name = this.result.hasRuleName() && this.result.getRuleName().contains(RuleNames.SUBJ_PRED);
+	public boolean isConditionVarible() {
+		boolean name = this.result.hasRuleName() && this.result.getRuleName().contains(RuleNames.CONDITION_VARIABLE);
 		boolean subMatches = this.result.hasSubmatch(SubtreeNames.VARIABLE) && this.result.hasSubmatch(SubtreeNames.CONDITION);
+		return name && subMatches && isSucessfull();
+	}
+	
+	public boolean isVerbObject() {
+		boolean name = this.result.hasRuleName() && this.result.getRuleName().contains(RuleNames.VERB_OBJECT);
+		boolean subMatches = this.result.hasSubmatch(SubtreeNames.VERB) && this.result.hasSubmatch(SubtreeNames.OBJECT);
 		return name && subMatches && isSucessfull();
 	}
 	
@@ -91,8 +100,10 @@ public class MatchResultWrapper {
 			return this.getFromSubtree(SubtreeNames.PART_A);
 		} else if(isNegation()) {
 			return this.getFromSubtree(SubtreeNames.HEAD);
-		} else if(isSubjPred()) {
+		} else if(isConditionVarible()) {
 			return this.getFromSubtree(SubtreeNames.VARIABLE);
+		} else if(isVerbObject()) {
+			return this.getFromSubtree(SubtreeNames.VERB);
 		}
 		
 		return null;
@@ -103,8 +114,10 @@ public class MatchResultWrapper {
 			return this.getFromSubtree(SubtreeNames.EFFECT);
 		} else if(isConjunction()) {
 			return this.getFromSubtree(SubtreeNames.PART_B);
-		} else if(isSubjPred()) {
+		} else if(isConditionVarible()) {
 			return this.getFromSubtree(SubtreeNames.CONDITION);
+		}  else if(isVerbObject()) {
+			return this.getFromSubtree(SubtreeNames.OBJECT);
 		}
 		return null;
 	}

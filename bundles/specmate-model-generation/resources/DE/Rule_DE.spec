@@ -172,8 +172,13 @@ def rule DanglingConditional2_2 {
 
 def subtrees  PartA, PartB, Head
 
-def rule Conjunction_XOR {
+def rule Conjunction_XOR_1 {
 	KON:'entweder' - CJ -> [PartA] - KON -> KON: 'oder' - CJ -> [PartB]
+}
+
+def rule Conjunction_XOR_2 {
+	[PartA] - KON -> KON:'entweder' 
+	[PartA] - KON -> KON: 'oder' - CJ -> [PartB]
 }
 
 def rule Conjunction_OR {
@@ -191,6 +196,12 @@ def rule Conjunction_AND_2 {
 
 def subtrees Variable, Condition
 
-def rule SubjPred {
+def rule CondVar {
 	[Condition] - SUBJ -> [Variable]
+}
+
+def subtrees Verb, Object
+
+def rule VerbObject {
+	[Verb] - OBJA -> [Object]
 }

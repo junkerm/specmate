@@ -34,10 +34,11 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 	private CEGCreation creation;
 	private ELanguage lang;
 	
-	private static final int XSTART  = 100;
-	private static final int YSTART  = 50;
-	private static final int XOFFSET = 250;
-	private static final int YOFFSET = 60;
+	private static final int XSTART  = 225;
+	private static final int YSTART  = 225;
+	
+	private static final int XOFFSET = 300;
+	private static final int YOFFSET = 150;
 	
 	
 	public PatternbasedCEGGenerator(ELanguage lang, INLPService tagger) throws URISyntaxException, XTextException {
@@ -96,13 +97,14 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 				}
 				
 				// Get Maximal Depth
-				// (MAX_cause in causes GETCAUSEDEPTH)
 				int maxDepth = causes.stream().mapToInt(this::getCauseDepth).max().getAsInt();
-				if(causes.size() > 1) {
-					maxDepth++;
+				
+				if(causes.size() == 1 && maxDepth > 1) {
+					// We can save a layer if we only have one direct cause
+					maxDepth--;
 				}
 				
-				// Create Positioning Table
+				// Create Positioning Table with extra layer for the effects
 				int[] positioningTable = new int[maxDepth + 1];
 				Arrays.fill(positioningTable, 0);
 				
@@ -113,6 +115,20 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 			}
 		}
 		return model;
+	}
+	
+	private String innerVariableString() {
+		if(this.lang == ELanguage.DE) {
+			return "Innerer Knoten";
+		}
+		return "Inner Node";
+	}
+	
+	private String innerConditionString() {
+		if(this.lang == ELanguage.DE) {
+			return "ist erfüllt";
+		}
+		return "is fulfilled";
 	}
 	
 	private DirectCause resolveCauses(CEGModel model, LinkedList<CEGNode> nodes, List<MatchResultWrapper> causes, int[] positioningTable, int offset) {
@@ -128,14 +144,15 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 				int xPos = XSTART + (offset) * XOFFSET;
 				int yPos = YSTART + i * YOFFSET;
 				// Generate Fake Effect Nodes
-				CEGNode node = this.creation.createNode(model, "Inner Cause "+(i+1), "is fulfilled", xPos , yPos, dirCause.effectType);
+				String var  = innerVariableString();
+				String cond = innerConditionString(); 
+				CEGNode node = this.creation.createNode(model, var+" "+(i+1), cond, xPos , yPos, dirCause.effectType);
 				fullyConnect(model, dirCause, node);
 				// Add Fake Effect Node to DirectCause Positive Causes
 				result.positiveCauses.add(node);
 			} else {
 				// Add Resolved Positive/Negative Causes to DirectCause
-				result.positiveCauses.addAll(dirCause.positiveCauses);
-				result.negativeCauses.addAll(dirCause.negativeCauses);
+				result = dirCause;
 			}
 		}
 			
@@ -172,19 +189,30 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 		DirectCause result = new DirectCause();
 		
 		if(cause.isConjunction()) {
-			int subOffset = 1;
+			
+			int nodeOffset = 0;
 			if(cause.isXorConjunction()) {
-				subOffset = 2;
+				nodeOffset = 1;
 			}
-			DirectCause dA = resolveCause(model, nodes, cause.getFirstArgument(), posTable, offset - subOffset);
+			
+			MatchResultWrapper partA = cause.getFirstArgument();
+			int depthA = getCauseDepth(partA);
+			int offsetA = depthA > 1? 1 : 0;
+			
+			MatchResultWrapper partB = cause.getSecondArgument();
+			int depthB = getCauseDepth(partA);
+			int offsetB = depthB > 1? 1 : 0;
+			
+			DirectCause dA = resolveCause(model, nodes, partA, posTable, offset - nodeOffset - offsetA);
 			int dACauseCount = dA.negativeCauses.size() + dA.positiveCauses.size();
-			DirectCause dB = resolveCause(model, nodes, cause.getSecondArgument(), posTable, offset - subOffset);
+			
+			DirectCause dB = resolveCause(model, nodes, partB, posTable, offset - nodeOffset - offsetB);
 			int dBCauseCount = dB.negativeCauses.size() + dB.positiveCauses.size();
 			
 			if(dACauseCount > 1) {
 				// Create Inner Node
-				String variable = "Inner Node "+(offset-subOffset+1)+"-"+(posTable[offset-subOffset]+1);
-				CEGNode node = addNode(model, nodes, variable, "is fulfilled", posTable, offset-subOffset, dA.effectType);
+				String variable = innerVariableString()+ " "+(offset-nodeOffset+1)+"-"+(posTable[offset-nodeOffset]+1);
+				CEGNode node = addNode(model, nodes, variable, innerConditionString(), posTable, offset-nodeOffset, dA.effectType);
 				fullyConnect(model, dA, node);
 				dA.positiveCauses.clear();
 				dA.negativeCauses.clear();
@@ -193,8 +221,8 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 			
 			if(dBCauseCount > 1) {
 				// Create Inner Node
-				String variable = "Inner Node "+(offset-subOffset+1)+"-"+(posTable[offset-subOffset]+1);
-				CEGNode node = addNode(model, nodes, variable, "is fulfilled", posTable, offset-subOffset, dB.effectType);
+				String variable = innerVariableString()+ " "+(offset-nodeOffset+1)+"-"+(posTable[offset-nodeOffset]+1);
+				CEGNode node = addNode(model, nodes, variable, innerConditionString(), posTable, offset-nodeOffset, dB.effectType);
 				fullyConnect(model, dB, node);
 				dB.positiveCauses.clear();
 				dB.negativeCauses.clear();
@@ -210,15 +238,15 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 
 				DirectCause tmp = DirectCause.mergeCauses(dA, dB);
 				for(CEGNode pNode: tmp.positiveCauses) {
-					String variable = "XOR Node "+ (offset)+"-"+(posTable[offset-1]+1);
-					CEGNode xorNode = addNode(model, nodes, variable, "is fulfilled", posTable, offset-1, NodeType.AND);
+					String variable = innerVariableString()+ " "+ (offset+1)+"-"+(posTable[offset]+1);
+					CEGNode xorNode = addNode(model, nodes, variable, innerConditionString(), posTable, offset, NodeType.AND);
 					xorConnect(model, tmp, xorNode, pNode);
 					result.positiveCauses.add(xorNode);
 				}
 				
 				for(CEGNode nNode: tmp.negativeCauses) {
-					String variable = "XOR Node "+ (offset)+"-"+(posTable[offset-1]+1);
-					CEGNode xorNode = addNode(model, nodes, variable, "is fulfilled", posTable, offset-1, NodeType.AND);
+					String variable = innerVariableString()+ " "+ (offset+1)+"-"+(posTable[offset]+1);
+					CEGNode xorNode = addNode(model, nodes, variable, innerConditionString(), posTable, offset, NodeType.AND);
 					xorConnect(model, tmp, xorNode, nNode);
 					result.positiveCauses.add(xorNode);
 				}
@@ -253,16 +281,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 			}
 		} else {
 			// Create Direct Node
-			String variable = "";
-			String condition = "";
-			
-			if(cause.isSubjPred()) {
-				variable = cause.getFirstArgument().result.getMatchTree().getRepresentationString();
-				condition = cause.getSecondArgument().result.getMatchTree().getRepresentationString();
-			} else {
-				variable = cause.result.getMatchTree().getRepresentationString();
-			} 
-			CEGNode node = addNode(model, nodes, variable, condition, posTable, offset, NodeType.AND);
+			CEGNode node = addDirectNode(model, nodes, cause, posTable, offset, NodeType.AND);
 			result.positiveCauses.add(node);
 		}
 		return result;
@@ -271,12 +290,34 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 	private CEGNode addNode(CEGModel model, LinkedList<CEGNode> nodes, String variable, String condition, int[] posTable, int offset, NodeType type) {
 		int posX = XSTART + offset * XOFFSET;
 		int posY = YSTART + posTable[offset] * YOFFSET;
+		
+		int oldSize = nodes.size();
 		CEGNode node = this.creation.createNodeIfNotExist(nodes, model, variable, condition, posX, posY, type);
-		if(!nodes.contains(node)) {
+		if(nodes.size() != oldSize) {
 			nodes.add(node);
 			posTable[offset]++;
 		}
 		return node;
+	}
+	
+	private CEGNode addDirectNode(CEGModel model, LinkedList<CEGNode> nodes, MatchResultWrapper result, int[] posTable, int offset, NodeType type) {
+		String variable = "";
+		String condition = "";
+		
+		if(result.isConditionVarible()) {
+			variable = result.getFirstArgument().result.getMatchTree().getRepresentationString(true);
+			MatchResultWrapper condWrap = result.getSecondArgument();
+			if(condWrap.isVerbObject()) {
+				String verb = condWrap.getFirstArgument().result.getMatchTree().getRepresentationString(true);
+				String object = condWrap.getSecondArgument().result.getMatchTree().getRepresentationString(false);
+				condition = verb + " " + object;
+			} else {
+				condition = condWrap.result.getMatchTree().getRepresentationString(true);	
+			}
+		} else {
+			variable = result.result.getMatchTree().getRepresentationString(true);
+		} 
+		return addNode(model, nodes, variable, condition, posTable, offset, type);
 	}
 	
 	private void fullyConnect(CEGModel model, DirectCause dirCause, CEGNode node) {
@@ -314,16 +355,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 			// Resolve Negations
 			resolveEffect(model, nodes, directCause.swapPosNegCauses(), effect.getFirstArgument(), positioningTable, offset);
 		} else {
-			String variable = "";
-			String condition = "";
-			
-			if(effect.isSubjPred()) {
-				variable = effect.getFirstArgument().result.getMatchTree().getRepresentationString();
-				condition = effect.getSecondArgument().result.getMatchTree().getRepresentationString();
-			} else {
-				variable = effect.result.getMatchTree().getRepresentationString();
-			}
-			CEGNode node = addNode(model, nodes, variable, condition, positioningTable, offset, directCause.effectType);
+			CEGNode node = addDirectNode(model, nodes, effect, positioningTable, offset, directCause.effectType);
 			fullyConnect(model, directCause, node);
 		}
 	}

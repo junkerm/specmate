@@ -45,7 +45,9 @@ public class MatchUtil {
 						sub.setRuleName(recursiveCall.getRuleName());
 						for( String subKey: recursiveCall.getSubmatchNames()) {
 							MatchResult subRes =  recursiveCall.getSubmatch(subKey);
-							subRes.setRuleName(recursiveCall.getRuleName());
+							if(!subRes.hasRuleName() ) {
+								subRes.setRuleName(recursiveCall.getRuleName());
+							}
 							sub.addSubmatch(subKey, subRes);
 						}
 					}
