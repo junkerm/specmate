@@ -314,6 +314,9 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 			} else {
 				condition = condWrap.result.getMatchTree().getRepresentationString(true);	
 			}
+		} else if (result.isVerbObject()) {
+			variable  = result.getSecondArgument().result.getMatchTree().getRepresentationString(true);
+			condition = result.getFirstArgument().result.getMatchTree().getRepresentationString(true);
 		} else {
 			variable = result.result.getMatchTree().getRepresentationString(true);
 		} 
