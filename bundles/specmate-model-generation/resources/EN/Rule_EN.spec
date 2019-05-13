@@ -1,6 +1,17 @@
 import EN.DEP.STANFORD.*
 import EN.POS.PTB.*
 
+def subtrees Limit, Conditional
+
+def rule LimitedCondition_1 {
+	[Limit] - nsubjpass -> [Conditional] - prep -> IN:'until'
+}
+
+def rule LimitedCondition_2 {
+	[Limit] - csubjpass -> [Conditional] - prep -> IN:'until'
+}
+
+
 def subtrees Cause, Effect, TMP
 
 //  If the tool detects an error then the tool beeps.
@@ -181,15 +192,15 @@ def rule Condition13_2 {
 // TODO "Any child in this tree may have a subtree X"
 
 // The tool detects an error. For this reason the tool beeps.
-def rule DanglingConditional1 {
-	IN:'for' - pobj -> [Effect] - nsubj -> NN:'reason'
-}
+//def rule DanglingConditional1 {
+//	IN:'for' - pobj -> [Effect] - nsubj -> NN:'reason'
+//}
 
 // The tool detects an error. As a result the tool beeps.
-def rule DanglingConditional2 {
-	[Effect] - mark -> IN:'as'
-	[Effect] - nsubj -> NN:'result'
-}
+//def rule DanglingConditional2 {
+//	[Effect] - mark -> IN:'as'
+//	[Effect] - nsubj -> NN:'result'
+//}
 
 def subtrees  PartA, PartB, Head
 

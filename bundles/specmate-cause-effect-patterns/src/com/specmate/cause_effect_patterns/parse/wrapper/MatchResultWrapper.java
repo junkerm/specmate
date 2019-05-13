@@ -4,6 +4,8 @@ import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
 
 public class MatchResultWrapper {
 	public static class SubtreeNames {
+		public static final String CONDITIONAL = "Conditional";
+		public static final String LIMIT = "Limit";
 		public static final String CAUSE = "Cause";
 		public static final String EFFECT ="Effect";
 		public static final String PART_A = "PartA";
@@ -17,6 +19,7 @@ public class MatchResultWrapper {
 	}
 	
 	public static class RuleNames {
+		public static final String LIMITED_CONDITION = "LimitedCondition";
 		public static final String CONDITION = "Condition";
 		public static final String CONJUNCTION = "Conjunction";
 		public static final String NEGATION = "Negation";
@@ -26,7 +29,6 @@ public class MatchResultWrapper {
 		public static final String NOR = "_NOR";
 		public static final String OR = "_OR";
 		public static final String AND = "_AND";
-			
 	}
 	
 	public MatchResult result;
@@ -46,6 +48,12 @@ public class MatchResultWrapper {
 	public boolean isCondition() {
 		boolean name = this.result.hasRuleName() && this.result.getRuleName().contains(RuleNames.CONDITION);
 		boolean subMatches = this.result.hasSubmatch(SubtreeNames.CAUSE) && this.result.hasSubmatch(SubtreeNames.EFFECT);
+		return name && subMatches && isSucessfull();
+	}
+	
+	public boolean isLimitedCondition() {
+		boolean name = this.result.hasRuleName() && this.result.getRuleName().contains(RuleNames.LIMITED_CONDITION);
+		boolean subMatches = this.result.hasSubmatch(SubtreeNames.LIMIT) && this.result.hasSubmatch(SubtreeNames.CONDITIONAL);
 		return name && subMatches && isSucessfull();
 	}
 	
@@ -94,7 +102,9 @@ public class MatchResultWrapper {
 	}
 	
 	public MatchResultWrapper getFirstArgument() {
-		if(isCondition()) {
+		if(isLimitedCondition()) {
+			return this.getFromSubtree(SubtreeNames.LIMIT);
+		} else if(isCondition()) {
 			return this.getFromSubtree(SubtreeNames.CAUSE);
 		} else if(isConjunction()) {
 			return this.getFromSubtree(SubtreeNames.PART_A);
@@ -110,7 +120,9 @@ public class MatchResultWrapper {
 	}
 	
 	public MatchResultWrapper getSecondArgument() {
-		if(isCondition()) {
+		if(isLimitedCondition()) {
+			return this.getFromSubtree(SubtreeNames.CONDITIONAL);
+		} else if(isCondition()) {
 			return this.getFromSubtree(SubtreeNames.EFFECT);
 		} else if(isConjunction()) {
 			return this.getFromSubtree(SubtreeNames.PART_B);

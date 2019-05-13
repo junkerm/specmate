@@ -17,7 +17,8 @@
 	specmate-common;version=latest,\
 	specmate-model-support;version=latest,\
 	org.apache.commons.lang3,\
-	specmate-cause-effect-patterns
+	specmate-cause-effect-patterns,\
+	specmate-config-api;version=latest
 Private-Package: \
 	com.specmate.modelgeneration,\
 	com.specmate.modelgeneration.hardcoded

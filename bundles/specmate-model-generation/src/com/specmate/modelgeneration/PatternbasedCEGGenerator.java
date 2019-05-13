@@ -81,6 +81,12 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 		for(MatchResult result: results) {
 			MatchResultWrapper res = new MatchResultWrapper(result);
 			
+			Vector<MatchResultWrapper> limits = new Vector<MatchResultWrapper>();
+			while(res.isLimitedCondition()) {
+				limits.add(res.getFirstArgument());
+				res = res.getSecondArgument();
+			}
+			
 			if(res.isCondition()) {
 				// Resolve Cause & Effect
 				
