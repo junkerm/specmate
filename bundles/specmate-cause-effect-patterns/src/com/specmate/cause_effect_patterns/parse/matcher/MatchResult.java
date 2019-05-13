@@ -1,9 +1,11 @@
 package com.specmate.cause_effect_patterns.parse.matcher;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Vector;
 
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
@@ -80,10 +82,34 @@ public class MatchResult {
 		for(String subtreeID: subtree.submatch.keySet()) {
 			this.submatch.put(subtreeID, subtree.submatch.get(subtreeID));
 		}
+		if(subtree.submatch.size() > 0) {
+			this.mergePrefixSubmatches();
+		}
+		
 		this.isSuccessfulMatch = this.isSuccessfulMatch() && subtree.isSuccessfulMatch();
 		this.getMatchTree().addSubtree(subtree.getMatchTree());
 	}
 
+	
+	private void mergePrefixSubmatches() {
+		Vector<String> keys = new Vector<String>(this.submatch.keySet());
+		Collections.sort(keys, (s1,s2) -> s1.length() - s2.length());
+		for (int i = 0; i < keys.size(); i++) {
+			String keyA = keys.get(i);
+			for (int j = i+1; j < keys.size(); j++) {
+				String keyB = keys.get(j);
+				if(keyB.startsWith(keyA+"_")) {
+					//merge keys
+					MatchResult resA = this.submatch.get(keyA);
+					MatchResult resB = this.submatch.get(keyB);
+					resA.addSubtree(resB);
+					keys.remove(j);
+					j--;
+				}
+			}
+		}
+	}
+	
 	public DependencyParsetree getMatchTree() {
 		return matchTree;
 	}

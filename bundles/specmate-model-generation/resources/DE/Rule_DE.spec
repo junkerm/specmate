@@ -156,21 +156,22 @@ def rule Condition15 {
 
 
 // Das Werkzeug erkennt einen Fehler. Aus diesem Grund zeigt es ein Fenster.
-def rule DanglingConditional1 {
-	[Effect] - PP -> APPR:'aus' - PN -> NN:CASE!'Grund' - DET -> PDAT:'diesem' 
-}
+//def rule DanglingConditional1 {
+//	[Effect] - PP -> APPR:'aus' - PN -> NN:CASE!'Grund' - DET -> PDAT:'diesem' 
+//}
 
 // Das Werkzeug erkennt einen Fehler. Dies hat zur Folge, dass es ein Fenster anzeigt.
-def rule DanglingConditional2_1 {
-	VAFIN:'hat' - NEB -> [Effect] 
-}
+//def rule DanglingConditional2_1 {
+//	VAFIN:'hat' - NEB -> [Effect] 
+//}
 
 // Das Werkzeug erkennt einen Fehler. Dies hat das Anzeigen eines Fensters zur Folge.
-def rule DanglingConditional2_2 {
-	VAFIN:'hat' - OBJA-> [Effect] 
-}
+//def rule DanglingConditional2_2 {
+//	VAFIN:'hat' - OBJA-> [Effect] 
+//}
 
 def subtrees  PartA, PartB, Head
+def subtrees  PartA_SubA, PartA_SubB, PartB_SubA
 
 def rule Conjunction_XOR_1 {
 	KON:'entweder' - CJ -> [PartA] - KON -> KON: 'oder' - CJ -> [PartB]
@@ -192,6 +193,11 @@ def rule Conjunction_AND_1 {
 def rule Conjunction_AND_2 {
 	[PartA] - KON -> KON: 'sowohl' 
 	[PartA] - KOM -> KOKOM:'als' - CJ -> [PartB] - ADV -> ADV:'auch'
+}
+
+def rule Conjunction_NOR {
+	[PartA] - SUBJ -> [PartA_SubA] - KON -> KON:'weder' - CJ -> [PartA_SubB]
+	[PartA] - REL  -> [PartB] - SUBJ -> [PartB_SubA] - ADV -> ADV:'noch'
 }
 
 def subtrees Variable, Condition
