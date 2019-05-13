@@ -166,31 +166,6 @@ public class ModelGenerationTest extends EmfRestTest {
 		checkResultingModel(generated, model);
 	}
 
-	/*@Test
-	public void testModelGenerationDe3_AndOr() {
-		String text = "Wenn der Benutzer keine Anmeldung hat und Anmeldepflicht besteht oder ein Fehler erkannt wird, zeigt das Werkzeug ein Warnfenster an und gibt einen Signalton aus.";
-		RequirementsFactory f = RequirementsFactory.eINSTANCE;
-		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "ein Fehler", "erkannt wird", NodeType.AND);
-		CEGNode node2 = createNode(model, "der Benutzer", "eine Anmeldung hat", NodeType.AND);
-		CEGNode node3 = createNode(model, "Anmeldepflicht", "besteht", NodeType.AND);
-		CEGNode node4 = createNode(model, "der Benutzer", "keine Anmeldung hat und Anmeldepflicht besteht",
-				NodeType.AND);
-		CEGNode node5 = createNode(model, "das Werkzeug", "zeigt ein Warnfenster an", NodeType.OR);
-		CEGNode node6 = createNode(model, "das Werkzeug", "gibt einen Signalton aus", NodeType.OR);
-
-		createConnection(model, node2, node4, true);
-		createConnection(model, node3, node4, false);
-		createConnection(model, node4, node5, false);
-		createConnection(model, node4, node6, false);
-		createConnection(model, node1, node5, false);
-		createConnection(model, node1, node6, false);
-
-		JSONArray generated = generateCEGWithModelRequirementsText(text);
-		checkResultingModel(generated, model);
-	} 
-	*/
-
 	@Test
 	public void testModelGenerationDe4_SpecmateExamples() {
 		// TODO: Fix variable/condition split
