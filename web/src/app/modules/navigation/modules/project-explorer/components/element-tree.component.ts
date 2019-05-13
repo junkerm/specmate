@@ -58,6 +58,7 @@ export class ElementTree implements OnInit {
         this._currentElement = currentElement;
         if (this.isMustOpen) {
             this.initContents();
+            this._collapsed = true;
         }
     }
 
@@ -81,8 +82,11 @@ export class ElementTree implements OnInit {
 
     public _expanded = false;
     public get expanded(): boolean {
-        if (!this._expanded && this.isMustOpen) {
-            this._expanded = true;
+        if (this._collapsed) {
+            if (!this._expanded && this.isMustOpen) {
+                 this._expanded = true;
+                 this._collapsed = false;
+            }
         }
         return this._expanded;
     }
@@ -113,9 +117,12 @@ export class ElementTree implements OnInit {
         }
     }
 
+    private _collapsed = true;
+
     public toggle(): void {
         if (this.expanded) {
             this.contract();
+            this._collapsed = false;
         } else {
             this.expand();
         }
