@@ -222,7 +222,7 @@ public class ModelGenerationTest extends EmfRestTest {
 			boolean matched = (EmfRestTestUtil.matches(generated,
 					MATCHES_VAR_COND(node.getVariable(), node.getCondition(), node.getType().getLiteral())));
 			Assert.assertTrue("Node with variable \"" + node.getVariable() + "\" and condition \"" + node.getCondition()
-					+ "\" not found.", matched);
+					+ "\" not found. With variables generated:" + generated + " and machtes-var-cond: " + MATCHES_VAR_COND(node.getVariable(), node.getCondition(), node.getType().getLiteral()) , matched);
 		}
 
 		// Verify connections
