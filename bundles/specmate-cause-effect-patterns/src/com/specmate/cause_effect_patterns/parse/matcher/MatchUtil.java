@@ -58,26 +58,4 @@ public class MatchUtil {
 		
 		return result;
 	}
-	
-	public static class SubtreeNames {
-		public static final String CAUSE = "Cause";
-		public static final String EFFECT ="Effect";
-		public static final String PART_A = "PartA";
-		public static final String PART_B = "PartB";
-		public static final String TMP = "TMP";
-		public static final String HEAD = "Head";
-		public static final String CONDITION ="Condition";
-		public static final String VARIABLE = "Variable";
-	}
-	
-	public static class RuleNames {
-		public static final String CONDITION = "Condition";
-		public static final String CONJUNCTION = "Conjunction";
-		public static final String NEGATION = "Negation";
-	
-		public static final String XOR = "_XOR";
-		public static final String NOR = "_NOR";
-		public static final String OR = "_OR";
-		public static final String AND = "_AND";	
-	}
 }

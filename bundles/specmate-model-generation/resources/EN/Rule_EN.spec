@@ -51,6 +51,11 @@ def rule Condition2_4 {
 	[Effect] - advcl -> [Cause] - advmod -> WRB:'when'
 }
 
+def rule Condition2_5 {
+	[Cause] - advmod -> WRB: 'when'
+	[Cause] - parataxis -> [Effect]
+}
+
 // The tool detects an error for this reason the tool beeps .
 def rule Condition3_1 {
 	[Cause] - advcl -> [Effect] - mark -> IN:'for'
@@ -228,8 +233,12 @@ def rule Negation {
 
 def subtrees Variable, Condition
 
-def rule CondVar {
+def rule CondVar_1 {
 	[Condition] - nsubj -> [Variable]
+}
+
+def rule CondVar_2 {
+	[Condition] - nsubjpass -> [Variable]
 }
 
 def subtrees Verb, Object

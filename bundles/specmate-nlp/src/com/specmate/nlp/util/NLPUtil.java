@@ -225,9 +225,10 @@ public class NLPUtil {
 		return Optional.empty();
 	}
 
+	private static String DE_Pattern = "\\b(der|die|das|ein|eine|einen)\\b";
+	
 	public static ELanguage detectLanguage(String text) {
-		if (text.contains("der") || text.contains("die") || text.contains("das") || text.contains("ein")
-				|| text.contains("eine") || text.contains("einen")) {
+		if (text.matches("(?i)(.*)"+DE_Pattern+"(.*)")) {
 			return ELanguage.DE;
 		}
 		return ELanguage.EN;

@@ -177,7 +177,7 @@ public abstract class MatcherBase {
 			// Invert the adding 1 from before
 			int remain = remainElement - 1;
 			Dependency dep = candidates.get(remain);
-			unmatched.addSubtree(DependencyParsetree.getSubtree(data, dep.getGovernor()),dep);
+			unmatched.addSubtree(DependencyParsetree.getSubtree(data, dep.getDependent()),dep);
 		}
 		
 		MatchResult result = MatchResult.success(unmatched);
