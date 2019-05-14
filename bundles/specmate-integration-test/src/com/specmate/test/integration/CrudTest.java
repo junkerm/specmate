@@ -593,7 +593,7 @@ public class CrudTest extends EmfRestTest {
 				numberOfInconsistentTests++;
 			}
 		}
-		Assert.assertEquals(1, numberOfInconsistentTests);
+		Assert.assertEquals(2, numberOfInconsistentTests);
 	}
 
 	/**
@@ -733,7 +733,7 @@ public class CrudTest extends EmfRestTest {
 				numberOfInconsistentTests++;
 			}
 		}
-		Assert.assertEquals(1, numberOfInconsistentTests);
+		Assert.assertEquals(2, numberOfInconsistentTests);
 		getResult.getResponse().close();
 	}
 
