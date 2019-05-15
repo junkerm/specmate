@@ -30,6 +30,8 @@ public class MasterCloneTest {
 	private RestClient masterClient;
 	private RestClient cloneClient;
 	private String currentSessionId;
+	private Process masterProc;
+	private Process cloneProc;
 
 	public MasterCloneTest(String[] args) throws ParseException, IOException, InterruptedException {
 		masterClient = new RestClient("http://localhost:8080");
@@ -64,9 +66,9 @@ public class MasterCloneTest {
 			System.exit(1);
 		}
 
-		Process masterProc = startSpecmate("master", ANSI_BLUE, specmate, master, masterArgs);
+		masterProc = startSpecmate("master", ANSI_BLUE, specmate, master, masterArgs);
 		Thread.sleep(20000);
-		Process cloneProc = startSpecmate("clone", ANSI_GREEN, specmate, clone, cloneArgs);
+		cloneProc = startSpecmate("clone", ANSI_GREEN, specmate, clone, cloneArgs);
 		Thread.sleep(20000);
 
 		performTests();
@@ -127,14 +129,19 @@ public class MasterCloneTest {
 	}
 
 	private void performTests() {
-		testLogin();
-		// testCreateModel();
+		try {
+			testLogin();
+			// testCreateModel();
+		} catch (Exception e) {
+			System.exit(1);
+		}
+		System.exit(0);
 	}
 
 	private void testLogin() {
 		loginOnMaster();
-		// killMaster();
-		// verifyLoggedInOnClone();
+		verifyLoggedInOnClone();
+		killMaster();
 		// restartMaster();
 		// verifyLoggedInOnMaster();
 		// killMaster();
@@ -148,5 +155,24 @@ public class MasterCloneTest {
 		RestResult<JSONObject> result = masterClient.post("/services/rest/login", new JSONObject(LOGIN_JSON));
 		currentSessionId = result.getPayload().getString("id");
 
+		// TODO:besser
+		masterClient.setCookie("specmate-user-token", getSpecmateToken());
+		cloneClient.setCookie("specmate-user-token", getSpecmateToken());
 	}
+
+	private String getSpecmateToken() {
+		return "{\"session\":{\"lastActive\":\"1557920085291\",\"allowedPathPattern\":\".+services/rest/artificial/.*\",\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"libraryFolders\":[],\"TargetSystem\":\"NONE\",\"className\":\"UserSession\",\"id\":\""
+				+ currentSessionId
+				+ "\",\"userName\":\"asdf\",\"SourceSystem\":\"ALL\",\"url\":\"kd7UcAQMnqsuFb9E3jySCAs3KqwxZTWu\"},\"project\":\"artificial\",\"libraryFolders\":[]}, value);";
+	}
+
+	private void killMaster() {
+		masterProc.destroy();
+	}
+
+	private void verifyLoggedInOnClone() {
+		RestResult<JSONObject> result = masterClient.get("services/rest/artificial/list");
+		System.out.println(result);
+	}
+
 }

@@ -1,5 +1,9 @@
 package com.specmate.systemtest.masterclonetest;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -20,6 +24,7 @@ public class RestClient {
 	private Client restClient;
 	private String restUrl;
 	private int timeout;
+	private Map<String, String> cookies = new HashMap<>();
 
 	public RestClient(String restUrl, int timeout) {
 		restClient = initializeClient();
@@ -59,6 +64,9 @@ public class RestClient {
 		}
 		WebTarget getTarget = restClient.target(uriBuilder);
 		Invocation.Builder invocationBuilder = getTarget.request();
+		for (Entry<String, String> cookie : cookies.entrySet()) {
+			invocationBuilder.cookie(cookie.getKey(), cookie.getValue());
+		}
 		return invocationBuilder;
 	}
 
@@ -109,6 +117,10 @@ public class RestClient {
 		Invocation.Builder invocationBuilder = getInvocationBuilder(url);
 		Response response = invocationBuilder.delete();
 		return new RestResult<>(response, url, null);
+	}
+
+	public void setCookie(String key, String value) {
+		cookies.put(key, value);
 	}
 
 }
