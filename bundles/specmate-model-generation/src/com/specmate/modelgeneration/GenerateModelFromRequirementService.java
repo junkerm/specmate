@@ -42,13 +42,11 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	@Override
 	public RestResult<?> post(Object parent, Object child, String token) {
 		CEGModel model = (CEGModel) parent;
-		Requirement req = (Requirement) model.eContainer();
 		try {
-			model = generateModelFromDescription(model, req);
+			model = generateModelFromDescription(model);
 		} catch (SpecmateException e) {
 			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
 		}
-		req.getContents().add(model);
 		return new RestResult<>(Response.Status.OK);
 	}
 
@@ -57,10 +55,9 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	 *
 	 * @param model
 	 *            CEGModel
-	 * @param requirement
 	 * @return
 	 */
-	private CEGModel generateModelFromDescription(CEGModel model, Requirement requirement) throws SpecmateException {
+	private CEGModel generateModelFromDescription(CEGModel model) throws SpecmateException {
 		String text = model.getModelRequirements();
 		if (text == null || StringUtils.isEmpty(text)) {
 			return model;
