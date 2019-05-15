@@ -71,14 +71,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 		return unfolder.unfold(this.tagger, text, this.lang);
 	}
 	
-	public CEGModel createModel(CEGModel model, String text) throws SpecmateException {
-		{
-			System.out.println(text);
-			JCas tagResult = this.tagger.processText(text, this.lang);
-			DependencyParsetree data = DependencyParsetree.generateFromJCas(tagResult);
-			System.out.println(data);
-		}
-		
+	public CEGModel createModel(CEGModel model, String text) throws SpecmateException {		
 		text = preprocessData(text);
 		JCas tagResult = this.tagger.processText(text, this.lang);
 		DependencyParsetree data = DependencyParsetree.generateFromJCas(tagResult);
