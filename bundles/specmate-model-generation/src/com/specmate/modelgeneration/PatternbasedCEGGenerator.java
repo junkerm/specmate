@@ -72,6 +72,13 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 	}
 	
 	public CEGModel createModel(CEGModel model, String text) throws SpecmateException {
+		{
+			System.out.println(text);
+			JCas tagResult = this.tagger.processText(text, this.lang);
+			DependencyParsetree data = DependencyParsetree.generateFromJCas(tagResult);
+			System.out.println(data);
+		}
+		
 		text = preprocessData(text);
 		JCas tagResult = this.tagger.processText(text, this.lang);
 		DependencyParsetree data = DependencyParsetree.generateFromJCas(tagResult);

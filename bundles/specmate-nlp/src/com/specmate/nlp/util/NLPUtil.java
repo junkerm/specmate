@@ -224,6 +224,20 @@ public class NLPUtil {
 		}
 		return Optional.empty();
 	}
+	
+	public static List<Dependency> findDependencies(Collection<Dependency> dependencies, Annotation anno,
+			String depType, boolean isGovernor) {
+		List<Token> tokens;
+		if (anno instanceof Token) {
+			tokens = Arrays.asList((Token) anno);
+		} else {
+			tokens = JCasUtil.selectCovered(Token.class, anno);
+		}
+		
+		return dependencies.stream()
+					.filter(d -> d.getDependencyType().equals(depType) && tokens.contains(isGovernor ? d.getGovernor() : d.getDependent()))
+					.collect(Collectors.toList());
+	}
 
 	private static String DE_Pattern = "\\b(der|die|das|ein|eine|einen)\\b";
 	

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Vector;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
@@ -25,13 +26,20 @@ public class EnglishSentenceUnfolder extends SentenceUnfolderBase {
 
 	/** The dependency type for a subject dependency */
 	private static final String DEPENDENCY_TYPE_SUBJECT = "nsubj";
+	/** The dependency type for a passive subject dependency */
+	private static final String DEPENDENCY_TYPE_SUBJECT_PASS = "nsubjpass";
 
 	/** The dependency type for accusative (direct) objets */
 	private static final String DEPENDENCY_TYPE_ACCUSATIVE_OBJECT = "dobj";
+	private static final String DEPENDENCY_TYPE_ADJECTIVE_MODIFIER = "amod";
 
 	@Override
 	protected Optional<Dependency> findSubjectDependency(JCas jCas, Annotation vp, boolean isGovernor) {
-		return NLPUtil.findDependency(jCas, vp, DEPENDENCY_TYPE_SUBJECT, isGovernor);
+		Optional<Dependency> result = NLPUtil.findDependency(jCas, vp, DEPENDENCY_TYPE_SUBJECT, isGovernor); 
+		if(result.isPresent()) {
+			return result; 
+		}
+		return NLPUtil.findDependency(jCas, vp, DEPENDENCY_TYPE_SUBJECT_PASS, isGovernor);
 	}
 
 	@Override
@@ -126,6 +134,19 @@ public class EnglishSentenceUnfolder extends SentenceUnfolderBase {
 	@Override
 	protected int determineVerbInsertionPoint(JCas jcas, Annotation np, Annotation verb, EWordOrder order,
 			ENounRole role) {
+		
+		// In case of a noun conjunction we place the verb before the conjunction  (Noun <X> and Noun)
+		// Otherwise we get a conjunction between verb and noun (Noun and <X> Noun)
+		Collection<Dependency> dependencies = JCasUtil.select(jcas, Dependency.class);
+		Optional<Dependency> conjDep = NLPUtil.findDependency(dependencies, np, DEPENDENCY_TYPE_CONJUNCTION, false);
+		if(conjDep.isPresent()) {
+			Token firstNoun = conjDep.get().getGovernor();
+			Optional<Dependency> ccDep = NLPUtil.findDependency(dependencies, firstNoun, DEPENDENCY_TYPE_CC, true);
+			if(ccDep.isPresent()) {
+				return ccDep.get().getBegin();
+			}
+		}
+		
 		return np.getBegin();
 	}
 
@@ -156,6 +177,44 @@ public class EnglishSentenceUnfolder extends SentenceUnfolderBase {
 			return Optional.of(Pair.of(relatedToken, conjunctionToken));
 		}
 		return Optional.empty();
+	}
+
+	
+	
+	@Override
+	protected List<Dependency> getConjunctiveAdjectiveModifyers(JCas jCas, Annotation np) {
+		Collection<Dependency> dependencies = JCasUtil.select(jCas, Dependency.class);
+		List<Dependency> modifyers = NLPUtil.findDependencies(dependencies, np, DEPENDENCY_TYPE_ADJECTIVE_MODIFIER, true);
+		
+		Vector<Dependency> result = new Vector<Dependency>();
+		
+		for(Dependency modifyer: modifyers) {
+			Token firstModifyer = modifyer.getDependent();
+			Optional<Dependency> ccDep = NLPUtil.findDependency(dependencies, firstModifyer, DEPENDENCY_TYPE_CC, true);
+			Optional<Dependency> secondModifyerDep = NLPUtil.findDependency(dependencies, firstModifyer, DEPENDENCY_TYPE_CONJUNCTION, true);
+			
+			if(ccDep.isPresent() && secondModifyerDep.isPresent()) {
+				result.add(modifyer);
+			}
+			
+		}
+		
+		return result;
+	}
+
+	@Override
+	protected List<Pair<Integer, String>> completeConjunctiveAdjectiveNounPhrase(JCas jCas, Annotation np, List<Dependency> modifyers) {
+		Collection<Dependency> dependencies = JCasUtil.select(jCas, Dependency.class);
+		Vector<Pair<Integer,String>> result = new Vector<Pair<Integer,String>>();
+		
+		for(Dependency modifyer: modifyers) {
+			Token noun = modifyer.getGovernor();
+			Token firstModifyer = modifyer.getDependent();
+			Token conjunction   = NLPUtil.findDependency(dependencies, firstModifyer, DEPENDENCY_TYPE_CC, true).get().getDependent();
+			// Token secondModifyer= NLPUtil.findDependency(dependencies, firstModifyer, DEPENDENCY_TYPE_CONJUNCTION, false).get().getDependent();
+			result.add(Pair.of(conjunction.getBegin(), noun.getCoveredText()));
+		}
+		return result;
 	}
 
 }
