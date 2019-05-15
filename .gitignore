@@ -38,11 +38,8 @@ ui-tests/.mvn/wrapper/maven-wrapper.jar
 
 # ui-tests
 ui-tests/.idea/
-ui-tests/.project
-ui-tests/.classpath
 
 # generated during build
-bundles/specmate-model-support/.project
 bundles/specmate-model-support/OSGI-INF/com.specmate.model.support.internal.EObjectUriFactory.xml
 bundles/specmate-model-support/OSGI-INF/com.specmate.model.support.internal.EObjectUriResolver.xml
 bundles/specmate-model-support/OSGI-INF/com.specmate.model.support.internal.ModelProviderImpl.xml
@@ -50,3 +47,4 @@ bundles/specmate-model-support/OSGI-INF/com.specmate.model.support.internal.Seri
 generated/
 bundles/cnf/releaserepo/index.xml.sha
 bundles/specmate-model-generators-typescript/src/com/specmate/model/generators/typescript/GenerateAngular.java
+package-lock.json
