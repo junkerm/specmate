@@ -190,6 +190,10 @@ def rule Conjunction_AND_1 {
 	[PartA] - KON -> KON: 'und' - CJ -> [PartB]
 }
 
+def rule Conjunction_AND_1 {
+	[PartA] - AUX -> [PartA_SubA] - KON -> KON: 'und' - CJ -> [PartB]
+}
+
 def rule Conjunction_AND_2 {
 	[PartA] - KON -> KON: 'sowohl' 
 	[PartA] - KOM -> KOKOM:'als' - CJ -> [PartB] - ADV -> ADV:'auch'
@@ -206,8 +210,18 @@ def rule CondVar {
 	[Condition] - SUBJ -> [Variable]
 }
 
-def subtrees Verb, Object
+def subtrees Verb, Verb_SubA, Object
 
 def rule VerbObject {
 	[Verb] - OBJA -> [Object]
+}
+
+def rule VerbObject_2 {
+	[Verb] - AUX -> [Verb_SubA] - OBJA -> [Object]
+}
+
+def subtrees Preposition
+
+def rule VerbPreposition {
+	[Verb] - PP -> [Preposition]
 }

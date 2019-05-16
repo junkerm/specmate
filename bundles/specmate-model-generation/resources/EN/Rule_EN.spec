@@ -203,6 +203,7 @@ def rule Condition13_2 {
 //}
 
 def subtrees  PartA, PartB, Head, Head_tmp
+def subtrees  PartA_SubA, PartB_SubA
 
 def rule Conjunction_NOR_1 {
 	[PartA] - preconj -> CC:'neither'
@@ -227,6 +228,11 @@ def rule Conjunction_OR {
 	[PartA] - conj -> [PartB]
 }
 
+def rule Conjunction_OR_2 {
+	[PartA] - ccomp -> [PartB]  - nsubj -> [PartA_SubA] - conj -> [PartB_SubA]
+	 [PartA_SubA] - cc -> CC:'or'
+}
+
 def rule Conjunction_AND_1 {
 	[PartA] - cc -> CC:'and'
 	[PartA] - conj -> [PartB]
@@ -236,6 +242,16 @@ def rule Conjunction_AND_1 {
 def rule Conjunction_AND_2 {
 	[PartA] - cc -> CC:'and'
 	[PartA] - conj -> [PartB]
+}
+
+def rule Conjunction_AND_3 {
+	[PartA] - ccomp -> [PartB]  - nsubj -> [PartA_SubA] - conj -> [PartB_SubA]
+	[PartA_SubA] - cc -> CC:'and'
+}
+
+def rule Conjunction_AND_4 {
+	[PartA] - dobj -> [PartA_SubA]  - conj -> [PartB]
+	[PartA_SubA] - cc -> CC:'and'
 }
 
 def rule Negation {

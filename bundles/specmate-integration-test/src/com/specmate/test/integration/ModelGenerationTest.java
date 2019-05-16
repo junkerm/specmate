@@ -49,7 +49,7 @@ public class ModelGenerationTest extends EmfRestTest {
 
 	@Test
 	public void testModelGenerationEn1_Or() {
-		String text = "If Specmate detects an error or the user has no login, Specmate shows a warning window and makes a sound.";
+		String text = "If Specmate detects an error, or the user has no login, Specmate shows a warning window and makes a sound.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
 		CEGNode node1 = createNode(model, "Specmate", "detects an error", NodeType.AND);
@@ -209,7 +209,7 @@ public class ModelGenerationTest extends EmfRestTest {
 	}
 
 	private void checkResultingModel(JSONArray generated, CEGModel model) {
-		List<CEGNode> nodesExp = SpecmateEcoreUtil.pickInstancesOf(model.getContents(), CEGNode.class);
+ 		List<CEGNode> nodesExp = SpecmateEcoreUtil.pickInstancesOf(model.getContents(), CEGNode.class);
 		List<CEGConnection> connExp = SpecmateEcoreUtil.pickInstancesOf(model.getContents(), CEGConnection.class);
 
 		// Verify number of nodes

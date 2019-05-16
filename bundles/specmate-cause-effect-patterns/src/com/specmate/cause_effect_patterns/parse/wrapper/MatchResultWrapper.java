@@ -16,6 +16,7 @@ public class MatchResultWrapper {
 		public static final String VARIABLE = "Variable";
 		public static final String VERB = "Verb";
 		public static final String OBJECT = "Object";
+		public static final String PREPOSITION = "Preposition";
 	}
 	
 	public static class RuleNames {
@@ -25,10 +26,24 @@ public class MatchResultWrapper {
 		public static final String NEGATION = "Negation";
 		public static final String CONDITION_VARIABLE = "CondVar";
 		public static final String VERB_OBJECT = "VerbObject";
+		public static final String VERB_PREPOSITION = "VerbPreposition";
 		public static final String XOR = "_XOR";
 		public static final String NOR = "_NOR";
 		public static final String OR = "_OR";
 		public static final String AND = "_AND";
+	}
+	
+	public static enum RuleType {
+		LIMITED_CONDITION,
+		CONDITION,
+		CONJUNCTION_AND,
+		CONJUNCTION_OR,
+		CONJUNCTION_NOR,
+		CONJUNCTION_XOR,
+		NEGATION,
+		COND_VAR,
+		VERB_OBJECT,
+		VERB_PREPOSITION
 	}
 	
 	public MatchResult result;
@@ -101,6 +116,12 @@ public class MatchResultWrapper {
 		return name && subMatches && isSucessfull();
 	}
 	
+	public boolean isVerbPreposition() {
+		boolean name = this.result.hasRuleName() && this.result.getRuleName().contains(RuleNames.VERB_PREPOSITION);
+		boolean subMatches = this.result.hasSubmatch(SubtreeNames.VERB) && this.result.hasSubmatch(SubtreeNames.PREPOSITION);
+		return name && subMatches && isSucessfull();
+	}
+	
 	public MatchResultWrapper getFirstArgument() {
 		if(isLimitedCondition()) {
 			return this.getFromSubtree(SubtreeNames.LIMIT);
@@ -113,6 +134,8 @@ public class MatchResultWrapper {
 		} else if(isConditionVarible()) {
 			return this.getFromSubtree(SubtreeNames.VARIABLE);
 		} else if(isVerbObject()) {
+			return this.getFromSubtree(SubtreeNames.VERB);
+		} else if(isVerbPreposition()) {
 			return this.getFromSubtree(SubtreeNames.VERB);
 		}
 		
@@ -130,7 +153,33 @@ public class MatchResultWrapper {
 			return this.getFromSubtree(SubtreeNames.CONDITION);
 		}  else if(isVerbObject()) {
 			return this.getFromSubtree(SubtreeNames.OBJECT);
+		} else if(isVerbPreposition()) {
+			return this.getFromSubtree(SubtreeNames.PREPOSITION);
 		}
+		return null;
+	}
+	
+	public RuleType getType() {
+		if(isLimitedCondition()) {
+			return RuleType.LIMITED_CONDITION;
+		} else if(isCondition()) {
+			return RuleType.CONDITION;
+		} else if(isAndConjunction()) {
+			return RuleType.CONJUNCTION_AND;
+		} else if(isOrConjunction()) {
+			return RuleType.CONJUNCTION_OR;
+		} else if(isXorConjunction()) {
+			return RuleType.CONJUNCTION_XOR;
+		} else if(isNorConjunction()) {
+			return RuleType.CONJUNCTION_NOR;
+		} else if(isNegation()) {
+			return RuleType.NEGATION;
+		} else if(isVerbObject()) {
+			return RuleType.VERB_OBJECT;
+		} else if(isConditionVarible()) {
+			return RuleType.COND_VAR;
+		}
+		
 		return null;
 	}
 }
