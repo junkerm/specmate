@@ -107,19 +107,22 @@ public class DependencyParsetree {
 	}
 	
 	public void addSubtree(DependencyParsetree subtree) {
-		this.dependencies.putAll(subtree.dependencies);
+		for(Token token: subtree.dependencies.keySet()) {
+			if(this.dependencies.containsKey(token)) {
+				DependencyNode nodeA = this.dependencies.get(token);
+				DependencyNode nodeB = subtree.dependencies.get(token);
+				nodeA.addDependencies(nodeB);
+			} else {
+				this.dependencies.put(token, subtree.dependencies.get(token));
+			}
+		}
 		this.treeFragments.addAll(subtree.treeFragments);
 		this.tokenOrder.union(subtree.tokenOrder);
 		this.minimizeTreeFragments();
 	}
 	
 	public void addSubtree(DependencyParsetree subtree, Dependency dependency) {
-		Token governor = dependency.getGovernor();
-		if(!this.dependencies.containsKey(governor)) {
-			this.dependencies.put(governor, new DependencyNode());
-			addFragment(governor);
-		}
-		this.dependencies.get(governor).addDepenency(dependency);
+		addDependency(dependency);
 		this.addSubtree(subtree);
 	}
 	
@@ -211,6 +214,15 @@ public class DependencyParsetree {
 		result+= this.getTreeFragmentText();
 		return result;
 	}
+
+	public void addDependency(Dependency dependency) {
+		Token governor = dependency.getGovernor();
+		if(!this.dependencies.containsKey(governor)) {
+			this.dependencies.put(governor, new DependencyNode());
+			addFragment(governor);
+		}
+		this.dependencies.get(governor).addDepenency(dependency);
+	}
 	
 	public class TextInterval implements Comparable<TextInterval>{
 		public int from, to;
@@ -281,4 +293,5 @@ public class DependencyParsetree {
 			return 0;
 		}
 	}
+
 }

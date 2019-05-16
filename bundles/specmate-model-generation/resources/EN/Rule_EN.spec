@@ -202,7 +202,7 @@ def rule Condition13_2 {
 //	[Effect] - nsubj -> NN:'result'
 //}
 
-def subtrees  PartA, PartB, Head
+def subtrees  PartA, PartB, Head, Head_tmp
 
 def rule Conjunction_NOR_1 {
 	[PartA] - preconj -> CC:'neither'
@@ -240,6 +240,14 @@ def rule Conjunction_AND_2 {
 
 def rule Negation {
 	[Head] - neg -> RB:*
+}
+
+def rule Negation_2 {
+	[Head] -dobj-> [Head_tmp] - neg -> DT:*
+}
+
+def rule Negation_3 {
+	[Head] -dobj-> [Head_tmp] - det -> DT:'no'
 }
 
 def subtrees Variable, Condition

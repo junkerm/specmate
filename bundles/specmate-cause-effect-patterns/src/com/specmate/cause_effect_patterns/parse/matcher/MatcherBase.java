@@ -33,7 +33,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 public abstract class MatcherBase {
 	private Optional<MatcherBase> parent;
 	private Set<MatcherBase> children;
-	private ArrayListMultimap<String, MatcherBase> arcs;
+	protected ArrayListMultimap<String, MatcherBase> arcs;
 	
 	public MatcherBase() {
 		this.children = new HashSet<MatcherBase>();
@@ -182,7 +182,20 @@ public abstract class MatcherBase {
 		
 		MatchResult result = MatchResult.success(unmatched);
 		for (int i = 0; i < matching.length; i++) {
+			if(this instanceof SubtreeMatcher && matchers.get(i) instanceof SubtreeMatcher) {
+				String treeA = ((SubtreeMatcher) this).getTreeName();
+				String treeB = ((SubtreeMatcher) matchers.get(i)).getTreeName();
+				if(treeA.startsWith(treeB+"_") || treeB.startsWith(treeA+"_")) {
+					DependencyParsetree subMatch = matchResults[i][matching[i]].getSubmatch(treeB).getMatchTree();
+					Dependency subDep = candidates.get(matching[i]);
+					subMatch.addDependency(subDep);
+				}
+			}
+			
 			result.addSubtree(matchResults[i][matching[i]]);
+			
+			
+			
 			// Optional add to discarded Tree 
 		}
 		return result;

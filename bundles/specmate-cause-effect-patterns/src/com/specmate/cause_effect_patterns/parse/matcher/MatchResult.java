@@ -8,8 +8,6 @@ import java.util.Set;
 import java.util.Vector;
 
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
-import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
-import com.specmate.cause_effect_patterns.parse.matcher.SubtreeMatcher;
 
 /**
  * Class storing the result of a dependency matching operation.
@@ -104,6 +102,7 @@ public class MatchResult {
 					MatchResult resB = this.submatch.get(keyB);
 					resA.addSubtree(resB);
 					keys.remove(j);
+					this.submatch.remove(keyB);
 					j--;
 				}
 			}
@@ -121,6 +120,9 @@ public class MatchResult {
 	public void addSubmatch(String subtreeName, MatchResult submatch) {
 		this.isSuccessfulMatch = this.isSuccessfulMatch && submatch.isSuccessfulMatch;
 		this.submatch.put(subtreeName, submatch);
+		if(this.submatch.size() > 1) {
+			this.mergePrefixSubmatches();
+		}
 	}
 
 	public boolean hasSubmatch(String subtreeName) {
