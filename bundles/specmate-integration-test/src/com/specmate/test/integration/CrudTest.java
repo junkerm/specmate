@@ -659,9 +659,12 @@ public class CrudTest extends EmfRestTest {
 
 		// Expect 4 tests should be generated
 		Assert.assertEquals(4, testCases.size());
+		
+		System.out.println(testCases.toString());
 
 		int numberOfInconsistentTests = 0;
 		for (JSONObject testCase : testCases) {
+			System.out.println(testCase.toString());
 			if (!testCase.getBoolean("consistent")) {
 				numberOfInconsistentTests++;
 			}
