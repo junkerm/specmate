@@ -30,16 +30,6 @@ public class RequirementOverviewElements {
 	By discard = By.id("popup-accept-button");
 	By cancel = By.id("popup-dismiss-button");
 	
-	protected void scrollDownTo(By elementLocator) {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-
-		// Find element by locator
-		WebElement Element = driver.findElement(elementLocator);
-
-		// Scroll the page till the element is found
-		js.executeScript("arguments[0].scrollIntoView();", Element);
-	}
-	
 	public RequirementOverviewElements(WebDriver driver1) {
 		this.driver = driver1; 
 	}
@@ -175,6 +165,16 @@ public class RequirementOverviewElements {
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ceg-model-container")));
 		return isElementPresent(By.id("requirement-Copy 1 of " + processName + "-deleteprocess-button"));
+	}
+	
+	protected void scrollDownTo(By elementLocator) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+
+		// Find element by locator
+		WebElement Element = driver.findElement(elementLocator);
+
+		// Scroll the page till the element is found
+		js.executeScript("arguments[0].scrollIntoView();", Element);
 	}
 
 	protected boolean isElementPresent(By selector) {
