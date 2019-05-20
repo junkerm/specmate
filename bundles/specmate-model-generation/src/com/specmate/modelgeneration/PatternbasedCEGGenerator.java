@@ -20,6 +20,8 @@ import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultWrapper.RuleT
 import com.specmate.cause_effect_patterns.resolve.XTextException;
 import com.specmate.cause_effect_patterns.resolve.XTextUtil;
 import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
@@ -79,6 +81,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 		List<MatchResult> results = MatchUtil.evaluateRuleset(this.rules, data);
 		LinkedList<CEGNode> nodes = new LinkedList<CEGNode>();
 		
+		boolean generatedSomething = false;
 		for(MatchResult result: results) {
 			if(!result.isSuccessfulMatch()) {
 				continue;
@@ -93,20 +96,23 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 			}
 			
 			if(res.isCondition()) {
+				generatedSomething = true;
 				// Resolve Cause & Effect
 				
 				MatchResultWrapper cause = res.getFirstArgument();
 				MatchResultWrapper effect= res.getSecondArgument();
 				
 				Vector<MatchResultWrapper> causes = new Vector<MatchResultWrapper>();
-				causes.add(cause);
+				causes.add(fixOrderOfOperations(cause));
 				// If Effect is a cause/effect itself
 				while(effect.isCondition()) {
-					causes.add(effect.getFirstArgument());
+					// Correct Order of Operations
+					MatchResultWrapper orderedCause = fixOrderOfOperations(effect.getFirstArgument());
+					causes.add(orderedCause);
 					// Decent until we reach the final effect
 					effect = effect.getSecondArgument();
 				}
-				
+								
 				// Get Maximal Depth
 				int maxDepth = causes.stream().mapToInt(this::getCauseDepth).max().getAsInt();
 				
@@ -125,9 +131,43 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 				resolveEffect(model, nodes, directCause, effect, positioningTable, maxDepth);
 			}
 		}
+		if(!generatedSomething) {
+			throw new SpecmateInternalException(ErrorCode.NLP, "No Cause-Effect Pair Found.");
+		}
+		
 		return model;
 	}
 	
+	private MatchResultWrapper fixOrderOfOperations(MatchResultWrapper cause) {
+		if(cause.getArgumentCount() == 0) {
+			return cause;
+		}
+		
+		if(cause.isNegation()) {
+			return fixOrderOfOperations(cause.getFirstArgument());
+		}
+		
+		fixOrderOfOperations(cause.getFirstArgument());
+		fixOrderOfOperations(cause.getSecondArgument());
+		
+		RuleType type 		= cause.getType();
+		RuleType typeChild  = cause.getFirstArgument().getType();
+		if(type.getPriority() > typeChild.getPriority() && typeChild != RuleType.NEGATION) {
+			// Left Swap
+			cause.leftSwap();
+			fixOrderOfOperations(cause.getFirstArgument());
+		}
+		
+		typeChild = cause.getSecondArgument().getType();
+		if(type.getPriority() > typeChild.getPriority() && typeChild != RuleType.NEGATION) {
+			// Right Swap
+			cause.rightSwap();
+			fixOrderOfOperations(cause);
+		}
+		
+		return cause;
+	}
+
 	private String innerVariableString() {
 		if(this.lang == ELanguage.DE) {
 			return "Innerer Knoten";
@@ -137,9 +177,9 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 	
 	private String innerConditionString() {
 		if(this.lang == ELanguage.DE) {
-			return "ist erfüllt";
+			return "Ist erfüllt";
 		}
-		return "is fulfilled";
+		return "Is fulfilled";
 	}
 	
 	private DirectCause resolveCauses(CEGModel model, LinkedList<CEGNode> nodes, List<MatchResultWrapper> causes, int[] positioningTable, int offset) {
@@ -313,7 +353,6 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 		return node;
 	}
 	
-	
 	private CEGNode addDirectNode(CEGModel model, LinkedList<CEGNode> nodes, MatchResultWrapper result, int[] posTable, int offset, NodeType type) {
 		String variable = "";
 		String condition = "";
@@ -338,10 +377,26 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 			condition = result.getFirstArgument().result.getMatchTree().getRepresentationString(true);
 		} else {
 			variable = result.result.getMatchTree().getRepresentationString(true);
-		} 
+		}
+		
+		// Make Condition Positive
+		condition = cleanCondition(condition);
+		
 		return addNode(model, nodes, variable, condition, posTable, offset, type);
 	}
 	
+	private String cleanCondition(String condition) {
+		if(this.lang == ELanguage.DE) {
+			condition = condition.replaceAll("(?i)\\b(nicht)\\b", "");
+			condition = condition.replaceAll("(?i)\\bk(ein(en?)?)\\b", "$1");
+			condition = capitalize(condition);
+		}
+		return condition;
+	}
+	
+	private String capitalize(String str) {
+		return str.substring(0, 1).toUpperCase() + str.substring(1); 
+	}
 	
 	private void fullyConnect(CEGModel model, DirectCause dirCause, CEGNode node) {
 		for(CEGNode pCause: dirCause.positiveCauses) {

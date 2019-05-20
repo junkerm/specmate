@@ -254,6 +254,7 @@ def rule Conjunction_AND_4 {
 	[PartA_SubA] - cc -> CC:'and'
 }
 
+
 def rule Negation {
 	[Head] - neg -> RB:*
 }

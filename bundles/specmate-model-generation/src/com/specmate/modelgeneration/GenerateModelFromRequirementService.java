@@ -17,6 +17,8 @@ import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.Requirement;
+import com.specmate.modelgeneration.hardcoded.EnglishCEGFromRequirementGenerator;
+import com.specmate.modelgeneration.hardcoded.GermanCEGFromRequirementGenerator;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
@@ -50,12 +52,14 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		model.getContents().clear(); // Delete Contents
 		
 		Requirement req = (Requirement) model.eContainer();
+		
+		
+		this.logService.log(LogService.LOG_INFO, "Model Generation STARTED");
 		try {
-			this.logService.log(LogService.LOG_INFO, "Model Generation STARTED");
 			model = generateModelFromDescription(model, req);
 			this.logService.log(LogService.LOG_INFO, "Model Generation FINISHED");
 		} catch (SpecmateException e) {
-			this.logService.log(LogService.LOG_ERROR, "Model Generation failed with following error:\n"+e.getMessage());
+			this.logService.log(LogService.LOG_ERROR, "Model Generation failed with following error:\n"+e.getMessage());			
 			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
 		}
 		req.getContents().add(model);
@@ -88,7 +92,20 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 					"An error occured during creating the PatternbasedCEGGenerator:\n" + e.getMessage());
 		} 
 		
-		generator.createModel(model, text);
+		try {
+			generator.createModel(model, text);
+		} catch( SpecmateException e) {
+			// Generation Backof
+			this.logService.log(LogService.LOG_INFO, "NLP model generation failed with the following error: \""+e.getMessage()+"\"");
+			this.logService.log(LogService.LOG_INFO, "Backing off to rule based generation...");
+			
+			if(lang == ELanguage.DE) {
+				generator = new GermanCEGFromRequirementGenerator(logService, tagger);
+			} else {
+				generator = new EnglishCEGFromRequirementGenerator(logService, tagger);
+			}
+			generator.createModel(model, text);
+		}
 		return model;
 	}
 

@@ -170,7 +170,7 @@ def rule Condition15 {
 //	VAFIN:'hat' - OBJA-> [Effect] 
 //}
 
-def subtrees  PartA, PartB, Head
+def subtrees  PartA, PartB
 def subtrees  PartA_SubA, PartA_SubB, PartB_SubA
 
 def rule Conjunction_XOR_1 {
@@ -190,11 +190,11 @@ def rule Conjunction_AND_1 {
 	[PartA] - KON -> KON: 'und' - CJ -> [PartB]
 }
 
-def rule Conjunction_AND_1 {
+def rule Conjunction_AND_2 {
 	[PartA] - AUX -> [PartA_SubA] - KON -> KON: 'und' - CJ -> [PartB]
 }
 
-def rule Conjunction_AND_2 {
+def rule Conjunction_AND_3 {
 	[PartA] - KON -> KON: 'sowohl' 
 	[PartA] - KOM -> KOKOM:'als' - CJ -> [PartB] - ADV -> ADV:'auch'
 }
@@ -202,6 +202,16 @@ def rule Conjunction_AND_2 {
 def rule Conjunction_NOR {
 	[PartA] - SUBJ -> [PartA_SubA] - KON -> KON:'weder' - CJ -> [PartA_SubB]
 	[PartA] - REL  -> [PartB] - SUBJ -> [PartB_SubA] - ADV -> ADV:'noch'
+}
+
+def subtrees  Head, Head_SubA, Head_SubB
+
+def rule Negation_1 {
+	[Head] - AUX -> [Head_SubA] - ADV -> 'nicht' 
+}
+
+def rule Negation_2 {
+	[Head] - OBJA -> [Head_SubA] - DET -> 'kein(en?)?':[Head_SubB] 
 }
 
 def subtrees Variable, Condition
@@ -212,11 +222,15 @@ def rule CondVar {
 
 def subtrees Verb, Verb_SubA, Object
 
-def rule VerbObject {
-	[Verb] - OBJA -> [Object]
+def rule VerbObject_1 {
+	[Verb] - OBJA -> [Object] - GMOD -> [Verb_SubA]
 }
 
 def rule VerbObject_2 {
+	[Verb] - OBJA -> [Object]
+}
+
+def rule VerbObject_3 {
 	[Verb] - AUX -> [Verb_SubA] - OBJA -> [Object]
 }
 

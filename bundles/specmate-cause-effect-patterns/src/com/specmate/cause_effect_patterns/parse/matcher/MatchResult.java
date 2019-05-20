@@ -136,4 +136,8 @@ public class MatchResult {
 	public Set<String> getSubmatchNames() {
 		return this.submatch.keySet();
 	}
+
+	public void clearSubmatches() {
+		this.submatch.clear();
+	}
 }

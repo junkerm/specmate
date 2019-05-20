@@ -23,6 +23,9 @@ public class MatchUtil {
 		return result; 
 	}
 	
+	
+	
+	
 	/**
 	 * Recursively applies the list of matchers on the given dependency data object starting at the head token.
 	 * 
@@ -32,15 +35,29 @@ public class MatchUtil {
 	 * @return
 	 */
 	public static MatchResult evaluateRuleset(List<MatchRule> rules, DependencyParsetree data, Token head) {
+		return evaluateRuleset(rules, data, head, 0);
+	}
+		
+	private static MatchResult evaluateRuleset(List<MatchRule> rules, DependencyParsetree data, Token head, int ruleOffset) {
 		MatchResult result = MatchResult.unsuccessful();
-		for(MatchRule rule: rules) {
+		
+		List<MatchRule> offsetedRules = rules.subList(ruleOffset, rules.size());
+		for(MatchRule rule: offsetedRules) {
 			result = rule.match(data, head);
 			if(result.isSuccessfulMatch()) {
 				for(String submatchName: result.getSubmatchNames()) {
 					MatchResult sub = result.getSubmatch(submatchName);
-					DependencyParsetree subData = sub.getMatchTree(); 
+					DependencyParsetree subData = sub.getMatchTree();
 					Token subHead = subData.getHeads().stream().findFirst().get();
-					MatchResult recursiveCall = evaluateRuleset(rules, subData, subHead);
+					
+					MatchResult recursiveCall;
+					if(subData.getTreeFragmentText().equals(data.getTreeFragmentText()) && subHead.equals(head)) {
+						int newOffset = rules.indexOf(rule) + 1;
+						recursiveCall = evaluateRuleset(rules, subData, subHead, newOffset);
+					} else {
+						recursiveCall = evaluateRuleset(rules, subData, subHead);
+					}
+					
 					if(recursiveCall.isSuccessfulMatch()) {
 						sub.setRuleName(recursiveCall.getRuleName());
 						for( String subKey: recursiveCall.getSubmatchNames()) {

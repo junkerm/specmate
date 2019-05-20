@@ -43,7 +43,34 @@ public class MatchResultWrapper {
 		NEGATION,
 		COND_VAR,
 		VERB_OBJECT,
-		VERB_PREPOSITION
+		VERB_PREPOSITION;
+		
+		
+		public int getPriority() {
+			switch(this) {
+			case LIMITED_CONDITION:
+				return 0;
+			case CONDITION:
+				return 1;
+			case CONJUNCTION_XOR:
+				return 2;
+			case CONJUNCTION_NOR:
+				return 3;
+			case CONJUNCTION_OR:
+				return 4;
+			case CONJUNCTION_AND:
+				return 5;
+			case COND_VAR:
+				return 6;
+			case VERB_OBJECT:
+				return 7;
+			case VERB_PREPOSITION:
+				return 8;
+			default: // Negation should not be moved
+				return -1;
+			}
+			
+		}
 	}
 	
 	public MatchResult result;
@@ -122,41 +149,134 @@ public class MatchResultWrapper {
 		return name && subMatches && isSucessfull();
 	}
 	
-	public MatchResultWrapper getFirstArgument() {
+	public int getArgumentCount() {
+		if(isCondition() || isLimitedCondition() || isConjunction()) {
+			return 2;
+		} if(isNegation()) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	private String getFirstArgumentName() {
 		if(isLimitedCondition()) {
-			return this.getFromSubtree(SubtreeNames.LIMIT);
+			return SubtreeNames.LIMIT;
 		} else if(isCondition()) {
-			return this.getFromSubtree(SubtreeNames.CAUSE);
+			return SubtreeNames.CAUSE;
 		} else if(isConjunction()) {
-			return this.getFromSubtree(SubtreeNames.PART_A);
+			return SubtreeNames.PART_A;
 		} else if(isNegation()) {
-			return this.getFromSubtree(SubtreeNames.HEAD);
+			return SubtreeNames.HEAD;
 		} else if(isConditionVarible()) {
-			return this.getFromSubtree(SubtreeNames.VARIABLE);
+			return SubtreeNames.VARIABLE;
 		} else if(isVerbObject()) {
-			return this.getFromSubtree(SubtreeNames.VERB);
+			return SubtreeNames.VERB;
 		} else if(isVerbPreposition()) {
-			return this.getFromSubtree(SubtreeNames.VERB);
+			return SubtreeNames.VERB;
 		}
 		
 		return null;
 	}
 	
-	public MatchResultWrapper getSecondArgument() {
-		if(isLimitedCondition()) {
-			return this.getFromSubtree(SubtreeNames.CONDITIONAL);
-		} else if(isCondition()) {
-			return this.getFromSubtree(SubtreeNames.EFFECT);
-		} else if(isConjunction()) {
-			return this.getFromSubtree(SubtreeNames.PART_B);
-		} else if(isConditionVarible()) {
-			return this.getFromSubtree(SubtreeNames.CONDITION);
-		}  else if(isVerbObject()) {
-			return this.getFromSubtree(SubtreeNames.OBJECT);
-		} else if(isVerbPreposition()) {
-			return this.getFromSubtree(SubtreeNames.PREPOSITION);
+	public MatchResultWrapper getFirstArgument() {
+		String name = getFirstArgumentName();
+		if(name != null) {
+			return this.getFromSubtree(name);
 		}
 		return null;
+	}
+	
+	private String getSecondArgumentName() {
+		if(isLimitedCondition()) {
+			return SubtreeNames.CONDITIONAL;
+		} else if(isCondition()) {
+			return SubtreeNames.EFFECT;
+		} else if(isConjunction()) {
+			return SubtreeNames.PART_B;
+		} else if(isConditionVarible()) {
+			return SubtreeNames.CONDITION;
+		}  else if(isVerbObject()) {
+			return SubtreeNames.OBJECT;
+		} else if(isVerbPreposition()) {
+			return SubtreeNames.PREPOSITION;
+		}
+		return null;
+	}
+	
+	public MatchResultWrapper getSecondArgument() {
+		String name = getSecondArgumentName();
+		if(name != null) {
+			return this.getFromSubtree(name);
+		}
+		return null;
+	}
+	
+	public void leftSwap() {
+		if(getArgumentCount() != 2) {
+			return;
+		}
+		
+		String leftName = getFirstArgumentName();
+		String rightName = getSecondArgumentName();
+		MatchResultWrapper left = getFirstArgument();
+		MatchResultWrapper right = getSecondArgument();
+		
+		String childLeftName = left.getFirstArgumentName();
+		String childRightName = left.getSecondArgumentName();
+		MatchResultWrapper childLeft = left.getFirstArgument();
+		MatchResultWrapper childRight = left.getSecondArgument();
+		// Swap
+		this.result.clearSubmatches();
+		// left' (childLeftName) 	= childLeft
+		this.result.addSubmatch(childLeftName, childLeft.result);
+		// right'(childRightName) 	= left
+		this.result.addSubmatch(childRightName, left.result);
+
+		left.result.clearSubmatches();
+		// childLeft' (leftName) 	= childRight
+		left.result.addSubmatch(leftName, childRight.result);
+		// childRight'(rightName)	= right
+		left.result.addSubmatch(rightName, right.result);
+		
+		// Update type
+		String name		= this.result.getRuleName();
+		String childName= left.result.getRuleName();
+		this.result.setRuleName(childName);
+		left.result.setRuleName(name);
+	}
+
+	public void rightSwap() {
+		if(getArgumentCount() != 2) {
+			return;
+		}
+		
+		String leftName = getFirstArgumentName();
+		String rightName = getSecondArgumentName();
+		MatchResultWrapper left = getFirstArgument();
+		MatchResultWrapper right = getSecondArgument();
+		
+		String childLeftName = right.getFirstArgumentName();
+		String childRightName = right.getSecondArgumentName();
+		MatchResultWrapper childLeft = right.getFirstArgument();
+		MatchResultWrapper childRight = right.getSecondArgument();
+		// Swap
+		this.result.clearSubmatches();
+		// left' (childLeftName) = right
+		this.result.addSubmatch(childLeftName, right.result);
+		// right'(childRightName)= childRight
+		this.result.addSubmatch(childRightName, childRight.result);
+		
+		right.result.clearSubmatches();
+		// childLeft'(left)		 = left
+		right.result.addSubmatch(leftName, left.result);
+		// childRight'(right)	 = childLeft
+		right.result.addSubmatch(rightName, childLeft.result);
+		
+		// Update type
+		String name		= this.result.getRuleName();
+		String childName= right.result.getRuleName();
+		this.result.setRuleName(childName);
+		right.result.setRuleName(name);
 	}
 	
 	public RuleType getType() {

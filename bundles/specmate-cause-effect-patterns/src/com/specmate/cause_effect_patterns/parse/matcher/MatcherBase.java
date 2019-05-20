@@ -1,6 +1,7 @@
 package com.specmate.cause_effect_patterns.parse.matcher;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -82,6 +83,8 @@ public abstract class MatcherBase {
 		return result;
 	}
 	
+	
+	private int positionOfInterest;
 	public MatchResult match(DependencyParsetree data, Token head) {
 		DependencyNode dependencies = data.getDependencyNode(head);
 		MatchResult result = MatchResult.success();
@@ -91,11 +94,35 @@ public abstract class MatcherBase {
 		}
 		
 		
+		
+		// Prefer Objects close after the position of Interest
+		this.positionOfInterest = -1;
+		
 		for(String depTag: this.arcs.keySet()) {
 			List<MatcherBase> matchers = this.arcs.get(depTag);
 			List<Dependency> candidates = dependencies.getDependenciesFromTag(depTag);
+			
+			final int poI = this.positionOfInterest;
+			Collections.sort(candidates, (a,b) -> {
+				int pA = a.getDependent().getBegin();
+				int pB = b.getDependent().getBegin();
+				
+				if(pA <= poI && poI <= pB) {
+					return 1;
+				}
+				
+				if(pB <= poI && poI <= pA) {
+					return -1;
+				}
+				
+				return pA - pB;
+			});
+			
 			MatchResult match = this.matchChildren(data, matchers, candidates);
 			
+//			if(match.getMatchTree().getTextIntervallCount() > 0) {
+//				this.positionOfInterest = match.getMatchTree().getTextInterval(match.getMatchTree().getTextIntervallCount() - 1).from;
+//			}
 			if(!match.isSuccessfulMatch()) {
 				return MatchResult.unsuccessful();
 			}
@@ -153,6 +180,11 @@ public abstract class MatcherBase {
 						matching[currentMatcherIndex] = i;
 						currentMatcherIndex++;
 						availableCandidates.remove(i+1);
+						int candidatePosition = candidates.get(i).getBegin();
+						if(this.positionOfInterest == -1 || this.positionOfInterest > candidatePosition) {
+							this.positionOfInterest = candidatePosition;	
+						}
+						
 						break;
 					} else {
 						matching[currentMatcherIndex]++;
@@ -185,7 +217,10 @@ public abstract class MatcherBase {
 			if(this instanceof SubtreeMatcher && matchers.get(i) instanceof SubtreeMatcher) {
 				String treeA = ((SubtreeMatcher) this).getTreeName();
 				String treeB = ((SubtreeMatcher) matchers.get(i)).getTreeName();
-				if(treeA.startsWith(treeB+"_") || treeB.startsWith(treeA+"_")) {
+				String prefA = treeA.split("_")[0];
+				String prefB = treeB.split("_")[0];
+				
+				if(treeA.startsWith(treeB+"_") || treeB.startsWith(treeA+"_") || prefA.equals(prefB)) {
 					DependencyParsetree subMatch = matchResults[i][matching[i]].getSubmatch(treeB).getMatchTree();
 					Dependency subDep = candidates.get(matching[i]);
 					subMatch.addDependency(subDep);
