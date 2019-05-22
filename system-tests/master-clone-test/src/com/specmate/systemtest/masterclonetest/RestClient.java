@@ -9,6 +9,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
@@ -25,6 +26,7 @@ public class RestClient {
 	private String restUrl;
 	private int timeout;
 	private Map<String, String> cookies = new HashMap<>();
+	private Map<String, String> headers = new HashMap<>();
 
 	public RestClient(String restUrl, int timeout) {
 		restClient = initializeClient();
@@ -67,6 +69,9 @@ public class RestClient {
 		for (Entry<String, String> cookie : cookies.entrySet()) {
 			invocationBuilder.cookie(cookie.getKey(), cookie.getValue());
 		}
+		for (Entry<String, String> header : headers.entrySet()) {
+			invocationBuilder.header(header.getKey(), header.getValue());
+		}
 		return invocationBuilder;
 	}
 
@@ -74,7 +79,9 @@ public class RestClient {
 		Response response = rawGet(url, params);
 		String result = response.readEntity(String.class);
 		if (response.getStatusInfo().getStatusCode() == Status.OK.getStatusCode()) {
-			return new RestResult<>(response, url, new JSONObject(new JSONTokener(result)));
+			JSONTokener token = new JSONTokener(result);
+			JSONObject obj = new JSONObject(token);
+			return new RestResult<>(response, url, obj);
 		} else {
 			return new RestResult<>(response, url, null);
 		}
@@ -84,7 +91,9 @@ public class RestClient {
 		Response response = rawGet(url, params);
 		String result = response.readEntity(String.class);
 		if (response.getStatusInfo().getStatusCode() == Status.OK.getStatusCode()) {
-			return new RestResult<>(response, url, new JSONArray(new JSONTokener(result)));
+			JSONTokener token = new JSONTokener(result);
+			JSONArray arr = new JSONArray(token);
+			return new RestResult<>(response, url, arr);
 		} else {
 			return new RestResult<>(response, url, null);
 		}
@@ -121,6 +130,10 @@ public class RestClient {
 
 	public void setCookie(String key, String value) {
 		cookies.put(key, value);
+	}
+	
+	public void setHeader(String key, String value) {
+		headers.put(key, value);
 	}
 
 }

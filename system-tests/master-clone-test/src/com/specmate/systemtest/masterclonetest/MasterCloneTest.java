@@ -7,12 +7,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 
+import javax.security.sasl.AuthenticationException;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class MasterCloneTest {
@@ -21,8 +24,9 @@ public class MasterCloneTest {
 	public static final String ANSI_YELLOW = "\u001B[33m";
 	public static final String ANSI_BLUE = "\u001B[34m";
 	public static final String ANSI_PURPLE = "\u001B[35m";
-	private static final String LOGIN_JSON = "{\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"className\":\"User\",\"userName\":\"user\",\"passWord\":\"password\",\"projectName\":\"artificial\"}";;
-
+	private static final String LOGIN_JSON = "{\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"className\":\"User\",\"userName\":\"user\",\"passWord\":\"password\",\"projectName\":\"artificial\"}";
+	private static final String LOGIN_JSON_2 = "{\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"className\":\"User\",\"userName\":\"user\",\"passWord\":\"password\",\"projectName\":\"test-data\"}";
+	
 	public static void main(String[] args) throws Exception {
 		new MasterCloneTest(args);
 	}
@@ -30,23 +34,31 @@ public class MasterCloneTest {
 	private RestClient masterClient;
 	private RestClient cloneClient;
 	private String currentSessionId;
+	private String lastActive;
+	private String projectName = "artificial";
 	private Process masterProc;
 	private Process cloneProc;
+	private String master;
+	private String clone;
+	private String masterArgs;
+	private String cloneArgs;
+	private String specmate;
+	private CommandLine cmd;
 
 	public MasterCloneTest(String[] args) throws ParseException, IOException, InterruptedException {
 		masterClient = new RestClient("http://localhost:8080");
 		cloneClient = new RestClient("http://localhost:8081");
 
-		CommandLine cmd = parseCommandLine(args);
+		cmd = parseCommandLine(args);
 		if (cmd == null) {
 			return;
 		}
 
-		String master = cmd.getOptionValue("m");
-		String clone = cmd.getOptionValue("c");
-		String masterArgs = cmd.getOptionValue("am");
-		String cloneArgs = cmd.getOptionValue("ac");
-		String specmate = cmd.getOptionValue("s");
+		master = cmd.getOptionValue("m");
+		clone = cmd.getOptionValue("c");
+		masterArgs = cmd.getOptionValue("am");
+		cloneArgs = cmd.getOptionValue("ac");
+		specmate = cmd.getOptionValue("s");
 
 		File masterFile = new File(master);
 		if (!masterFile.exists()) {
@@ -66,7 +78,7 @@ public class MasterCloneTest {
 			System.exit(1);
 		}
 
-		masterProc = startSpecmate("master", ANSI_BLUE, specmate, master, masterArgs);
+		masterProc = startSpecmate("master", ANSI_YELLOW, specmate, master, masterArgs);
 		Thread.sleep(20000);
 		cloneProc = startSpecmate("clone", ANSI_GREEN, specmate, clone, cloneArgs);
 		Thread.sleep(20000);
@@ -117,15 +129,15 @@ public class MasterCloneTest {
 		options.addOption("ac", "argsClone", true, "Java system arguments for the clone");
 
 		CommandLineParser parser = new DefaultParser();
-		CommandLine cmd = parser.parse(options, args);
+		CommandLine cmdl = parser.parse(options, args);
 
-		if (!cmd.hasOption("m") || !cmd.hasOption("c") || !cmd.hasOption("s")) {
+		if (!cmdl.hasOption("m") || !cmdl.hasOption("c") || !cmdl.hasOption("s")) {
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("java -jar masterclonetest.jar", options);
 			return null;
 		}
 
-		return cmd;
+		return cmdl;
 	}
 
 	private void performTests() {
@@ -138,41 +150,93 @@ public class MasterCloneTest {
 		System.exit(0);
 	}
 
-	private void testLogin() {
+	private void testLogin() throws ParseException, IOException, InterruptedException {
 		loginOnMaster();
-		verifyLoggedInOnClone();
-		killMaster();
-		// restartMaster();
-		// verifyLoggedInOnMaster();
-		// killMaster();
-		// verifyLoggedInOnClone();
-		// logoutOnClone();
-		// restartMaster();
-		// verifyLoggedOutOnMaster();
+//		verifyLoggedInOnMaster();
+//		killMaster();
+//		verifyLoggedInOnClone();
+//		restartMaster();
+//		verifyLoggedInOnMaster();
+//		killMaster();
+//		verifyLoggedInOnClone();
+//		logoutOnClone();
+//		restartMaster();
+		logoutOnMaster();
+		verifyLoggedOutOnMaster();
+	}
+
+	private void killMaster() throws InterruptedException {
+		System.out.println("destroy master");
+		masterProc.destroy();
+		Thread.sleep(30000);
+	}
+	
+	private void restartMaster() throws ParseException, IOException, InterruptedException {
+		System.out.println("restart master");
+		masterProc = startSpecmate("master", ANSI_YELLOW, specmate, master, masterArgs);
+		Thread.sleep(20000);
 	}
 
 	private void loginOnMaster() {
+		System.out.println("login master");
 		RestResult<JSONObject> result = masterClient.post("/services/rest/login", new JSONObject(LOGIN_JSON));
 		currentSessionId = result.getPayload().getString("id");
+		lastActive = result.getPayload().getString("lastActive");
+		
+		String authorizationHeader = "Token " + currentSessionId;
 
 		// TODO:besser
 		masterClient.setCookie("specmate-user-token", getSpecmateToken());
 		cloneClient.setCookie("specmate-user-token", getSpecmateToken());
+		//masterClient.setHeader("Authorization", authorizationHeader);
+		//cloneClient.setHeader("Authorization", authorizationHeader);
 	}
 
 	private String getSpecmateToken() {
-		return "{\"session\":{\"lastActive\":\"1557920085291\",\"allowedPathPattern\":\".+services/rest/artificial/.*\",\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"libraryFolders\":[],\"TargetSystem\":\"NONE\",\"className\":\"UserSession\",\"id\":\""
+		projectName = "artificial";
+		//projectName = "test-data";
+		return "{\"session\":{\"lastActive\":\""
+				+ lastActive
+				+ "\",\"allowedPathPattern\":\".+services/rest/"
+				+ projectName
+				+ "/.*\",\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"libraryFolders\":[],\"TargetSystem\":\"NONE\",\"className\":\"UserSession\",\"id\":\""
 				+ currentSessionId
-				+ "\",\"userName\":\"asdf\",\"SourceSystem\":\"ALL\",\"url\":\"kd7UcAQMnqsuFb9E3jySCAs3KqwxZTWu\"},\"project\":\"artificial\",\"libraryFolders\":[]}, value);";
+				+ "\",\"userName\":\"user\",\"SourceSystem\":\"ALL\",\"url\":\""
+				+ currentSessionId
+				+ "\"},\"project\":\""
+				+ projectName
+				+ "\",\"libraryFolders\":[]}";
 	}
-
-	private void killMaster() {
-		masterProc.destroy();
+	
+	private void verifyLoggedInOnMaster() throws AuthenticationException {
+		RestResult<JSONArray> result = masterClient.getList("services/rest/" + projectName + "/list");
+		System.out.println("Status Code Master: " + result.getResponse().getStatus());
+		if (result.getResponse().getStatus() != 200) {
+			throw new AuthenticationException("Not logged in");
+		}
 	}
-
-	private void verifyLoggedInOnClone() {
-		RestResult<JSONObject> result = masterClient.get("services/rest/artificial/list");
-		System.out.println(result);
+	
+	private void verifyLoggedInOnClone() throws AuthenticationException {
+		RestResult<JSONArray> result = cloneClient.getList("services/rest/" + projectName + "/list");
+		System.out.println("Status Code Clone: " + result.getResponse().getStatus());
+		if (result.getResponse().getStatus() != 200) {
+			throw new AuthenticationException("Not logged in");
+		}
+	}
+	
+	private void logoutOnClone() {
+		System.out.println("logout clone");
+		RestResult<JSONObject> result = cloneClient.get("/services/rest/logout");
+	}
+	
+	private void logoutOnMaster() {
+		System.out.println("logout master");
+		RestResult<JSONObject> result = masterClient.get("/services/rest/logout");
+	}
+	
+	private void verifyLoggedOutOnMaster() {
+		RestResult<JSONArray> result = masterClient.getList("services/rest/" + projectName + "/list");
+		System.out.println("Status Code Master: " + result.getResponse().getStatus());
 	}
 
 }
