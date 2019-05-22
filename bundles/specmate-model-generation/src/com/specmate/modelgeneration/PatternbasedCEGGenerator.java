@@ -144,7 +144,8 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 		}
 		
 		if(cause.isNegation()) {
-			return fixOrderOfOperations(cause.getFirstArgument());
+			fixOrderOfOperations(cause.getFirstArgument());
+			return cause; 
 		}
 		
 		fixOrderOfOperations(cause.getFirstArgument());
@@ -159,7 +160,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 		}
 		
 		typeChild = cause.getSecondArgument().getType();
-		if(type.getPriority() > typeChild.getPriority() && typeChild != RuleType.NEGATION) {
+		if(typeChild != null && type.getPriority() > typeChild.getPriority() && typeChild != RuleType.NEGATION) {
 			// Right Swap
 			cause.rightSwap();
 			fixOrderOfOperations(cause);
@@ -386,6 +387,10 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 	}
 	
 	private String cleanCondition(String condition) {
+		if (condition == null || condition.length() <= 1) {
+			return condition;
+		}
+		
 		if(this.lang == ELanguage.DE) {
 			condition = condition.replaceAll("(?i)\\b(nicht)\\b", "");
 			condition = condition.replaceAll("(?i)\\bk(ein(en?)?)\\b", "$1");
