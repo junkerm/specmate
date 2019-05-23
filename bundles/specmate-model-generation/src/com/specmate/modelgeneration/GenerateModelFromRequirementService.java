@@ -85,12 +85,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		ELanguage lang = NLPUtil.detectLanguage(text);
 		ICEGFromRequirementGenerator generator;
 		
-		try {
-			generator = new PatternbasedCEGGenerator(lang, tagger);
-		} catch (URISyntaxException | XTextException e) {
-			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM,
-					"An error occured during creating the PatternbasedCEGGenerator:\n" + e.getMessage());
-		} 
+		generator = new PatternbasedCEGGenerator(lang, tagger); 
 		
 		try {
 			generator.createModel(model, text);

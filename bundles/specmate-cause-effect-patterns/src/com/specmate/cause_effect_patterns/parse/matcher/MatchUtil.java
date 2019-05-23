@@ -45,34 +45,40 @@ public class MatchUtil {
 		for(MatchRule rule: offsetedRules) {
 			result = rule.match(data, head);
 			if(result.isSuccessfulMatch()) {
-				for(String submatchName: result.getSubmatchNames()) {
-					MatchResult sub = result.getSubmatch(submatchName);
-					DependencyParsetree subData = sub.getMatchTree();
-					Token subHead = subData.getHeads().stream().findFirst().get();
-					
-					MatchResult recursiveCall;
-					if(subData.getTreeFragmentText().equals(data.getTreeFragmentText()) && subHead.equals(head)) {
-						int newOffset = rules.indexOf(rule) + 1;
-						recursiveCall = evaluateRuleset(rules, subData, subHead, newOffset);
-					} else {
-						recursiveCall = evaluateRuleset(rules, subData, subHead);
-					}
-					
-					if(recursiveCall.isSuccessfulMatch()) {
-						sub.setRuleName(recursiveCall.getRuleName());
-						for( String subKey: recursiveCall.getSubmatchNames()) {
-							MatchResult subRes =  recursiveCall.getSubmatch(subKey);
-							if(!subRes.hasRuleName() ) {
-								subRes.setRuleName(recursiveCall.getRuleName());
-							}
-							sub.addSubmatch(subKey, subRes);
-						}
-					}
-				}
+				evaluateRulesetOnSubtrees(rules, rule, data, head, result);
 				break;
 			}
 		}
 		
 		return result;
 	}
+	
+	private static void evaluateRulesetOnSubtrees(List<MatchRule> rules, MatchRule currentRule, 
+			DependencyParsetree data, Token head, MatchResult result) {
+		for(String submatchName: result.getSubmatchNames()) {
+			MatchResult sub = result.getSubmatch(submatchName);
+			DependencyParsetree subData = sub.getMatchTree();
+			Token subHead = subData.getHeads().stream().findFirst().get();
+			
+			MatchResult recursiveCall;
+			if(subData.getTreeFragmentText().equals(data.getTreeFragmentText()) && subHead.equals(head)) {
+				int newOffset = rules.indexOf(currentRule) + 1;
+				recursiveCall = evaluateRuleset(rules, subData, subHead, newOffset);
+			} else {
+				recursiveCall = evaluateRuleset(rules, subData, subHead);
+			}
+			
+			if(recursiveCall.isSuccessfulMatch()) {
+				sub.setRuleName(recursiveCall.getRuleName());
+				for( String subKey: recursiveCall.getSubmatchNames()) {
+					MatchResult subRes =  recursiveCall.getSubmatch(subKey);
+					if(!subRes.hasRuleName() ) {
+						subRes.setRuleName(recursiveCall.getRuleName());
+					}
+					sub.addSubmatch(subKey, subRes);
+				}
+			}
+		}
+	}
+	
 }

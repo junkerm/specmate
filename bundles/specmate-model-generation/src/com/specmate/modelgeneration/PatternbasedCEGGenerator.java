@@ -44,16 +44,28 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 	private static final int YOFFSET = 150;
 	
 	
-	public PatternbasedCEGGenerator(ELanguage lang, INLPService tagger) throws URISyntaxException, XTextException {
+	public PatternbasedCEGGenerator(ELanguage lang, INLPService tagger) throws SpecmateException {
 		this("resources/"+lang.getLanguage().toUpperCase(), lang, tagger);
 	}
 	
-	public PatternbasedCEGGenerator(String folder, ELanguage lang, INLPService tagger) throws URISyntaxException, XTextException {
-		URI dep = getLocalFile(folder + "/Dep_" + lang.getLanguage().toUpperCase() + ".spec");
-		URI pos = getLocalFile(folder + "/Pos_" + lang.getLanguage().toUpperCase() + ".spec");
-		URI rule= getLocalFile(folder + "/Rule_"+ lang.getLanguage().toUpperCase() + ".spec");
+	public PatternbasedCEGGenerator(String folder, ELanguage lang, INLPService tagger) throws SpecmateException {
 		
-		this.rules = XTextUtil.generateMatchers(rule, dep, pos); 
+		URI dep;
+		URI pos;
+		URI rule;
+		try {
+			dep = getLocalFile(folder + "/Dep_" + lang.getLanguage().toUpperCase() + ".spec");
+			pos = getLocalFile(folder + "/Pos_" + lang.getLanguage().toUpperCase() + ".spec");
+			rule = getLocalFile(folder + "/Rule_"+ lang.getLanguage().toUpperCase() + ".spec");
+		} catch (URISyntaxException e) {
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM , e);
+		}
+		
+		try {
+			this.rules = XTextUtil.generateMatchers(rule, dep, pos);
+		} catch (XTextException e) {
+			throw new SpecmateInternalException(ErrorCode.NLP, e);
+		} 
 		this.tagger = tagger;
 		this.creation = new CEGCreation();
 		this.lang = lang;
