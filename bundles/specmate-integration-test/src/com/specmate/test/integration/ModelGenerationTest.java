@@ -166,7 +166,7 @@ public class ModelGenerationTest extends EmfRestTest {
 		checkResultingModel(generated, model);
 	}
 
-	@Test
+	/*@Test
 	public void testModelGenerationDe3_AndOr() {
 		String text = "Wenn der Benutzer keine Anmeldung hat und Anmeldepflicht besteht oder vom Werkzeug ein Fehler erkannt wird, zeigt das Werkzeug ein Warnfenster an und gibt einen Signalton aus.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
@@ -188,7 +188,8 @@ public class ModelGenerationTest extends EmfRestTest {
 
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
-	}
+	} 
+	*/
 
 	@Test
 	public void testModelGenerationDe4_SpecmateExamples() {
@@ -221,7 +222,7 @@ public class ModelGenerationTest extends EmfRestTest {
 			boolean matched = (EmfRestTestUtil.matches(generated,
 					MATCHES_VAR_COND(node.getVariable(), node.getCondition(), node.getType().getLiteral())));
 			Assert.assertTrue("Node with variable \"" + node.getVariable() + "\" and condition \"" + node.getCondition()
-					+ "\" not found.", matched);
+					+ "\" not found." , matched);
 		}
 
 		// Verify connections

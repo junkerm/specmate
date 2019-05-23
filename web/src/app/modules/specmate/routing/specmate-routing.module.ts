@@ -35,7 +35,7 @@ const routes: Routes = [
     canDeactivate: [UnsavedChangesGuard],
     canActivate: [UserPermissionsGuard]
   }, {
-    path: Config.VIEW_URL_PREFIX + ' Folder ' + '/:url',
+    path: Config.VIEW_URL_PREFIX + 'Folder' + '/:url',
     component: FolderDetails,
     canDeactivate: [UnsavedChangesGuard],
     canActivate: [UserPermissionsGuard]

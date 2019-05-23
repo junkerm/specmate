@@ -52,8 +52,6 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		model.getContents().clear(); // Delete Contents
 		
 		Requirement req = (Requirement) model.eContainer();
-		
-		
 		this.logService.log(LogService.LOG_INFO, "Model Generation STARTED");
 		try {
 			model = generateModelFromDescription(model, req);
@@ -62,7 +60,6 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 			this.logService.log(LogService.LOG_ERROR, "Model Generation failed with following error:\n"+e.getMessage());			
 			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
 		}
-		req.getContents().add(model);
 		return new RestResult<>(Response.Status.OK);
 	}
 
@@ -71,12 +68,11 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	 *
 	 * @param model
 	 *            CEGModel
-	 * @param requirement
 	 * @return
 	 * @throws XTextException 
 	 * @throws URISyntaxException 
 	 */
-	private CEGModel generateModelFromDescription(CEGModel model, Requirement requirement) throws SpecmateException {
+	private CEGModel generateModelFromDescription(CEGModel model) throws SpecmateException {
 		String text = model.getModelRequirements();
 		if (text == null || StringUtils.isEmpty(text)) {
 			return model;

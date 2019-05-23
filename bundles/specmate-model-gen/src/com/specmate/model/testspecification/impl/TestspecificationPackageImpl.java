@@ -292,6 +292,15 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 	 * @generated
 	 */
 	public EAttribute getParameterAssignment_Condition() {
+		return (EAttribute)parameterAssignmentEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getParameterAssignment_Value() {
 		return (EAttribute)parameterAssignmentEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -392,6 +401,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 
 		parameterAssignmentEClass = createEClass(PARAMETER_ASSIGNMENT);
 		createEReference(parameterAssignmentEClass, PARAMETER_ASSIGNMENT__PARAMETER);
+		createEAttribute(parameterAssignmentEClass, PARAMETER_ASSIGNMENT__VALUE);
 		createEAttribute(parameterAssignmentEClass, PARAMETER_ASSIGNMENT__CONDITION);
 
 		testProcedureEClass = createEClass(TEST_PROCEDURE);
@@ -463,6 +473,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 
 		initEClass(parameterAssignmentEClass, ParameterAssignment.class, "ParameterAssignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getParameterAssignment_Parameter(), this.getTestParameter(), this.getTestParameter_Assignments(), "parameter", null, 0, 1, ParameterAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getParameterAssignment_Value(), ecorePackage.getEString(), "value", null, 0, 1, ParameterAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getParameterAssignment_Condition(), ecorePackage.getEString(), "condition", null, 0, 1, ParameterAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(testProcedureEClass, TestProcedure.class, "TestProcedure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
