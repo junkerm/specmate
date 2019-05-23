@@ -39,16 +39,35 @@ public abstract class SentenceUnfolderBase {
 	 * subjects
 	 */
 	public String unfold(INLPService nlpService, String text, ELanguage language) throws SpecmateException {
-		JCas result = nlpService.processText(text, language);
-		Sentence sentence = NLPUtil.getSentences(result).iterator().next();
-		String unfolded = insertsImplicitVerbs(result, sentence);
+		JCas jCas = nlpService.processText(text, language);
+		
+		String unfoldedText = "";
+		for (Sentence sentenceStageA: NLPUtil.getSentences(jCas)) {
+			String unfoldedStageA 	= insertImplicitNouns(jCas, sentenceStageA);
+			
+			JCas jCasStageB =  nlpService.processText(unfoldedStageA, language);
+			Sentence sentenceStageB = NLPUtil.getSentences(jCasStageB).iterator().next();
+			String unfoldedStageB = insertsImplicitVerbs(jCasStageB, sentenceStageB);
+			
+			JCas jCasStageC = nlpService.processText(unfoldedStageB, language);
+			Sentence sentenceStageC = NLPUtil.getSentences(jCasStageC).iterator().next();
+			String unfoldedStageC = insertImplicitSubjects(jCasStageC, sentenceStageC);
+			unfoldedText +=unfoldedStageC;
+		}
+		return unfoldedText;
 
-		result = nlpService.processText(unfolded, language);
-		sentence = NLPUtil.getSentences(result).iterator().next();
-		unfolded = insertImplicitSubjects(result, sentence);
+	}
 
-		return unfolded;
-
+	/** Insert Nouns into adjective conjunctions */
+	private String insertImplicitNouns(JCas jCas, Sentence sentence) {
+		List<Chunk> nounPhrases = NLPUtil.getNounPhraseChunks(jCas, sentence);
+		List<Pair<Integer, String>> insertions = new ArrayList<Pair<Integer, String>>();
+		
+		for (Annotation np : nounPhrases) {
+			List<Dependency> modifiers = getConjunctiveAdjectiveModifyers(jCas, np);
+			insertions.addAll(completeConjunctiveAdjectiveNounPhrase(jCas, np, modifiers));
+		}
+		return insert(sentence.getCoveredText(), insertions);
 	}
 
 	/** Inserts implicit subjects into a sentence */
@@ -151,6 +170,14 @@ public abstract class SentenceUnfolderBase {
 		return buffer.toString();
 	}
 
+	/** Find all adjective conjunctions of the given nounphrase */
+	protected abstract List<Dependency> getConjunctiveAdjectiveModifyers(JCas jCas, Annotation np);
+	
+	/**
+	 * Distribute the nounphrase over all adjective conjuncitons.
+	 */
+	protected abstract List<Pair<Integer, String>> completeConjunctiveAdjectiveNounPhrase(JCas jCas, Annotation np, List<Dependency> modifiers);
+	
 	/**
 	 * Determines an implicit subject for a verb phrase by finding conjuncted verbs
 	 * and there subjects

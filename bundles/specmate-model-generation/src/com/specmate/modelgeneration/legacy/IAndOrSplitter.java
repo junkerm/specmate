@@ -1,4 +1,4 @@
-package com.specmate.modelgeneration;
+package com.specmate.modelgeneration.legacy;
 
 import org.apache.uima.jcas.JCas;
 
