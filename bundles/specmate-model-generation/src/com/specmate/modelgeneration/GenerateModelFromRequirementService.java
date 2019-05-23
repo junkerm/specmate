@@ -11,12 +11,9 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.cause_effect_patterns.resolve.XTextException;
 import com.specmate.common.exception.SpecmateException;
-import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
-import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.requirements.CEGModel;
-import com.specmate.model.requirements.Requirement;
 import com.specmate.modelgeneration.legacy.EnglishCEGFromRequirementGenerator;
 import com.specmate.modelgeneration.legacy.GermanCEGFromRequirementGenerator;
 import com.specmate.nlp.api.ELanguage;
@@ -51,10 +48,9 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		CEGModel model = (CEGModel) parent;
 		model.getContents().clear(); // Delete Contents
 		
-		Requirement req = (Requirement) model.eContainer();
-		this.logService.log(LogService.LOG_INFO, "Model Generation STARTED");
 		try {
-			model = generateModelFromDescription(model, req);
+			this.logService.log(LogService.LOG_INFO, "Model Generation STARTED");
+			model = generateModelFromDescription(model);
 			this.logService.log(LogService.LOG_INFO, "Model Generation FINISHED");
 		} catch (SpecmateException e) {
 			this.logService.log(LogService.LOG_ERROR, "Model Generation failed with following error:\n"+e.getMessage());			

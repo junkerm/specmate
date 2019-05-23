@@ -147,6 +147,10 @@ public abstract class MatcherBase {
 		
 		Matching matching = computeMatching(data, matchers, candidates);
 		
+		if (matching == null) {
+			return MatchResult.unsuccessful();
+		}
+		
 		DependencyParsetree unmatched = new DependencyParsetree(data.getTokenOrder());
 		for(int remainElement: matching.getUnmatchedCandidates()) {
 			Dependency dep = candidates.get(remainElement);
