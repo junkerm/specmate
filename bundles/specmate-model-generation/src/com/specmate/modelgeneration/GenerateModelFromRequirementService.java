@@ -11,6 +11,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.cause_effect_patterns.resolve.XTextException;
 import com.specmate.common.exception.SpecmateException;
+import com.specmate.config.api.IConfigService;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.requirements.CEGModel;
@@ -32,6 +33,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 	INLPService tagger;
 	private LogService logService;
+	private IConfigService configService;
 
 	@Override
 	public String getServiceName() {
@@ -77,7 +79,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		ELanguage lang = NLPUtil.detectLanguage(text);
 		ICEGFromRequirementGenerator generator;
 		
-		generator = new PatternbasedCEGGenerator(lang, tagger); 
+		generator = new PatternbasedCEGGenerator(lang, tagger, this.configService); 
 		
 		try {
 			generator.createModel(model, text);
@@ -105,5 +107,10 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	void setNlptagging(INLPService tagger) {
 		this.tagger = tagger;
 	}
-
+	
+	/** Service reference for config service */
+	@Reference
+	public void setConfigurationService(IConfigService configService) {
+		this.configService = configService;
+	}
 }
