@@ -196,9 +196,7 @@ public class EnglishSentenceUnfolder extends SentenceUnfolderBase {
 			if(ccDep.isPresent() && secondModifyerDep.isPresent()) {
 				result.add(modifyer);
 			}
-			
 		}
-		
 		return result;
 	}
 
@@ -211,7 +209,6 @@ public class EnglishSentenceUnfolder extends SentenceUnfolderBase {
 			Token noun = modifyer.getGovernor();
 			Token firstModifyer = modifyer.getDependent();
 			Token conjunction   = NLPUtil.findDependency(dependencies, firstModifyer, DEPENDENCY_TYPE_CC, true).get().getDependent();
-			// Token secondModifyer= NLPUtil.findDependency(dependencies, firstModifyer, DEPENDENCY_TYPE_CONJUNCTION, false).get().getDependent();
 			result.add(Pair.of(conjunction.getBegin(), noun.getCoveredText()));
 		}
 		return result;

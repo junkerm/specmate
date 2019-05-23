@@ -287,14 +287,12 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 	
 	@Override
 	protected List<Dependency> getConjunctiveAdjectiveModifyers(JCas jCas, Annotation np) {
-		// TODO Auto-generated method stub
 		return new Vector<Dependency>();
 	}
 
 	@Override
 	protected List<Pair<Integer, String>> completeConjunctiveAdjectiveNounPhrase(JCas jCas, Annotation np,
 			List<Dependency> modifiers) {
-		// TODO Auto-generated method stub
 		return new Vector<Pair<Integer,String>>();
 	}
 

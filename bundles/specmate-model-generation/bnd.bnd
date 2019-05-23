@@ -21,4 +21,4 @@
 	specmate-config-api;version=latest
 Private-Package: \
 	com.specmate.modelgeneration,\
-	com.specmate.modelgeneration.hardcoded
+	com.specmate.modelgeneration.legacy
