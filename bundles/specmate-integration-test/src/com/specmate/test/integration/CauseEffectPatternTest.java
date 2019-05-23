@@ -19,11 +19,11 @@ import com.specmate.cause_effect_patterns.parse.matcher.MatchRule;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchUtil;
 import com.specmate.cause_effect_patterns.parse.matcher.MatcherBase;
 import com.specmate.cause_effect_patterns.parse.matcher.MatcherException;
-import com.specmate.cause_effect_patterns.resolve.XTextUtil;
-import com.specmate.cause_effect_patterns.resolve.XTextException;
+import com.specmate.cause_effect_patterns.resolve.GenerateMatcherUtil;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
+import com.specmate.xtext.XTextException;
 
 public class CauseEffectPatternTest {
 	
@@ -102,7 +102,7 @@ public class CauseEffectPatternTest {
 		URI main = getLocalFile(mainFile);
 		URI pos = getLocalFile("/resources/pos_EN.spec");
 		URI dep = getLocalFile("/resources/dep_EN.spec");
-		return XTextUtil.generateMatchers(main, pos, dep); 
+		return new GenerateMatcherUtil().loadXTextResources(main, pos, dep); 
 	}
 	
 	private List<MatcherBase> convertMatchRule(List<MatchRule> rules) {

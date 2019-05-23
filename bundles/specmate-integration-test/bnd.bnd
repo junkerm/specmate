@@ -56,7 +56,9 @@ Test-Cases: \
 	org.apache.servicemix.bundles.automaton,\
 	specmate-nlp;version=latest,\
 	specmate-model-generation;version=latest,\
-	specmate-cause-effect-patterns;version=latest
+	specmate-cause-effect-patterns;version=latest,\
+	specmate-objectif;version=latest,\
+	specmate-xtext
 
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
@@ -277,7 +279,9 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.eclipse.xtext;version='[2.10.0,2.10.1)',\
 	org.eclipse.xtext.smap;version='[2.10.0,2.10.1)',\
 	org.eclipse.xtext.util;version='[2.10.0,2.10.1)',\
-	org.eclipse.xtext.xbase.lib;version='[2.10.0,2.10.1)'
+	org.eclipse.xtext.xbase.lib;version='[2.10.0,2.10.1)',\
+	specmate-objectif;version=snapshot,\
+	specmate-xtext;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8088,\
