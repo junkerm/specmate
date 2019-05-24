@@ -18,8 +18,6 @@ import org.apache.commons.cli.ParseException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.specmate.model.base.BasePackage;
-
 public class MasterCloneTest {
 	public static final String ANSI_RESET = "\u001B[0m";
 	public static final String ANSI_GREEN = "\u001B[32m";
