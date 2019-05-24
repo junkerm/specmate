@@ -79,12 +79,20 @@ public class RestClient {
 		Response response = rawGet(url, params);
 		String result = response.readEntity(String.class);
 		if (response.getStatusInfo().getStatusCode() == Status.OK.getStatusCode()) {
+			if(isJSON(result)) {
 			JSONTokener token = new JSONTokener(result);
 			JSONObject obj = new JSONObject(token);
 			return new RestResult<>(response, url, obj);
-		} else {
-			return new RestResult<>(response, url, null);
-		}
+			} 
+		
+		} 
+		return new RestResult<>(response, url, null);
+		
+	}
+
+	private boolean isJSON(String result) {
+		String trimmed = result.trim();
+		return trimmed.startsWith("{") || trimmed.startsWith("[");
 	}
 
 	public RestResult<JSONArray> getList(String url, String... params) {

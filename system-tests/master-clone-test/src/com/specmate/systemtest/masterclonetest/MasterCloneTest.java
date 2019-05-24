@@ -18,6 +18,8 @@ import org.apache.commons.cli.ParseException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.specmate.model.base.BasePackage;
+
 public class MasterCloneTest {
 	public static final String ANSI_RESET = "\u001B[0m";
 	public static final String ANSI_GREEN = "\u001B[32m";
@@ -26,6 +28,8 @@ public class MasterCloneTest {
 	public static final String ANSI_PURPLE = "\u001B[35m";
 	private static final String LOGIN_JSON = "{\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"className\":\"User\",\"userName\":\"user\",\"passWord\":\"password\",\"projectName\":\"artificial\"}";
 	private static final String LOGIN_JSON_2 = "{\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"className\":\"User\",\"userName\":\"user\",\"passWord\":\"password\",\"projectName\":\"test-data\"}";
+//	private static final String TEST_JSON = "[{\"condition\":\"gedrückt\",\"parameter\":{\"___proxy\":true,\"className\":\"TestParameter\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestParameter-1\"},\"___nsuri\":\"http://specmate.com/20190125/model/testspecification\",\"name\":\"ParameterAssignment-1\",\"className\":\"ParameterAssignment\",\"id\":\"ParameterAssignment-1\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestCase-3/ParameterAssignment-1\"},{\"condition\":\"not gedrückt\",\"parameter\":{\"___proxy\":true,\"className\":\"TestParameter\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestParameter-2\"},\"___nsuri\":\"http://specmate.com/20190125/model/testspecification\",\"name\":\"ParameterAssignment-2\",\"className\":\"ParameterAssignment\",\"id\":\"ParameterAssignment-2\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestCase-3/ParameterAssignment-2\"},{\"condition\":\"gedrückt\",\"parameter\":{\"___proxy\":true,\"className\":\"TestParameter\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestParameter-3\"},\"___nsuri\":\"http://specmate.com/20190125/model/testspecification\",\"name\":\"ParameterAssignment-3\",\"className\":\"ParameterAssignment\",\"id\":\"ParameterAssignment-3\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestCase-3/ParameterAssignment-3\"},{\"condition\":\"markiert\",\"parameter\":{\"___proxy\":true,\"className\":\"TestParameter\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestParameter-4\"},\"___nsuri\":\"http://specmate.com/20190125/model/testspecification\",\"name\":\"ParameterAssignment-4\",\"className\":\"ParameterAssignment\",\"id\":\"ParameterAssignment-4\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestCase-3/ParameterAssignment-4\"},{\"condition\":\"not gelöscht\",\"parameter\":{\"___proxy\":true,\"className\":\"TestParameter\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestParameter-5\"},\"___nsuri\":\"http://specmate.com/20190125/model/testspecification\",\"name\":\"ParameterAssignment-5\",\"className\":\"ParameterAssignment\",\"id\":\"ParameterAssignment-5\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestCase-3/ParameterAssignment-5\"},{\"condition\":\"markiert\",\"parameter\":{\"___proxy\":true,\"className\":\"TestParameter\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestParameter-6\"},\"___nsuri\":\"http://specmate.com/20190125/model/testspecification\",\"name\":\"ParameterAssignment-6\",\"className\":\"ParameterAssignment\",\"id\":\"ParameterAssignment-6\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestCase-3/ParameterAssignment-6\"}]";
+//	private static final String CEG_JSON = "{\"entries\":[{\"deletedObjects\":[],\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"changes\":[{\"newValue\":\"New Node 2019-05-24 11:39:55\",\"feature\":\"name\",\"isCreate\":true,\"isDelete\":false,\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"objectName\":\"New Node 2019-05-24 11:39:55\",\"className\":\"Change\",\"objectType\":\"CEGNode\"}],\"className\":\"HistoryEntry\",\"user\":\"user\",\"timestamp\":\"1558690812479\"},{\"deletedObjects\":[],\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"changes\":[{\"newValue\":\"New Node 2019-05-24 11:39:56\",\"feature\":\"name\",\"isCreate\":true,\"isDelete\":false,\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"objectName\":\"New Node 2019-05-24 11:39:56\",\"className\":\"Change\",\"objectType\":\"CEGNode\"}],\"className\":\"HistoryEntry\",\"user\":\"user\",\"timestamp\":\"1558690812479\"},{\"deletedObjects\":[],\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"changes\":[{\"newValue\":\"New Node 2019-05-24 11:39:58\",\"feature\":\"name\",\"isCreate\":true,\"isDelete\":false,\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"objectName\":\"New Node 2019-05-24 11:39:58\",\"className\":\"Change\",\"objectType\":\"CEGNode\"}],\"className\":\"HistoryEntry\",\"user\":\"user\",\"timestamp\":\"1558690812479\"},{\"deletedObjects\":[],\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"changes\":[{\"newValue\":\"New Connection 2019-05-24 11:40:01\",\"feature\":\"name\",\"isCreate\":true,\"isDelete\":false,\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"objectName\":\"New Connection 2019-05-24 11:40:01\",\"className\":\"Change\",\"objectType\":\"CEGConnection\"}],\"className\":\"HistoryEntry\",\"user\":\"user\",\"timestamp\":\"1558690812479\"},{\"deletedObjects\":[],\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"changes\":[{\"newValue\":\"New Connection 2019-05-24 11:40:02\",\"feature\":\"name\",\"isCreate\":true,\"isDelete\":false,\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"objectName\":\"New Connection 2019-05-24 11:40:02\",\"className\":\"Change\",\"objectType\":\"CEGConnection\"}],\"className\":\"HistoryEntry\",\"user\":\"user\",\"timestamp\":\"1558690812479\"},{\"deletedObjects\":[],\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"changes\":[{\"newValue\":\"CEG\",\"feature\":\"name\",\"isCreate\":true,\"isDelete\":false,\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"objectName\":\"CEG\",\"className\":\"Change\",\"objectType\":\"CEGModel\"}],\"className\":\"HistoryEntry\",\"user\":\"user\",\"timestamp\":\"1558690786401\"}],\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"className\":\"History\"}";
 	
 	public static void main(String[] args) throws Exception {
 		new MasterCloneTest(args);
@@ -142,39 +146,87 @@ public class MasterCloneTest {
 
 	private void performTests() {
 		try {
-			testLogin();
-			// testCreateModel();
+//			testLogin();
+//			killBoth();
+//			restartBoth();
+			testCreateModel();
 		} catch (Exception e) {
 			System.exit(1);
 		}
 		System.exit(0);
 	}
 
+	private void testCreateModel() throws AuthenticationException {
+		loginOnMaster();
+		verifyLoggedInOnMaster();
+		createModel();
+		//killMaster();
+		//restartMaster();
+		//
+		
+	}
+
+	private void createModel() {
+		//RestResult<JSONObject> result = masterClient.post("services/rest/" + projectName + "/list", new JSONObject(CEG_JSON.replaceAll("test-data", "artificial")));
+		//String name = BasePackage.Literals.INAMED__NAME.getName();
+	}
+
+	private void PostCEGNodesAndConnectionToCEG() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private void testLogin() throws ParseException, IOException, InterruptedException {
 		loginOnMaster();
-//		verifyLoggedInOnMaster();
-//		killMaster();
-//		verifyLoggedInOnClone();
+		verifyLoggedInOnMaster();
+		killMaster();
+//		killClone();
+//		restartClone();
+		verifyLoggedInOnClone();
 //		restartMaster();
 //		verifyLoggedInOnMaster();
 //		killMaster();
 //		verifyLoggedInOnClone();
-//		logoutOnClone();
-//		restartMaster();
-		logoutOnMaster();
+		logoutOnClone();
+		restartMaster();
+//		logoutOnMaster();
 		verifyLoggedOutOnMaster();
+	}
+	
+	private void restartBoth() throws ParseException, IOException, InterruptedException {
+		restartMaster();
+		restartClone();
+		
+	}
+
+	private void killBoth() throws InterruptedException {
+		killMaster();
+		killClone();
+		
 	}
 
 	private void killMaster() throws InterruptedException {
 		System.out.println("destroy master");
 		masterProc.destroy();
-		Thread.sleep(30000);
+		Thread.sleep(60000);
+	}
+	
+	private void killClone() throws InterruptedException {
+		System.out.println("destroy clone");
+		cloneProc.destroy();
+		Thread.sleep(60000);
 	}
 	
 	private void restartMaster() throws ParseException, IOException, InterruptedException {
 		System.out.println("restart master");
 		masterProc = startSpecmate("master", ANSI_YELLOW, specmate, master, masterArgs);
-		Thread.sleep(20000);
+		Thread.sleep(30000);
+	}
+	
+	private void restartClone() throws ParseException, IOException, InterruptedException {
+		System.out.println("restart clone");
+		masterProc = startSpecmate("clone", ANSI_GREEN, specmate, clone, cloneArgs);
+		Thread.sleep(30000);
 	}
 
 	private void loginOnMaster() {
@@ -188,8 +240,8 @@ public class MasterCloneTest {
 		// TODO:besser
 		masterClient.setCookie("specmate-user-token", getSpecmateToken());
 		cloneClient.setCookie("specmate-user-token", getSpecmateToken());
-		//masterClient.setHeader("Authorization", authorizationHeader);
-		//cloneClient.setHeader("Authorization", authorizationHeader);
+		masterClient.setHeader("Authorization", authorizationHeader);
+		cloneClient.setHeader("Authorization", authorizationHeader);
 	}
 
 	private String getSpecmateToken() {
@@ -234,9 +286,12 @@ public class MasterCloneTest {
 		RestResult<JSONObject> result = masterClient.get("/services/rest/logout");
 	}
 	
-	private void verifyLoggedOutOnMaster() {
+	private void verifyLoggedOutOnMaster() throws AuthenticationException {
 		RestResult<JSONArray> result = masterClient.getList("services/rest/" + projectName + "/list");
 		System.out.println("Status Code Master: " + result.getResponse().getStatus());
+		if (result.getResponse().getStatus() == 200) {
+			throw new AuthenticationException("Still logged in");
+		}
 	}
 
 }
