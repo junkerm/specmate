@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Vector;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
@@ -282,6 +283,17 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 			}
 		}
 		return Optional.empty();
+	}
+	
+	@Override
+	protected List<Dependency> getConjunctiveAdjectiveModifyers(JCas jCas, Annotation np) {
+		return new Vector<Dependency>();
+	}
+
+	@Override
+	protected List<Pair<Integer, String>> completeConjunctiveAdjectiveNounPhrase(JCas jCas, Annotation np,
+			List<Dependency> modifiers) {
+		return new Vector<Pair<Integer,String>>();
 	}
 
 }

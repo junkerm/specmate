@@ -25,10 +25,10 @@ Private-Package: \
 Export-Package: \
 	com.specmate.cause_effect_patterns.parse,\
 	com.specmate.cause_effect_patterns.parse.matcher,\
+	com.specmate.cause_effect_patterns.parse.wrapper,\
 	com.specmate.cause_effect_patterns.resolve
 Import-Package: \
 	org.eclipse.xtext.smap;resolution:=optional,\
 	*
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
-Bundle-Version: 0.0.0.${tstamp}

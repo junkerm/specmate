@@ -74,9 +74,7 @@ export class CegModelGeneratorButton {
             await this.dataService.readElement(this.model.url, false);
             await this.dataService.readContents(this.model.url, false);
             this.selectedElementService.select(this.model);
-        } catch (e) {
-            throw e;
-        }
+        } catch (e) {}
     }
 
     public get enabled(): boolean {
