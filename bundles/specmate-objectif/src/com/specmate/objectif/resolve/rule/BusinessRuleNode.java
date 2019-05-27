@@ -15,6 +15,7 @@ public class BusinessRuleNode extends ObjectifNode {
 	public BusinessRuleNode(ObjectifNode cause, ObjectifNode effect) {
 		this.cause = cause;
 		this.effect = effect;
+		this.alternative = Optional.empty();
 	}
 
 	@Override
@@ -39,5 +40,21 @@ public class BusinessRuleNode extends ObjectifNode {
 			result += " else { "+this.alternative.get()+" }";
 		}
 		return result;
+	}
+
+	public ObjectifNode getCause() {
+		return this.cause;
+	}
+	
+	public ObjectifNode getEffect() {
+		return this.effect;
+	}
+	
+	public boolean hasAlternative() {
+		return this.alternative.isPresent();
+	}
+	
+	public ObjectifNode getAlternative() {
+		return this.alternative.get();
 	}
 }

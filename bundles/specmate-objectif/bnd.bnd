@@ -1,7 +1,7 @@
 -buildpath: \
 	org.eclipse.xtext,\
-	com.google.inject,\
 	org.eclipse.xtext.util,\
+	com.google.inject,\
 	org.eclipse.emf.ecore,\
 	org.antlr.runtime,\
 	org.eclipse.emf.common,\
@@ -9,7 +9,7 @@
 	com.google.guava,\
 	specmate-nlp,\
 	org.glassfish.hk2.external.javax.inject,\
-	specmate-xtext;version=latest
+	specmate-xtext
 -privatepackage: \
 	com.specmate.objectif.internal,\
 	com.specmate.objectif.internal.dSL,\

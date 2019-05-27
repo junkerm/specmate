@@ -21,7 +21,7 @@ import org.eclipse.xtext.validation.Issue;
 import com.google.inject.Injector;
 
 public class XTextUtil {
-	public static EList<EObject> loadXTextResources(ISetup grammar ,URI mainFile, URI... paths) throws XTextException{
+	public static EList<EObject> loadXTextResources(ISetup grammar, URI mainFile, URI... paths) throws XTextException{
 		// do this only once per application
 		Injector injector = grammar.createInjectorAndDoEMFRegistration();
 		 

@@ -1,8 +1,8 @@
 package com.specmate.objectif.resolve.rule;
 
 public class OrNode extends ObjectifNode {
-	ObjectifNode leftNode;
-	ObjectifNode rightNode;
+	private ObjectifNode leftNode;
+	private ObjectifNode rightNode;
 	
 	public OrNode(ObjectifNode left, ObjectifNode right) {
 		this.leftNode = left;
@@ -18,5 +18,13 @@ public class OrNode extends ObjectifNode {
 	@Override
 	public String toString() {
 		return "("+this.leftNode+" || "+this.rightNode+")";
+	}
+	
+	public ObjectifNode getLeft() {
+		return this.leftNode;
+	}
+	
+	public ObjectifNode getRight() {
+		return this.rightNode;
 	}
 }

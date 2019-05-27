@@ -16,6 +16,10 @@ public class LiteralNode extends ObjectifNode {
 
 	@Override
 	public String toString() {
+		return getContent();
+	}
+	
+	public String getContent() {
 		return String.join(" ", this.literal);
 	}
 }
