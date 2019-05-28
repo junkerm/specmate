@@ -57,11 +57,9 @@ public class TestGeneratorService extends RestServiceBase {
 		EObject container = specification.eContainer();
 		if (container instanceof CEGModel) {
 			new CEGTestCaseGenerator(specification).generate();
-			System.out.println("Specification from CEG created");
 			this.testGenCounter.inc();
 		} else if (container instanceof Process) {
 			new ProcessTestCaseGenerator(specification).generate();
-			System.out.println("Specification from Process created");
 			this.testGenCounter.inc();
 		} else {
 			throw new SpecmateInternalException(ErrorCode.REST_SERVICE,

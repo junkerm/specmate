@@ -65,7 +65,6 @@ public class PersistentSessionService extends BaseSessionService {
 		
 		if(isNewUser(userName)) {
 			this.numberOfUsers.inc();
-			System.out.println("****************Session created*********************");	
 		}
 
 		UserSession session = createSession(source, target, userName, sanitize(projectName));
@@ -132,8 +131,7 @@ public class PersistentSessionService extends BaseSessionService {
 			}
 		});
 		if(isNewUser(session.getUserName())) {
-			this.numberOfUsers.dec();
-			System.out.println("****************Session deleted*********************");	
+			this.numberOfUsers.dec();	
 		}
 		
 	}

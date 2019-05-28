@@ -5,6 +5,7 @@ import javax.ws.rs.core.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -14,6 +15,8 @@ import com.specmate.emfjson.EMFJsonDeserializer;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.emfrest.crud.CrudUtil;
+import com.specmate.metrics.ICounter;
+import com.specmate.metrics.IMetricsService;
 import com.specmate.model.base.Folder;
 import com.specmate.model.batch.BatchPackage;
 import com.specmate.model.batch.Operation;
@@ -27,6 +30,13 @@ public class BatchService extends RestServiceBase {
 	private static final String SERVICE_NAME = "batch";
 	private IAuthenticationService authService;
 	private IObjectResolver resolver;
+	private IMetricsService metricsService; 
+	private ICounter saveCounter;
+	
+	@Activate
+	public void activate() throws SpecmateException {
+		this.saveCounter = metricsService.createCounter("save_counter", "Counter for the number of saves");
+	}
 
 	@Override
 	public String getServiceName() {
@@ -46,6 +56,10 @@ public class BatchService extends RestServiceBase {
 		JSONObject batchObj = new JSONObject(new JSONTokener((String) batchOperationObj));
 		JSONArray batchOps = batchObj.getJSONArray(BatchPackage.Literals.BATCH_OPERATION__OPERATIONS.getName());
 		String userName = authService.getUserName(token);
+		
+		if(batchOps.length()>0) {
+			saveCounter.inc();
+		}
 
 		for (int i = 0; i < batchOps.length(); i++) {
 			JSONObject batchOp = batchOps.getJSONObject(i);
@@ -73,6 +87,11 @@ public class BatchService extends RestServiceBase {
 	@Reference
 	public void setObjectResolver(IObjectResolver resolver) {
 		this.resolver = resolver;
+	}
+	
+	@Reference
+	public void setMetricsService(IMetricsService metricsService) {
+		this.metricsService = metricsService;
 	}
 
 }

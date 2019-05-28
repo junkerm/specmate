@@ -55,7 +55,6 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		Requirement req = (Requirement) model.eContainer();
 		try {
 			model = generateModelFromDescription(model, req);
-			System.out.println("**************Model generated******************");
 			this.modelGenCounter.inc();
 		} catch (SpecmateException e) {
 			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);

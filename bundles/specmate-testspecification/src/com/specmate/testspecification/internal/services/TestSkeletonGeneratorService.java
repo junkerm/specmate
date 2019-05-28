@@ -74,7 +74,6 @@ public class TestSkeletonGeneratorService extends RestServiceBase {
 
 		TestSpecification ts = (TestSpecification) object;
 		
-		System.out.println("*********Tests exported************");
 		this.exportCounter.inc();
 
 		return new RestResult<TestSpecificationSkeleton>(Response.Status.OK, generator.generate(ts));
