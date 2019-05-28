@@ -15,5 +15,6 @@
 	specmate-common;version=latest,\
 	org.eclipse.emf.ecore,\
 	specmate-model-support;version=latest,\
-	org.apache.commons.lang3
+	org.apache.commons.lang3,\
+	specmate-metrics;version=latest
 Private-Package: com.specmate.modelgeneration

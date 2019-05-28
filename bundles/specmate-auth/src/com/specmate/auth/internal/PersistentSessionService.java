@@ -25,6 +25,8 @@ import com.specmate.persistency.IView;
 import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.UserSession;
 import com.specmate.usermodel.UsermodelFactory;
+import com.specmate.metrics.IGauge;
+import com.specmate.metrics.IMetricsService;
 
 @Component(immediate = true, service = ISessionService.class, configurationPid = SessionServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE, property = "impl=persistent")
 public class PersistentSessionService extends BaseSessionService {
@@ -32,6 +34,8 @@ public class PersistentSessionService extends BaseSessionService {
 	private IPersistencyService persistencyService;
 	private ITransaction sessionTransaction;
 	private IView sessionView;
+	private IMetricsService metricsService;
+	private IGauge numberOfUsers;
 
 	@Override
 	@Activate
@@ -41,6 +45,7 @@ public class PersistentSessionService extends BaseSessionService {
 		// Sessions do not adhere to the constraints of general specmate objects
 		sessionTransaction.enableValidators(false);
 		sessionView = persistencyService.openView();
+		this.numberOfUsers = metricsService.createGauge("Logged_in_users", "The number of logged in users");
 	}
 
 	@Deactivate
@@ -57,6 +62,11 @@ public class PersistentSessionService extends BaseSessionService {
 	@Override
 	public UserSession create(AccessRights source, AccessRights target, String userName, String projectName)
 			throws SpecmateException {
+		
+		if(isNewUser(userName)) {
+			this.numberOfUsers.inc();
+			System.out.println("****************Session created*********************");	
+		}
 
 		UserSession session = createSession(source, target, userName, sanitize(projectName));
 
@@ -67,6 +77,8 @@ public class PersistentSessionService extends BaseSessionService {
 				return null;
 			}
 		});
+		
+		
 
 		return session;
 	}
@@ -119,6 +131,11 @@ public class PersistentSessionService extends BaseSessionService {
 				return null;
 			}
 		});
+		if(isNewUser(session.getUserName())) {
+			this.numberOfUsers.dec();
+			System.out.println("****************Session deleted*********************");	
+		}
+		
 	}
 
 	@Override
@@ -139,6 +156,18 @@ public class PersistentSessionService extends BaseSessionService {
 		}
 
 	}
+	
+	private boolean isNewUser(String userName) {
+		String query = "UserSession.allInstances()->select(u | u.userName='" + userName + "')";
+
+		List<Object> results = sessionView.query(query,
+				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
+
+		if (results.size() > 0) {
+			return false;
+		}
+		return true;
+	}
 
 	private CDOID getSessionID(String token) throws SpecmateException {
 		UserSession session = getSession(token);
@@ -157,5 +186,10 @@ public class PersistentSessionService extends BaseSessionService {
 	@Reference
 	public void setConfigService(IConfigService configService) {
 		this.configService = configService;
+	}
+	
+	@Reference
+	public void setMetricsService(IMetricsService metricsService) {
+		this.metricsService = metricsService;
 	}
 }

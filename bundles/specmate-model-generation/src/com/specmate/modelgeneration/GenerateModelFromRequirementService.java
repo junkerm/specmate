@@ -3,6 +3,7 @@ package com.specmate.modelgeneration;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
@@ -10,6 +11,8 @@ import org.osgi.service.log.LogService;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.metrics.ICounter;
+import com.specmate.metrics.IMetricsService;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.nlp.api.ELanguage;
@@ -28,6 +31,13 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 	INLPService tagger;
 	private LogService logService;
+	private IMetricsService metricsService; 
+	private ICounter modelGenCounter;
+	
+	@Activate
+	public void activate() throws SpecmateException {
+		this.modelGenCounter = metricsService.createCounter("model_generation_counter", "A counter for the amount of generated models");
+	}
 
 	@Override
 	public String getServiceName() {
@@ -45,6 +55,8 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		Requirement req = (Requirement) model.eContainer();
 		try {
 			model = generateModelFromDescription(model, req);
+			System.out.println("**************Model generated******************");
+			this.modelGenCounter.inc();
 		} catch (SpecmateException e) {
 			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
 		}
@@ -88,5 +100,9 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	void setNlptagging(INLPService tagger) {
 		this.tagger = tagger;
 	}
-
+	
+	@Reference
+	public void setMetricsService(IMetricsService metricsService) {
+		this.metricsService = metricsService;
+	}
 }
