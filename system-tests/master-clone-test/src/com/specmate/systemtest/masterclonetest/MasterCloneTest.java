@@ -25,6 +25,12 @@ public class MasterCloneTest {
 	public static final String ANSI_BLUE = "\u001B[34m";
 	public static final String ANSI_PURPLE = "\u001B[35m";
 	private static final String LOGIN_JSON = "{\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"className\":\"User\",\"userName\":\"user\",\"passWord\":\"password\",\"projectName\":\"artificial\"}";
+	private static final String CEG_JSON = "{\"___nsuri\":\"http://specmate.com/20190125/model/requirements\",\"name\":\"TestCeg1\",\"className\":\"CEGModel\",\"id\":\"TestCeg1\"}";
+	private static final String CEG_NODE1_JSON = "{\"condition\":\"Condition3\",\"___nsuri\":\"http://specmate.com/20190125/model/requirements\",\"name\":\"TestCegNode4\",\"variable\":\"Variable2\",\"className\":\"CEGNode\",\"id\":\"TestCegNode4\",\"type\":\"OR\"}";
+	private static final String CEG_NODE2_JSON = "{\"condition\":\"Condition6\",\"___nsuri\":\"http://specmate.com/20190125/model/requirements\",\"name\":\"TestCegNode7\",\"variable\":\"Variable5\",\"className\":\"CEGNode\",\"id\":\"TestCegNode7\",\"type\":\"OR\"}";
+	private static final String CEG_CONNECTION_JSON = "{\"negate\":false,\"___nsuri\":\"http://specmate.com/20190125/model/requirements\",\"name\":\"TestConnection8\",\"className\":\"CEGConnection\",\"id\":\"TestConnection8\",\"source\":{\"___proxy\":\"true\",\"url\":\"artificial/default/requirement1/TestCeg1/TestCegNode4\"},\"target\":{\"___proxy\":\"true\",\"url\":\"artificial/default/requirement1/TestCeg1/TestCegNode7\"}}";
+	private static final String CEG_TESTSPEC_JSON = "{\"___nsuri\":\"http://specmate.com/20190125/model/testspecification\",\"name\":\"TestSpecification9\",\"className\":\"TestSpecification\",\"id\":\"TestSpecification9\"}";
+	
 	private static final String LOGIN_JSON_2 = "{\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"className\":\"User\",\"userName\":\"user\",\"passWord\":\"password\",\"projectName\":\"test-data\"}";
 //	private static final String TEST_JSON = "[{\"condition\":\"gedrückt\",\"parameter\":{\"___proxy\":true,\"className\":\"TestParameter\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestParameter-1\"},\"___nsuri\":\"http://specmate.com/20190125/model/testspecification\",\"name\":\"ParameterAssignment-1\",\"className\":\"ParameterAssignment\",\"id\":\"ParameterAssignment-1\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestCase-3/ParameterAssignment-1\"},{\"condition\":\"not gedrückt\",\"parameter\":{\"___proxy\":true,\"className\":\"TestParameter\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestParameter-2\"},\"___nsuri\":\"http://specmate.com/20190125/model/testspecification\",\"name\":\"ParameterAssignment-2\",\"className\":\"ParameterAssignment\",\"id\":\"ParameterAssignment-2\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestCase-3/ParameterAssignment-2\"},{\"condition\":\"gedrückt\",\"parameter\":{\"___proxy\":true,\"className\":\"TestParameter\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestParameter-3\"},\"___nsuri\":\"http://specmate.com/20190125/model/testspecification\",\"name\":\"ParameterAssignment-3\",\"className\":\"ParameterAssignment\",\"id\":\"ParameterAssignment-3\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestCase-3/ParameterAssignment-3\"},{\"condition\":\"markiert\",\"parameter\":{\"___proxy\":true,\"className\":\"TestParameter\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestParameter-4\"},\"___nsuri\":\"http://specmate.com/20190125/model/testspecification\",\"name\":\"ParameterAssignment-4\",\"className\":\"ParameterAssignment\",\"id\":\"ParameterAssignment-4\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestCase-3/ParameterAssignment-4\"},{\"condition\":\"not gelöscht\",\"parameter\":{\"___proxy\":true,\"className\":\"TestParameter\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestParameter-5\"},\"___nsuri\":\"http://specmate.com/20190125/model/testspecification\",\"name\":\"ParameterAssignment-5\",\"className\":\"ParameterAssignment\",\"id\":\"ParameterAssignment-5\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestCase-3/ParameterAssignment-5\"},{\"condition\":\"markiert\",\"parameter\":{\"___proxy\":true,\"className\":\"TestParameter\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestParameter-6\"},\"___nsuri\":\"http://specmate.com/20190125/model/testspecification\",\"name\":\"ParameterAssignment-6\",\"className\":\"ParameterAssignment\",\"id\":\"ParameterAssignment-6\",\"url\":\"test-data/evalFolder/EvalRequirement-1/EvalModel-1/947a55cf-7bd7-21cf-5a36-b5003bdbdccc/TestCase-3/ParameterAssignment-6\"}]";
 //	private static final String CEG_JSON = "{\"entries\":[{\"deletedObjects\":[],\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"changes\":[{\"newValue\":\"New Node 2019-05-24 11:39:55\",\"feature\":\"name\",\"isCreate\":true,\"isDelete\":false,\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"objectName\":\"New Node 2019-05-24 11:39:55\",\"className\":\"Change\",\"objectType\":\"CEGNode\"}],\"className\":\"HistoryEntry\",\"user\":\"user\",\"timestamp\":\"1558690812479\"},{\"deletedObjects\":[],\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"changes\":[{\"newValue\":\"New Node 2019-05-24 11:39:56\",\"feature\":\"name\",\"isCreate\":true,\"isDelete\":false,\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"objectName\":\"New Node 2019-05-24 11:39:56\",\"className\":\"Change\",\"objectType\":\"CEGNode\"}],\"className\":\"HistoryEntry\",\"user\":\"user\",\"timestamp\":\"1558690812479\"},{\"deletedObjects\":[],\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"changes\":[{\"newValue\":\"New Node 2019-05-24 11:39:58\",\"feature\":\"name\",\"isCreate\":true,\"isDelete\":false,\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"objectName\":\"New Node 2019-05-24 11:39:58\",\"className\":\"Change\",\"objectType\":\"CEGNode\"}],\"className\":\"HistoryEntry\",\"user\":\"user\",\"timestamp\":\"1558690812479\"},{\"deletedObjects\":[],\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"changes\":[{\"newValue\":\"New Connection 2019-05-24 11:40:01\",\"feature\":\"name\",\"isCreate\":true,\"isDelete\":false,\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"objectName\":\"New Connection 2019-05-24 11:40:01\",\"className\":\"Change\",\"objectType\":\"CEGConnection\"}],\"className\":\"HistoryEntry\",\"user\":\"user\",\"timestamp\":\"1558690812479\"},{\"deletedObjects\":[],\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"changes\":[{\"newValue\":\"New Connection 2019-05-24 11:40:02\",\"feature\":\"name\",\"isCreate\":true,\"isDelete\":false,\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"objectName\":\"New Connection 2019-05-24 11:40:02\",\"className\":\"Change\",\"objectType\":\"CEGConnection\"}],\"className\":\"HistoryEntry\",\"user\":\"user\",\"timestamp\":\"1558690812479\"},{\"deletedObjects\":[],\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"changes\":[{\"newValue\":\"CEG\",\"feature\":\"name\",\"isCreate\":true,\"isDelete\":false,\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"objectName\":\"CEG\",\"className\":\"Change\",\"objectType\":\"CEGModel\"}],\"className\":\"HistoryEntry\",\"user\":\"user\",\"timestamp\":\"1558690786401\"}],\"___nsuri\":\"http://specmate.com/20190125/model/history\",\"className\":\"History\"}";
@@ -46,6 +52,8 @@ public class MasterCloneTest {
 	private String cloneArgs;
 	private String specmate;
 	private CommandLine cmd;
+	private String urlBeginn = "/services/rest/";
+	private String topFolder = "default";
 
 	public MasterCloneTest(String[] args) throws ParseException, IOException, InterruptedException {
 		masterClient = new RestClient("http://localhost:8080");
@@ -154,24 +162,116 @@ public class MasterCloneTest {
 		System.exit(0);
 	}
 
-	private void testCreateModel() throws AuthenticationException {
+	private void testCreateModel() throws InterruptedException, ParseException, IOException {
+		String ceg = "ceg";
+		String cegNode1 = "cegNode1";
+		String cegNode2 = "cegNode2";
+		String connection = "connection";
+		String testSpec = "testSpec";
+		String testCase = "testCase";
 		loginOnMaster();
 		verifyLoggedInOnMaster();
-		createModel();
-		//killMaster();
-		//restartMaster();
-		//
-		
+		postToMaster(ceg);
+		postToMaster(cegNode1);
+		postToMaster(cegNode2);
+		postToMaster(connection);
+		postToMaster(testSpec);
+//		killMaster();
+		postToMaster(testCase);
+//		postToClone(testCase);
+//		restartMaster();
+		retrieveNumberOFTestCasesMaster();
+		deleteCEGModell();
 	}
 
-	private void createModel() {
-		//RestResult<JSONObject> result = masterClient.post("services/rest/" + projectName + "/list", new JSONObject(CEG_JSON.replaceAll("test-data", "artificial")));
-		//String name = BasePackage.Literals.INAMED__NAME.getName();
-	}
-
-	private void PostCEGNodesAndConnectionToCEG() {
-		// TODO Auto-generated method stub
+	private void retrieveNumberOFTestCasesMaster() {
+		System.out.println("Retrieve Test Cases from Master");
+		RestResult<JSONArray> retrieve = masterClient.getList(urlBeginn + projectName + "/" + topFolder + "/requirement1/TestCeg1/TestSpecification9/list");
 		
+		JSONArray retrievedTestChilds = retrieve.getPayload();
+		int numberTestChilds = retrievedTestChilds.length();
+		System.out.println("Number of Test Cases: " + numberTestChilds);
+		if (numberTestChilds != 4) {
+			System.out.println("Not the right amount of Test Cases!");
+			System.exit(1);
+		}
+	}
+	
+	private void postToMaster(String object) {
+		String url = "";
+		switch (object) {
+		case "ceg":
+			System.out.println("Post CEG To Master");
+			url = urlBeginn + projectName + "/" + topFolder + "/requirement1/list";
+			masterClient.post(url, new JSONObject(CEG_JSON));
+			break;
+		case "cegNode1":
+			System.out.println("Post CEG Node1 To Master");
+			url = urlBeginn + projectName + "/" + topFolder + "/requirement1/TestCeg1/list";
+			masterClient.post(url, new JSONObject(CEG_NODE1_JSON));
+			break;
+		case "cegNode2":
+			System.out.println("Post CEG Node2 To Master");
+			url = urlBeginn + projectName + "/" + topFolder + "/requirement1/TestCeg1/list";
+			masterClient.post(url, new JSONObject(CEG_NODE2_JSON));
+			break;
+		case "connection":
+			System.out.println("Post Connection To Master");
+			url = urlBeginn + projectName + "/" + topFolder + "/requirement1/TestCeg1/list";
+			masterClient.post(url, new JSONObject(CEG_CONNECTION_JSON));
+			break;
+		case "testSpec":
+			System.out.println("Post Test Specification To Master");
+			url = urlBeginn + projectName + "/" + topFolder + "/requirement1/TestCeg1/list";
+			masterClient.post(url, new JSONObject(CEG_TESTSPEC_JSON));	
+			break;
+		case "testCase":
+			System.out.println("Post Test Cases To Master");
+			url = urlBeginn + projectName + "/" + topFolder + "/requirement1/TestCeg1/TestSpecification9/generateTests";
+			masterClient.post(url, null);
+			break;
+		}
+	}
+	
+	private void postToClone(String object) {
+		String url = "";
+		switch (object) {
+		case "ceg":
+			System.out.println("Post CEG to Clone");
+			url = urlBeginn + projectName + "/" + topFolder + "/requirement1/list";
+			cloneClient.post(url, new JSONObject(CEG_JSON));
+			break;
+		case "cegNode1":
+			System.out.println("Post CEG Node1 to Clone");
+			url = urlBeginn + projectName + "/" + topFolder + "/requirement1/TestCeg1/list";
+			cloneClient.post(url, new JSONObject(CEG_NODE1_JSON));
+			break;
+		case "cegNode2":
+			System.out.println("Post CEG Node2 to Clone");
+			url = urlBeginn + projectName + "/" + topFolder + "/requirement1/TestCeg1/list";
+			cloneClient.post(url, new JSONObject(CEG_NODE2_JSON));
+			break;
+		case "connection":
+			System.out.println("Post Connection to Clone");
+			url = urlBeginn + projectName + "/" + topFolder + "/requirement1/TestCeg1/list";
+			cloneClient.post(url, new JSONObject(CEG_CONNECTION_JSON));
+			break;
+		case "testSpec":
+			System.out.println("Post Test Specification to Clone");
+			url = urlBeginn + projectName + "/" + topFolder + "/requirement1/TestCeg1/list";
+			cloneClient.post(url, new JSONObject(CEG_TESTSPEC_JSON));	
+			break;
+		case "testCase":
+			System.out.println("Post Test Cases to Clone");
+			url = urlBeginn + projectName + "/" + topFolder + "/requirement1/TestCeg1/TestSpecification9/generateTests";
+			cloneClient.post(url, null);
+			break;
+		}
+	}
+	
+	private void deleteCEGModell() {
+		String deleteUrl = urlBeginn + projectName + "/" + topFolder + "/requirement1/TestCeg1/";
+		masterClient.delete(deleteUrl);
 	}
 
 	private void testLogin() throws ParseException, IOException, InterruptedException {
@@ -194,13 +294,11 @@ public class MasterCloneTest {
 	private void restartBoth() throws ParseException, IOException, InterruptedException {
 		restartMaster();
 		restartClone();
-		
 	}
 
 	private void killBoth() throws InterruptedException {
 		killMaster();
 		killClone();
-		
 	}
 
 	private void killMaster() throws InterruptedException {
