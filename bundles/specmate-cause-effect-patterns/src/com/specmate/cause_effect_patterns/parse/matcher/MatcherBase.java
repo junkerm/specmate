@@ -1,6 +1,7 @@
 package com.specmate.cause_effect_patterns.parse.matcher;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -33,7 +34,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 public abstract class MatcherBase {
 	private Optional<MatcherBase> parent;
 	private Set<MatcherBase> children;
-	private ArrayListMultimap<String, MatcherBase> arcs;
+	protected ArrayListMultimap<String, MatcherBase> arcs;
 	
 	public MatcherBase() {
 		this.children = new HashSet<MatcherBase>();
@@ -82,6 +83,8 @@ public abstract class MatcherBase {
 		return result;
 	}
 	
+	
+	private int positionOfInterest;
 	public MatchResult match(DependencyParsetree data, Token head) {
 		DependencyNode dependencies = data.getDependencyNode(head);
 		MatchResult result = MatchResult.success();
@@ -91,11 +94,31 @@ public abstract class MatcherBase {
 		}
 		
 		
+		
+		// Prefer candidates close after the position of interest (i.e. the position of our last match)
+		this.positionOfInterest = -1;
+		
 		for(String depTag: this.arcs.keySet()) {
 			List<MatcherBase> matchers = this.arcs.get(depTag);
 			List<Dependency> candidates = dependencies.getDependenciesFromTag(depTag);
-			MatchResult match = this.matchChildren(data, matchers, candidates);
 			
+			final int poI = this.positionOfInterest;
+			Collections.sort(candidates, (a,b) -> {
+				int pA = a.getDependent().getBegin();
+				int pB = b.getDependent().getBegin();
+				
+				if(pA <= poI && poI <= pB) {
+					return 1;
+				}
+				
+				if(pB <= poI && poI <= pA) {
+					return -1;
+				}
+				
+				return pA - pB;
+			});
+			
+			MatchResult match = this.matchChildren(data, matchers, candidates);
 			if(!match.isSuccessfulMatch()) {
 				return MatchResult.unsuccessful();
 			}
@@ -118,73 +141,135 @@ public abstract class MatcherBase {
 	}
 	
 	private MatchResult matchChildren(DependencyParsetree data, List<MatcherBase> matchers, List<Dependency> candidates) {
-		int matchSize = matchers.size();
-		int candidateSize = candidates.size();
-		if (matchSize > candidateSize) {
+		if (matchers.size() > candidates.size()) {
 			return MatchResult.unsuccessful();
 		}
 		
-		MatchResult[][] matchResults = new MatchResult[matchers.size()][candidates.size()];
-		IntHashSet availableCandidates = new IntHashSet(candidates.size());
-		int[] matching = new int[matchers.size()];
+		Matching matching = computeMatching(data, matchers, candidates);
 		
-		for(int i=0; i<candidates.size(); i++) {
-			// We add 1 to all elements because IntHashSet does not allow any element to be 0.
-			availableCandidates.add(i+1);
-			if(i < matchSize) {
-				matching[i] = 0;
-			}
+		if (matching == null) {
+			return MatchResult.unsuccessful();
 		}
 		
-		int currentMatcherIndex = 0;
+		DependencyParsetree unmatched = new DependencyParsetree(data.getTokenOrder());
+		for(int remainElement: matching.getUnmatchedCandidates()) {
+			Dependency dep = candidates.get(remainElement);
+			unmatched.addSubtree(DependencyParsetree.getSubtree(data, dep.getDependent()),dep);
+		}
 		
+		MatchResult result = MatchResult.success(unmatched);
+		for (int i = 0; i < matching.matching.length; i++) {
+			if(this instanceof SubtreeMatcher && matchers.get(i) instanceof SubtreeMatcher) {
+				// We group together subtrees with the same prefix
+				// Like Cause and Cause_B get grouped together in a single Cause
+				// This allowes for more expressive rules
+				String treeA = ((SubtreeMatcher) this).getTreeName();
+				String treeB = ((SubtreeMatcher) matchers.get(i)).getTreeName();
+				String prefA = treeA.split("_")[0];
+				String prefB = treeB.split("_")[0];
+				
+				if(treeA.startsWith(treeB+"_") || treeB.startsWith(treeA+"_") || prefA.equals(prefB)) {
+					DependencyParsetree subMatch = matching.getResult(i).getSubmatch(treeB).getMatchTree();
+					Dependency subDep = candidates.get(matching.matching[i]);
+					subMatch.addDependency(subDep);
+				}
+			}
+			result.addSubtree(matching.getResult(i));
+			// Optional add to discarded Tree 
+		}
+		return result;
+	}
+
+	private Matching computeMatching(DependencyParsetree data, List<MatcherBase> matchers, List<Dependency> candidates) {
+		int matchSize = matchers.size();
+		int candidateSize = candidates.size();
+		
+		Matching result = new Matching(matchSize, candidateSize); 
+		
+		int currentMatcherIndex = 0;
 		while(currentMatcherIndex < matchSize) {
 			MatcherBase currentMatcher = matchers.get(currentMatcherIndex);
 			boolean unmatched = true;
-			
-			for(int i = matching[currentMatcherIndex]; i < candidateSize; i++) {
-				if (availableCandidates.contains(i+1)) {
-					if(matchResults[currentMatcherIndex][i] == null) {
+			for(int i = result.matching[currentMatcherIndex]; i < candidateSize; i++) {
+				if (result.isAvailable(i)) {
+					if(result.matchResults[currentMatcherIndex][i] == null) {
 						Token subHead = candidates.get(i).getDependent();
-						matchResults[currentMatcherIndex][i] = currentMatcher.match(data, subHead);
+						result.matchResults[currentMatcherIndex][i] = currentMatcher.match(data, subHead);
 					}
-					
-					if(matchResults[currentMatcherIndex][i].isSuccessfulMatch()) {
+										
+					if(result.matchResults[currentMatcherIndex][i].isSuccessfulMatch()) {
 						unmatched = false;
-						matching[currentMatcherIndex] = 0;
+						result.setMatch(currentMatcherIndex, i);
 						currentMatcherIndex++;
-						availableCandidates.remove(i+1);
+						int candidatePosition = candidates.get(i).getBegin();
+						if(this.positionOfInterest == -1 || this.positionOfInterest > candidatePosition) {
+							this.positionOfInterest = candidatePosition;	
+						}
+						
 						break;
 					} else {
-						matching[currentMatcherIndex]++;
+						result.matching[currentMatcherIndex]++;
 					}
 				}
 			}
 			
 			if (unmatched) {
 				if (currentMatcherIndex > 0) {
+					result.unmatch(currentMatcherIndex);
 					currentMatcherIndex--;
-					availableCandidates.add(1+matching[currentMatcherIndex]);
-					matching[currentMatcherIndex]++;
 				} else {
-					return MatchResult.unsuccessful();
+					return null;
+				}
+			}
+		}
+		return result;
+	}
+	
+	private class Matching {
+		public MatchResult[][] matchResults;
+		private IntHashSet availableCandidates;
+		public int[] matching;
+		
+		public Matching(int matchSize, int candidateSize) {
+			this.matchResults = new MatchResult[matchSize][candidateSize];
+			this.availableCandidates = new IntHashSet(candidateSize);
+			this.matching = new int[matchSize];
+			
+			for(int i=0; i<candidateSize; i++) {
+				// We add 1 to all elements because IntHashSet does not allow any element to be 0.
+				this.availableCandidates.add(i+1);
+				if(i < matchSize) {
+					this.matching[i] = 0;
 				}
 			}
 		}
 		
-		DependencyParsetree unmatched = new DependencyParsetree(data.getTokenOrder());
-		for(int remainElement: availableCandidates.toIntArray()) {
-			// Invert the adding 1 from before
-			int remain = remainElement - 1;
-			Dependency dep = candidates.get(remain);
-			unmatched.addSubtree(DependencyParsetree.getSubtree(data, dep.getGovernor()),dep);
+		public void unmatch(int index) {
+			this.matching[index] = 0;
+			availableCandidates.add(1+this.matching[index - 1]);
+			this.matching[index - 1]++;
+		}
+
+		public void setMatch(int currentMatcherIndex, int i) {
+			matching[currentMatcherIndex] = i;
+			availableCandidates.remove(i+1);
+		}
+
+		public boolean isAvailable(int candidate) {
+			return availableCandidates.contains(candidate+1);
 		}
 		
-		MatchResult result = MatchResult.success(unmatched);
-		for (int i = 0; i < matching.length; i++) {
-			result.addSubtree(matchResults[i][matching[i]]);
-			// Optional add to discarded Tree 
+		public int[] getUnmatchedCandidates() {
+			int[] remainingCandidates = this.availableCandidates.toIntArray();
+			for(int i=0; i<remainingCandidates.length; i++) {
+				// Invert the adding 1 from before
+				remainingCandidates[i]--;
+			}
+			return remainingCandidates;
 		}
-		return result;
+		
+		public MatchResult getResult(int i) {
+			return this.matchResults[i][this.matching[i]];
+		}
 	}
 }
