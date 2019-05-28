@@ -40,7 +40,7 @@ public class TestSkeletonGeneratorService extends RestServiceBase {
 		this.skeletonGenerators.put(this.JAVA, new JavaTestSpecificationSkeleton(this.JAVA));
 		this.skeletonGenerators.put(this.JAVASCRIPT, new JavascriptTestSpecificationSkeleton(this.JAVASCRIPT));
 		this.skeletonGenerators.put(this.CSV, new CSVTestSpecificationSkeleton(this.CSV));
-		this.exportCounter = metricsService.createCounter("export_counter", "A counter for export processes");
+		this.exportCounter = metricsService.createCounter("export_counter", "Total number of exported test specifications");
 	}
 
 	@Override

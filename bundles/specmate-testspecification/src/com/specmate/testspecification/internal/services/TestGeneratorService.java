@@ -33,7 +33,7 @@ public class TestGeneratorService extends RestServiceBase {
 	
 	@Activate
 	public void activate() throws SpecmateException {
-		this.testGenCounter = metricsService.createCounter("test_generation_counter", "A counter for the generated test specifications");
+		this.testGenCounter = metricsService.createCounter("test_generation_counter", "Total number of generated test specifications");
 	}
 	
 

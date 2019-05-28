@@ -45,7 +45,7 @@ public class PersistentSessionService extends BaseSessionService {
 		// Sessions do not adhere to the constraints of general specmate objects
 		sessionTransaction.enableValidators(false);
 		sessionView = persistencyService.openView();
-		this.numberOfUsers = metricsService.createGauge("Logged_in_users", "The number of logged in users");
+		this.numberOfUsers = metricsService.createGauge("Logged_in_users", "The number of users currently logged in.");
 	}
 
 	@Deactivate

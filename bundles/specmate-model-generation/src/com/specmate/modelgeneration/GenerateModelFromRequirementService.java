@@ -40,7 +40,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	
 	@Activate
 	public void activate() throws SpecmateException {
-		this.modelGenCounter = metricsService.createCounter("model_generation_counter", "A counter for the amount of generated models");
+		this.modelGenCounter = metricsService.createCounter("model_generation_counter", "Total number of generated models");
 	}
 
 	@Override

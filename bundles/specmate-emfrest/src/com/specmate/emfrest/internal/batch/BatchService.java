@@ -35,7 +35,7 @@ public class BatchService extends RestServiceBase {
 	
 	@Activate
 	public void activate() throws SpecmateException {
-		this.saveCounter = metricsService.createCounter("save_counter", "Counter for the number of saves");
+		this.saveCounter = metricsService.createCounter("save_counter", "The total number of save operations");
 	}
 
 	@Override

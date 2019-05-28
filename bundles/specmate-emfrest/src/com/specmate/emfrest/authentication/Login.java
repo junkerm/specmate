@@ -30,7 +30,7 @@ public class Login extends RestServiceBase {
 	
 	@Activate
 	public void activate() throws SpecmateException {
-		this.logInCounter = metricsService.createCounter("login_counter", "A counter for the login processes");
+		this.logInCounter = metricsService.createCounter("login_counter", "Total number of login processes");
 	}
 	
 
