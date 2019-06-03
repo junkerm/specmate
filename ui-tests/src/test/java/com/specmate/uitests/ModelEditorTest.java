@@ -91,6 +91,10 @@ public class ModelEditorTest extends TestBase {
 		// Create test specification
 		cegEditor.generateTestSpecification();
 		
+		if(cegEditor.checkForPopUp()) {
+			cegEditor.acceptPopUp();
+		}
+		
 		assertTrue(cegEditor.correctTestSpecificationGenerated(3));
 		
 		// Click on created CEG in the requirement overview

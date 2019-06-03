@@ -114,6 +114,10 @@ public class ProcessModelTest extends TestBase {
 
 		// Save Process
 		commonControl.save();
+		
+		if(processEditor.checkForPopUp()) {
+			processEditor.acceptPopUp();
+		}
 
 		// Create test specification
 		processEditor.generateTestSpecification();

@@ -196,6 +196,17 @@ public class EditorElements {
 	}
 	
 	/**
+	 * Checks if a popup occurs after pressing the 'generate test specification' button
+	 */
+	public boolean checkForPopUp() {
+		return isElementPresent(By.cssSelector(".modal-dialog"));
+	}
+	
+	public void acceptPopUp() {
+		driver.findElement(accept).click();
+	}
+	
+	/**
 	 * Checks if the test specification contains the number of expected rows
 	 * @param expectedRows
 	 * @return true if expexted rows equals actual rows of test specification
