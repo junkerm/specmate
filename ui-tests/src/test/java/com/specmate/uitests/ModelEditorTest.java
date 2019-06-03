@@ -115,6 +115,8 @@ public class ModelEditorTest extends TestBase {
 
 		// Delete created model 
 		requirementOverview.deleteModel(modelName);
+		
+		requirementOverview.deleteModel(modelName);
 		// The model should be deleted, thus, use assertFalse
 		assertFalse(requirementOverview.checkForDeletedModel(modelName));
 	 }
