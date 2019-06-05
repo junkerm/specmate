@@ -1,14 +1,18 @@
 FROM ubuntu:18.04
 
-RUN apt-get update
-RUN apt-get -y install curl software-properties-common build-essential
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN add-apt-repository -y ppa:webupd8team/java
-RUN apt-get update
+RUN apt-get --fix-missing update
+RUN apt-get -y install wget software-properties-common
 
-RUN apt-get -y install nodejs
-RUN echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes --no-install-recommends oracle-java8-installer
+RUN mkdir /opt/adoptopenjdk
+WORKDIR /opt/adoptopenjdk
+ENV JDKFILE=OpenJDK8U-jdk_x64_linux_openj9_8u212b03_openj9-0.14.0.tar.gz
+ENV JDKNAME=jdk8u212-b03_openj9-0.14.0
+ENV JDKDIR=jdk8u212-b03
+ENV JDKVERSION=8
+RUN wget --quiet https://github.com/AdoptOpenJDK/openjdk$JDKVERSION-binaries/releases/download/$JDKNAME/$JDKFILE
+RUN tar -xf $JDKFILE
+RUN rm $JDKFILE
+ENV PATH="/opt/adoptopenjdk/${JDKDIR}/bin:${PATH}"
 
 RUN mkdir /opt/specmate
 RUN mkdir /opt/specmate/database
