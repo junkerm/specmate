@@ -27,10 +27,10 @@ script:
 #- cd ../ui-tests/ && mvn clean test
 after_success:
 - git status
-- echo Branch $TRAVIS_BRANCH
-- echo Tag $TRAVIS_TAG
+- echo "Branch $TRAVIS_BRANCH"
+- echo "Tag $TRAVIS_TAG"
 - DOCKER_TAG=$TRAVIS_BRANCH
-- echo Docker Tag $DOCKER_TAG
+- echo "Docker Tag $DOCKER_TAG"
 
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 - docker build -t ${DOCKER_USERNAME}/specmate:${DOCKER_TAG} .
