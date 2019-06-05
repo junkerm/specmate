@@ -29,7 +29,8 @@ after_success:
 - git status
 - echo Branch $TRAVIS_BRANCH
 - echo Tag $TRAVIS_TAG
-- [[ ! -z "$TRAVIS_TAG" ]] && DOCKER_TAG=$TRAVIS_TAG || DOCKER_TAG=$TRAVIS_BRANCH
+- DOCKER_TAG=$TRAVIS_BRANCH
+- echo Docker Tag $DOCKER_TAG
 
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 - docker build -t ${DOCKER_USERNAME}/specmate:${DOCKER_TAG} .
@@ -38,10 +39,10 @@ after_success:
 
 - cd bundles/specmate-std-env/generated/distributions/executable/
 
-- [[ ! -z "$TRAVIS_TAG" ]] && mv dev-specmate-all.jar dev-specmate-all-$TRAVIS_TAG.jar 
-- [[ ! -z "$TRAVIS_TAG" ]] && mv prod-specmate-all.jar prod-specmate-all-$TRAVIS_TAG.jar
-- [[ ! -z "$TRAVIS_TAG" ]] && mv prod-specmate-cdo-server.jar prod-specmate-cdo-server-$TRAVIS_TAG.jar
-- [[ ! -z "$TRAVIS_TAG" ]] && mv prod-specmate-no-cdo-server.jar prod-specmate-no-cdo-server-$TRAVIS_TAG.jar
+- [[ ! -z "$TRAVIS_TAG" ]] && mv dev-specmate-all.jar dev-specmate-all-$TRAVIS_TAG.jar || echo not a tag - no release
+- [[ ! -z "$TRAVIS_TAG" ]] && mv prod-specmate-all.jar prod-specmate-all-$TRAVIS_TAG.jar || echo not a tag - no release
+- [[ ! -z "$TRAVIS_TAG" ]] && mv prod-specmate-cdo-server.jar prod-specmate-cdo-server-$TRAVIS_TAG.jar || echo not a tag - no release
+- [[ ! -z "$TRAVIS_TAG" ]] && mv prod-specmate-no-cdo-server.jar prod-specmate-no-cdo-server-$TRAVIS_TAG.jar || echo not a tag - no release
 
 
 - cd ../../../../..
