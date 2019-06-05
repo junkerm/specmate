@@ -3,7 +3,9 @@ language:
 - java
 - node_js
 node_js:
-- '7'
+- '10'
+services:
+- docker
 jdk:
 - oraclejdk8
 addons:
@@ -18,19 +20,28 @@ install:
 - cd ../bundles && ./gradlew --version
 script:
 - cd ../web && npm run build-prod
-- cd ../bundles && ./gradlew --no-daemon build --continue
-- cd ../bundles && ./gradlew --no-daemon export
-- cd ../bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &
-- sleep 10
-- cd ../ui-tests/ && mvn clean test
+- cd ../bundles && ./gradlew --no-daemon build --continue -x check
+- cd ../bundles && ./gradlew --no-daemon export -x check
+#- cd ../bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &
+#- sleep 10
+#- cd ../ui-tests/ && mvn clean test
 after_success:
 - git status
 - echo $TRAVIS_TAG
+
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker build -t ${DOCKER_USERNAME}/specmate:${TRAVIS_TAG} .
+- docker images
+- docker push ${DOCKER_USERNAME}/specmate:${TRAVIS_TAG}
+
 - cd bundles/specmate-std-env/generated/distributions/executable/
+
 - mv dev-specmate-all.jar dev-specmate-all-$TRAVIS_TAG.jar 
 - mv prod-specmate-all.jar prod-specmate-all-$TRAVIS_TAG.jar
 - mv prod-specmate-cdo-server.jar prod-specmate-cdo-server-$TRAVIS_TAG.jar
 - mv prod-specmate-no-cdo-server.jar prod-specmate-no-cdo-server-$TRAVIS_TAG.jar
+
+
 - cd ../../../../..
 cache:
   directories:
