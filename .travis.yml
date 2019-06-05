@@ -27,19 +27,21 @@ script:
 #- cd ../ui-tests/ && mvn clean test
 after_success:
 - git status
-- echo $TRAVIS_TAG
+- echo Branch $TRAVIS_BRANCH
+- echo Tag $TRAVIS_TAG
+- [[ ! -z "$TRAVIS_TAG" ]] && DOCKER_TAG=$TRAVIS_TAG || DOCKER_TAG=$TRAVIS_BRANCH
 
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-- docker build -t ${DOCKER_USERNAME}/specmate:${TRAVIS_TAG} .
+- docker build -t ${DOCKER_USERNAME}/specmate:${DOCKER_TAG} .
 - docker images
-- docker push ${DOCKER_USERNAME}/specmate:${TRAVIS_TAG}
+- docker push ${DOCKER_USERNAME}/specmate:${DOCKER_TAG}
 
 - cd bundles/specmate-std-env/generated/distributions/executable/
 
-- mv dev-specmate-all.jar dev-specmate-all-$TRAVIS_TAG.jar 
-- mv prod-specmate-all.jar prod-specmate-all-$TRAVIS_TAG.jar
-- mv prod-specmate-cdo-server.jar prod-specmate-cdo-server-$TRAVIS_TAG.jar
-- mv prod-specmate-no-cdo-server.jar prod-specmate-no-cdo-server-$TRAVIS_TAG.jar
+- [[ ! -z "$TRAVIS_TAG" ]] && mv dev-specmate-all.jar dev-specmate-all-$TRAVIS_TAG.jar 
+- [[ ! -z "$TRAVIS_TAG" ]] && mv prod-specmate-all.jar prod-specmate-all-$TRAVIS_TAG.jar
+- [[ ! -z "$TRAVIS_TAG" ]] && mv prod-specmate-cdo-server.jar prod-specmate-cdo-server-$TRAVIS_TAG.jar
+- [[ ! -z "$TRAVIS_TAG" ]] && mv prod-specmate-no-cdo-server.jar prod-specmate-no-cdo-server-$TRAVIS_TAG.jar
 
 
 - cd ../../../../..
