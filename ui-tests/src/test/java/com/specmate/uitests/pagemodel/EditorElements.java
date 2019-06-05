@@ -170,7 +170,11 @@ public class EditorElements {
 	 */
 	public void generateTestSpecification() {
 		// Wait as the save operation needs time to finish 
-		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+		try{
+			Thread.sleep(5000);
+			}
+			catch(InterruptedException ie){
+			}
 		scrollDownTo(generateTestSpec);
 		driver.findElement(generateTestSpec).click();
 	}
