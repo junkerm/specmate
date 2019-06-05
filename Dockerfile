@@ -18,7 +18,7 @@ RUN mkdir /opt/specmate
 RUN mkdir /opt/specmate/database
 RUN mkdir /opt/specmate/conf
 
-RUN cp bundles/specmate-std-env/generated/distributions/executable/dev-specmate-all.jar /opt/specmate/specmate.jar
+COPY bundles/specmate-std-env/generated/distributions/executable/dev-specmate-all.jar /opt/specmate/specmate.jar
 
 WORKDIR /
 
