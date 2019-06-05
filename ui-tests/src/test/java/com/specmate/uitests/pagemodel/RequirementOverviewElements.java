@@ -71,6 +71,7 @@ public class RequirementOverviewElements {
 	}
 	
 	public void deleteModel(String modelName) {
+		scrollDownTo(By.cssSelector("ceg-model-container"));
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.id("requirement-" + modelName + "-deletemodel-button")));
@@ -79,6 +80,7 @@ public class RequirementOverviewElements {
 	}
 	
 	public void deleteDuplicateModel(String modelName) {
+		scrollDownTo(By.cssSelector("ceg-model-container"));
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button")));
