@@ -55,6 +55,7 @@ jobs:
       - mv prod-specmate-cdo-server.jar prod-specmate-cdo-server-$TRAVIS_TAG.jar
       - mv prod-specmate-no-cdo-server.jar prod-specmate-no-cdo-server-$TRAVIS_TAG.jar
       - cd ../../../../..
+      name: "Rename Jars"
 cache:
   directories:
   - cnf/cache/stable
