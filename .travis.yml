@@ -25,9 +25,11 @@ jobs:
       name: "Compile"
       script:
         - cd web && npm run build-prod
+        - cd ..
         - cd bundles
         - ./gradlew --no-daemon build --continue -x check
         - ./gradlew --no-daemon export -x check
+        - cd ..
     - stage: test
       name: "UI Tests"
       script:
@@ -36,8 +38,10 @@ jobs:
         - cd ../../../../..
         - sleep 10
         - cd ui-tests/ && mvn clean test
+        - cd ..
     - script:
       - cd bundles && ./gradlew --no-daemon check
+      - cd ..
       name: "Unit Tests"
     - stage: deploy
       name: "Build and Deploy Docker Image"
