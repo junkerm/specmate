@@ -18,30 +18,43 @@ env:
 install:
 - cd web && npm run init
 - cd ../bundles && ./gradlew --version
-script:
-- cd ../web && npm run build-prod
-- cd ../bundles && ./gradlew --no-daemon build --continue
-- cd ../bundles && ./gradlew --no-daemon export
-- cd ../bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &
-- sleep 10
-- cd ../ui-tests/ && mvn clean test
 - cd ..
-after_success:
-- git status
-- echo "Branch $TRAVIS_BRANCH"
-- echo "Tag $TRAVIS_TAG"
-- DOCKER_TAG=$TRAVIS_BRANCH
-- echo "Docker Tag $DOCKER_TAG"
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-- docker build -t ${DOCKER_USERNAME}/specmate:${DOCKER_TAG} .
-- docker images
-- docker push ${DOCKER_USERNAME}/specmate:${DOCKER_TAG}
-- cd bundles/specmate-std-env/generated/distributions/executable/
-#- [[ ! -z "$TRAVIS_TAG" ]] && mv dev-specmate-all.jar dev-specmate-all-$TRAVIS_TAG.jar || echo not a tag, so no release
-#- [[ ! -z "$TRAVIS_TAG" ]] && mv prod-specmate-all.jar prod-specmate-all-$TRAVIS_TAG.jar || echo not a tag, so  no release
-#- [[ ! -z "$TRAVIS_TAG" ]] && mv prod-specmate-cdo-server.jar prod-specmate-cdo-server-$TRAVIS_TAG.jar || echo not a tag, so  no release
-#- [[ ! -z "$TRAVIS_TAG" ]] && mv prod-specmate-no-cdo-server.jar prod-specmate-no-cdo-server-$TRAVIS_TAG.jar || echo not a tag, so  no release
-- cd ../../../../..
+jobs:
+  include:
+    - stage: build
+      name: "Compile"
+      script:
+        - cd web && npm run build-prod
+        - cd bundles
+        - ./gradlew --no-daemon build --continue -x check
+        - ./gradlew --no-daemon export -x check
+    - stage: test
+      name: "UI Tests"
+      script:
+        - cd bundles/specmate-std-env/generated/distributions/executable/
+        - java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &
+        - cd ../../../../..
+        - sleep 10
+        - cd ui-tests/ && mvn clean test
+    - script:
+      - cd bundles && ./gradlew --no-daemon check
+      name: "Unit Tests"
+    - stage: deploy
+      name: "Build and Deploy Docker Image"
+      script:
+        - DOCKER_TAG=$TRAVIS_BRANCH
+        - echo "Docker Tag $DOCKER_TAG"
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker build -t ${DOCKER_USERNAME}/specmate:${DOCKER_TAG} .
+        - docker images
+        - docker push ${DOCKER_USERNAME}/specmate:${DOCKER_TAG}
+    - script:
+      - cd bundles/specmate-std-env/generated/distributions/executable/
+      - mv dev-specmate-all.jar dev-specmate-all-$TRAVIS_TAG.jar
+      - mv prod-specmate-all.jar prod-specmate-all-$TRAVIS_TAG.jar
+      - mv prod-specmate-cdo-server.jar prod-specmate-cdo-server-$TRAVIS_TAG.jar
+      - mv prod-specmate-no-cdo-server.jar prod-specmate-no-cdo-server-$TRAVIS_TAG.jar
+      - cd ../../../../..
 cache:
   directories:
   - cnf/cache/stable
