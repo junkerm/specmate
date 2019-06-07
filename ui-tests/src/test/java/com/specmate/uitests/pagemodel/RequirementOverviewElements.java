@@ -140,7 +140,6 @@ public class RequirementOverviewElements {
 	}
 	
 	public boolean checkForDeletedModel(String modelName) {
-		driver.navigate().refresh();
 		scrollDownTo(By.cssSelector("ceg-model-container"));
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ceg-model-container")));
@@ -148,7 +147,6 @@ public class RequirementOverviewElements {
 	}
 	
 	public boolean checkForDeletedDuplicateModel(String modelName) {
-		driver.navigate().refresh();
 		scrollDownTo(By.cssSelector("ceg-model-container"));
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ceg-model-container")));
@@ -156,14 +154,12 @@ public class RequirementOverviewElements {
 	}
 	
 	public boolean checkForDeletedProcess(String processName) {
-		driver.navigate().refresh();
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ceg-model-container")));
 		return isElementPresent(By.id("requirement-" + processName + "-deleteprocess-button"));
 	}
 	
 	public boolean checkForDeletedDuplicateProcess(String processName) {
-		driver.navigate().refresh();
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ceg-model-container")));
 		return isElementPresent(By.id("requirement-Copy 1 of " + processName + "-deleteprocess-button"));
