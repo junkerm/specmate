@@ -13,7 +13,6 @@
 		public id: EString;
 		public name: EString;
 		public description: EString;
-		public value: EString;
 		public condition: EString;
 
 		// References
