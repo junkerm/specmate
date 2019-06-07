@@ -19,26 +19,24 @@ install:
 - cd web && npm run init
 - cd ../bundles && ./gradlew --version
 - cd ..
-jobs:
-  include:
-    - script:
-      - (cd web && npm run build-prod)
-      - (cd bundles && ./gradlew --no-daemon build --continue -x check)
-      - (cd bundles && ./gradlew --no-daemon export -x check)
-      - (cd bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &)
-      - sleep 10
-      - (cd ui-tests/ && mvn clean test)
-      - (cd bundles && ./gradlew --no-daemon check)
-      - DOCKER_TAG=$TRAVIS_BRANCH
-      - echo "Docker Tag $DOCKER_TAG"
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build -t ${DOCKER_USERNAME}/specmate:${DOCKER_TAG} .
-      - docker images
-      - docker push ${DOCKER_USERNAME}/specmate:${DOCKER_TAG}
-      - (cd bundles/specmate-std-env/generated/distributions/executable/&& mv dev-specmate-all.jar dev-specmate-all-$TRAVIS_TAG.jar)
-      - (cd bundles/specmate-std-env/generated/distributions/executable/&& mv prod-specmate-all.jar prod-specmate-all-$TRAVIS_TAG.jar)
-      - (cd bundles/specmate-std-env/generated/distributions/executable/&& mv prod-specmate-cdo-server.jar prod-specmate-cdo-server-$TRAVIS_TAG.jar)
-      - (cd bundles/specmate-std-env/generated/distributions/executable/&& mv prod-specmate-no-cdo-server.jar prod-specmate-no-cdo-server-$TRAVIS_TAG.jar)
+script:
+- (cd web && npm run build-prod)
+- (cd bundles && ./gradlew --no-daemon build --continue -x check)
+- (cd bundles && ./gradlew --no-daemon export -x check)
+- (cd bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &)
+- sleep 10
+- (cd ui-tests/ && mvn clean test)
+- (cd bundles && ./gradlew --no-daemon check)
+- DOCKER_TAG=$TRAVIS_BRANCH
+- echo "Docker Tag $DOCKER_TAG"
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker build -t ${DOCKER_USERNAME}/specmate:${DOCKER_TAG} .
+- docker images
+- docker push ${DOCKER_USERNAME}/specmate:${DOCKER_TAG}
+- (cd bundles/specmate-std-env/generated/distributions/executable/&& mv dev-specmate-all.jar dev-specmate-all-$TRAVIS_TAG.jar)
+- (cd bundles/specmate-std-env/generated/distributions/executable/&& mv prod-specmate-all.jar prod-specmate-all-$TRAVIS_TAG.jar)
+- (cd bundles/specmate-std-env/generated/distributions/executable/&& mv prod-specmate-cdo-server.jar prod-specmate-cdo-server-$TRAVIS_TAG.jar)
+- (cd bundles/specmate-std-env/generated/distributions/executable/&& mv prod-specmate-no-cdo-server.jar prod-specmate-no-cdo-server-$TRAVIS_TAG.jar)
 cache:
   directories:
   - cnf/cache/stable
