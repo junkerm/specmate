@@ -3,9 +3,6 @@ package com.specmate.cause_effect_patterns.parse.matcher;
 import java.util.Optional;
 
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
-import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
-import com.specmate.cause_effect_patterns.parse.matcher.MatcherBase;
-import com.specmate.cause_effect_patterns.parse.matcher.MatcherException;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
@@ -47,6 +44,10 @@ public class SubtreeMatcher extends MatcherBase {
 	@Override
 	public String getRepresentation() {
 		return "["+this.subtreeName+"]";
+	}
+	
+	public String getTreeName() {
+		return this.subtreeName;
 	}
 	
 	public void updateRootData(String expr, String tag) throws MatcherException {

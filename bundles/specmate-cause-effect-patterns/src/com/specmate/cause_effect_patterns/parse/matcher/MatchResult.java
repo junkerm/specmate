@@ -1,12 +1,13 @@
 package com.specmate.cause_effect_patterns.parse.matcher;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.Vector;
 
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
-import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
-import com.specmate.cause_effect_patterns.parse.matcher.SubtreeMatcher;
 
 /**
  * Class storing the result of a dependency matching operation.
@@ -23,12 +24,13 @@ public class MatchResult {
 	private boolean isSuccessfulMatch;
 	private Map<String, MatchResult> submatch;
 	private DependencyParsetree matchTree;
-	
+	private Optional<String> ruleName;
 	
 	private MatchResult(boolean success, DependencyParsetree matchTree) {
 		this.matchTree = matchTree;
 		this.isSuccessfulMatch = success;
 		this.submatch = new HashMap<String, MatchResult>();
+		this.ruleName = Optional.empty();
 	}
 	
 	private MatchResult(boolean success) {
@@ -37,6 +39,24 @@ public class MatchResult {
 	
 	private MatchResult() {
 		this(false);
+	}
+	
+	public void setRuleName(String ruleName) {
+		this.ruleName = Optional.of(ruleName);
+		for(String sub: this.submatch.keySet()) {
+			MatchResult subRes = this.submatch.get(sub);
+			if(!subRes.hasRuleName()) {
+				subRes.setRuleName(ruleName);
+			}
+		}
+	}
+	
+	public boolean hasRuleName() {
+		return this.ruleName.isPresent();
+	}
+	
+	public String getRuleName() {
+		return this.ruleName.get();
 	}
 	
 	public boolean isSuccessfulMatch() {
@@ -60,10 +80,35 @@ public class MatchResult {
 		for(String subtreeID: subtree.submatch.keySet()) {
 			this.submatch.put(subtreeID, subtree.submatch.get(subtreeID));
 		}
+		if(subtree.submatch.size() > 0) {
+			this.mergePrefixSubmatches();
+		}
+		
 		this.isSuccessfulMatch = this.isSuccessfulMatch() && subtree.isSuccessfulMatch();
 		this.getMatchTree().addSubtree(subtree.getMatchTree());
 	}
 
+	
+	private void mergePrefixSubmatches() {
+		Vector<String> keys = new Vector<String>(this.submatch.keySet());
+		Collections.sort(keys, (s1,s2) -> s1.length() - s2.length());
+		for (int i = 0; i < keys.size(); i++) {
+			String keyA = keys.get(i);
+			for (int j = i+1; j < keys.size(); j++) {
+				String keyB = keys.get(j);
+				if(keyB.startsWith(keyA+"_")) {
+					//merge keys
+					MatchResult resA = this.submatch.get(keyA);
+					MatchResult resB = this.submatch.get(keyB);
+					resA.addSubtree(resB);
+					keys.remove(j);
+					this.submatch.remove(keyB);
+					j--;
+				}
+			}
+		}
+	}
+	
 	public DependencyParsetree getMatchTree() {
 		return matchTree;
 	}
@@ -75,6 +120,9 @@ public class MatchResult {
 	public void addSubmatch(String subtreeName, MatchResult submatch) {
 		this.isSuccessfulMatch = this.isSuccessfulMatch && submatch.isSuccessfulMatch;
 		this.submatch.put(subtreeName, submatch);
+		if(this.submatch.size() > 1) {
+			this.mergePrefixSubmatches();
+		}
 	}
 
 	public boolean hasSubmatch(String subtreeName) {
@@ -87,5 +135,9 @@ public class MatchResult {
 	
 	public Set<String> getSubmatchNames() {
 		return this.submatch.keySet();
+	}
+
+	public void clearSubmatches() {
+		this.submatch.clear();
 	}
 }

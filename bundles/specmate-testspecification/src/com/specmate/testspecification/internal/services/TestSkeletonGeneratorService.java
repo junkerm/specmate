@@ -8,11 +8,14 @@ import javax.ws.rs.core.Response;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.metrics.ICounter;
+import com.specmate.metrics.IMetricsService;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestSpecificationSkeleton;
 import com.specmate.rest.RestResult;
@@ -28,13 +31,16 @@ public class TestSkeletonGeneratorService extends RestServiceBase {
 	private final String JAVASCRIPT = "javascript";
 	private final String CSV = "csv";
 	private Map<String, BaseSkeleton> skeletonGenerators;
+	private IMetricsService metricsService;
+	private ICounter exportCounter;
 
 	@Activate
-	public void activate() {
+	public void activate() throws SpecmateException {
 		this.skeletonGenerators = new HashMap<>();
 		this.skeletonGenerators.put(this.JAVA, new JavaTestSpecificationSkeleton(this.JAVA));
 		this.skeletonGenerators.put(this.JAVASCRIPT, new JavascriptTestSpecificationSkeleton(this.JAVASCRIPT));
 		this.skeletonGenerators.put(this.CSV, new CSVTestSpecificationSkeleton(this.CSV));
+		this.exportCounter = metricsService.createCounter("export_counter", "Total number of exported test specifications");
 	}
 
 	@Override
@@ -67,8 +73,14 @@ public class TestSkeletonGeneratorService extends RestServiceBase {
 		}
 
 		TestSpecification ts = (TestSpecification) object;
+		
+		this.exportCounter.inc();
 
 		return new RestResult<TestSpecificationSkeleton>(Response.Status.OK, generator.generate(ts));
 	}
-
+	
+	@Reference
+	public void setMetricsService(IMetricsService metricsService) {
+		this.metricsService = metricsService;
+	}
 }

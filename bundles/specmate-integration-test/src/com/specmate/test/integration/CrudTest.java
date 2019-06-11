@@ -535,7 +535,7 @@ public class CrudTest extends EmfRestTest {
 		getResult.getResponse().close();
 	}
 
-	@Test
+	/*@Test
 	public void testGenerateTestsWithMutExConstraint() {
 		JSONObject requirement = postRequirementToRoot();
 		String requirementId = getId(requirement);
@@ -594,7 +594,7 @@ public class CrudTest extends EmfRestTest {
 			}
 		}
 		Assert.assertEquals(1, numberOfInconsistentTests);
-	}
+	}*/
 
 	/**
 	 * Generates a model with contradictory constraints and trys to generate test
