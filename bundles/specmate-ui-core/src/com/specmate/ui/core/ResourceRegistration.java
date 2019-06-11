@@ -16,11 +16,14 @@ import org.osgi.service.http.HttpService;
 import org.osgi.service.http.NamespaceException;
 import org.osgi.service.log.LogService;
 
+import com.specmate.emfrest.authentication.ProjectNames;
+
 @Component(immediate = true)
 public class ResourceRegistration {
 
 	private HttpService httpService;
 	private LogService logService;
+	private ProjectNames ProjectNames;
 
 	@Activate
 	public void activate() {
@@ -69,5 +72,12 @@ public class ResourceRegistration {
 	public void setLogServicve(LogService logService) {
 		this.logService = logService;
 	}
+
+	@Reference
+	public void setProjectNames(ProjectNames projectNames) {
+		ProjectNames = projectNames;
+	}
+	
+	
 
 }

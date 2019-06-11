@@ -3,7 +3,9 @@ Private-Package: com.specmate.ui.core
 -buildpath: \
 	org.eclipse.osgi,\
 	org.eclipse.osgi.services,\
-	javax.servlet-api
+	javax.servlet-api,\
+	specmate-emfrest;version=latest
 Include-Resource: webcontent=webcontent
 -dsannotations:  \
 	*
+-runrequires: bnd.identity;version='latest';id='specmate-emfrest'
