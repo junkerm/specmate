@@ -87,11 +87,11 @@ def rule Condition4_1 {
 
 // Specmate shows the error window as a result of invalid login data.
 def rule Condition4_2 {
-	[Cause] - dobj -> [TMP] - prep -> IN:'as' - pobj -> NN:'result' - prep -> IN:'of' - pobj -> [Effect]
+	[Cause] - dobj -> [Cause_SubA] - prep -> IN:'as' - pobj -> NN:'result' - prep -> IN:'of' - pobj -> [Effect]
 }
 
 // Specmate shows the error window as a result of invalid login data.
-def rule Condition4_2 {
+def rule Condition4_3 {
 	[Cause] - prep -> IN:'as' - pobj -> NN:'result' - prep -> IN:'of' - pobj -> [Effect]
 }
 
@@ -140,11 +140,18 @@ def rule Condition8_1 {
 
 // The tool detects an error so that it can report it.
 def rule Condition9_1 {
-	[Cause] - dep -> [Effect] - dep -> IN:'that'
+	[Cause] - advcl -> [Effect] - dep -> IN:'that'
 	[Effect] - advmod -> RB:'so'
 }
-// The tool detects an error so to report it.
+
+// The tool detects an error so that it can report it.
 def rule Condition9_2 {
+	[Cause] - dobj -> [Effect] - dep -> IN:'that'
+	[Effect] - advmod -> RB:'so'
+}
+
+// The tool detects an error so to report it.
+def rule Condition9_3 {
 	[Cause] - advmod -> RB:'so'
 	[Cause] - xcomp -> [Effect] - aux -> TO:'to'
 }
@@ -293,7 +300,7 @@ def rule CondVar_2 {
 }
 
 //def rule CondVar_3 {
-//	[Condition] - nn -> [Variable]
+//	[Condition] - nn -> NNS:[Variable]
 //	[Condition] - det -> [Variable_Sub]
 //}
 
