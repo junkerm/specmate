@@ -130,14 +130,14 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 				TestParameter testParameter = j < connections.size()
 						? this.testParameters.get(getTestParameterName(connection)) : null;
 				if (node instanceof ProcessStart && hasCondition(connection)) {
-					createTestStep(makePrecondition(connection), makeCheck(connection), j, procedure, testParameter);
+					createTestStep(makePrecondition(connection), makeCheck(connection), j, procedure, testParameter, node.getDescription());
 				} else if (node instanceof ProcessEnd) {
 					// SKIP
 				} else if (node instanceof ProcessStep) {
 					createTestStep(makeAction(node), makeCheck((ProcessStep) node, connection), j, procedure,
-							testParameter);
+							testParameter, node.getDescription());
 				} else if (node instanceof ProcessDecision) {
-					createTestStep(makeAction(connection), makeCheck(connection), j, procedure, testParameter);
+					createTestStep(makeAction(connection), makeCheck(connection), j, procedure, testParameter, node.getDescription());
 				}
 			}
 		}
@@ -188,10 +188,10 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 	}
 
 	private void createTestStep(String action, String check, int position, IContainer procedure,
-			TestParameter testParameter) {
+			TestParameter testParameter, String description) {
 		TestStep testStep = TestspecificationFactory.eINSTANCE.createTestStep();
-		testStep.setName("Generated");
-		testStep.setDescription(action);
+		testStep.setName(action);
+		testStep.setDescription(description);
 		testStep.setPosition(position);
 		testStep.setExpectedOutcome(check);
 		testStep.setId(SpecmateEcoreUtil.getIdForChild(procedure, testStep.eClass()));
