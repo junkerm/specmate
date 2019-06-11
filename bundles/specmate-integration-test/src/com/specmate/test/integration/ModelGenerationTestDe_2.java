@@ -25,11 +25,11 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn das Werkzeug einen Fehler oder ein Problem erkennt oder der Benutzer keine Anmeldung hat, zeigt das Werkzeug ein Warnfenster an und gibt einen Signalton aus.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "das Werkzeug", "erkennt einen Fehler", NodeType.AND);
-		CEGNode node1b = createNode(model, "das Werkzeug", "erkennt ein Problem", NodeType.AND);
-		CEGNode node2 = createNode(model, "der Benutzer", "hat eine Anmeldung", NodeType.AND);
-		CEGNode node3 = createNode(model, "das Werkzeug", "zeigt ein Warnfenster an", NodeType.OR);
-		CEGNode node4 = createNode(model, "das Werkzeug", "gibt einen Signalton aus", NodeType.OR);
+		CEGNode node1 = createNode(model, "Das Werkzeug", "Erkennt einen Fehler", NodeType.AND);
+		CEGNode node1b = createNode(model, "Das Werkzeug", "Erkennt ein Problem", NodeType.AND);
+		CEGNode node2 = createNode(model, "Der Benutzer", "Hat eine Anmeldung", NodeType.AND);
+		CEGNode node3 = createNode(model, "Das Werkzeug", "Zeigt ein Warnfenster an", NodeType.OR);
+		CEGNode node4 = createNode(model, "Das Werkzeug", "Gibt einen Signalton aus", NodeType.OR);
 
 		createConnection(model, node1, node3, false);
 		createConnection(model, node1b, node3, false);
@@ -42,15 +42,17 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		checkResultingModel(generated, model);
 	}
 
+
+
 	@Test
 	public void testModelGenerationDe2_Passive() {
 		String text = "Wenn ein Fehler erkannt wird oder der Benutzer keine Anmeldung hat, wird ein Warnfenster angezeigt und hervorgehoben.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "ein Fehler", "wird erkannt", NodeType.AND);
-		CEGNode node2 = createNode(model, "der Benutzer", "hat eine Anmeldung", NodeType.AND);
-		CEGNode node3 = createNode(model, "ein Warnfenster", "wird angezeigt", NodeType.OR);
-		CEGNode node4 = createNode(model, "ein Warnfenster", "wird hervorgehoben", NodeType.OR);
+		CEGNode node1 = createNode(model, "Ein Fehler", "Wird erkannt", NodeType.AND);
+		CEGNode node2 = createNode(model, "Der Benutzer", "Hat eine Anmeldung", NodeType.AND);
+		CEGNode node3 = createNode(model, "Ein Warnfenster", "Wird angezeigt", NodeType.OR);
+		CEGNode node4 = createNode(model, "Ein Warnfenster", "Wird hervorgehoben", NodeType.OR);
 
 		createConnection(model, node1, node3, false);
 		createConnection(model, node2, node3, true);
@@ -66,13 +68,13 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn der Benutzer keine Anmeldung hat und Anmeldepflicht besteht oder ein Fehler erkannt wird, zeigt das Werkzeug ein Warnfenster an und gibt einen Signalton aus.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "ein Fehler", "wird erkannt", NodeType.AND);
-		CEGNode node2 = createNode(model, "der Benutzer", "hat eine Anmeldung", NodeType.AND);
-		CEGNode node3 = createNode(model, "Anmeldepflicht", "besteht", NodeType.AND);
-		CEGNode node4 = createNode(model, "der Benutzer", "keine Anmeldung hat und Anmeldepflicht besteht",
+		CEGNode node1 = createNode(model, "Ein Fehler", "Wird erkannt", NodeType.AND);
+		CEGNode node2 = createNode(model, "Der Benutzer", "Hat eine Anmeldung", NodeType.AND);
+		CEGNode node3 = createNode(model, "Anmeldepflicht", "Besteht", NodeType.AND);
+		CEGNode node4 = createNode(model, "Der Benutzer", "Keine Anmeldung hat und Anmeldepflicht besteht",
 				NodeType.AND);
-		CEGNode node5 = createNode(model, "das Werkzeug", "zeigt ein Warnfenster an", NodeType.OR);
-		CEGNode node6 = createNode(model, "das Werkzeug", "gibt einen Signalton aus", NodeType.OR);
+		CEGNode node5 = createNode(model, "Das Werkzeug", "Zeigt ein Warnfenster an", NodeType.OR);
+		CEGNode node6 = createNode(model, "Das Werkzeug", "Gibt einen Signalton aus", NodeType.OR);
 
 		createConnection(model, node2, node4, true);
 		createConnection(model, node3, node4, false);
@@ -91,10 +93,10 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn der Benutzer die Option zum Anlegen eines Prozessmodells im Abschnitt Prozessmodelle der Anforderungsübersicht wählt, wird im Prozessmodell-Editor ein leeres Prozessmodell angezeigt.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer",
-				"wählt die Option zum Anlegen eines Prozessmodells im Abschnitt Prozessmodelle der Anforderungsübersicht",
+		CEGNode node1 = createNode(model, "Der Benutzer",
+				"Wählt die Option zum Anlegen eines Prozessmodells im Abschnitt Prozessmodelle der Anforderungsübersicht",
 				NodeType.AND);
-		CEGNode node2 = createNode(model, "Prozessmodell-Editor", "zeigt ein leeres Prozessmodell an", NodeType.AND);
+		CEGNode node2 = createNode(model, "Prozessmodell-Editor", "Zeigt ein leeres Prozessmodell an", NodeType.AND);
 
 		createConnection(model, node1, node2, false);
 
@@ -103,60 +105,60 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 	}
 
 	@Test
-	public void testModelGenerationDE5_pattern1_1() {
+	public void testModelGenerationDE05_pattern1_1() {
 		String text = "Falls Specmate einen Fehler erkennt, zeigt Specmate ein Warnfenster an.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "Specmate", "erkennt einen Fehler", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "zeigt ein Warnfenster an", NodeType.AND);
+		CEGNode node1 = createNode(model, "Specmate", "Erkennt einen Fehler", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Zeigt ein Warnfenster an", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
 	}
 
 	@Test
-	public void testModelGenerationDE6_pattern1_2() {
+	public void testModelGenerationDE06_pattern1_2() {
 		String text = "Specmate zeigt ein Warnfenster an, falls Specmate einen Fehler erkennt.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "Specmate", "zeigt ein Warnfenster an", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "erkennt einen Fehler", NodeType.AND);
+		CEGNode node1 = createNode(model, "Specmate", "Zeigt ein Warnfenster an", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Erkennt einen Fehler", NodeType.AND);
 		createConnection(model, node2, node1, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
 	}
 
 	@Test
-	public void testModelGenerationDE7_pattern1_3() {
+	public void testModelGenerationDE07_pattern1_3() {
 		String text = "Falls Specmate einen Fehler erkennt, zeigt Specmate ein Warnfenster an.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "Specmate", "erkennt einen Fehler", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "zeigt ein Warnfenster an", NodeType.AND);
+		CEGNode node1 = createNode(model, "Specmate", "Erkennt einen Fehler", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Zeigt ein Warnfenster an", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
 	}
 
 	@Test
-	public void testModelGenerationDE8_pattern2_1() {
+	public void testModelGenerationDE08_pattern2_1() {
 		String text = "Wenn Specmate einen Fehler erkennt, zeigt Specmate ein Warnfenster an.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "Specmate", "erkennt einen Fehler", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "zeigt ein Warnfenster an", NodeType.AND);
+		CEGNode node1 = createNode(model, "Specmate", "Erkennt einen Fehler", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Zeigt ein Warnfenster an", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
 	}
 
 	@Test
-	public void testModelGenerationDE9_pattern2_2() {
+	public void testModelGenerationDE09_pattern2_2() {
 		String text = "Specmate zeigt ein Warnfenster an, wenn Specmate einen Fehler erkennt.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "Specmate", "zeigt ein Warnfenster an", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "erkennt einen Fehler", NodeType.AND);
+		CEGNode node1 = createNode(model, "Specmate", "Zeigt ein Warnfenster an", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Erkennt einen Fehler", NodeType.AND);
 		createConnection(model, node2, node1, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -167,8 +169,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn Specmate einen Fehler erkennt, zeigt Specmate ein Warnfenster an.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "Specmate", "erkennt einen Fehler", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "zeigt ein Warnfenster an", NodeType.AND);
+		CEGNode node1 = createNode(model, "Specmate", "Erkennt einen Fehler", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Zeigt ein Warnfenster an", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -179,9 +181,9 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn der Benutzer die Taste drückt und das Modell nicht gespeichert ist, speichert Specmate das Modell.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "drückt die Taste", NodeType.AND);
-		CEGNode node2 = createNode(model, "das Modell", "ist gespeichert", NodeType.AND);
-		CEGNode node3 = createNode(model, "Specmate", "speichert das Modell", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Drückt die Taste", NodeType.AND);
+		CEGNode node2 = createNode(model, "Das Modell", "Ist gespeichert", NodeType.AND);
+		CEGNode node3 = createNode(model, "Specmate", "Speichert das Modell", NodeType.AND);
 		createConnection(model, node1, node3, false);
 		createConnection(model, node2, node3, true);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
@@ -193,9 +195,9 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn der Benutzer die Taste drückt oder das Modell nicht gespeichert ist, speichert Specmate das Modell.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "drückt die Taste", NodeType.AND);
-		CEGNode node2 = createNode(model, "das Modell", "ist gespeichert", NodeType.AND);
-		CEGNode node3 = createNode(model, "Specmate", "speichert das Modell", NodeType.OR);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Drückt die Taste", NodeType.AND);
+		CEGNode node2 = createNode(model, "Das Modell", "Ist gespeichert", NodeType.AND);
+		CEGNode node3 = createNode(model, "Specmate", "Speichert das Modell", NodeType.OR);
 		createConnection(model, node1, node3, false);
 		createConnection(model, node2, node3, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
@@ -207,10 +209,10 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn das Modell eine Kante, einen Knoten oder einen Entscheidungsknoten enthält, zeigt Specmate die Details rechts an.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "das Modell", "enthält eine Kante", NodeType.AND);
-		CEGNode node2 = createNode(model, "das Modell", "enthält einen Knoten", NodeType.AND);
-		CEGNode node3 = createNode(model, "das Modell", "enthält einen Entscheidungsknoten", NodeType.AND);
-		CEGNode node4 = createNode(model, "Specmate", "zeigt die Details rechts an", NodeType.OR);
+		CEGNode node1 = createNode(model, "Das Modell", "Enthält eine Kante", NodeType.AND);
+		CEGNode node2 = createNode(model, "Das Modell", "Enthält einen Knoten", NodeType.AND);
+		CEGNode node3 = createNode(model, "Das Modell", "Enthält einen Entscheidungsknoten", NodeType.AND);
+		CEGNode node4 = createNode(model, "Specmate", "Zeigt die Details rechts an", NodeType.OR);
 		createConnection(model, node1, node4, false);
 		createConnection(model, node2, node4, false);
 		createConnection(model, node3, node4, false);
@@ -223,11 +225,11 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn der Benutzer auf die Schaltfläche klickt oder der Benutzer die Enter-Taste drückt und ungespeicherte Änderungen vorhanden sind, zeigt Specmate ein Bestätigungsfenster an.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "klickt auf die Schaltfläche", NodeType.AND);
-		CEGNode node2 = createNode(model, "der Benutzer", "drückt die Enter-Taste", NodeType.AND);
-		CEGNode node3 = createNode(model, "ungespeicherte Änderungen", "sind vorhanden", NodeType.AND);
-		CEGNode node4 = createNode(model, "Specmate", "zeigt ein Bestätigungsfenser an", NodeType.AND);
-		CEGNode node5 = createNode(model, "der Benutzer", "klickt auf die Schaltfläche oder drückt die Enter-Taste",
+		CEGNode node1 = createNode(model, "Der Benutzer", "Klickt auf die Schaltfläche", NodeType.AND);
+		CEGNode node2 = createNode(model, "Der Benutzer", "Drückt die Enter-Taste", NodeType.AND);
+		CEGNode node3 = createNode(model, "Ungespeicherte Änderungen", "Sind vorhanden", NodeType.AND);
+		CEGNode node4 = createNode(model, "Specmate", "Zeigt ein Bestätigungsfenser an", NodeType.AND);
+		CEGNode node5 = createNode(model, "Der Benutzer", "Klickt auf die Schaltfläche oder drückt die Enter-Taste",
 				NodeType.OR);
 		createConnection(model, node1, node5, false);
 		createConnection(model, node2, node5, false);
@@ -242,9 +244,9 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn der Benutzer auf die Schaltfläche klickt, speichert Specmate die Änderungen und Specmate öffnet ein neues Fenster.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "klickt auf die Schaltfläche", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "speichert die Änderungen", NodeType.AND);
-		CEGNode node3 = createNode(model, "Specmate", "öffnet ein neues Fenster", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Klickt auf die Schaltfläche", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Speichert die Änderungen", NodeType.AND);
+		CEGNode node3 = createNode(model, "Specmate", "Öffnet ein neues Fenster", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		createConnection(model, node1, node3, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
@@ -256,10 +258,10 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn der Benutzer auf die Schaltfläche klickt, öffnet Specmate ein Fenster und Specmate speichert die Änderungen und Specmate lädt die Seite neu.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "klickt auf die Schaltfläche", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "öffnet ein Fenster", NodeType.AND);
-		CEGNode node3 = createNode(model, "Specmate", "speichert die Änderungen", NodeType.AND);
-		CEGNode node4 = createNode(model, "Specmate", "lädt die Seite neu", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Klickt auf die Schaltfläche", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Öffnet ein Fenster", NodeType.AND);
+		CEGNode node3 = createNode(model, "Specmate", "Speichert die Änderungen", NodeType.AND);
+		CEGNode node4 = createNode(model, "Specmate", "Lädt die Seite neu", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		createConnection(model, node1, node3, false);
 		createConnection(model, node1, node4, false);
@@ -272,10 +274,10 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn der Benutzer auf die Schaltfläche klickt, öffnet Specmate ein Fenster, Specmate speichert die Änderungen und Specmate lädt die Seite neu.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "klickt auf die Schaltfläche", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "öffnet ein Fenster", NodeType.AND);
-		CEGNode node3 = createNode(model, "Specmate", "speichert die Änderungen", NodeType.AND);
-		CEGNode node4 = createNode(model, "Specmate", "lädt die Seite neu", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Klickt auf die Schaltfläche", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Öffnet ein Fenster", NodeType.AND);
+		CEGNode node3 = createNode(model, "Specmate", "Speichert die Änderungen", NodeType.AND);
+		CEGNode node4 = createNode(model, "Specmate", "Lädt die Seite neu", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		createConnection(model, node1, node3, false);
 		createConnection(model, node1, node4, false);
@@ -288,9 +290,9 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn der Benutzer auf die Schaltfläche klickt oder die Enter-Taste drückt, lädt Specmate das Modell.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "klickt auf die Schaltfläche", NodeType.AND);
-		CEGNode node2 = createNode(model, "der Benutzer", "drückt die Enter-Taste", NodeType.AND);
-		CEGNode node3 = createNode(model, "Specmate", "lädt das Modell", NodeType.OR);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Klickt auf die Schaltfläche", NodeType.AND);
+		CEGNode node2 = createNode(model, "Der Benutzer", "Drückt die Enter-Taste", NodeType.AND);
+		CEGNode node3 = createNode(model, "Specmate", "Lädt das Modell", NodeType.OR);
 		createConnection(model, node1, node3, false);
 		createConnection(model, node2, node3, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
@@ -302,9 +304,9 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn das Modell nur einen Knoten oder eine Kante hat, ist die Speicherschaltfläche nicht sichtbar.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "das Modell", "hat nur einen Knoten", NodeType.AND);
-		CEGNode node2 = createNode(model, "das Modell", "nur eine Kante", NodeType.AND);
-		CEGNode node3 = createNode(model, "die Speicherschaltfläche", "ist nicht sichtbar", NodeType.OR);
+		CEGNode node1 = createNode(model, "Das Modell", "Hat nur einen Knoten", NodeType.AND);
+		CEGNode node2 = createNode(model, "Das Modell", "Nur eine Kante", NodeType.AND);
+		CEGNode node3 = createNode(model, "Die Speicherschaltfläche", "Ist nicht sichtbar", NodeType.OR);
 		createConnection(model, node1, node3, false);
 		createConnection(model, node2, node3, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
@@ -316,9 +318,9 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn ein Knoten oder eine Kante ausgewählt ist, kann sie gelöscht werden. ";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "ein Knoten", "ist ausgewählt", NodeType.AND);
-		CEGNode node2 = createNode(model, "eine Kante", "ist ausgewält", NodeType.AND);
-		CEGNode node3 = createNode(model, "der Knoten oder die Kante", "kann gelöscht werden", NodeType.OR);
+		CEGNode node1 = createNode(model, "Ein Knoten", "Ist ausgewählt", NodeType.AND);
+		CEGNode node2 = createNode(model, "Eine Kante", "Ist ausgewält", NodeType.AND);
+		CEGNode node3 = createNode(model, "Der Knoten oder die Kante", "Kann gelöscht werden", NodeType.OR);
 		createConnection(model, node1, node3, false);
 		createConnection(model, node2, node3, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
@@ -330,8 +332,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn der Benutzer auf das Modell klickt, wird es in den Editor geladen.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "klickt auf das Modell", NodeType.AND);
-		CEGNode node2 = createNode(model, "das Modell", "wird in den Editor geladen", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Klickt auf das Modell", NodeType.AND);
+		CEGNode node2 = createNode(model, "Das Modell", "Wird in den Editor geladen", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -342,8 +344,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Durch Anklicken des Links wird der Editor gestartet.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Link", "wird angeklickt", NodeType.AND);
-		CEGNode node2 = createNode(model, "der Editor", "wird gestartet", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Link", "Wird angeklickt", NodeType.AND);
+		CEGNode node2 = createNode(model, "Der Editor", "Wird gestartet", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -354,10 +356,10 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn ein Fehler erkannt wird oder der Benutzer keine Anmeldung hat, wird ein Warnfenster angezeigt und ein Ton ausgegeben.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "ein Fehler", "wird erkannt", NodeType.AND);
-		CEGNode node2 = createNode(model, "der Benutzer", "hat keine Anmeldung", NodeType.AND);
-		CEGNode node3 = createNode(model, "ein Warnfenster", "wird angezeigt", NodeType.OR);
-		CEGNode node4 = createNode(model, "ein Ton", "wird ausgegeben", NodeType.OR);
+		CEGNode node1 = createNode(model, "Ein Fehler", "Wird erkannt", NodeType.AND);
+		CEGNode node2 = createNode(model, "Der Benutzer", "Hat keine Anmeldung", NodeType.AND);
+		CEGNode node3 = createNode(model, "Ein Warnfenster", "Wird angezeigt", NodeType.OR);
+		CEGNode node4 = createNode(model, "Ein Ton", "Wird ausgegeben", NodeType.OR);
 		createConnection(model, node1, node3, false);
 		createConnection(model, node1, node4, false);
 		createConnection(model, node2, node3, true);
@@ -371,8 +373,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn der Link durch einen Benutzer geklickt wird, öffnet Specmate ein neues Fenster.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Link", "wird durch einen Benutzer geklickt", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "öffnet ein neues Fenster", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Link", "Wird durch einen Benutzer geklickt", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Öffnet ein neues Fenster", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -383,8 +385,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn der Link durch einen Benutzer geklickt wird, öffnet Specmate ein neues Fenster.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "klickt auf den Link", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "öffnet ein neues Fenster", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Klickt auf den Link", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Öffnet ein neues Fenster", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -395,8 +397,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn Änderungen nicht gespeichert sind, öffnet Specmate ein Bestätigungsfenster.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "Änderungen", "sind gespeichert", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "öffnet ein Bestätigungsfenster", NodeType.AND);
+		CEGNode node1 = createNode(model, "Änderungen", "Sind gespeichert", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Öffnet ein Bestätigungsfenster", NodeType.AND);
 		createConnection(model, node1, node2, true);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -407,8 +409,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Wenn Änderungen nicht gespeichert sind, öffnet Specmate ein Bestätigungsfenster.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "Änderungen", "sind gespeichert", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "öffnet ein Bestätigungsfenster", NodeType.AND);
+		CEGNode node1 = createNode(model, "Änderungen", "Sind gespeichert", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Öffnet ein Bestätigungsfenster", NodeType.AND);
 		createConnection(model, node1, node2, true);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -419,8 +421,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Specmate öffnet das Modell, weil der Benutzer auf den Link klickt.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "klickt auf den Link", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "öffnet das Modell", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Klickt auf den Link", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Öffnet das Modell", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -431,8 +433,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Da der Benutzer auf den Link klickt, öffnet Specmate das Modell.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "klickt auf den Link", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "öffnet das Modell", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Klickt auf den Link", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Öffnet das Modell", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -443,8 +445,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Der Benutzer klickt auf die Schaltfläche, aus diesem Grund öffnet Specmate das Modell.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "klickt auf die Schaltfläche", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "öffnet das Modell", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Klickt auf die Schaltfläche", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Öffnet das Modell", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -455,8 +457,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Der Nutzer gibt seine Zugangsdaten ein. Aus diesem Grund meldet Specmate den Benutzer an.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Nutzer", "gibt seine Zugangsdaten ein", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "meldet den Benutzer an", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Nutzer", "Gibt seine Zugangsdaten ein", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Meldet den Benutzer an", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -467,8 +469,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Specmate zeigt das Fehlerfenster als Ergebnis ungültiger Login-Daten an.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "ungültig Login-Daten", "existieren", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "zeigt das Fehlerfenster an", NodeType.AND);
+		CEGNode node1 = createNode(model, "Ungültig Login-Daten", "Existieren", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Zeigt das Fehlerfenster an", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -479,8 +481,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Der Benutzer drückt die Taste. Infolgedessen zeigt Specmate ein Fenster an.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "drückt die Taste", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "zeigt ein Fenster an", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Drückt die Taste", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Zeigt ein Fenster an", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -491,8 +493,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Specmate zeigt ein Warnfenster wegen ungültiger Zugangsdaten an. ";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "ungültige Zugangsdaten", "existieren", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "zeigt ein Warnfenster an", NodeType.AND);
+		CEGNode node1 = createNode(model, "Ungültige Zugangsdaten", "Existieren", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Zeigt ein Warnfenster an", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -503,8 +505,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Aufgrund ungültiger Zugangsdaten zeigt Specmate ein Warnfenster an.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "ungültige Zugangsdaten", "existieren", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "zeigt ein Warnfenster an", NodeType.AND);
+		CEGNode node1 = createNode(model, "Ungültige Zugangsdaten", "Existieren", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Zeigt ein Warnfenster an", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -515,8 +517,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Specmate zeigt ein Warnfenster wegen ungültiger Zugangsdaten an.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "ungültige Zugangsdaten", "existieren", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "zeigt ein Warnfenster an", NodeType.AND);
+		CEGNode node1 = createNode(model, "Ungültige Zugangsdaten", "Existieren", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Zeigt ein Warnfenster an", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -527,8 +529,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Aufgrund ungültiger Zugangsdaten zeigt Specmate ein Warnfenster an.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "ungültige Zugangsdaten", "existieren", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "zeigt ein Warnfenster an", NodeType.AND);
+		CEGNode node1 = createNode(model, "Ungültige Zugangsdaten", "Existieren", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Zeigt ein Warnfenster an", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -539,8 +541,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Specmate speichert das Modell, sofern das Modell korrekt ist.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "das Modell", "ist korrekt", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "speichert das Modell", NodeType.AND);
+		CEGNode node1 = createNode(model, "Das Modell", "Ist korrekt", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Speichert das Modell", NodeType.AND);
 		createConnection(model, node1, node2, true);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -551,8 +553,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Sofern das Modell korrekt ist, speichert Specmate das Modell.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "das Modell", "ist korrekt", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "speichert das Modell", NodeType.AND);
+		CEGNode node1 = createNode(model, "Das Modell", "Ist korrekt", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Speichert das Modell", NodeType.AND);
 		createConnection(model, node1, node2, true);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -563,8 +565,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Sofern das Modell keine Fehler enthält, speichert Specmate das Modell.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "das Modell", "enthält einen Fehler", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "speichert das Modell", NodeType.AND);
+		CEGNode node1 = createNode(model, "Das Modell", "Enthält einen Fehler", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Speichert das Modell", NodeType.AND);
 		createConnection(model, node1, node2, true);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -575,8 +577,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Das Problem hat etwas mit dem Fehler zu tun.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Fehler", "existiert", NodeType.AND);
-		CEGNode node2 = createNode(model, "das Problem", "tritt auf", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Fehler", "Existiert", NodeType.AND);
+		CEGNode node2 = createNode(model, "Das Problem", "Tritt auf", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -587,8 +589,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Das Problem hat viel mit dem Fehler zu tun.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Fehler", "existiert", NodeType.AND);
-		CEGNode node2 = createNode(model, "das Problem", "tritt auf", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Fehler", "Existiert", NodeType.AND);
+		CEGNode node2 = createNode(model, "Das Problem", "Tritt auf", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -599,8 +601,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Der Fehler tritt auf, so dass Specmate abstürzt.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Fehler", "tritt auf", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "stürzt ab", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Fehler", "Tritt auf", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Stürzt ab", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -611,8 +613,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Der Benutzer klickt auf den Link, damit Specmate das Modell anzeigt.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "klickt auf den Link", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "zeigt das Modell an", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Klickt auf den Link", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Zeigt das Modell an", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -623,8 +625,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Damit Specmate das Modell öffnet, muss der Benutzer auf den Link klicken.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "muss auf den Limk klicken", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "öffnet das Modell", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Muss auf den Limk klicken", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Öffnet das Modell", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -635,8 +637,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Specmate speichert das Modell, obwohl das Modell nicht gültig ist.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "das Modell", "ist gültig", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "speichert das Modell", NodeType.AND);
+		CEGNode node1 = createNode(model, "Das Modell", "Ist gültig", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Speichert das Modell", NodeType.AND);
 		createConnection(model, node1, node2, true);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -647,8 +649,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Obwohl das Modell nicht gültig ist, speichert Specmate das Modell.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "das Modell", "ist gültig", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "speichert das Modell", NodeType.AND);
+		CEGNode node1 = createNode(model, "Das Modell", "Ist gültig", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Speichert das Modell", NodeType.AND);
 		createConnection(model, node1, node2, true);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -659,8 +661,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Specmate speichert das Modell, obwohl das Modell nicht gültig ist.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "Specmate", "speichert das Modell", NodeType.AND);
-		CEGNode node2 = createNode(model, "das Modell", "ist gültig", NodeType.AND);
+		CEGNode node1 = createNode(model, "Specmate", "Speichert das Modell", NodeType.AND);
+		CEGNode node2 = createNode(model, "Das Modell", "Ist gültig", NodeType.AND);
 		createConnection(model, node2, node1, true);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -671,8 +673,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Auch wenn das Modell nicht gültig ist, speichert Specmate das Modell.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "das Modell", "ist gültig", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "speichert das Modell", NodeType.AND);
+		CEGNode node1 = createNode(model, "Das Modell", "Ist gültig", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Speichert das Modell", NodeType.AND);
 		createConnection(model, node1, node2, true);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -683,8 +685,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Specmate lädt das Modell, falls der Benutzer die Taste drückt.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "drückt die Taste", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "lädt das Modell", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Drückt die Taste", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Lädt das Modell", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -695,8 +697,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Für den Fall, dass der Benutzer die Schaltfläche drückt, lädt Specmate das Modell.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "drückt die Schaltfläche", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "lädt das Modell", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Drückt die Schaltfläche", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Lädt das Modell", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -707,8 +709,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Specmate lädt das Modell unter der Bedingung, dass der Benutzer die Taste drückt.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "Specmate", "lädt das Modell", NodeType.AND);
-		CEGNode node2 = createNode(model, "der Benutzer", "drückt die Taste", NodeType.AND);
+		CEGNode node1 = createNode(model, "Specmate", "Lädt das Modell", NodeType.AND);
+		CEGNode node2 = createNode(model, "Der Benutzer", "Drückt die Taste", NodeType.AND);
 		createConnection(model, node2, node1, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -719,8 +721,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Unter der Bedingung, dass der Benutzer die Taste drückt, lädt Specmate das Modell.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "der Benutzer", "drückt die Taste", NodeType.AND);
-		CEGNode node2 = createNode(model, "Specmate", "lädt das Modell", NodeType.AND);
+		CEGNode node1 = createNode(model, "Der Benutzer", "Drückt die Taste", NodeType.AND);
+		CEGNode node2 = createNode(model, "Specmate", "Lädt das Modell", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -731,8 +733,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Es wird eine lokale Version geladen, unter der Annahme, dass die Verbindung fehlschlägt.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "die Verbindung", "schlägt fehl", NodeType.AND);
-		CEGNode node2 = createNode(model, "eine lokale Version", "wird geladen", NodeType.AND);
+		CEGNode node1 = createNode(model, "Die Verbindung", "Schlägt fehl", NodeType.AND);
+		CEGNode node2 = createNode(model, "Eine lokale Version", "Wird geladen", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);
@@ -743,8 +745,8 @@ public class ModelGenerationTestDe_2 extends ModelGenerationTestBase {
 		String text = "Angenommen, die Verbindung schlägt fehl, wird eine lokale Version geladen.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "die Verbindung", "schlägt fehl", NodeType.AND);
-		CEGNode node2 = createNode(model, "eine lokale Version", "wird geladen", NodeType.AND);
+		CEGNode node1 = createNode(model, "Die Verbindung", "Schlägt fehl", NodeType.AND);
+		CEGNode node2 = createNode(model, "Eine lokale Version", "Wird geladen", NodeType.AND);
 		createConnection(model, node1, node2, false);
 		JSONArray generated = generateCEGWithModelRequirementsText(text);
 		checkResultingModel(generated, model);

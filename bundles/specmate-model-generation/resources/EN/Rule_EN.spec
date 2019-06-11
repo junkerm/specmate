@@ -42,27 +42,33 @@ def rule Condition1_5 {
 
 // When the tool detects an error then the tool beeps.
 def rule Condition2_1 {
-	[Cause] - dobj -> [Effect]
+	[Cause] - ccomp -> [Effect]
 	[Cause] - advmod -> WRB:'when'
 	[Cause] - advmod -> RB: 'then'
 }
 
 def rule Condition2_2 {
+	[Cause] - dobj -> [Effect]
+	[Cause] - advmod -> WRB:'when'
+	[Cause] - advmod -> RB: 'then'
+}
+
+def rule Condition2_3 {
 	[Cause] - advcl -> [Effect]
 	[Cause] - advmod -> RB: 'then'
 	[Cause] - advmod -> WRB:'when'
 }
 
 // When the tool detects an error, the tool beeps.
-def rule Condition2_3 {
+def rule Condition2_4 {
 	[Effect] - dep -> [Cause] - advmod -> WRB:'when'
 }
 // The tool beeps when the tool detects an error.
-def rule Condition2_4 {
+def rule Condition2_5 {
 	[Effect] - advcl -> [Cause] - advmod -> WRB:'when'
 }
 
-def rule Condition2_5 {
+def rule Condition2_6 {
 	[Cause] - advmod -> WRB: 'when'
 	[Cause] - parataxis -> [Effect]
 }
