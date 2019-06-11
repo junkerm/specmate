@@ -129,15 +129,16 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 				ProcessConnection connection = j < connections.size() ? connections.get(j) : null;
 				TestParameter testParameter = j < connections.size()
 						? this.testParameters.get(getTestParameterName(connection)) : null;
+				String description = node.getDescription();
 				if (node instanceof ProcessStart && hasCondition(connection)) {
-					createTestStep(makePrecondition(connection), makeCheck(connection), j, procedure, testParameter, node.getDescription());
+					createTestStep(makePrecondition(connection), makeCheck(connection), j, procedure, testParameter, description);
 				} else if (node instanceof ProcessEnd) {
 					// SKIP
 				} else if (node instanceof ProcessStep) {
 					createTestStep(makeAction(node), makeCheck((ProcessStep) node, connection), j, procedure,
-							testParameter, node.getDescription());
+							testParameter, description);
 				} else if (node instanceof ProcessDecision) {
-					createTestStep(makeAction(connection), makeCheck(connection), j, procedure, testParameter, node.getDescription());
+					createTestStep(makeAction(connection), makeCheck(connection), j, procedure, testParameter, description);
 				}
 			}
 		}
