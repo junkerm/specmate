@@ -8,4 +8,3 @@ Private-Package: com.specmate.ui.core
 Include-Resource: webcontent=webcontent
 -dsannotations:  \
 	*
--runrequires: bnd.identity;version='latest';id='specmate-emfrest'

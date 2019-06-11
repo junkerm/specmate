@@ -14,14 +14,16 @@ import org.osgi.service.log.LogService;
 import com.specmate.administration.api.IStatusService;
 import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.common.ISerializationConfiguration;
+import com.specmate.emfrest.api.IRestEndpoint;
+import com.specmate.emfrest.api.IRestService;
 import com.specmate.metrics.IMetricsService;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.urihandler.IObjectResolver;
 import com.specmate.urihandler.IURIFactory;
 
-@Component(immediate = true)
-public class EmfRestServletDeployer {
+@Component(immediate = true, service = IRestEndpoint.class)
+public class EmfRestServletDeployer implements IRestEndpoint{
 
 	private LogService logService;
 	private HttpService httpService;
