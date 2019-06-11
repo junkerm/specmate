@@ -85,6 +85,16 @@ def rule Condition4_1 {
 	[Effect] - nsubj -> NN:'result' - det -> DT:'a'
 }
 
+// Specmate shows the error window as a result of invalid login data.
+def rule Condition4_2 {
+	[Cause] - dobj -> [TMP] - prep -> IN:'as' - pobj -> NN:'result' - prep -> IN:'of' - pobj -> [Effect]
+}
+
+// Specmate shows the error window as a result of invalid login data.
+def rule Condition4_2 {
+	[Cause] - prep -> IN:'as' - pobj -> NN:'result' - prep -> IN:'of' - pobj -> [Effect]
+}
+
 // The tool beeps due to the tool detecting an error.
 def rule Condition5_1 {
 	[Cause] - amod -> JJ:'due' - prep -> TO:'to' - pobj -> [Effect]
@@ -106,12 +116,11 @@ def rule Condition6_2 {
 	[Effect] - dep -> VBG:'owning':[TMP] - prep -> TO:'to' - pobj -> [Cause]
 }
 
-
 // The tool beeps provided/supposing that the tool detected an error.
 def rule Condition7_1 {
 	[Effect] - partmod -> (VBN:'provided'|VBG:'supposing') -ccomp -> [Cause] - complm -> IN:'that' 
 }
-// Supposing that the tool detected an error , the tool beeps .
+// Supposing that the tool detected an error, the tool beeps .
 def rule Condition7_2 {
 	[Effect] -dep-> VBG:'supposing' -ccomp-> [Cause] -complm-> IN:'that'
 }
@@ -190,8 +199,8 @@ def rule Condition13_1 {
 	[Effect] - prep -> IN:'on' - pobj -> NN:'condition'
 }
 
-// On the condiction that the tool detected an error, the tool beeps.
-// On the condiction that the tool crashes, the tool beeps.
+// On the condition that the tool detected an error, the tool beeps.
+// On the condition that the tool crashes, the tool beeps.
 def rule Condition13_2 {
 	IN:'on' - pobj -> NN:'condition' - prep -> IN:'that' - pobj -> [Cause] - appos -> [Effect]
 }
@@ -270,10 +279,10 @@ def rule Negation_2 {
 }
 
 def rule Negation_3 {
-	[Head] -dobj-> [Head_tmp] - det -> DT:'no'
+	[Head] - dobj-> [Head_tmp] - det -> DT:'no'
 }
 
-def subtrees Variable, Condition
+def subtrees Variable, Condition, Variable_Sub
 
 def rule CondVar_1 {
 	[Condition] - nsubj -> [Variable]
@@ -282,6 +291,15 @@ def rule CondVar_1 {
 def rule CondVar_2 {
 	[Condition] - nsubjpass -> [Variable]
 }
+
+//def rule CondVar_3 {
+//	[Condition] - nn -> [Variable]
+//	[Condition] - det -> [Variable_Sub]
+//}
+
+//def rule CondVar_4 {
+//	[Condition] - nn -> [Variable]
+//}
 
 def subtrees Verb, Object
 
