@@ -172,9 +172,8 @@ public class EditorElements {
 		// Wait as the save operation needs time to finish 
 		try{
 			Thread.sleep(1500);
-			}
-			catch(InterruptedException ie){
-			}
+		} catch(InterruptedException ie){
+		}
 		scrollDownTo(generateTestSpec);
 		driver.findElement(generateTestSpec).click();
 	}
