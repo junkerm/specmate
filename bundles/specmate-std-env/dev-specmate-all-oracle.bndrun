@@ -211,7 +211,16 @@
 	org.apache.servicemix.bundles.spring-beans;version='[4.1.7,4.1.8)',\
 	org.apache.servicemix.bundles.spring-core;version='[4.1.7,4.1.8)',\
 	org.codehaus.jettison.jettison;version='[1.1.0,1.1.1)',\
-	log4j;version='[1.2.17,1.2.18)'
+	log4j;version='[1.2.17,1.2.18)',\
+	com.google.inject;version='[3.0.0,3.0.1)',\
+	org.antlr.runtime;version='[3.2.0,3.2.1)',\
+	org.eclipse.xtend.lib;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtend.lib.macro;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtext;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtext.smap;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtext.util;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtext.xbase.lib;version='[2.10.0,2.10.1)',\
+	specmate-cause-effect-patterns;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8080,\
@@ -224,3 +233,4 @@
 	Local
 -runvm: -Xmx6000m, -Djdk.crypto.KeyAgreement.legacyKDF=true
 -runprogramargs: --configurationFile C:\\AZ_DATEN\\Specmate-Tests\\0.2.12\\specmate-config-all.properties
+-resolve: auto
