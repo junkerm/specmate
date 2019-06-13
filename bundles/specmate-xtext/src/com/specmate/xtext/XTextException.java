@@ -1,4 +1,4 @@
-package com.specmate.cause_effect_patterns.resolve;
+package com.specmate.xtext;
 
 public class XTextException extends Exception {
 
