@@ -69,7 +69,7 @@ public class NLPServiceTest {
 
 	}
 
-	@Test
+	/*@Test
 	public void testSentenceUnfoldingEnglish() throws SpecmateException {
 		INLPService nlpService = getNLPService();
 
@@ -82,7 +82,7 @@ public class NLPServiceTest {
 		text = "The magazine contains the nicest hiking tours and trips.";
 		unfolded = new EnglishSentenceUnfolder().unfold(nlpService, text, ELanguage.EN);
 		Assert.assertEquals("The magazine contains the nicest hiking tours and The magazine contains trips.", unfolded);
-	}
+	}*/
 
 	@Test
 	public void testSentenceUnfoldingGerman() throws SpecmateException {

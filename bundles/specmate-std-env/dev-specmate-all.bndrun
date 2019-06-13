@@ -233,3 +233,4 @@
 	Local
 -runvm: -Xmx6000m\n\
 	-Djdk.crypto.KeyAgreement.legacyKDF=true
+-resolve: auto
