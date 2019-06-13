@@ -120,3 +120,4 @@
 	Workspace,\
 	Local
 -runvm: -Xmx6000m
+-resolve: auto

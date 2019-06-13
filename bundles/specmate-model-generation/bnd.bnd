@@ -1,3 +1,5 @@
+-includeresource: \
+	resources = resources
 -buildpath: \
 	osgi.core,\
 	osgi.cmpn,\
@@ -13,7 +15,11 @@
 	org.eclipse.emf.common,\
 	org.eclipse.emf.cdo.common,\
 	specmate-common;version=latest,\
-	org.eclipse.emf.ecore,\
 	specmate-model-support;version=latest,\
-	org.apache.commons.lang3
-Private-Package: com.specmate.modelgeneration
+	org.apache.commons.lang3,\
+	specmate-metrics;version=latest,\
+	specmate-cause-effect-patterns,\
+	specmate-config-api;version=latest
+Private-Package: \
+	com.specmate.modelgeneration,\
+	com.specmate.modelgeneration.legacy

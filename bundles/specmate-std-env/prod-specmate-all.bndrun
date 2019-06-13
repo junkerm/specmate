@@ -204,7 +204,16 @@
 	org.codehaus.jettison.jettison;version='[1.1.0,1.1.1)',\
 	log4j;version='[1.2.17,1.2.18)',\
 	com.sun.activation.javax.activation;version='[1.2.0,1.2.1)',\
-	jaxb-api;version='[2.3.0,2.3.1)'
+	jaxb-api;version='[2.3.0,2.3.1)',\
+	com.google.inject;version='[3.0.0,3.0.1)',\
+	org.antlr.runtime;version='[3.2.0,3.2.1)',\
+	org.eclipse.xtend.lib;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtend.lib.macro;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtext;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtext.smap;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtext.util;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtext.xbase.lib;version='[2.10.0,2.10.1)',\
+	specmate-cause-effect-patterns;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8080,\
@@ -217,3 +226,4 @@
 	Local
 -runvm: -Xmx6000m\n\
 	-Djdk.crypto.KeyAgreement.legacyKDF=true
+-resolve: auto

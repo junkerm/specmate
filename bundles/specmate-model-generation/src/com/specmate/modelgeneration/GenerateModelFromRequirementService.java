@@ -1,17 +1,25 @@
 package com.specmate.modelgeneration;
 
+import java.net.URISyntaxException;
+
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
+import com.specmate.cause_effect_patterns.resolve.XTextException;
 import com.specmate.common.exception.SpecmateException;
+import com.specmate.config.api.IConfigService;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.metrics.ICounter;
+import com.specmate.metrics.IMetricsService;
 import com.specmate.model.requirements.CEGModel;
-import com.specmate.model.requirements.Requirement;
+import com.specmate.modelgeneration.legacy.EnglishCEGFromRequirementGenerator;
+import com.specmate.modelgeneration.legacy.GermanCEGFromRequirementGenerator;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
@@ -28,6 +36,14 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 	INLPService tagger;
 	private LogService logService;
+	private IConfigService configService;
+	private IMetricsService metricsService; 
+	private ICounter modelGenCounter;
+	
+	@Activate
+	public void activate() throws SpecmateException {
+		this.modelGenCounter = metricsService.createCounter("model_generation_counter", "Total number of generated models");
+	}
 
 	@Override
 	public String getServiceName() {
@@ -42,13 +58,17 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	@Override
 	public RestResult<?> post(Object parent, Object child, String token) {
 		CEGModel model = (CEGModel) parent;
-		Requirement req = (Requirement) model.eContainer();
+		model.getContents().clear(); // Delete Contents
+		
 		try {
-			model = generateModelFromDescription(model, req);
+			this.logService.log(LogService.LOG_INFO, "Model Generation STARTED");
+			model = generateModelFromDescription(model);
+			this.logService.log(LogService.LOG_INFO, "Model Generation FINISHED");
+			this.modelGenCounter.inc();
 		} catch (SpecmateException e) {
+			this.logService.log(LogService.LOG_ERROR, "Model Generation failed with following error:\n"+e.getMessage());			
 			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
 		}
-		req.getContents().add(model);
 		return new RestResult<>(Response.Status.OK);
 	}
 
@@ -57,25 +77,35 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	 *
 	 * @param model
 	 *            CEGModel
-	 * @param requirement
 	 * @return
+	 * @throws XTextException 
+	 * @throws URISyntaxException 
 	 */
-	private CEGModel generateModelFromDescription(CEGModel model, Requirement requirement) throws SpecmateException {
+	private CEGModel generateModelFromDescription(CEGModel model) throws SpecmateException {
 		String text = model.getModelRequirements();
 		if (text == null || StringUtils.isEmpty(text)) {
 			return model;
 		}
 		text = new PersonalPronounsReplacer(tagger).replacePronouns(text);
 		ELanguage lang = NLPUtil.detectLanguage(text);
-		CEGFromRequirementGenerator generator;
-		switch (lang) {
-		case DE:
-			generator = new GermanCEGFromRequirementGenerator(logService, tagger);
-			break;
-		default:
-			generator = new EnglishCEGFromRequirementGenerator(logService, tagger);
+		ICEGFromRequirementGenerator generator;
+		
+		generator = new PatternbasedCEGGenerator(lang, tagger, this.configService); 
+		
+		try {
+			generator.createModel(model, text);
+		} catch( SpecmateException e) {
+			// Generation Backof
+			this.logService.log(LogService.LOG_INFO, "NLP model generation failed with the following error: \""+e.getMessage()+"\"");
+			this.logService.log(LogService.LOG_INFO, "Backing off to rule based generation...");
+			
+			if(lang == ELanguage.DE) {
+				generator = new GermanCEGFromRequirementGenerator(logService, tagger);
+			} else {
+				generator = new EnglishCEGFromRequirementGenerator(logService, tagger);
+			}
+			generator.createModel(model, text);
 		}
-		generator.createModel(model, text);
 		return model;
 	}
 
@@ -88,5 +118,15 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	void setNlptagging(INLPService tagger) {
 		this.tagger = tagger;
 	}
-
+	
+	/** Service reference for config service */
+	@Reference
+	public void setConfigurationService(IConfigService configService) {
+		this.configService = configService;
+  }
+  
+	@Reference
+	public void setMetricsService(IMetricsService metricsService) {
+		this.metricsService = metricsService;
+	}
 }
