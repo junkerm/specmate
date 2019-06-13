@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
-import { ToolPallette } from './components/tool-pallette.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { EditorToolsService } from './services/editor-tools.service';
-import { TranslateModule } from '@ngx-translate/core';
-import { MultiselectionService } from './services/multiselection.service';
+import { SpecmateSharedModule } from '../../../../../specmate/specmate.shared.module';
+import { ToolPallette } from './components/tool-pallette.component';
 import { ClipboardService } from './services/clipboard-service';
+import { EditorToolsService } from './services/editor-tools.service';
+import { MultiselectionService } from './services/multiselection.service';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
     BrowserModule,
-    TranslateModule
+    SpecmateSharedModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

@@ -7,9 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
-import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -20,6 +20,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.specmate.common.AssertUtil;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
@@ -76,8 +79,9 @@ public class SpecmateEcoreUtil {
 		EObject object = resource.getEObject(id);
 		if (object != null & clazz.isAssignableFrom(object.getClass())) {
 			return (T) object;
-		} else
+		} else {
 			return null;
+		}
 	}
 
 	public static <T> List<T> getRootObjectsByType(Resource resource, Class<T> clazz) {
@@ -184,17 +188,17 @@ public class SpecmateEcoreUtil {
 		}
 		return null;
 	}
-	
+
 	public static String getUniqueId(EObject object) {
 		String id;
-		if(object instanceof CDOObject) {
-			CDOObject cdoObject = (CDOObject)object;
+		if (object instanceof CDOObject) {
+			CDOObject cdoObject = (CDOObject) object;
 			return buildStringId(cdoObject.cdoID());
 		} else {
 			return null;
 		}
 	}
-	
+
 	public static String buildStringId(CDOID id) {
 		StringBuilder builder = new StringBuilder();
 		CDOIDUtil.write(builder, id);
@@ -221,7 +225,7 @@ public class SpecmateEcoreUtil {
 
 	public static String getProjectId(EObject target) {
 		Folder projectFolder = getLastAncestorOfType(target, Folder.class);
-		if (projectFolder != null && projectFolder.cdoState()!=CDOState.TRANSIENT) {
+		if (projectFolder != null && projectFolder.cdoState() != CDOState.TRANSIENT) {
 			return projectFolder.getId();
 		} else {
 			return null;
@@ -231,6 +235,16 @@ public class SpecmateEcoreUtil {
 	public static boolean isProject(EObject target) {
 		Folder projectFolder = getLastAncestorOfType(target, Folder.class);
 		return target == projectFolder;
+	}
+
+	public static List<EObject> getChildren(Object target) throws SpecmateException {
+		if (target instanceof Resource) {
+			return ((Resource) target).getContents();
+		} else if (target instanceof EObject) {
+			return ((EObject) target).eContents();
+		} else {
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "Object is no resource and no EObject.");
+		}
 	}
 
 }

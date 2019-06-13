@@ -13,7 +13,7 @@
 		[for (r: EString | aClass.eAllReferences.eType.name->asSet())]
 			import { [r /] } from './[r/]';
 		[/for]
-	[/if] 
+	[/if]
 
 	[if (aClass.interface)]
 	export interface [aClass.name.toUpperFirst()/] {
@@ -56,6 +56,15 @@
  [/file]
 [/template]
 
+[template public generateEnum(aEnum: EEnum)]
+[comment @main/]
+[file (aEnum.name.concat('.ts'), false)]
+export enum [aEnum.name/] {
+	[for (el: EEnumLiteral | aEnum.eLiterals) separator(',\n')][el.literal.toUpperCase()/] = [el.value/][/for]
+}
+[/file]
+[/template]
+
 [template public generateMeta(aPackage: EPackage)]
 [comment @main/]
 [if (aPackage.name.equalsIgnoreCase('model'))]
@@ -70,6 +79,7 @@ export class FieldMetaItem {
     public values?: string;
 	public rows?: string;
 	public position?: string;
+    public allowedPattern?: string;
 }
 
 export class MetaInfo {
@@ -107,6 +117,7 @@ type OperationType = string;
 type EDate = Date;
 type ParameterType = string;
 type AccessRights = string;
+type ErrorCode = string;
 type ELong = number;
 		[/file]
 

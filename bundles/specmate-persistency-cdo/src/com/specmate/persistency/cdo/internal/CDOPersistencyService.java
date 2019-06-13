@@ -26,6 +26,7 @@ import org.eclipse.emf.cdo.net4j.CDONet4jSession;
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionRecoveryEvent;
+import org.eclipse.emf.cdo.net4j.ReconnectingCDOSessionConfiguration;
 import org.eclipse.emf.cdo.server.net4j.CDONet4jServerUtil;
 import org.eclipse.emf.cdo.session.CDOSessionInvalidationEvent;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
@@ -51,6 +52,7 @@ import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.net4j.util.om.OMPlatform;
 import org.eclipse.net4j.util.om.log.PrintLogHandler;
+import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -63,10 +65,12 @@ import org.osgi.service.event.EventAdmin;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.metrics.IGauge;
 import com.specmate.metrics.IMetricsService;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPackageProvider;
@@ -118,7 +122,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	/** The name of the resource to use */
 	private String resourceName;
 
-	/** The configured CDO host to connect to */
+	/** The configured CDO host and port to connect to */
 	private String hostAndPort;
 
 	/** Reference to the log servcie */
@@ -165,7 +169,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		this.shutdown();
 	}
 
-	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
+	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException, SpecmateInternalException {
 		this.repositoryName = (String) properties.get(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME);
 		this.resourceName = (String) properties.get(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME);
 		this.hostAndPort = (String) properties.get(CDOPersistencyServiceConfig.KEY_SERVER_HOST_PORT);
@@ -174,21 +178,21 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		this.recoveryFolder = (String) properties.get(CDOPersistencyServiceConfig.KEY_RECOVERY_FOLDER);
 
 		if (StringUtils.isEmpty(this.repositoryName)) {
-			throw new SpecmateValidationException("Repository name is empty.");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "Repository name is empty.");
 		}
 		if (StringUtils.isEmpty(this.resourceName)) {
-			throw new SpecmateValidationException("Resource name is empty.");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "Resource name is empty.");
 		}
 		if (StringUtils.isEmpty(this.hostAndPort)) {
-			throw new SpecmateValidationException("Host and port is empty.");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "Host and port is empty.");
 		}
 
 		if (StringUtil.isEmpty(this.cdoUser)) {
-			throw new SpecmateValidationException("No CDO user name given");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No CDO user name given");
 		}
 
 		if (StringUtil.isEmpty(this.cdoPassword)) {
-			throw new SpecmateValidationException("No CDO password given");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No CDO password given");
 		}
 		if (this.recoveryFolder != null && !Files.isDirectory(Paths.get(this.recoveryFolder))) {
 			throw new SpecmateValidationException("Revovery folder " + this.recoveryFolder + " not found");
@@ -240,6 +244,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private void startPersistency() throws SpecmateException {
 		OMPlatform.INSTANCE.setDebugging(true);
+		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
+		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
 		createContainer();
 		createSession();
 		installListener();
@@ -443,7 +449,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	public ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName)
 			throws SpecmateException {
 		if (!this.active) {
-			throw new SpecmateException("Attempt to open transaction when persistency service is not active");
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY,
+					"Attempt to open transaction when persistency service is not active");
 		}
 		CDOTransaction cdoTransaction = openCDOTransaction();
 		TransactionImpl transaction = new TransactionImpl(this, cdoTransaction, alterantiveResourceName, logService,
@@ -467,7 +474,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	@Override
 	public IView openView() throws SpecmateException {
 		if (!this.active) {
-			throw new SpecmateException("Attempt to open transaction when persistency service is not active");
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY,
+					"Attempt to open transaction when persistency service is not active");
 		}
 		CDOView cdoView = openCDOView();
 		ViewImpl view = new ViewImpl(this, cdoView, this.resourceName, logService);
@@ -537,22 +545,28 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		DeltaProcessor processor = new DeltaProcessor(invalEvent) {
 
 			@Override
-			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap) {
+			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap)
+					throws SpecmateValidationException {
 				postEvent(view, id, className, 0, featureMap, EChangeKind.NEW, 0);
 			}
 
 			@Override
-			protected void detachedObject(CDOID id, int version) {
+			protected void detachedObject(CDOID id, int version) throws SpecmateValidationException {
 				postEvent(view, id, null, version, null, EChangeKind.DELETE, 0);
 			}
 
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-					Object newValue, int index, String objectClassName) {
+					Object newValue, int index, String objectClassName) throws SpecmateValidationException {
 				postEvent(view, id, objectClassName, 0, Collections.singletonMap(feature, newValue), changeKind, index);
 			}
 		};
-		processor.process();
+
+		try {
+			processor.process();
+		} catch (SpecmateValidationException e) {
+			logService.log(LogService.LOG_ERROR, e.getMessage());
+		}
 	}
 
 	public boolean isActive() {

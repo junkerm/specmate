@@ -50,12 +50,14 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.cdoserver.ICDOServer;
 import com.specmate.cdoserver.config.SpecmateCDOServerConfig;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.dbprovider.api.DBConfigChangedCallback;
 import com.specmate.dbprovider.api.IDBProvider;
 import com.specmate.migration.api.IMigratorService;
 import com.specmate.persistency.IPackageProvider;
+import com.specmate.model.administration.ErrorCode;
 
 @Component(immediate = true, configurationPid = SpecmateCDOServerConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
@@ -104,7 +106,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	private boolean active = false;
 
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		readConfig(properties);
 		start();
 	}
@@ -118,28 +120,29 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	 * Reads the config properties
 	 *
 	 * @param properties
-	 * @throws SpecmateValidationException
+	 * @throws SpecmateInternalException
 	 *             if the configuration is invalid
+	 * @throws SpecmateValidationException 
 	 */
-	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
+	private void readConfig(Map<String, Object> properties) throws SpecmateInternalException, SpecmateValidationException {
 		this.hostAndPort = (String) properties.get(SpecmateCDOServerConfig.KEY_SERVER_HOST_PORT);
 		if (StringUtil.isEmpty(this.hostAndPort)) {
-			throw new SpecmateValidationException("No server host and port given");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No server host and port given.");
 		}
 
 		this.repositoryName = (String) properties.get(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME);
 		if (StringUtil.isEmpty(this.repositoryName)) {
-			throw new SpecmateValidationException("No repository name given");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No repository name given.");
 		}
 
 		this.cdoUser = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_USER);
 		if (StringUtil.isEmpty(this.cdoUser)) {
-			throw new SpecmateValidationException("No CDO user name given");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No CDO user name given.");
 		}
 
 		this.cdoPassword = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_PASSWORD);
 		if (StringUtil.isEmpty(this.cdoPassword)) {
-			throw new SpecmateValidationException("No CDO password given");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No CDO password given");
 		}
 
 		this.masterHostAndPort = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER);
@@ -222,7 +225,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
 		if (!StringUtil.isEmpty(this.masterHostAndPort)) {
 			if (StringUtil.isEmpty(this.masterRepositoryNme)) {
-				throw new SpecmateException("Should be configured as clone bu not master repository name is given.");
+				throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "Should be configured as clone bu not master repository name is given.");
 			}
 
 			logService.log(LogService.LOG_INFO, "Configuring as clone of " + this.masterHostAndPort);

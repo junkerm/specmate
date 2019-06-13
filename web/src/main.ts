@@ -1,8 +1,9 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { SpecmateModule } from './app/modules/specmate/specmate.module';
+import { ENV } from './environments/environment';
 
-if (window.location.href.indexOf('localhost') < 0 && window.location.href.indexOf('127.0.0.1') < 0) {
+if (ENV.TYPE === 'prod') {
     enableProdMode();
 }
 

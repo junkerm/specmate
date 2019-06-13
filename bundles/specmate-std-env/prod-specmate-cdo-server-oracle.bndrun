@@ -29,6 +29,10 @@
 	Local
 -runvm: -Xmx6000m
 -runbundles: \
+	org.eclipse.equinox.log;version='[1.2.300,1.2.301)',\
+	specmate-logging;version=snapshot,\
+	specmate-logging-slf4j;version=snapshot,\
+	specmate-logging-slf4j-julbridge;version=snapshot,\
 	jul.to.slf4j;version='[1.7.12,1.7.13)',\
 	log4j.over.slf4j;version='[1.7.12,1.7.13)',\
 	lpg.runtime.java;version='[2.0.17,2.0.18)',\
@@ -44,7 +48,6 @@
 	org.eclipse.equinox.app;version='[1.3.200,1.3.201)',\
 	org.eclipse.equinox.cm;version='[1.1.0,1.1.1)',\
 	org.eclipse.equinox.common;version='[3.6.200,3.6.201)',\
-	org.eclipse.equinox.log;version='[1.2.300,1.2.301)',\
 	org.eclipse.equinox.metatype;version='[1.4.0,1.4.1)',\
 	org.eclipse.equinox.preferences;version='[3.5.200,3.5.201)',\
 	org.eclipse.equinox.registry;version='[3.5.400,3.5.401)',\
@@ -53,20 +56,17 @@
 	org.eclipse.ocl.ecore;version='[3.6.200,3.6.201)',\
 	org.eclipse.osgi.services;version='[3.4.0,3.4.1)',\
 	org.slf4j.api;version='[1.7.2,1.7.3)',\
-	slf4j.api;version='[1.7.12,1.7.13)',\
 	specmate-cdo-server;version=snapshot,\
 	specmate-common;version=snapshot,\
 	specmate-config;version=snapshot,\
 	specmate-dbprovider-api;version=snapshot,\
 	specmate-dbprovider-oracle;version=snapshot,\
-	specmate-logging;version=snapshot,\
-	specmate-logging-slf4j;version=snapshot,\
-	specmate-logging-slf4j-julbridge;version=snapshot,\
 	specmate-migration;version=snapshot,\
 	specmate-model-gen;version=snapshot,\
 	specmate-model-support;version=snapshot,\
 	specmate-persistency-api;version=snapshot,\
 	specmate-config-api;version=snapshot,\
+<<<<<<< HEAD
 	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
 	org.eclipse.emf.cdo;version='[4.6.0,4.6.1)',\
 	org.eclipse.emf.cdo.common;version='[4.6.0,4.6.1)',\
@@ -80,3 +80,10 @@
 	org.eclipse.net4j.db.oracle;version='[1.1.300,1.1.301)',\
 	org.eclipse.net4j.tcp;version='[4.1.500,4.1.501)',\
 	org.eclipse.net4j.util;version='[3.7.0,3.7.1)'
+=======
+	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)',\
+	org.objectweb.asm.all.debug;version='[5.0.2,5.0.3)',\
+	com.google.guava;version='[21.0.0,21.0.1)',\
+	org.apache.commons.lang3;version='[3.5.0,3.5.1)',\
+	slf4j.api;version='[1.7.25,1.7.26)'
+>>>>>>> refs/remotes/origin/develop

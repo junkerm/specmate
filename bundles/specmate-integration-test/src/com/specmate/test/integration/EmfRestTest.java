@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import javax.ws.rs.core.Response.Status;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.osgi.service.log.LogService;
@@ -30,10 +31,12 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	static final String REST_ENDPOINT = "http://localhost:8088/services/rest";
 	static final String NSURI_KEY = EMFJsonSerializer.KEY_NSURI;
 	static final String ECLASS = EMFJsonSerializer.KEY_ECLASS;
+	static final String URL = EMFJsonSerializer.KEY_URI;
 	static IView view;
 	static LogService logService;
 	static RestClient restClient;
 	static IAuthenticationService authenticationService;
+	static UserSession session;
 	static IProjectService projectService;
 
 	private static int counter = 0;
@@ -53,7 +56,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		}
 		if (authenticationService == null) {
 			authenticationService = getAuthenticationService();
-			UserSession session = authenticationService.authenticate("resttest", "resttest");
+			session = authenticationService.authenticate("resttest", "resttest");
 
 			if (restClient == null) {
 				restClient = new RestClient(REST_ENDPOINT, session.getId(), logService);
@@ -108,6 +111,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		folder.put(ECLASS, BasePackage.Literals.FOLDER.getName());
 		folder.put(BasePackage.Literals.IID__ID.getName(), folderId);
 		folder.put(BasePackage.Literals.INAMED__NAME.getName(), folderId);
+		folder.put(BasePackage.Literals.FOLDER__LIBRARY.getName(), false);
 		return folder;
 	}
 
@@ -118,6 +122,10 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 
 	protected JSONObject createTestRequirement() {
 		String requirementsName = "TestRequirement" + counter++;
+		return createTestRequirement(requirementsName);
+	}
+
+	protected JSONObject createTestRequirement(String requirementsName) {
 		JSONObject requirement = new JSONObject();
 		requirement.put(NSURI_KEY, RequirementsPackage.eNS_URI);
 		requirement.put(ECLASS, RequirementsPackage.Literals.REQUIREMENT.getName());
@@ -140,11 +148,15 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 
 	protected JSONObject createTestCegModel() {
 		String cegName = "TestCeg" + counter++;
+		return createTestCegModel(cegName);
+	}
+
+	protected JSONObject createTestCegModel(String id) {
 		JSONObject ceg = new JSONObject();
 		ceg.put(NSURI_KEY, RequirementsPackage.eNS_URI);
 		ceg.put(ECLASS, RequirementsPackage.Literals.CEG_MODEL.getName());
-		ceg.put(BasePackage.Literals.IID__ID.getName(), cegName);
-		ceg.put(BasePackage.Literals.INAMED__NAME.getName(), cegName);
+		ceg.put(BasePackage.Literals.IID__ID.getName(), id);
+		ceg.put(BasePackage.Literals.INAMED__NAME.getName(), id);
 		return ceg;
 	}
 
@@ -159,15 +171,21 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	}
 
 	protected JSONObject createTestCegNode() {
-		String cegName = "TestCegNode" + counter++;
+		String variable = "Variable" + counter++;
+		String condition = "Condition" + counter++;
+		return createTestCegNode(variable, condition, NodeType.OR.getLiteral());
+	}
+
+	protected JSONObject createTestCegNode(String variable, String condition, String operation) {
+		String id = "TestCegNode" + counter++;
 		JSONObject cegNode = new JSONObject();
 		cegNode.put(NSURI_KEY, RequirementsPackage.eNS_URI);
 		cegNode.put(ECLASS, RequirementsPackage.Literals.CEG_NODE.getName());
-		cegNode.put(BasePackage.Literals.IID__ID.getName(), cegName);
-		cegNode.put(BasePackage.Literals.INAMED__NAME.getName(), cegName);
-		cegNode.put(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName(), cegName);
-		cegNode.put(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName(), "5");
-		cegNode.put(RequirementsPackage.Literals.CEG_NODE__TYPE.getName(), NodeType.OR.getLiteral());
+		cegNode.put(BasePackage.Literals.IID__ID.getName(), id);
+		cegNode.put(BasePackage.Literals.INAMED__NAME.getName(), id);
+		cegNode.put(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName(), variable);
+		cegNode.put(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName(), condition);
+		cegNode.put(RequirementsPackage.Literals.CEG_NODE__TYPE.getName(), operation);
 		return cegNode;
 	}
 
@@ -217,6 +235,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		connection.put(NSURI_KEY, RequirementsPackage.eNS_URI);
 		connection.put(ECLASS, RequirementsPackage.Literals.CEG_CONNECTION.getName());
 		connection.put(BasePackage.Literals.IID__ID.getName(), connectionName);
+		connection.put(BasePackage.Literals.INAMED__NAME.getName(), connectionName);
 		connection.put(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName(), EmfRestTestUtil.proxy(node1));
 		connection.put(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName(), EmfRestTestUtil.proxy(node2));
 		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName(), isNegated);
@@ -229,6 +248,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		connection.put(NSURI_KEY, ProcessesPackage.eNS_URI);
 		connection.put(ECLASS, ProcessesPackage.Literals.PROCESS_CONNECTION.getName());
 		connection.put(BasePackage.Literals.IID__ID.getName(), connectionName);
+		connection.put(BasePackage.Literals.INAMED__NAME.getName(), connectionName);
 		connection.put(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName(), EmfRestTestUtil.proxy(node1));
 		connection.put(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName(), EmfRestTestUtil.proxy(node2));
 		return connection;
@@ -240,6 +260,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		connection.put(NSURI_KEY, ProcessesPackage.eNS_URI);
 		connection.put(ECLASS, ProcessesPackage.Literals.PROCESS_CONNECTION.getName());
 		connection.put(BasePackage.Literals.IID__ID.getName(), connectionName);
+		connection.put(BasePackage.Literals.INAMED__NAME.getName(), connectionName);
 		connection.put(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName(), EmfRestTestUtil.proxy(node1));
 		connection.put(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName(), EmfRestTestUtil.proxy(node2));
 		connection.put(ProcessesPackage.Literals.PROCESS_CONNECTION__CONDITION.getName(), "condition" + counter++);
@@ -258,6 +279,24 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 
 	protected String buildUrl(String service, String... segments) {
 		StringBuilder builder = new StringBuilder();
+		builder.append("/" + getSelectedProjectName() + "/" + getSelectedTopFolderName());
+		for (String segment : segments) {
+			builder.append("/").append(segment);
+		}
+		return builder.toString() + "/" + service;
+	}
+
+	protected String buildProjectUrl(String service, String... segments) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("/" + getSelectedProjectName());
+		for (String segment : segments) {
+			builder.append("/").append(segment);
+		}
+		return builder.toString() + "/" + service;
+	}
+
+	protected String buildRootUrl(String service, String... segments) {
+		StringBuilder builder = new StringBuilder();
 		for (String segment : segments) {
 			builder.append("/").append(segment);
 		}
@@ -268,7 +307,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		return requirement.getString(ID_KEY);
 	}
 
-	protected JSONObject postFolderToRoot() {
+	protected JSONObject postFolderToTopFolder() {
 		JSONObject folder = createTestFolder();
 		return postObject(folder);
 	}
@@ -359,6 +398,8 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
+		} finally {
+			result.getResponse().close();
 		}
 		return object;
 	}
@@ -372,6 +413,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		logService.log(LogService.LOG_DEBUG, "Updateing the object " + object.toString() + " at url " + updateUrl);
 		RestResult<JSONObject> putResult = restClient.put(updateUrl, object);
 		Assert.assertEquals(statusCode, putResult.getResponse().getStatus());
+		putResult.getResponse().close();
 	}
 
 	protected JSONObject getObject(int statusCode, String... segments) {
@@ -389,6 +431,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 			logService.log(LogService.LOG_DEBUG, "Empty result from url " + url);
 		}
 		Assert.assertEquals(statusCode, getResult.getResponse().getStatus());
+		getResult.getResponse().close();
 		return retrievedObject;
 	}
 
@@ -396,12 +439,21 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		return getObject(Status.OK.getStatusCode(), segments);
 	}
 
+	protected JSONArray getContent(String... segments) {
+		String retrieveUrl = listUrl(segments);
+		RestResult<JSONArray> result = restClient.getList(retrieveUrl);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		JSONArray content = result.getPayload();
+		return content;
+	}
+
 	protected void deleteObject(String... segments) {
 		// Delete folder
 		String deleteUrl = deleteUrl(segments);
 		logService.log(LogService.LOG_DEBUG, "Deleting object with URL " + deleteUrl);
-		RestResult<Object> deleteResult = restClient.delete(deleteUrl);
+		RestResult<JSONObject> deleteResult = restClient.delete(deleteUrl);
 		Assert.assertEquals(Status.OK.getStatusCode(), deleteResult.getResponse().getStatus());
+		deleteResult.getResponse().close();
 	}
 
 	protected String listUrl(String... segments) {

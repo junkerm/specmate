@@ -1,0 +1,6 @@
+<svg:g *ngIf="connection">
+    <svg:g connection-line [source]="startLineCoordsProvider.lineStart" [target]="endLineCoordsProvider.lineEnd" text="" [selected]="selected" [valid]="isValid" [arrowTip]="true" [fillArrowTip]="true"></svg:g>
+    <svg:g *ngIf="isNegated">
+        <svg:path d="m-10,10 m-10,-10 q10,10 20,-0 t20 -0" [attr.transform]="'translate(' + endLineCoordsProvider.center.x + ',' + endLineCoordsProvider.center.y + ') rotate(' + endLineCoordsProvider.angle + ')'" style="stroke-width:2;stroke:#000;fill:none" class="tilde" />
+    </svg:g>
+</svg:g>

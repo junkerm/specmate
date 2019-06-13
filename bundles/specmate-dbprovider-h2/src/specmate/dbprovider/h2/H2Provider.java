@@ -22,12 +22,14 @@ import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.dbprovider.api.DBConfigChangedCallback;
 import com.specmate.dbprovider.api.DBProviderBase;
 import com.specmate.dbprovider.api.IDBProvider;
 import com.specmate.dbprovider.api.migration.IAttributeToSQLMapper;
 import com.specmate.dbprovider.api.migration.IObjectToSQLMapper;
+import com.specmate.model.administration.ErrorCode;
 
 import specmate.dbprovider.h2.config.H2ProviderConfig;
 
@@ -46,7 +48,7 @@ public class H2Provider extends DBProviderBase {
 		try {
 			DriverManager.registerDriver(new org.h2.Driver());
 		} catch (SQLException e) {
-			throw new SpecmateException("Could not register H2 JDBC driver", e);
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Could not register H2 JDBC driver.", e);
 		}
 	}
 
@@ -55,7 +57,7 @@ public class H2Provider extends DBProviderBase {
 		closeConnection();
 		this.isVirginDB = false;
 		readConfig(properties);
-		for (DBConfigChangedCallback cb : cbRegister) {
+		for (DBConfigChangedCallback cb : this.cbRegister) {
 			cb.configurationChanged();
 		}
 	}
@@ -71,7 +73,7 @@ public class H2Provider extends DBProviderBase {
 
 		String failmsg = " not defined in configuration.";
 		if (StringUtils.isNullOrEmpty(this.jdbcConnection)) {
-			throw new SpecmateException("JDBC connection" + failmsg);
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "JDBC connection not defined in configuration.");
 		}
 	}
 
@@ -91,7 +93,7 @@ public class H2Provider extends DBProviderBase {
 				// specmate to continue, without performing a migration, because
 				// the next step CDO performs is to create the database.
 			} catch (SpecmateException e) {
-				Matcher matcher = databaseNotFoundPattern.matcher(e.getCause().getMessage());
+				Matcher matcher = this.databaseNotFoundPattern.matcher(e.getCause().getMessage());
 				if (matcher.matches()) {
 					this.isVirginDB = true;
 				} else {
@@ -100,7 +102,7 @@ public class H2Provider extends DBProviderBase {
 			}
 		}
 
-		return connection;
+		return this.connection;
 	}
 
 	@Override
@@ -108,7 +110,7 @@ public class H2Provider extends DBProviderBase {
 		if (this.connection == null) {
 			getConnection();
 		}
-		return isVirginDB;
+		return this.isVirginDB;
 	}
 
 	@Override
@@ -139,8 +141,13 @@ public class H2Provider extends DBProviderBase {
 			this.connection = DriverManager.getConnection(this.jdbcConnection + ";IFEXISTS=TRUE", "", "");
 			this.isVirginDB = false;
 		} catch (SQLException e) {
-			throw new SpecmateException(
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY,
 					"Could not connect to the H2 database using the connection: " + this.jdbcConnection + ".", e);
 		}
+	}
+
+	@Override
+	public String getTrueLiteral() {
+		return "true";
 	}
 }

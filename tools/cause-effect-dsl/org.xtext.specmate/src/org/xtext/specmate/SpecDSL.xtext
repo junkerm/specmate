@@ -1,0 +1,104 @@
+grammar org.xtext.specmate.SpecDSL with org.eclipse.xtext.common.Terminals
+
+generate specDSL "http://www.xtext.org/specmate/SpecDSL"
+
+Model:
+	(elements += AbstractElement)*
+;
+
+AbstractElement:
+	Import | PosDef | DepDef | TreeDef | Rule
+;
+
+Import:
+	'import' importedNamespace = QualifiedNameWithWildcard
+;
+
+PosDef:	
+	'def' 'tagset' 'parts-of-speech' name = QualifiedName '{' (tags += POSTag)* '}'
+;
+
+POSTag:
+	name=ID ( "=" tagname = STRING)?
+;
+
+DepDef:
+	'def' 'tagset' 'dependencies' name=QualifiedName '{' (tags+= DepTag)* '}'
+;
+	
+DepTag:
+	name=ID ("=" tagname = STRING)?
+;
+
+TreeDef:
+	{TreeDef} 'def' 'subtrees'  (('{' (trees+= TreeTag)* '}')|( trees+=TreeTag (',' (trees+= TreeTag))*)) 
+;
+
+TreeTag:
+	name = ID
+;
+
+Rule:
+	'def' 'rule' name=ID '{' (dependencies+=DependencyRule)+ '}'
+;
+
+/*
+OptionalDependencyRule:
+	OrDependencyRule |
+	(optionalRule ?= 'optional' '(' (subrule+= OrDependencyRule)+ ')')
+;
+
+OrDependencyRule:
+	DependencyRule |
+	(choiceRule ?= 'choose' ( subrule+= ParDependencyRule ('or' subrule+=ParDependencyRule)+))
+;
+
+ParDependencyRule:
+	'(' (subrule+= DependencyRule)+ ')'
+;
+*/
+
+DependencyRule:
+	(leftNode = TreeNode    '-' dTag=[DepTag|QualifiedName] '->' rightNode = (Node|FreeDependencyRule)) |
+	(leftNode = NonTreeNode '-' dTag=[DepTag|QualifiedName] '->' rightNode = (TreeNode|DependencyRule))
+;
+
+FreeDependencyRule returns DependencyRule:
+	(leftNode = Node '-' dTag=[DepTag|QualifiedName] '->' rightNode = (Node|FreeDependencyRule))
+;
+
+Node:
+	(ExplicitNode | OptionNode | TreeNode)
+;
+
+NonTreeNode returns Node:
+	(ExplicitNode | OptionNode)
+;
+
+OptionNode:
+	'(' leftNode = ExplicitNode ( '|' rightNodes += ExplicitNode )+ ')'
+;
+
+TreeNode:
+	(pTag = [POSTag|QualifiedName] ':')? ((expr = STRING | anyMatch?= '*')':')? tree = Subtree 
+;
+
+ExplicitNode:
+	(pTag = [POSTag|QualifiedName] ':')?  ( ( (caseSensitive ?= 'CASE!')? expr = STRING) | anyMatch?= '*')
+;
+
+Subtree:
+	'[' name = [TreeTag] ']'
+;
+
+Tag:
+	POSTag|DepTag
+;
+
+QualifiedName:     
+	ID ("." ID)* 
+;
+
+QualifiedNameWithWildcard:     
+	QualifiedName ('.' '*')?
+;

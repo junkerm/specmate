@@ -18,7 +18,8 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.INamed;
 import com.specmate.model.history.Change;
@@ -33,7 +34,9 @@ import com.specmate.persistency.event.EChangeKind;
 
 @Component(immediate = true)
 public class HistoryProviderImpl implements IHistoryProvider {
+
 	private IPersistencyService persistency;
+
 	private LogService logService;
 
 	@Override
@@ -112,7 +115,11 @@ public class HistoryProviderImpl implements IHistoryProvider {
 
 	private void fillHistoryEntry(CDOObject cdoObject, CDOCommitInfo cdoHistoryElement, HistoryEntry historyEntry) {
 		HistoryDeltaProcessor deltaProcessor = new HistoryDeltaProcessor(cdoHistoryElement, cdoObject.cdoID());
-		deltaProcessor.process();
+		try {
+			deltaProcessor.process();
+		} catch (SpecmateValidationException e) {
+			logService.log(LogService.LOG_ERROR, e.getMessage());
+		}
 		historyEntry.getChanges().addAll(deltaProcessor.getChanges());
 		historyEntry.setTimestamp(cdoHistoryElement.getTimeStamp());
 		extractCommentInfo(cdoHistoryElement, historyEntry);
@@ -146,6 +153,9 @@ public class HistoryProviderImpl implements IHistoryProvider {
 
 	private CDOCommitInfo[] getCDOHistoryElements(CDOObject cdoObject) {
 		CDOObjectHistory cdoHistory = cdoObject.cdoHistory();
+		if(cdoHistory == null) {
+			return new CDOCommitInfo[0];
+		}
 		CDOCommitInfo[] cdoHistoryElements = cdoHistory.getElements();
 		// CDO loads the history asynchronously, hence if the history is
 		// initialized it might be empty. An empty history is a hint that the
@@ -177,7 +187,8 @@ public class HistoryProviderImpl implements IHistoryProvider {
 
 		@Override
 		protected void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-				Object newValue, int index, String objectClassName) {
+				Object newValue, int index, String objectClassName) throws SpecmateValidationException {
+
 			if (!id.equals(this.cdoId)) {
 				return;
 			}
@@ -206,7 +217,8 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		}
 
 		@Override
-		protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap) {
+		protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap)
+				throws SpecmateValidationException {
 			if (!id.equals(this.cdoId)) {
 				return;
 			}
@@ -227,7 +239,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		}
 
 		@Override
-		protected void detachedObject(CDOID id, int version) {
+		protected void detachedObject(CDOID id, int version) throws SpecmateValidationException {
 			// Information about deleted object is stored in transaction commits
 		}
 

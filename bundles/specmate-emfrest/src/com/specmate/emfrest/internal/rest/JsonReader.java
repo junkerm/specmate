@@ -55,8 +55,8 @@ public class JsonReader implements MessageBodyReader<EObject> {
 			EMFJsonDeserializer emfJsonDeserializer = new EMFJsonDeserializer(resolver, transaction.getResource());
 			deserializedEObject = emfJsonDeserializer.deserializeEObject(jsonObject);
 		} catch (Exception e) {
-			logService.log(LogService.LOG_ERROR, "Could not parse the json input", e);
-			throw new WebApplicationException("Could not parse the json input");
+			logService.log(LogService.LOG_ERROR, "Could not parse the json input.", e);
+			throw new WebApplicationException("Could not parse the json input.");
 		}
 		return deserializedEObject;
 	}

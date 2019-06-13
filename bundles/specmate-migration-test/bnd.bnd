@@ -72,14 +72,14 @@ Test-Cases: \
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-api)',\
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-h2)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)',\
-	osgi.identity;filter:='(osgi.identity=specmate-cdo-server)'
+	osgi.identity;filter:='(osgi.identity=specmate-cdo-server)',\
+	bnd.identity;id='log4j'
 -runbundles: \
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
 	javax.validation.api;version='[1.1.0,1.1.1)',\
 	javax.ws.rs-api;version='[2.0.1,2.0.2)',\
 	jul.to.slf4j;version='[1.7.12,1.7.13)',\
 	log4j.over.slf4j;version='[1.7.12,1.7.13)',\
-	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
 	org.apache.felix.gogo.command;version='[0.10.0,0.10.1)',\
 	org.apache.felix.gogo.runtime;version='[0.10.0,0.10.1)',\
 	org.apache.felix.gogo.shell;version='[0.10.0,0.10.1)',\
@@ -108,7 +108,6 @@ Test-Cases: \
 	org.glassfish.jersey.media.jersey-media-sse;version='[2.17.0,2.17.1)',\
 	org.json;version=snapshot,\
 	org.slf4j.api;version='[1.7.2,1.7.3)',\
-	slf4j.api;version='[1.7.12,1.7.13)',\
 	specmate-common;version=snapshot,\
 	specmate-logging;version=snapshot,\
 	specmate-logging-slf4j;version=snapshot,\
@@ -154,7 +153,11 @@ Test-Cases: \
 	org.eclipse.net4j.db.h2;version='[4.3.100,4.3.101)',\
 	org.eclipse.net4j.db.jdbc;version='[4.3.300,4.3.301)',\
 	org.eclipse.net4j.tcp;version='[4.1.600,4.1.601)',\
-	org.eclipse.net4j.util;version='[3.8.0,3.8.1)'
+	org.eclipse.net4j.util;version='[3.8.0,3.8.1)',\
+	com.google.guava;version='[21.0.0,21.0.1)',\
+	log4j;version='[1.2.17,1.2.18)',\
+	org.apache.commons.lang3;version='[3.5.0,3.5.1)',\
+	slf4j.api;version='[1.7.25,1.7.26)'
 -runvm: -ea, -Djdk.crypto.KeyAgreement.legacyKDF=true
 -runproperties:\
 	jetty.http.port=8088,\

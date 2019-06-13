@@ -1,7 +1,9 @@
 <div *ngIf="testSpecification && contents" class="card maximized">
     <h5 class="card-header">
         {{'TestCases' | translate}}
-        <maximize-button></maximize-button>
+        <div class="pull-right">
+            <maximize-button></maximize-button>
+        </div>
     </h5>
     <div class="test-cases-container">
         <table class="table table-striped">
@@ -21,24 +23,38 @@
                         <!-- Actions -->
                     </th>
                     <th class="test-procedure-header">{{'TestProcedure' | translate}}</th>
-                    <th *ngFor="let input of inputParameters">
+                    <th *ngFor="let input of inputParameters" class="parameter-input">
                         <test-parameter-form [testParameter]="input"></test-parameter-form>
                     </th>
-                    <th><button title="{{'addInputColumn' | translate}}" class="btn btn-sm btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
-                    <th *ngFor="let output of outputParameters">
+                    <th>
+                        <div class="input-group input-group-sm">
+                            <button title="{{'addInputColumn' | translate}}" class="btn btn-sm btn-outline-primary" (click)="addInputColumn()"><i
+                                    class="fa fa-plus"></i></button>
+                        </div>
+                    </th>
+                    <th *ngFor="let output of outputParameters" class="parameter-input">
                         <test-parameter-form [testParameter]="output"></test-parameter-form>
                     </th>
-                    <th><button title="{{'addOutputColumn' | translate}}" class="btn btn-sm btn-outline-primary" (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
+                    <th>
+                        <div class="input-group input-group-sm">
+                            <button title="{{'addOutputColumn' | translate}}" class="btn btn-sm btn-outline-primary" (click)="addOutputColumn()"><i
+                                    class="fa fa-plus"></i></button>
+                        </div>
+                    </th>
                 </tr>
             </thead>
-            <tbody [dragula]="test-cases-bag" [dragulaModel]="contents">
+            <tbody [dragula]="dndBagName" [(dragulaModel)]="contents">
                 <ng-container *ngFor="let testCase of sortedContents">
-                    <tr test-case-row class="test-case-row" [class.test-case-inconsistent]="!testCase.consistent" *ngIf="isTestCase(testCase)" [testCase]="testCase"></tr>
+                    <tr test-case-row class="test-case-row" [class.test-case-inconsistent]="!testCase.consistent" *ngIf="isTestCase(testCase)"
+                        [testCase]="testCase"></tr>
                 </ng-container>
             </tbody>
         </table>
     </div>
     <div class="card-footer">
-        <button title="{{'createTestCase' | translate}}" class="btn btn-sm btn-outline-primary" (click)="addTestCaseRow()"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createTestCase' | translate}}</button>
+        <div class="input-group input-group-sm">
+            <button title="{{'createTestCase' | translate}}" class="btn btn-sm btn-outline-primary" (click)="addTestCaseRow()"><i
+                    class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createTestCase' | translate}}</button>
+        </div>
     </div>
 </div>

@@ -3,7 +3,8 @@
 	specmate-common;version=latest,\
 	osgi.annotation,\
 	osgi.core,\
-	osgi.cmpn
+	osgi.cmpn,\
+	specmate-model-gen;version=latest
 Export-Package: \
 	com.specmate.dbprovider.api,\
 	com.specmate.dbprovider.api.migration

@@ -40,4 +40,9 @@ button.expand:focus {
 .treeLink {
     padding: 5px;
     margin-left: -10px;
+    color: #008cba;
+}
+
+.fg-white {
+    color: #fff;
 }

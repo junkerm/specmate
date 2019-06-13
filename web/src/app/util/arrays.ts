@@ -1,4 +1,3 @@
-import { Sort } from './sort';
 
 export class Arrays {
     public static remove(array: any[], element: any): void {
@@ -16,5 +15,21 @@ export class Arrays {
             return false;
         }
         return array.indexOf(element) >= 0;
+    }
+
+    public static groupBy<T>(array: T[], keyFunction: ((elem: T) => string) | ((elem: T) => number) ): T[][] {
+        let out: T[][] = [];
+        for (const elem of array) {
+            let key = keyFunction(elem);
+            if (out[key] === undefined) {
+                out[key] = [];
+            }
+            out[key].push(elem);
+        }
+        return out;
+    }
+
+    public static flatten<T>(array: T[][]): T[] {
+        return [].concat(...array);
     }
 }

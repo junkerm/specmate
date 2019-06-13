@@ -1,0 +1,25 @@
+-includeresource: \
+	resources = resources
+-buildpath: \
+	osgi.core,\
+	osgi.cmpn,\
+	javax.ws.rs-api,\
+	specmate-nlp;version=latest,\
+	specmate-model-gen;version=latest,\
+	specmate-emfrest-api;version=latest,\
+	specmate-rest;version=latest,\
+	org.eclipse.emf.cdo,\
+	org.eclipse.emf.ecore,\
+	org.eclipse.osgi.services,\
+	org.eclipse.emf,\
+	org.eclipse.emf.common,\
+	org.eclipse.emf.cdo.common,\
+	specmate-common;version=latest,\
+	specmate-model-support;version=latest,\
+	org.apache.commons.lang3,\
+	specmate-metrics;version=latest,\
+	specmate-cause-effect-patterns,\
+	specmate-config-api;version=latest
+Private-Package: \
+	com.specmate.modelgeneration,\
+	com.specmate.modelgeneration.legacy

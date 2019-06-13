@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.migration.test.objectadded.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.objectadded.testmodel.artefact.Diagram;
 import com.specmate.migration.test.objectadded.testmodel.artefact.Document;
@@ -25,6 +25,7 @@ public class AddObjectTest extends MigrationTestBase {
 	@Override
 	protected void checkMigrationPostconditions() throws Exception {
 		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		Resource resource = transaction.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
 		assertNotNull(root);
@@ -62,6 +63,7 @@ public class AddObjectTest extends MigrationTestBase {
 		Document doc_retrieved = (Document) document;
 
 		diagram = SpecmateEcoreUtil.getEObjectWithId("d1", doc_retrieved.eContents());
+
 		assertNotNull(diagram);
 		assertTrue(diagram instanceof Diagram);
 		transaction.close();

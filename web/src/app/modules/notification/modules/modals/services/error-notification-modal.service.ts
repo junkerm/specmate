@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
 import { LogElement } from '../../../../views/side/modules/log-list/services/log-element';
+import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
 import { TypedModalContent } from '../components/typed-modal-content.component';
 import { Dialogtype } from '../modal-dialog-type';
 

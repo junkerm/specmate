@@ -46,7 +46,10 @@
 	osgi.identity;filter:='(osgi.identity=specmate-auth)',\
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-api)',\
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-h2)',\
-	osgi.identity;filter:='(osgi.identity=specmate-jira-connector)'
+	osgi.identity;filter:='(osgi.identity=specmate-jira-connector)',\
+	osgi.identity;filter:='(osgi.identity=specmate-nlp)',\
+	osgi.identity;filter:='(osgi.identity=specmate-model-generation)',\
+	bnd.identity;id='log4j'
 
 
 -runproperties: \
@@ -62,25 +65,20 @@
 -runbundles: \
 	com.diffplug.osgi.extension.sun.misc;version='[0.0.0,0.0.1)',\
 	com.google.guava;version='[21.0.0,21.0.1)',\
-	com.sun.jersey.core;version='[1.19.0,1.19.1)',\
-	com.sun.jersey.jersey-server;version='[1.19.0,1.19.1)',\
 	io.prometheus.simpleclient;version='[0.4.0,0.4.1)',\
 	io.prometheus.simpleclient_common;version='[0.4.0,0.4.1)',\
 	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)',\
 	io.prometheus.simpleclient_servlet;version='[0.4.0,0.4.1)',\
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
-	javax.el;version='[2.2.0,2.2.1)',\
 	javax.validation.api;version='[1.1.0,1.1.1)',\
 	javax.ws.rs-api;version='[2.0.1,2.0.2)',\
-	javax.ws.rs.jsr311-api;version='[1.1.1,1.1.2)',\
 	jul.to.slf4j;version='[1.7.12,1.7.13)',\
 	log4j.over.slf4j;version='[1.7.12,1.7.13)',\
 	lpg.runtime.java;version='[2.0.17,2.0.18)',\
 	org.apache.commons.cli;version='[1.4.0,1.4.1)',\
 	org.apache.commons.fileupload;version='[1.3.1,1.3.2)',\
 	org.apache.commons.io;version='[2.4.0,2.4.1)',\
-	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
 	org.apache.felix.gogo.command;version='[0.10.0,0.10.1)',\
 	org.apache.felix.gogo.runtime;version='[0.10.0,0.10.1)',\
 	org.apache.felix.gogo.shell;version='[0.10.0,0.10.1)',\
@@ -152,7 +150,6 @@
 	org.sat4j.maxsat;version='[2.3.5,2.3.6)',\
 	org.sat4j.pb;version='[2.3.5,2.3.6)',\
 	org.slf4j.api;version='[1.7.2,1.7.3)',\
-	slf4j.api;version='[1.7.12,1.7.13)',\
 	specmate-administration;version=snapshot,\
 	specmate-auth;version=snapshot,\
 	specmate-auth-api;version=snapshot,\
@@ -198,4 +195,42 @@
 	org.eclipse.net4j.db.h2;version='[4.3.100,4.3.101)',\
 	org.eclipse.net4j.db.jdbc;version='[4.3.300,4.3.301)',\
 	org.eclipse.net4j.tcp;version='[4.1.600,4.1.601)',\
-	org.eclipse.net4j.util;version='[3.8.0,3.8.1)'
+	org.eclipse.net4j.util;version='[3.8.0,3.8.1)',\
+	com.atlassian.fugue;version='[2.7.0,2.7.1)',\
+	com.atlassian.sal.api;version='[3.0.7,3.0.8)',\
+	com.atlassian.util.concurrent.atlassian-util-concurrent;version='[3.0.0,3.0.1)',\
+	com.google.guava;version='[18.0.0,18.0.1)',\
+	com.google.inject;version='[3.0.0,3.0.1)',\
+	com.ibm.icu;version='[63.1.0,63.1.1)',\
+	io.reactivex.rxjava2.rxjava;version='[2.2.3,2.2.4)',\
+	it.unimi.dsi.fastutil;version='[8.2.2,8.2.3)',\
+	javax.money.api;version='[1.0.1,1.0.2)',\
+	joda-time;version='[2.10.1,2.10.2)',\
+	log4j;version='[1.2.17,1.2.18)',\
+	org.antlr.runtime;version='[3.2.0,3.2.1)',\
+	org.apache.commons.codec;version='[1.10.0,1.10.1)',\
+	org.apache.commons.commons-compress;version='[1.18.0,1.18.1)',\
+	org.apache.commons.commons-pool2;version='[2.6.0,2.6.1)',\
+	org.apache.commons.lang;version='[2.6.0,2.6.1)',\
+	org.apache.commons.lang3;version='[3.5.0,3.5.1)',\
+	org.apache.commons.logging;version='[1.1.1,1.1.2)',\
+	org.apache.httpcomponents.httpasyncclient;version='[4.1.3,4.1.4)',\
+	org.apache.httpcomponents.httpclient;version='[4.5.3,4.5.4)',\
+	org.apache.httpcomponents.httpcore;version='[4.4.6,4.4.7)',\
+	org.apache.ivy;version='[2.4.0,2.4.1)',\
+	org.apache.opennlp.tools;version='[1.9.1,1.9.2)',\
+	org.apache.servicemix.bundles.jcip-annotations;version='[1.0.0,1.0.1)',\
+	org.apache.servicemix.bundles.spring-beans;version='[4.1.7,4.1.8)',\
+	org.apache.servicemix.bundles.spring-core;version='[4.1.7,4.1.8)',\
+	org.codehaus.jettison.jettison;version='[1.1.0,1.1.1)',\
+	org.eclipse.xtend.lib;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtend.lib.macro;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtext;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtext.smap;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtext.util;version='[2.10.0,2.10.1)',\
+	org.eclipse.xtext.xbase.lib;version='[2.10.0,2.10.1)',\
+	org.reactivestreams.reactive-streams;version='[1.0.2,1.0.3)',\
+	slf4j.api;version='[1.7.25,1.7.26)',\
+	specmate-cause-effect-patterns;version=snapshot,\
+	specmate-model-generation;version=snapshot,\
+	specmate-nlp;version=snapshot

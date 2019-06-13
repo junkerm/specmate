@@ -1,20 +1,18 @@
-import { Component, OnInit, Input, HostListener, ViewChild, ElementRef, Inject } from '@angular/core';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { NavigatorService } from '../../navigator/services/navigator.service';
-import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
-import { IContainer } from '../../../../../model/IContainer';
-import { Url } from '../../../../../util/url';
-import { Type } from '../../../../../util/type';
-import { Requirement } from '../../../../../model/Requirement';
+import { Component, Input, OnInit } from '@angular/core';
+import * as $ from 'jquery';
+import { Config } from '../../../../../config/config';
 import { CEGModel } from '../../../../../model/CEGModel';
 import { Folder } from '../../../../../model/Folder';
-import { TestSpecification } from '../../../../../model/TestSpecification';
+import { IContainer } from '../../../../../model/IContainer';
 import { Process } from '../../../../../model/Process';
+import { Requirement } from '../../../../../model/Requirement';
 import { TestProcedure } from '../../../../../model/TestProcedure';
-import { DOCUMENT } from '@angular/platform-browser';
-import * as $ from 'jquery';
+import { TestSpecification } from '../../../../../model/TestSpecification';
 import { Key } from '../../../../../util/keycode';
-import { Config } from '../../../../../config/config';
+import { Type } from '../../../../../util/type';
+import { Url } from '../../../../../util/url';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { NavigatorService } from '../../navigator/services/navigator.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -60,6 +58,7 @@ export class ElementTree implements OnInit {
         this._currentElement = currentElement;
         if (this.isMustOpen) {
             this.initContents();
+            this._collapsed = true;
         }
     }
 
@@ -83,8 +82,11 @@ export class ElementTree implements OnInit {
 
     public _expanded = false;
     public get expanded(): boolean {
-        if (!this._expanded && this.isMustOpen) {
-            this._expanded = true;
+        if (this._collapsed) {
+            if (!this._expanded && this.isMustOpen) {
+                 this._expanded = true;
+                 this._collapsed = false;
+            }
         }
         return this._expanded;
     }
@@ -115,9 +117,12 @@ export class ElementTree implements OnInit {
         }
     }
 
+    private _collapsed = true;
+
     public toggle(): void {
         if (this.expanded) {
             this.contract();
+            this._collapsed = false;
         } else {
             this.expand();
         }

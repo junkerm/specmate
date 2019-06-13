@@ -1,3 +1,4 @@
 export enum ParameterType {
-    INPUT, OUTPUT
+	INPUT = 0,
+OUTPUT = 1
 }

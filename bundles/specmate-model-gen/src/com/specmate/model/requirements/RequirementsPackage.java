@@ -40,7 +40,7 @@ public interface RequirementsPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20181108/model/requirements";
+	String eNS_URI = "http://specmate.com/20190125/model/requirements";
 
 	/**
 	 * The package namespace name.
@@ -322,13 +322,22 @@ public interface RequirementsPackage extends EPackage {
 	int CEG_MODEL__TRACES_FROM = BasePackage.ISPECMATE_MODEL_OBJECT__TRACES_FROM;
 
 	/**
+	 * The feature id for the '<em><b>Model Requirements</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_MODEL__MODEL_REQUIREMENTS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>CEG Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_MODEL_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
+	int CEG_MODEL_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>CEG Model</em>' class.
@@ -724,6 +733,17 @@ public interface RequirementsPackage extends EPackage {
 	EClass getCEGModel();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.CEGModel#getModelRequirements <em>Model Requirements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Model Requirements</em>'.
+	 * @see com.specmate.model.requirements.CEGModel#getModelRequirements()
+	 * @see #getCEGModel()
+	 * @generated
+	 */
+	EAttribute getCEGModel_ModelRequirements();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.CEGNode <em>CEG Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -911,6 +931,14 @@ public interface RequirementsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass CEG_MODEL = eINSTANCE.getCEGModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Model Requirements</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CEG_MODEL__MODEL_REQUIREMENTS = eINSTANCE.getCEGModel_ModelRequirements();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.CEGNodeImpl <em>CEG Node</em>}' class.

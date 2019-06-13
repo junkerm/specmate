@@ -1,14 +1,14 @@
-import { SpecmateViewBase } from './specmate-view-base';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { DragulaService } from 'ng2-dragula';
 import { IContainer } from '../../../../../model/IContainer';
 import { IContentElement } from '../../../../../model/IContentElement';
 import { IPositionable } from '../../../../../model/IPositionable';
 import { Sort } from '../../../../../util/sort';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
-import { ActivatedRoute } from '@angular/router';
 import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
-import { DragulaService } from 'ng2-dragula';
-import { TranslateService } from '@ngx-translate/core';
+import { SpecmateViewBase } from './specmate-view-base';
 
 
 export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
@@ -34,6 +34,8 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
         return Sort.sortArray(this.contents);
     }
 
+    public dndBagName = 'DND_BAG';
+
     constructor(
         dataService: SpecmateDataService,
         navigator: NavigatorService,
@@ -42,11 +44,16 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
         private dragulaService: DragulaService,
         translate: TranslateService) {
         super(dataService, navigator, route, modal, translate);
-
-        this.dragulaService.dropModel.subscribe((value: any) => this.onDropModel(value.slice(1)));
+        this.dragulaService.dropModel(this.dndBagName)
+            .subscribe(({sourceIndex, targetIndex}) => this.onDropModel(sourceIndex, targetIndex));
     }
 
-    private onDropModel(value: any): void {
+    private onDropModel(sourceIndex: number, targetIndex: number): void {
+        const source = this.relevantElements[sourceIndex];
+        const target = this.relevantElements[targetIndex];
+        const sourceContentIndex = this.contents.indexOf(source);
+        const targetContentIndex = this.contents.indexOf(target);
+        this.contents.splice(targetContentIndex, 0, this.contents.splice(sourceContentIndex, 1)[0]);
         this.sanitizeContentPositions(true);
     }
 
@@ -67,7 +74,6 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
         }
         return this.dataService.readContents(this.element.url)
             .then((contents: IContainer[]) => this.contents = contents as IContentElement[])
-            .then(() => this.sanitizeContentPositions(true))
             .then(() => this.dataService.commit(this.translate.instant('save')));
     }
 }

@@ -12,8 +12,7 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.auth.api.ISessionService;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.UserSession;
 
@@ -30,7 +29,7 @@ public class InMemorySessionServiceTest {
 	}
 
 	@Test
-	public void testIsAuthorized() throws SpecmateException, SpecmateValidationException {
+	public void testIsAuthorized() throws SpecmateException {
 		String projectName = "testIsAuthorized";
 		UserSession session = sessionService.create(AccessRights.ALL, AccessRights.ALL, userName, projectName);
 		assertTrue(sessionService.isAuthorized(session.getId(), baseURL + projectName + "/resource1"));
@@ -42,7 +41,7 @@ public class InMemorySessionServiceTest {
 	}
 
 	@Test
-	public void testRegexInjection() throws SpecmateException, SpecmateValidationException {
+	public void testRegexInjection() throws SpecmateException {
 		UserSession session = sessionService.create(AccessRights.ALL, AccessRights.ALL, userName, "testRegexInjection");
 		assertFalse(sessionService.isAuthorized(session.getId(), baseURL + "project/resource1"));
 		assertFalse(sessionService.isAuthorized(session.getId(), baseURL + "project/"));
@@ -65,19 +64,12 @@ public class InMemorySessionServiceTest {
 	}
 
 	@Test
-	public void testDeleteSession() throws SpecmateException, SpecmateValidationException {
-		boolean thrown = false;
+	public void testDeleteSession() throws SpecmateException {
 		String projectName = "testDeleteSession";
 		UserSession session = sessionService.create(AccessRights.ALL, AccessRights.ALL, userName, projectName);
 		assertTrue(sessionService.isAuthorized(session.getId(), baseURL + projectName + "/resource1"));
 		sessionService.delete(session.getId());
-		try {
-			assertFalse(sessionService.isAuthorized(session.getId(), baseURL + projectName + "/resource1"));
-		} catch (SpecmateException e) {
-			thrown = true;
-		}
-
-		assertTrue(thrown);
+		assertFalse(sessionService.isAuthorized(session.getId(), baseURL + projectName + "/resource1"));
 	}
 
 	private static ISessionService getSessionService() throws Exception {
@@ -86,11 +78,9 @@ public class InMemorySessionServiceTest {
 				null);
 		sessionTracker.open();
 		ISessionService sessionService;
-		try {
-			sessionService = sessionTracker.waitForService(10000);
-		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
-		}
+
+		sessionService = sessionTracker.waitForService(10000);
+
 		Assert.assertNotNull(sessionService);
 		return sessionService;
 	}

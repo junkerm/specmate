@@ -7,6 +7,7 @@ node_js:
 jdk:
 - oraclejdk8
 addons:
+  sauce_connect: true
   apt:
     packages:
       - oracle-java8-installer
@@ -17,12 +18,20 @@ install:
 - cd ../bundles && ./gradlew --version
 script:
 - cd ../web && npm run build-prod
-- cd ../bundles && ./gradlew build --continue
-- cd ../bundles && ./gradlew check
-- cd ../bundles && ./gradlew export
-- cd ..
+- cd ../bundles && ./gradlew --no-daemon build --continue
+- cd ../bundles && ./gradlew --no-daemon export
+- cd ../bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &
+- sleep 10
+- cd ../ui-tests/ && mvn clean test
 after_success:
 - git status
+- echo $TRAVIS_TAG
+- cd bundles/specmate-std-env/generated/distributions/executable/
+- mv dev-specmate-all.jar dev-specmate-all-$TRAVIS_TAG.jar 
+- mv prod-specmate-all.jar prod-specmate-all-$TRAVIS_TAG.jar
+- mv prod-specmate-cdo-server.jar prod-specmate-cdo-server-$TRAVIS_TAG.jar
+- mv prod-specmate-no-cdo-server.jar prod-specmate-no-cdo-server-$TRAVIS_TAG.jar
+- cd ../../../../..
 cache:
   directories:
   - cnf/cache/stable
@@ -32,11 +41,11 @@ deploy:
   api_key:
     secure: eUiVeNw9rlpcaXi+bpoV4B4WFEjXCgBn6td9NRXFF9dOcJiozn5oHh6qk8g6kMHuUrGDCKcOo5fitxkNaoV1vqxNuRjo7ssPN3yG3QcUmIlsMHM2ueM+9AEyQxP1SuNXku/Vb+ATQ1F7jWUlWotcCWTPbELuhUvziwcF4zYWm2jcTL1twD3gCT9GFdovqnUnmVLHrUha4EUO8bwFlJmyaSmxH5RpcTbKK2tRagRlv/4yUajhBxaNgCXD2nBpNtV6nb2sPbybilB9gRO5d4oPurNQWb28aiobGm0+hNU5bG+MYOyF3fJWU7NaQ0tQP0M8zZ5QM/Lw8g/xMOdMaqZ2rHWPNyxFqNFsUa+H1S9f+tEmje+kvTZ7oPZRuzy90dYC1ZzwpuhG9y3qIlpnDs+9E+JRU3yASEWeb7VVZFrMJKK3wh/FEvVCduYKoTYgcckFeipkjQY1V/umfKRrlq/3ZFATBX3PKaUnHzctZ+KK2nEWBiYMLacw8JKqQSjTIGRchjLZHYpuTR2CuttfBHVH1kDs0SNd7mKsFQShzXfPDylHTT0ZyfVJ++IKaf1Ww37dmqui0FTULmVTy1vtmkcImpFX0y9WFWoOy1vI7QWM4U3YfasRBZlIigNNyLgPR3Bzg+Z+6YBVUdi4T/ulsDf7iU7ZEOD5g7fl06gfcDAKr9E=
   file: 
-    - bundles/specmate-std-env/generated/distributions/executable/dev-specmate-all.jar
-    - bundles/specmate-std-env/generated/distributions/executable/prod-specmate-all.jar
-    - bundles/specmate-std-env/generated/distributions/executable/prod-specmate-cdo-server.jar
-    - bundles/specmate-std-env/generated/distributions/executable/prod-specmate-no-cdo-server.jar
+    - bundles/specmate-std-env/generated/distributions/executable/dev-specmate-all-$TRAVIS_TAG.jar
+    - bundles/specmate-std-env/generated/distributions/executable/prod-specmate-all-$TRAVIS_TAG.jar
+    - bundles/specmate-std-env/generated/distributions/executable/prod-specmate-cdo-server-$TRAVIS_TAG.jar
+    - bundles/specmate-std-env/generated/distributions/executable/prod-specmate-no-cdo-server-$TRAVIS_TAG.jar
   on:
     repo: junkerm/specmate
-    branch: master
+    condition: $TRAVIS_TAG =~ ^v[\.0-9]+(-dev-[0-9]+)?$
     tags: true

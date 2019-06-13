@@ -41,7 +41,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20181108/model/testspecification";
+	String eNS_URI = "http://specmate.com/20190125/model/testspecification";
 
 	/**
 	 * The package namespace name.
@@ -734,17 +734,6 @@ public interface TestspecificationPackage extends EPackage {
 	EReference getParameterAssignment_Parameter();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.testspecification.ParameterAssignment#getValue <em>Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Value</em>'.
-	 * @see com.specmate.model.testspecification.ParameterAssignment#getValue()
-	 * @see #getParameterAssignment()
-	 * @generated
-	 */
-	EAttribute getParameterAssignment_Value();
-
-	/**
 	 * Returns the meta object for the attribute '{@link com.specmate.model.testspecification.ParameterAssignment#getCondition <em>Condition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -754,6 +743,17 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getParameterAssignment_Condition();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.testspecification.ParameterAssignment#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see com.specmate.model.testspecification.ParameterAssignment#getValue()
+	 * @see #getParameterAssignment()
+	 * @generated
+	 */
+	EAttribute getParameterAssignment_Value();
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.model.testspecification.TestProcedure <em>Test Procedure</em>}'.
@@ -940,20 +940,20 @@ public interface TestspecificationPackage extends EPackage {
 		EReference PARAMETER_ASSIGNMENT__PARAMETER = eINSTANCE.getParameterAssignment_Parameter();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute PARAMETER_ASSIGNMENT__VALUE = eINSTANCE.getParameterAssignment_Value();
-
-		/**
 		 * The meta object literal for the '<em><b>Condition</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute PARAMETER_ASSIGNMENT__CONDITION = eINSTANCE.getParameterAssignment_Condition();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARAMETER_ASSIGNMENT__VALUE = eINSTANCE.getParameterAssignment_Value();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.testspecification.impl.TestProcedureImpl <em>Test Procedure</em>}' class.

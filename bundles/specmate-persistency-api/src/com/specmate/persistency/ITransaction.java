@@ -1,7 +1,6 @@
 package com.specmate.persistency;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 
 /**
  * Encapsulates the access to a model repository.
@@ -17,7 +16,6 @@ public interface ITransaction extends IView {
 	 * Example with the following records (username;deleted objects;comment):
 	 * michael;Model1|CEGModel,Library Folder|Folder;deleted empty models
 	 */
-
 	public static final String COMMENT_FIELD_SEPARATOR = ",";
 	public static final String COMMENT_DATA_SEPARATOR = "|";
 	public static final String COMMENT_RECORD_SEPARATOR = ";";
@@ -36,12 +34,20 @@ public interface ITransaction extends IView {
 	/**
 	 * Perform a change and commit
 	 *
-	 * @throws SpecmateValidationException
+	 * @throws SpecmateException
 	 */
-	<T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException;
+	<T> T doAndCommit(IChange<T> change) throws SpecmateException;
 
 	/**
 	 * Signals if the transaction is currently active
 	 */
 	public boolean isActive();
+
+	public void addValidator(IChangeListener v);
+
+	public void removeValidator(String clazz);
+
+	public void clearValidators();
+
+	public void enableValidators(boolean enable);
 }

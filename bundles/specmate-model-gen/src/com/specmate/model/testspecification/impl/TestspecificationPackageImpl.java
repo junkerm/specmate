@@ -291,8 +291,8 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getParameterAssignment_Value() {
-		return (EAttribute)parameterAssignmentEClass.getEStructuralFeatures().get(1);
+	public EAttribute getParameterAssignment_Condition() {
+		return (EAttribute)parameterAssignmentEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -300,8 +300,8 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getParameterAssignment_Condition() {
-		return (EAttribute)parameterAssignmentEClass.getEStructuralFeatures().get(2);
+	public EAttribute getParameterAssignment_Value() {
+		return (EAttribute)parameterAssignmentEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**

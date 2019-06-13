@@ -1,14 +1,9 @@
-import { TypeAwareToolBase } from './type-aware-tool-base';
 import { IContainer } from '../../../../../../../model/IContainer';
+import { Id } from '../../../../../../../util/id';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
-import { Id } from '../../../../../../../util/id';
-import { IModelNode } from '../../../../../../../model/IModelNode';
-import { IModelConnection } from '../../../../../../../model/IModelConnection';
-import { Proxy } from '../../../../../../../model/support/proxy';
-import { Arrays } from '../../../../../../../util/arrays';
-import { Url } from '../../../../../../../util/url';
-import { GraphTransformer } from '../util/graphTransformer';
+import { GraphTransformer } from '../util/graph-transformer';
+import { TypeAwareToolBase } from './type-aware-tool-base';
 
 export abstract class DeleteToolBase extends TypeAwareToolBase {
 

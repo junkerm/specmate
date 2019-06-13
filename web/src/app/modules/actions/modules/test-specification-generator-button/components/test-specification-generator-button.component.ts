@@ -1,26 +1,17 @@
 import { Component, Input } from '@angular/core';
-import { IContainer } from '../../../../../model/IContainer';
+import { TranslateService } from '@ngx-translate/core';
+import { Config } from '../../../../../config/config';
+import { ElementFactoryBase } from '../../../../../factory/element-factory-base';
 import { CEGModel } from '../../../../../model/CEGModel';
+import { IContainer } from '../../../../../model/IContainer';
 import { Process } from '../../../../../model/Process';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
-import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
 import { TestSpecification } from '../../../../../model/TestSpecification';
 import { Id } from '../../../../../util/id';
 import { Url } from '../../../../../util/url';
-import { Config } from '../../../../../config/config';
-import { Type } from '../../../../../util/type';
-import { CEGNode } from '../../../../../model/CEGNode';
-import { ProcessStart } from '../../../../../model/ProcessStart';
-import { ProcessEnd } from '../../../../../model/ProcessEnd';
-import { IModelNode } from '../../../../../model/IModelNode';
-import { ProcessStep } from '../../../../../model/ProcessStep';
-import { ProcessConnection } from '../../../../../model/ProcessConnection';
-import { ProcessDecision } from '../../../../../model/ProcessDecision';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
-import { ValidationResult } from '../../../../../validation/validation-result';
-import { TranslateService } from '@ngx-translate/core';
-import { ElementFactoryBase } from '../../../../../factory/element-factory-base';
+import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
+import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
 import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
 
 @Component({
@@ -111,10 +102,5 @@ export class TestSpecificationGeneratorButton {
             return false;
         }
         return this.validator.isValid(this.model, this.contents);
-    }
-
-    public get errors(): string[] {
-        return this.validator.validate(this.model, this.contents)
-            .map((validationResult: ValidationResult) => validationResult.message);
     }
 }

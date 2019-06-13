@@ -1,6 +1,8 @@
-$color-selected: $blue;
-$color-selected-dark: $blue;
-$color-selected-bright: $blue;
+$color-selected: $primary;
+$color-selected-dark: $primary;
+$color-selected-bright: $primary;
+
+$font-size-sm: 0.9375rem;
 
 input[type=text]::-ms-clear {
     display: none;
@@ -11,13 +13,8 @@ button,
     cursor: pointer;
 }
 
-.btn-sm,
-.form-control-sm {
-    font-size: 0.9375rem;
-}
-
 a {
-    color: $blue;
+    color: $primary;
 }
 
 a:focus,
@@ -48,7 +45,7 @@ a.selected {
 }
 
 .project-explorer {
-    background: #fff;
+    background: $white;
     overflow: scroll;
     white-space: nowrap;
     z-index: 1;
@@ -156,8 +153,8 @@ textarea:focus,
 }
 
 .login-form {
-    background: #fff;
-    border: 1px solid #ccc;
+    background: $white;
+    border: 1px solid $gray-400;
     padding: 16px;
 }
 
@@ -167,9 +164,9 @@ textarea:focus,
 }
 
 .nav-tabs .nav-link {
-    color: #495057;
+    color: $primary;
 }
 
 .nav-tabs .nav-link.active {
-    color: #007ea8;
+    color: $primary;
 }

@@ -1,11 +1,11 @@
-import { Command } from './command';
-import { SpecmateDataService } from './specmate-data.service';
-import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
-import { IContainer } from '../../../../../model/IContainer';
-import { EOperation } from './e-operation';
-import { Id } from '../../../../../util/id';
 import { TranslateService } from '@ngx-translate/core';
 import { BatchOperation } from '../../../../../model/BatchOperation';
+import { IContainer } from '../../../../../model/IContainer';
+import { Id } from '../../../../../util/id';
+import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
+import { Command } from './command';
+import { EOperation } from './e-operation';
+import { SpecmateDataService } from './specmate-data.service';
 
 export class Scheduler {
 
@@ -133,7 +133,15 @@ export class Scheduler {
     private getLastStoredValue(url: string): IContainer {
         let commands: Command[] = this.getCommands(url);
         if (commands && commands.length > 0) {
-            return commands[commands.length - 1].newValue;
+            let index = commands.length - 1;
+            while (index >= 0) {
+                const lastStoredValue = commands[index].newValue;
+                if (lastStoredValue !== undefined) {
+                    lastStoredValue.url = url;
+                    return lastStoredValue;
+                }
+                index--;
+            }
         }
         return undefined;
     }

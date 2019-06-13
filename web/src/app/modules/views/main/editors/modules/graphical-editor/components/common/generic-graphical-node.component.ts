@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
     moduleId: module.id.toString(),
     selector: '[generic-graphical-node]',
-    templateUrl: 'generic-graphical-node.component.svg',
+    templateUrl: 'generic-graphical-node.component.html',
     styleUrls: ['generic-graphical-node.component.css']
 })
 

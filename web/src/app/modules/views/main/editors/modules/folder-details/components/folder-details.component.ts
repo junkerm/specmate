@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { SpecmateViewBase } from '../../../base/specmate-view-base';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Folder } from '../../../../../../../model/Folder';
+import { IContainer } from '../../../../../../../model/IContainer';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
-import { ActivatedRoute } from '@angular/router';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
-import { TranslateService } from '@ngx-translate/core';
-import { IContainer } from '../../../../../../../model/IContainer';
-import { Folder } from '../../../../../../../model/Folder';
 import { ViewControllerService } from '../../../../../controller/modules/view-controller/services/view-controller.service';
+import { SpecmateViewBase } from '../../../base/specmate-view-base';
 
 @Component({
     moduleId: module.id.toString(),

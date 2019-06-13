@@ -1,10 +1,11 @@
 package com.specmate.dummydata;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.connectors.api.IExportService;
 import com.specmate.connectors.api.IProject;
 import com.specmate.connectors.api.IRequirementsSource;
@@ -14,7 +15,7 @@ import com.specmate.model.testspecification.TestProcedure;
 
 /**
  * A project definition for the test-data that authorizes every user.
- * 
+ *
  * @author junkerm
  */
 @Component(immediate = true)
@@ -23,7 +24,7 @@ public class DummyProject implements IProject {
 	/* package */ static final String TEST_DATA_PROJECT = "test-data";
 
 	@Override
-	public String getName() {
+	public String getID() {
 		return TEST_DATA_PROJECT;
 	}
 
@@ -68,6 +69,11 @@ public class DummyProject implements IProject {
 				// Do nothing
 			}
 		};
+	}
+
+	@Override
+	public List<String> getLibraryFolders() {
+		return null;
 	}
 
 }

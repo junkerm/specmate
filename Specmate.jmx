@@ -1,0 +1,1243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Specmate" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
+        <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+          <collectionProp name="Arguments.arguments"/>
+        </elementProp>
+        <stringProp name="HTTPSampler.domain">localhost</stringProp>
+        <stringProp name="HTTPSampler.port">8080</stringProp>
+        <stringProp name="HTTPSampler.protocol">http</stringProp>
+        <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+        <stringProp name="HTTPSampler.path">/services/rest/test-data/Folder-1/Requirement-5/a0dac93d-d015-0312-2f5f-dbe7c3d05774/list?1550568413686</stringProp>
+        <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+        <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+        <stringProp name="HTTPSampler.response_timeout"></stringProp>
+      </ConfigTestElement>
+      <hashTree/>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="General Users" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">20</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="ITEM_PARENT_PATH" elementType="Argument">
+              <stringProp name="Argument.name">ITEM_PARENT_PATH</stringProp>
+              <stringProp name="Argument.value">test-data/evalFolder/driverLicenceReq-1</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+          </collectionProp>
+        </Arguments>
+        <hashTree/>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="Authorization" elementType="Header">
+              <stringProp name="Header.name">Authorization</stringProp>
+              <stringProp name="Header.value">Token ${TOKEN}</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login Request" enabled="true"/>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Accept Header" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Content-Type" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Content-Type Header" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Accept" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login HTTP Request" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&quot;___nsuri&quot;:&quot;http://specmate.com/20190125/model/user&quot;,&quot;className&quot;:&quot;User&quot;,&quot;userName&quot;:&quot;JMeter&quot;,&quot;passWord&quot;:&quot;JMeter&quot;,&quot;projectName&quot;:&quot;test-data&quot;}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">http://localhost:8080/services/rest/login</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">TOKEN</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$..id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">WRONG_TOKEN</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Think Time" enabled="true">
+          <intProp name="ActionProcessor.action">1</intProp>
+          <intProp name="ActionProcessor.target">0</intProp>
+          <stringProp name="ActionProcessor.duration">0</stringProp>
+        </TestAction>
+        <hashTree>
+          <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Pause" enabled="true">
+            <stringProp name="ConstantTimer.delay">1000</stringProp>
+            <stringProp name="RandomTimer.range">100</stringProp>
+          </UniformRandomTimer>
+          <hashTree/>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Create Model Request" enabled="true"/>
+        <hashTree>
+          <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="BeanShell PreProcessor" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">String uuid = UUID.randomUUID().toString();
+String[] uuidParts = uuid.split(&quot;-&quot;);
+vars.put(&quot;ITEM_ID&quot;, uuid);
+vars.put(&quot;ITEM_NAME&quot;, &quot;Generated-CEG-&quot; + uuidParts[0]);
+</stringProp>
+          </BeanShellPreProcessor>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Content-Type Header" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Accept" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Model HTTP Request" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&quot;___nsuri&quot;:&quot;http://specmate.com/20190125/model/batch&quot;,&quot;className&quot;:&quot;BatchOperation&quot;,&quot;operations&quot;:[{&quot;___nsuri&quot;:&quot;http://specmate.com/20190125/model/batch&quot;,&quot;className&quot;:&quot;Operation&quot;,&quot;type&quot;:&quot;CREATE&quot;,&quot;target&quot;:{&quot;___proxy&quot;:true,&quot;url&quot;:&quot;${ITEM_PARENT_PATH}&quot;},&quot;value&quot;:{&quot;___nsuri&quot;:&quot;http://specmate.com/20190125/model/requirements&quot;,&quot;className&quot;:&quot;CEGModel&quot;,&quot;id&quot;:&quot;${ITEM_ID}&quot;,&quot;name&quot;:&quot;${ITEM_NAME}&quot;,&quot;description&quot;:&quot;&quot;}}]}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/services/rest/test-data/batch</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Think Time" enabled="true">
+          <intProp name="ActionProcessor.action">1</intProp>
+          <intProp name="ActionProcessor.target">0</intProp>
+          <stringProp name="ActionProcessor.duration">0</stringProp>
+        </TestAction>
+        <hashTree>
+          <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Pause" enabled="true">
+            <stringProp name="ConstantTimer.delay">1000</stringProp>
+            <stringProp name="RandomTimer.range">100</stringProp>
+          </UniformRandomTimer>
+          <hashTree/>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Read Request" enabled="true"/>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Accept Header" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Content-Type" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Read Model HTTP Request" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/services/rest/${ITEM_PARENT_PATH}/${ITEM_ID}/list</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Think Time" enabled="true">
+          <intProp name="ActionProcessor.action">1</intProp>
+          <intProp name="ActionProcessor.target">0</intProp>
+          <stringProp name="ActionProcessor.duration">0</stringProp>
+        </TestAction>
+        <hashTree>
+          <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Pause" enabled="true">
+            <stringProp name="ConstantTimer.delay">1000</stringProp>
+            <stringProp name="RandomTimer.range">100</stringProp>
+          </UniformRandomTimer>
+          <hashTree/>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Update Request" enabled="true"/>
+        <hashTree>
+          <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="CEG_NODE_1_ID" elementType="Argument">
+                <stringProp name="Argument.name">CEG_NODE_1_ID</stringProp>
+                <stringProp name="Argument.value">${__UUID()}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="CEG_NODE_2_ID" elementType="Argument">
+                <stringProp name="Argument.name">CEG_NODE_2_ID</stringProp>
+                <stringProp name="Argument.value">${__UUID()}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="CEG_NODE_3_ID" elementType="Argument">
+                <stringProp name="Argument.name">CEG_NODE_3_ID</stringProp>
+                <stringProp name="Argument.value">${__UUID()}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="CEG_CONNECTION_1_ID" elementType="Argument">
+                <stringProp name="Argument.name">CEG_CONNECTION_1_ID</stringProp>
+                <stringProp name="Argument.value">${__UUID()}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="CEG_CONNECTION_2_ID" elementType="Argument">
+                <stringProp name="Argument.name">CEG_CONNECTION_2_ID</stringProp>
+                <stringProp name="Argument.value">${__UUID()}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </Arguments>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Accept Header" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Content-Type" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Content-Type Header" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Accept" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Update Model HTTP Request" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+    &quot;className&quot;: &quot;BatchOperation&quot;,&#xd;
+    &quot;operations&quot;: [&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;CREATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:06&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_1_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 180,&#xd;
+                &quot;y&quot;: 135,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: []&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;CREATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:07&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_2_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 330,&#xd;
+                &quot;y&quot;: 255,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: []&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_1_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:06&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_1_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 180,&#xd;
+                &quot;y&quot;: 135,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: []&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_2_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:07&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_2_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 330,&#xd;
+                &quot;y&quot;: 255,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: []&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;CREATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGConnection&quot;,&#xd;
+                &quot;name&quot;: &quot;New Connection 2019-02-19 13:59:09&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_CONNECTION_1_ID}&quot;,&#xd;
+                &quot;negate&quot;: false,&#xd;
+                &quot;source&quot;: {&#xd;
+                    &quot;___proxy&quot;: true,&#xd;
+                    &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_1_ID}&quot;&#xd;
+                },&#xd;
+                &quot;target&quot;: {&#xd;
+                    &quot;___proxy&quot;: true,&#xd;
+                    &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_2_ID}&quot;&#xd;
+                },&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: []&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_1_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:06&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_1_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 180,&#xd;
+                &quot;y&quot;: 135,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: [],&#xd;
+                &quot;outgoingConnections&quot;: [&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_1_ID}&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_2_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:07&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_2_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 330,&#xd;
+                &quot;y&quot;: 255,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: [],&#xd;
+                &quot;incomingConnections&quot;: [&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_1_ID}&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_2_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:07&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_2_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 450,&#xd;
+                &quot;y&quot;: 135,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: [],&#xd;
+                &quot;incomingConnections&quot;: [&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_1_ID}&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;CREATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:12&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_3_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 165,&#xd;
+                &quot;y&quot;: 270,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: []&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_3_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:12&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_3_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 165,&#xd;
+                &quot;y&quot;: 270,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: []&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_2_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:07&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_2_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 450,&#xd;
+                &quot;y&quot;: 135,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: [],&#xd;
+                &quot;incomingConnections&quot;: [&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_1_ID}&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;CREATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGConnection&quot;,&#xd;
+                &quot;name&quot;: &quot;New Connection 2019-02-19 13:59:14&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_CONNECTION_2_ID}&quot;,&#xd;
+                &quot;negate&quot;: false,&#xd;
+                &quot;source&quot;: {&#xd;
+                    &quot;___proxy&quot;: true,&#xd;
+                    &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_3_ID}&quot;&#xd;
+                },&#xd;
+                &quot;target&quot;: {&#xd;
+                    &quot;___proxy&quot;: true,&#xd;
+                    &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_2_ID}&quot;&#xd;
+                },&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: []&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_3_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:12&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_3_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 165,&#xd;
+                &quot;y&quot;: 270,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: [],&#xd;
+                &quot;outgoingConnections&quot;: [&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_2_ID}&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_2_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:07&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_2_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 450,&#xd;
+                &quot;y&quot;: 135,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: [],&#xd;
+                &quot;incomingConnections&quot;: [&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_1_ID}&quot;&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_2_ID}&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_3_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:12&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_3_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 180,&#xd;
+                &quot;y&quot;: 240,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: [],&#xd;
+                &quot;outgoingConnections&quot;: [&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_2_ID}&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_3_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:12&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_3_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable2&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 180,&#xd;
+                &quot;y&quot;: 240,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: [],&#xd;
+                &quot;outgoingConnections&quot;: [&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_2_ID}&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_1_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:06&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_1_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 180,&#xd;
+                &quot;y&quot;: 135,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: [],&#xd;
+                &quot;outgoingConnections&quot;: [&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_1_ID}&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_1_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:06&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_1_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable1&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 180,&#xd;
+                &quot;y&quot;: 135,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: [],&#xd;
+                &quot;outgoingConnections&quot;: [&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_1_ID}&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_2_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:07&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_2_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 450,&#xd;
+                &quot;y&quot;: 135,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: [],&#xd;
+                &quot;incomingConnections&quot;: [&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_1_ID}&quot;&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_2_ID}&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_2_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:07&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_2_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable3&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 450,&#xd;
+                &quot;y&quot;: 135,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: [],&#xd;
+                &quot;incomingConnections&quot;: [&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_1_ID}&quot;&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_2_ID}&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_2_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:07&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_2_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;OR&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable3&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 450,&#xd;
+                &quot;y&quot;: 135,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: [],&#xd;
+                &quot;incomingConnections&quot;: [&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_1_ID}&quot;&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_2_ID}&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/batch&quot;,&#xd;
+            &quot;className&quot;: &quot;Operation&quot;,&#xd;
+            &quot;type&quot;: &quot;UPDATE&quot;,&#xd;
+            &quot;target&quot;: {&#xd;
+                &quot;___proxy&quot;: true,&#xd;
+                &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_NODE_1_ID}&quot;&#xd;
+            },&#xd;
+            &quot;value&quot;: {&#xd;
+                &quot;___nsuri&quot;: &quot;http://specmate.com/20190125/model/requirements&quot;,&#xd;
+                &quot;className&quot;: &quot;CEGNode&quot;,&#xd;
+                &quot;name&quot;: &quot;New Node 2019-02-19 13:59:06&quot;,&#xd;
+                &quot;description&quot;: &quot;&quot;,&#xd;
+                &quot;id&quot;: &quot;${CEG_NODE_1_ID}&quot;,&#xd;
+                &quot;type&quot;: &quot;AND&quot;,&#xd;
+                &quot;variable&quot;: &quot;variable1&quot;,&#xd;
+                &quot;condition&quot;: &quot;is present&quot;,&#xd;
+                &quot;x&quot;: 180,&#xd;
+                &quot;y&quot;: 135,&#xd;
+                &quot;tracesFrom&quot;: [],&#xd;
+                &quot;tracesTo&quot;: [],&#xd;
+                &quot;outgoingConnections&quot;: [&#xd;
+                    {&#xd;
+                        &quot;___proxy&quot;: true,&#xd;
+                        &quot;url&quot;: &quot;${ITEM_PARENT_PATH}/${ITEM_ID}/${CEG_CONNECTION_1_ID}&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        }&#xd;
+    ]&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/services/rest/test-data/batch</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Think Time" enabled="true">
+          <intProp name="ActionProcessor.action">1</intProp>
+          <intProp name="ActionProcessor.target">0</intProp>
+          <stringProp name="ActionProcessor.duration">0</stringProp>
+        </TestAction>
+        <hashTree>
+          <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Pause" enabled="true">
+            <stringProp name="ConstantTimer.delay">1000</stringProp>
+            <stringProp name="RandomTimer.range">100</stringProp>
+          </UniformRandomTimer>
+          <hashTree/>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Generate Testspec Request" enabled="true"/>
+        <hashTree>
+          <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="TEST_SPEC_ID" elementType="Argument">
+                <stringProp name="Argument.name">TEST_SPEC_ID</stringProp>
+                <stringProp name="Argument.value">${__UUID()}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </Arguments>
+          <hashTree/>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Create Container" enabled="true"/>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Content-Type Header" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="Accept" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Test Specification HTTP Request" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;___nsuri&quot;:&quot;http://specmate.com/20190125/model/batch&quot;,&quot;className&quot;:&quot;BatchOperation&quot;,&quot;operations&quot;:[{&quot;___nsuri&quot;:&quot;http://specmate.com/20190125/model/batch&quot;,&quot;className&quot;:&quot;Operation&quot;,&quot;type&quot;:&quot;CREATE&quot;,&quot;target&quot;:{&quot;___proxy&quot;:true,&quot;url&quot;:&quot;${ITEM_PARENT_PATH}/${ITEM_ID}&quot;},&quot;value&quot;:{&quot;___nsuri&quot;:&quot;http://specmate.com/20190125/model/testspecification&quot;,&quot;className&quot;:&quot;TestSpecification&quot;,&quot;id&quot;:&quot;${TEST_SPEC_ID}&quot;,&quot;name&quot;:&quot;Generated Test Specification&quot;,&quot;description&quot;:&quot;&quot;}}]}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">/services/rest/test-data/batch</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Generate Test Spec" enabled="true"/>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Content-Type Header" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="Accept" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Generate Test Specification HTTP Request" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;___nsuri&quot;:&quot;http://specmate.com/20190125/model/batch&quot;, &quot;className&quot;:&quot;BatchOperation&quot;}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">http://localhost:8080/services/rest/${ITEM_PARENT_PATH}/${ITEM_ID}/${TEST_SPEC_ID}/generateTests</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Read Test Spec Request" enabled="true"/>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Accept Header" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="Content-Type" elementType="Header">
+                  <stringProp name="Header.name">Accept</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Read Model HTTP Request" enabled="true">
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+                <collectionProp name="Arguments.arguments"/>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">/services/rest/${ITEM_PARENT_PATH}/${ITEM_ID}/${TEST_SPEC_ID}/list</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Think Time" enabled="true">
+          <intProp name="ActionProcessor.action">1</intProp>
+          <intProp name="ActionProcessor.target">0</intProp>
+          <stringProp name="ActionProcessor.duration">0</stringProp>
+        </TestAction>
+        <hashTree>
+          <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Pause" enabled="true">
+            <stringProp name="ConstantTimer.delay">1000</stringProp>
+            <stringProp name="RandomTimer.range">100</stringProp>
+          </UniformRandomTimer>
+          <hashTree/>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Read Model Test Spec Request" enabled="true"/>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Accept Header" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Content-Type" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Read Model Test Spec HTTP Request" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="class" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">TestSpecification</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">class</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/services/rest/${ITEM_PARENT_PATH}/${ITEM_ID}/listRecursive</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Think Time" enabled="true">
+          <intProp name="ActionProcessor.action">1</intProp>
+          <intProp name="ActionProcessor.target">0</intProp>
+          <stringProp name="ActionProcessor.duration">0</stringProp>
+        </TestAction>
+        <hashTree>
+          <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Pause" enabled="true">
+            <stringProp name="ConstantTimer.delay">1000</stringProp>
+            <stringProp name="RandomTimer.range">100</stringProp>
+          </UniformRandomTimer>
+          <hashTree/>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Logout Request" enabled="true"/>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Accept Header" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Content-Type" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Logout HTTP Request" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/services/rest/logout</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Think Time" enabled="true">
+          <intProp name="ActionProcessor.action">1</intProp>
+          <intProp name="ActionProcessor.target">0</intProp>
+          <stringProp name="ActionProcessor.duration">0</stringProp>
+        </TestAction>
+        <hashTree>
+          <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Pause" enabled="true">
+            <stringProp name="ConstantTimer.delay">1000</stringProp>
+            <stringProp name="RandomTimer.range">100</stringProp>
+          </UniformRandomTimer>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

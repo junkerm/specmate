@@ -1,21 +1,25 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { UserToken } from '../../../base/user-token';
 import { HttpClient } from '@angular/common/http';
-import { ServiceInterface } from '../../../../../../data/modules/data-service/services/service-interface';
-import { Router, GuardsCheckEnd } from '@angular/router';
-import { Config } from '../../../../../../../config/config';
-import { LoggingService } from '../../../../../side/modules/log-list/services/logging.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Url } from '../../../../../../../util/url';
+import { EventEmitter, Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
+import { Config } from '../../../../../../../config/config';
 import { User } from '../../../../../../../model/User';
+import { Url } from '../../../../../../../util/url';
+import { ServiceInterface } from '../../../../../../data/modules/data-service/services/service-interface';
+import { UserToken } from '../../../base/user-token';
 
 @Injectable()
 export class AuthenticationService {
 
     private static TOKEN_COOKIE_KEY = 'specmate-user-token';
 
+    private requestCount = 0;
+    private refreshCount = 20;
+
     public get token(): UserToken {
+        if (this.requestCount < this.refreshCount && this.cachedToken !== undefined) {
+            this.requestCount++;
+            return this.cachedToken;
+        }
         const json = this.cookie.get(AuthenticationService.TOKEN_COOKIE_KEY);
         if (json !== undefined) {
             const token: UserToken = JSON.parse(json);

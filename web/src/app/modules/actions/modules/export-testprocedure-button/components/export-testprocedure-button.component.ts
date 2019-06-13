@@ -1,13 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { TestProcedure } from '../../../../../model/TestProcedure';
-import { IContainer } from '../../../../../model/IContainer';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
-import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
-import { AccessRights } from '../../../../../model/AccessRights';
+import { IContainer } from '../../../../../model/IContainer';
+import { TestProcedure } from '../../../../../model/TestProcedure';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
+import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
 import { UserToken } from '../../../../views/main/authentication/base/user-token';
+import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
 
 
 @Component({

@@ -1,0 +1,15 @@
+classpath*:desc/type/LexicalPhrase.xml
+classpath*:desc/type/LexicalUnits.xml
+classpath*:desc/type/LexicalUnits_customized.xml
+classpath*:desc/type/Chunks.xml
+classpath*:desc/type/Constituency.xml
+classpath*:desc/type/Dependency.xml
+classpath*:desc/type/PennTree.xml
+classpath*:desc/type/Tag.xml
+classpath*:desc/type/coref.xml
+classpath*:desc/type/Morpheme.xml
+classpath*:desc/type/POS.xml
+classpath*:desc/type/TweetPOS.xml
+classpath*:desc/type/metadata.xml
+classpath*:desc/type/metadata_customized.xml
+classpath*:desc/type/NamedEntity.xml

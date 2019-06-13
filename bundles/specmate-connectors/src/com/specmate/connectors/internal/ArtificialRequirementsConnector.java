@@ -11,8 +11,8 @@ import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.config.ProjectConfigService;
 import com.specmate.connectors.internal.config.ArtificialRequirementsConnectorConfig;

@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Type } from '../../../../../util/type';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { FieldMetaItem, MetaInfo } from '../../../../../model/meta/field-meta';
 import { Arrays } from '../../../../../util/arrays';
+import { Id } from '../../../../../util/id';
+import { Type } from '../../../../../util/type';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { Converters } from '../conversion/converters';
-import { Id } from '../../../../../util/id';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     moduleId: module.id.toString(),
@@ -19,7 +19,7 @@ export class GenericForm {
         return this.translate.instant('fieldInvalid');
     }
 
-    private formGroup: FormGroup;
+    public formGroup: FormGroup;
 
     private ready = false;
 
@@ -87,9 +87,14 @@ export class GenericForm {
             let fieldMeta: FieldMetaItem = this._meta[i];
             let fieldName: string = fieldMeta.name;
             let formBuilderObjectValue: any[] = [''];
+            const validators = [];
             if (this._meta[i].required) {
-                formBuilderObjectValue.push(Validators.required);
+                validators.push(Validators.required);
             }
+            if (this._meta[i].allowedPattern) {
+                validators.push(Validators.pattern(new RegExp(this._meta[i].allowedPattern)));
+            }
+            formBuilderObjectValue.push(Validators.compose(validators));
             formBuilderObject[fieldName] = formBuilderObjectValue;
         }
         this.formGroup = this.formBuilder.group(formBuilderObject);
@@ -142,7 +147,8 @@ export class GenericForm {
                 updateValue = converter.convertFromControlToModel(updateValue);
             }
             // We do not need to clone here (hopefully), because only simple values can be passed via forms.
-            if (this.element[fieldName] + '' !== updateValue + '') {
+            const originalValue = this.element[fieldName] || '';
+            if (originalValue !== updateValue + '') {
                 this.element[fieldName] = updateValue;
                 changed = true;
             }

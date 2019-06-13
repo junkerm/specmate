@@ -38,7 +38,7 @@ public interface BasePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20181108/model/base";
+	String eNS_URI = "http://specmate.com/20190125/model/base";
 
 	/**
 	 * The package namespace name.
@@ -433,13 +433,22 @@ public interface BasePackage extends EPackage {
 	int FOLDER__TRACES_FROM = ISPECMATE_MODEL_OBJECT__TRACES_FROM;
 
 	/**
+	 * The feature id for the '<em><b>Library</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOLDER__LIBRARY = ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Folder</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FOLDER_FEATURE_COUNT = ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
+	int FOLDER_FEATURE_COUNT = ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Folder</em>' class.
@@ -1031,6 +1040,17 @@ public interface BasePackage extends EPackage {
 	EClass getFolder();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.base.Folder#isLibrary <em>Library</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Library</em>'.
+	 * @see com.specmate.model.base.Folder#isLibrary()
+	 * @see #getFolder()
+	 * @generated
+	 */
+	EAttribute getFolder_Library();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.base.IPositionable <em>IPositionable</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1357,6 +1377,14 @@ public interface BasePackage extends EPackage {
 		 * @generated
 		 */
 		EClass FOLDER = eINSTANCE.getFolder();
+
+		/**
+		 * The meta object literal for the '<em><b>Library</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FOLDER__LIBRARY = eINSTANCE.getFolder_Library();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.base.IPositionable <em>IPositionable</em>}' class.

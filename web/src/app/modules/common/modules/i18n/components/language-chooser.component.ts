@@ -1,10 +1,9 @@
-import { Config } from '../../../../../config/config';
-import { Component, OnInit, HostListener, ViewChild, Inject } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { NgbDropdownConfig, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
-import { CookieService } from 'ngx-cookie';
-import { Key } from '../../../../../util/keycode';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
+import { NgbDropdown, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
+import { CookieService } from 'ngx-cookie';
+import { Config } from '../../../../../config/config';
 
 @Component({
     selector: 'language-chooser',
@@ -53,7 +52,7 @@ export class LanguageChooser implements OnInit {
     public set language(language: string) {
         this.translate.use(language);
         this.setLangAttr(language);
-        this.storeInCookie();
+        this.storeInCookie(language);
     }
 
     public get language(): string {
@@ -72,8 +71,8 @@ export class LanguageChooser implements OnInit {
         return Config.LANGUAGE_CHOOSER_ENABLED;
     }
 
-    private storeInCookie(): void {
-        this.cookie.put(LanguageChooser.LANGUAGE_KEY, this.language);
+    private storeInCookie(language: string): void {
+        this.cookie.put(LanguageChooser.LANGUAGE_KEY, language);
     }
 
     private setLangAttr(language: string): void {

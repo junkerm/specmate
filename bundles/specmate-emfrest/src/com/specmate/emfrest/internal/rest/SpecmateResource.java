@@ -25,8 +25,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateAuthorizationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.internal.RestServiceProvider;
 import com.specmate.emfrest.internal.auth.AuthorizationHeader;
@@ -34,6 +35,9 @@ import com.specmate.emfrest.internal.auth.Secured;
 import com.specmate.metrics.IHistogram;
 import com.specmate.metrics.IMetricsService;
 import com.specmate.metrics.ITimer;
+import com.specmate.model.administration.AdministrationFactory;
+import com.specmate.model.administration.ErrorCode;
+import com.specmate.model.administration.ProblemDetail;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 import com.specmate.rest.RestResult;
@@ -198,7 +202,14 @@ public abstract class SpecmateResource {
 		EObject object = SpecmateEcoreUtil.getEObjectWithId(name, objects);
 		if (object == null) {
 			logService.log(LogService.LOG_ERROR, "Resource not found:" + httpRequest.getRequestURL());
-			return Response.status(Status.NOT_FOUND).build();
+
+			Status status = Status.NOT_FOUND;
+			ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+			pd.setStatus(status.getStatusCode());
+			// pd.setType(EErrorCode.NS.toString());
+			pd.setDetail(httpRequest.getRequestURI());
+
+			return Response.status(status).entity(pd).build();
 		} else {
 			InstanceResource resource = resourceContext.getResource(InstanceResource.class);
 			resource.setModelInstance(object);
@@ -222,6 +233,6 @@ public abstract class SpecmateResource {
 
 	@FunctionalInterface
 	private interface RestServiceExcecutor<T> {
-		RestResult<?> executeRestService(IRestService service) throws SpecmateException, SpecmateValidationException;
+		RestResult<?> executeRestService(IRestService service) throws SpecmateException;
 	}
 }
