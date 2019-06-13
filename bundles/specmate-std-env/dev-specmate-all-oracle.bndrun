@@ -1,4 +1,4 @@
--runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
+-runfw: org.eclipse.osgi;version='[3.13.300.v20190218-1622,3.13.300.v20190218-1622]'
 -runee: JavaSE-1.8
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=specmate-cdo-server)',\
@@ -223,4 +223,3 @@
 	Workspace,\
 	Local
 -runvm: -Xmx6000m, -Djdk.crypto.KeyAgreement.legacyKDF=true
--runprogramargs: --configurationFile C:\\AZ_DATEN\\Specmate-Tests\\0.2.12\\specmate-config-all.properties

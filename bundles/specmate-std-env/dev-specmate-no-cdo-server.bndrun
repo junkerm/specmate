@@ -1,5 +1,5 @@
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
--runee: JavaSE-1.8
+-runee: JavaSE-11
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.glassfish.hk2.locator)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.log)',\
@@ -192,7 +192,9 @@
 	org.apache.servicemix.bundles.jcip-annotations;version='[1.0.0,1.0.1)',\
 	org.apache.servicemix.bundles.spring-beans;version='[4.1.7,4.1.8)',\
 	org.apache.servicemix.bundles.spring-core;version='[4.1.7,4.1.8)',\
-	org.codehaus.jettison.jettison;version='[1.1.0,1.1.1)'
+	org.codehaus.jettison.jettison;version='[1.1.0,1.1.1)',\
+	com.sun.activation.javax.activation;version='[1.2.0,1.2.1)',\
+	jaxb-api;version='[2.3.0,2.3.1)'
 
 -runproperties: \
 	jetty.http.port=8080,\
