@@ -1,5 +1,5 @@
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
--runee: JavaSE-1.8
+-runee: JavaSE-11
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.log)',\
 	osgi.identity;filter:='(osgi.identity=jul.to.slf4j)',\

@@ -1,5 +1,5 @@
 -runfw: org.eclipse.osgi;version='[3.13.300.v20190218-1622,3.13.300.v20190218-1622]'
--runee: JavaSE-1.8
+-runee: JavaSE-11
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=specmate-cdo-server)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
@@ -211,7 +211,9 @@
 	org.apache.servicemix.bundles.spring-beans;version='[4.1.7,4.1.8)',\
 	org.apache.servicemix.bundles.spring-core;version='[4.1.7,4.1.8)',\
 	org.codehaus.jettison.jettison;version='[1.1.0,1.1.1)',\
-	log4j;version='[1.2.17,1.2.18)'
+	log4j;version='[1.2.17,1.2.18)',\
+	com.sun.activation.javax.activation;version='[1.2.0,1.2.1)',\
+	jaxb-api;version='[2.3.0,2.3.1)'
 
 -runproperties: \
 	jetty.http.port=8080,\
