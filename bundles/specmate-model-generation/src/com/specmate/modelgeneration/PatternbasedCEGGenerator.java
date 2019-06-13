@@ -33,6 +33,7 @@ import com.specmate.nlp.util.EnglishSentenceUnfolder;
 import com.specmate.nlp.util.GermanSentenceUnfolder;
 import com.specmate.nlp.util.SentenceUnfolderBase;
 import com.specmate.xtext.XTextException;
+import com.specmate.xtext.XTextUtil;
 
 public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 	private INLPService tagger;
@@ -67,8 +68,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 			URI dep = getURI(depPath,  "resources/"+langCode+"/Dep_"+langCode+".spec");
 			URI pos = getURI(posPath,  "resources/"+langCode+"/Pos_"+langCode+".spec");
 			URI rule = getURI(rulePath,"resources/"+langCode+"/Rule_"+langCode+".spec");
-		
-		try {
+			
 			this.rules = new GenerateMatcherUtil().loadXTextResources(rule, dep, pos);
 		} catch (XTextException e) {
 			throw new SpecmateInternalException(ErrorCode.NLP, e);
