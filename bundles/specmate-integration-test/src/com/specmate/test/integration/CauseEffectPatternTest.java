@@ -18,11 +18,11 @@ import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchRule;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchUtil;
 import com.specmate.cause_effect_patterns.parse.matcher.MatcherException;
-import com.specmate.cause_effect_patterns.resolve.XTextException;
-import com.specmate.cause_effect_patterns.resolve.XTextUtil;
+import com.specmate.cause_effect_patterns.resolve.GenerateMatcherUtil;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
+import com.specmate.xtext.XTextException;
 
 public class CauseEffectPatternTest {
 	
@@ -44,7 +44,7 @@ public class CauseEffectPatternTest {
 		DependencyParsetree data = DependencyParsetree.generateFromJCas(result);
 		Assert.assertEquals(data.getHeads().size(), 1);
 		
-		List<MatchRule> rules =loadRules("/resources/test_ruleset.spec");
+		List<MatchRule> rules = loadRules("/resources/test_ruleset.spec");
 		
 		// Run the rules
 		List<MatchResult> results = MatchUtil.evaluateRuleset(rules, data);
@@ -84,9 +84,9 @@ public class CauseEffectPatternTest {
 		Assert.assertTrue(effect.hasSubmatch("Predicate"));
 		MatchResult effectPred = effect.getSubmatch("Predicate");
 		
-		Assert.assertEquals(", it beeps.", effect.getMatchTree().getTextInterval(0).text);
+		Assert.assertEquals("it beeps", effect.getMatchTree().getTextInterval(0).text);
 		Assert.assertEquals("it", effectSubj.getMatchTree().getTextInterval(0).text);
-		Assert.assertEquals("beeps.", effectPred.getMatchTree().getTextInterval(1).text);
+		Assert.assertEquals("beeps", effectPred.getMatchTree().getTextInterval(0).text);
 		
 		List<MatchRule> rules2 = rules.stream().limit(1).collect(Collectors.toList());
 		
@@ -109,6 +109,6 @@ public class CauseEffectPatternTest {
 		URI main = getLocalFile(mainFile);
 		URI pos = getLocalFile("/resources/pos_EN.spec");
 		URI dep = getLocalFile("/resources/dep_EN.spec");
-		return XTextUtil.generateMatchers(main, pos, dep); 
+		return new GenerateMatcherUtil().loadXTextResources(main, pos, dep); 
 	}
 }
