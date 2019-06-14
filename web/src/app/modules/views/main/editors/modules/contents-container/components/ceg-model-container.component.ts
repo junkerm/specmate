@@ -38,8 +38,15 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
     public async createElement(name: string): Promise<CEGModel> {
         let factory: ModelFactoryBase = new CEGModelFactory(this.dataService);
         const element = await factory.create(this.parent, true, Id.uuid, name) as CEGModel;
-        if (this.modelDescription != undefined && this.modelDescription.trim().length > 0) {
-            element.modelRequirements = this.modelDescription.trim();
+
+        if (this.modelDescription == undefined) {
+            this.modelDescription = '';
+        }
+        this.modelDescription = this.modelDescription.trim();
+
+        if (this.modelDescription.length > 0) {
+            element.modelRequirements = this.modelDescription;
+
             await this.dataService.updateElement(element, true, Id.uuid);
             await this.dataService.commit(this.translate.instant('save'));
             await this.dataService.performOperations(element.url, 'generateModel');
@@ -51,7 +58,7 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
                 await this.dataService.deleteElement(element.url, true, Id.uuid);
                 await this.dataService.commit(this.translate.instant('save'));
                 await this.dataService.deleteCachedContent(element.url);
-                return undefined; // Promise.reject('Model could not be generated.');
+                return undefined;
             }
         }
         return element;
