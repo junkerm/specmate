@@ -1,4 +1,4 @@
--runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
+-runfw: org.eclipse.osgi;version='[3.13.300.v20190218-1622,3.13.300.v20190218-1622]'
 -runee: JavaSE-11
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.log)',\
@@ -105,17 +105,21 @@
 	io.prometheus.simpleclient_common;version='[0.4.0,0.4.1)',\
 	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)',\
 	io.prometheus.simpleclient_servlet;version='[0.4.0,0.4.1)',\
-	jaxb-api;version='[2.3.0,2.3.1)',\
 	org.apache.felix.webconsole;version='[4.2.8,4.2.9)',\
 	org.eclipse.emf.cdo.net4j;version='[4.1.400,4.1.401)',\
 	org.eclipse.jetty.osgi-servlet-api;version='[3.1.0,3.1.1)',\
 	specmate-administration;version=snapshot,\
 	specmate-metrics;version=snapshot,\
-	specmate-persistency-cdo;version=snapshot
+	specmate-persistency-cdo;version=snapshot,\
+	javax.activation-api;version='[1.2.0,1.2.1)',\
+	jaxb-api;version='[2.3.1,2.3.2)',\
+	org.eclipse.emf.cdo.ecore.retrofit;version='[4.2.300,4.2.301)'
 
 -runproperties: \
 	osgi.console=,\
-	osgi.compatibility.bootdelegation=true
+	osgi.compatibility.bootdelegation=true,\
+	equinox.log.history.max=1000,\
+	org.osgi.service.log.admin.loglevel=DEBUG 
 -runrepos: \
 	Workspace,\
 	Local
