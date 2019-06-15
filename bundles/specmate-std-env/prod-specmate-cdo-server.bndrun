@@ -1,5 +1,5 @@
--runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
--runee: JavaSE-1.8
+-runfw: org.eclipse.osgi;version='[3.13.300.v20190218-1622,3.13.300.v20190218-1622]'
+-runee: JavaSE-11
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.log)',\
 	osgi.identity;filter:='(osgi.identity=jul.to.slf4j)',\
@@ -60,7 +60,6 @@
 	org.eclipse.ocl;version='[3.6.200,3.6.201)',\
 	org.eclipse.ocl.common;version='[1.4.200,1.4.201)',\
 	org.eclipse.ocl.ecore;version='[3.6.200,3.6.201)',\
-	org.eclipse.emf.cdo.ecore.retrofit;version='[4.2.300,4.2.301)',\
 	specmate-migration;version=snapshot,\
 	specmate-model-gen;version=snapshot,\
 	specmate-persistency-api;version=snapshot,\
@@ -101,6 +100,7 @@
 	specmate-scheduler;version=snapshot,\
 	specmate-search;version=snapshot,\
 	com.diffplug.osgi.extension.sun.misc;version='[0.0.0,0.0.1)',\
+	com.sun.activation.javax.activation;version='[1.2.0,1.2.1)',\
 	io.prometheus.simpleclient;version='[0.4.0,0.4.1)',\
 	io.prometheus.simpleclient_common;version='[0.4.0,0.4.1)',\
 	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)',\
@@ -110,11 +110,16 @@
 	org.eclipse.jetty.osgi-servlet-api;version='[3.1.0,3.1.1)',\
 	specmate-administration;version=snapshot,\
 	specmate-metrics;version=snapshot,\
-	specmate-persistency-cdo;version=snapshot
+	specmate-persistency-cdo;version=snapshot,\
+	javax.activation-api;version='[1.2.0,1.2.1)',\
+	jaxb-api;version='[2.3.1,2.3.2)',\
+	org.eclipse.emf.cdo.ecore.retrofit;version='[4.2.300,4.2.301)'
 
 -runproperties: \
 	osgi.console=,\
-	osgi.compatibility.bootdelegation=true
+	osgi.compatibility.bootdelegation=true,\
+	equinox.log.history.max=1000,\
+	org.osgi.service.log.admin.loglevel=DEBUG 
 -runrepos: \
 	Workspace,\
 	Local

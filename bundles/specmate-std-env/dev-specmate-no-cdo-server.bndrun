@@ -1,5 +1,5 @@
--runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
--runee: JavaSE-1.8
+-runfw: org.eclipse.osgi;version='[3.13.300.v20190218-1622,3.13.300.v20190218-1622]'
+-runee: JavaSE-11
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.glassfish.hk2.locator)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.log)',\
@@ -193,6 +193,7 @@
 	org.apache.servicemix.bundles.spring-beans;version='[4.1.7,4.1.8)',\
 	org.apache.servicemix.bundles.spring-core;version='[4.1.7,4.1.8)',\
 	org.codehaus.jettison.jettison;version='[1.1.0,1.1.1)',\
+	com.sun.activation.javax.activation;version='[1.2.0,1.2.1)',\
 	com.google.inject;version='[3.0.0,3.0.1)',\
 	org.antlr.runtime;version='[3.2.0,3.2.1)',\
 	org.eclipse.xtend.lib;version='[2.10.0,2.10.1)',\
@@ -201,15 +202,19 @@
 	org.eclipse.xtext.smap;version='[2.10.0,2.10.1)',\
 	org.eclipse.xtext.util;version='[2.10.0,2.10.1)',\
 	org.eclipse.xtext.xbase.lib;version='[2.10.0,2.10.1)',\
-	specmate-cause-effect-patterns;version=snapshot
+	specmate-cause-effect-patterns;version=snapshot,\
+	jaxb-api;version='[2.3.1,2.3.2)'
 
 -runproperties: \
 	jetty.http.port=8080,\
 	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\
-	osgi.compatibility.bootdelegation=true
+	osgi.compatibility.bootdelegation=true,\
+	equinox.log.history.max=1000,\
+	org.osgi.service.log.admin.loglevel=DEBUG 
 -runrepos: \
 	Workspace,\
 	Local
 -runvm: -Xmx6000m
+-resolve: auto

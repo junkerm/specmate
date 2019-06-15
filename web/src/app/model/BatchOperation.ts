@@ -9,7 +9,6 @@
 		public url: string;
 		public className: string = "BatchOperation";
 		public static className: string = "BatchOperation";
-
 		// Attributes
 
 		// References
