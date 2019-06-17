@@ -1,0 +1,12 @@
+-buildpath: \
+	org.eclipse.xtext,\
+	com.google.inject,\
+	org.eclipse.xtext.util,\
+	org.eclipse.emf.ecore,\
+	org.antlr.runtime,\
+	org.eclipse.emf.common,\
+	org.eclipse.xtext.xbase.lib,\
+	com.google.guava,\
+	specmate-nlp,\
+	org.glassfish.hk2.external.javax.inject
+Export-Package: com.specmate.xtext

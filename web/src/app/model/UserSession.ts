@@ -8,7 +8,6 @@
 		public url: string;
 		public className: string = "UserSession";
 		public static className: string = "UserSession";
-
 		// Attributes
 		public id: EString;
 		public allowedPathPattern: EString;

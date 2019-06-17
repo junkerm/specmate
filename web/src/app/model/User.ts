@@ -8,7 +8,6 @@
 		public url: string;
 		public className: string = "User";
 		public static className: string = "User";
-
 		// Attributes
 		public allowedUrls: EString[];
 		public userName: EString;

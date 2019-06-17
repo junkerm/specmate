@@ -9,7 +9,6 @@
 		public url: string;
 		public className: string = "HistoryEntry";
 		public static className: string = "HistoryEntry";
-
 		// Attributes
 		public timestamp: ELong;
 		public user: EString;

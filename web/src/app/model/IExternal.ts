@@ -8,7 +8,6 @@
 		public url: string;
 		public className: string = "IExternal";
 		public static className: string = "IExternal";
-
 		// Attributes
 		public extId: EString;
 		public extId2: EString;
