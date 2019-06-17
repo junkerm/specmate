@@ -5,10 +5,11 @@ RUN apt-get -y install wget software-properties-common
 
 RUN mkdir /opt/adoptopenjdk
 WORKDIR /opt/adoptopenjdk
-ENV JDKFILE=OpenJDK8U-jdk_x64_linux_openj9_8u212b03_openj9-0.14.0.tar.gz
-ENV JDKNAME=jdk8u212-b03_openj9-0.14.0
-ENV JDKDIR=jdk8u212-b03
-ENV JDKVERSION=8
+
+ENV JDKFILE=OpenJDK11U-jdk_x64_linux_hotspot_11.0.3_7.tar.gz
+ENV JDKNAME=jdk-11.0.3+7
+ENV JDKDIR=jdk-11.0.3+7
+ENV JDKVERSION=11
 RUN wget --quiet https://github.com/AdoptOpenJDK/openjdk$JDKVERSION-binaries/releases/download/$JDKNAME/$JDKFILE
 RUN tar -xf $JDKFILE
 RUN rm $JDKFILE
