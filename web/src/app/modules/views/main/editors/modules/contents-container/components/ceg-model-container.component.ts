@@ -46,7 +46,6 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
 
         if (this.modelDescription.length > 0) {
             element.modelRequirements = this.modelDescription;
-
             await this.dataService.updateElement(element, true, Id.uuid);
             await this.dataService.commit(this.translate.instant('save'));
             await this.dataService.performOperations(element.url, 'generateModel');
@@ -58,6 +57,8 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
                 await this.dataService.deleteElement(element.url, true, Id.uuid);
                 await this.dataService.commit(this.translate.instant('save'));
                 await this.dataService.deleteCachedContent(element.url);
+                await this.modal.openOk(this.translate.instant('CEGGenerator.couldNotGenerateTitle'), 
+                        this.translate.instant('CEGGenerator.couldNotGenerate'));
                 return undefined;
             }
         }
