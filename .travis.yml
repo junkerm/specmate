@@ -23,7 +23,7 @@ script:
 # - (cd bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &)
 # - sleep 10
 # - (cd ui-tests/ && mvn clean test)
-# - (cd bundles && ./gradlew --no-daemon check)
+- (cd bundles && ./gradlew --no-daemon check)
 - DOCKER_TAG=$TRAVIS_BRANCH
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 - docker build -t ${DOCKER_USERNAME}/specmate:${DOCKER_TAG} .
