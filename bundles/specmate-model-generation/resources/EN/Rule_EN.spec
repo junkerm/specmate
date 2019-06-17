@@ -12,7 +12,7 @@ def rule LimitedCondition_2 {
 }
 
 
-def subtrees Cause, Effect, TMP
+def subtrees Cause, Effect, TMP, Effect_SubA
 
 //  If the tool detects an error then the tool beeps.
 def rule Condition1_1 {
@@ -87,12 +87,13 @@ def rule Condition4_1 {
 
 // Specmate shows the error window as a result of invalid login data.
 def rule Condition4_2 {
-	[Cause] - dobj -> [Cause_SubA] - prep -> IN:'as' - pobj -> NN:'result' - prep -> IN:'of' - pobj -> [Effect]
+	[Effect] - dobj -> [Effect_SubA] - prep -> IN:'as' - pobj -> NN:'result':[TMP] - prep -> IN:'of' - pobj -> [Cause]
 }
 
 // Specmate shows the error window as a result of invalid login data.
 def rule Condition4_3 {
-	[Cause] - prep -> IN:'as' - pobj -> NN:'result' - prep -> IN:'of' - pobj -> [Effect]
+	[Effect] - prep -> IN:'as' - pobj -> NN:'result':[TMP] - prep -> IN:'of' - pobj -> [Cause]
+	
 }
 
 // The tool beeps due to the tool detecting an error.
@@ -119,15 +120,19 @@ def rule Condition6_2 {
 // The tool beeps provided/supposing that the tool detected an error.
 def rule Condition7_1 {
 	[Effect] - partmod -> (VBN:'provided'|VBG:'supposing') -ccomp -> [Cause] - complm -> IN:'that' 
+	
+// Specmate saves the model provided that the model is correct.
+def rule Condition7_2 {
+	[Effect] -ccomp -> (VBD:'provided'|VBG:'supposing') -ccomp -> [Cause] - complm -> IN:'that' 
 }
 // Supposing that the tool detected an error, the tool beeps .
-def rule Condition7_2 {
+def rule Condition7_3 {
 	[Effect] -dep-> VBG:'supposing' -ccomp-> [Cause] -complm-> IN:'that'
 }
 
 // Provided that the tool detected an error, the tool beeps.
 // Provided that the tool crashed, the tool beeps.
-def rule Condition7_3 {
+def rule Condition7_4 {
 	VBN:'provided'  - ccomp -> [Cause] - dobj -> [Effect]
 	[Cause] - complm -> IN:'that'
 }
