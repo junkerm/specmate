@@ -12,8 +12,7 @@
         <li *ngIf="testSpecification" class="list-group-item"><span class="data-item-title">{{'TestSpecification' | translate}}:</span>&nbsp;<a [navigationTarget]="testSpecification">{{testSpecification.name}}</a></li>
         <ng-container *ngIf="canHaveTestSpecifications" class="list-group list-group-flush">
             <li class="list-group-item"><span class="data-item-title" style="width: 100%">{{'TestSpecifications' |
-                    translate}}:</span>
-                <span *ngIf="!testSpecifications || testSpecifications.length === 0" class="text-muted" style="width: 100%">{{'noTestSpecificationsFound'
+                    translate}}:</span>&nbsp;<span *ngIf="!testSpecifications || testSpecifications.length === 0" class="text-muted" style="width: 100%">{{'noTestSpecificationsFound'
                     | translate}}.</span>
                 <ul *ngIf="testSpecifications && testSpecifications.length > 0">
                     <li *ngFor="let testSpec of testSpecifications">
