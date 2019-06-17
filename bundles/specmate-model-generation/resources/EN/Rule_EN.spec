@@ -120,6 +120,7 @@ def rule Condition6_2 {
 // The tool beeps provided/supposing that the tool detected an error.
 def rule Condition7_1 {
 	[Effect] - partmod -> (VBN:'provided'|VBG:'supposing') -ccomp -> [Cause] - complm -> IN:'that' 
+}
 	
 // Specmate saves the model provided that the model is correct.
 def rule Condition7_2 {

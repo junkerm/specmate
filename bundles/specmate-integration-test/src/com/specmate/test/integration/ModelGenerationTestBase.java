@@ -119,187 +119,8 @@ public class ModelGenerationTestBase extends EmfRestTest {
 				JSONObject targetRef = obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName());
 				String targetId = targetRef.getString(URL);
 				targetId = targetId.substring(targetId.lastIndexOf("/") + 1);
-
-				if (expSource.getCondition().equals("")) {
-					return (EmfRestTestUtil.matches(generated,
-							MATCHES_ID_VAR_COND(srcId, expSource.getVariable(), expSource.getCondition()))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId,
-											expSource.getVariable().substring(0, 1).toUpperCase()
-													+ expSource.getVariable().substring(1),
-											expSource.getCondition()))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId,
-											expSource.getVariable().substring(0, 1).toLowerCase()
-													+ expSource.getVariable().substring(1),
-											expSource.getCondition()))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId,
-											expSource.getVariable().substring(0, 1).toUpperCase()
-													+ expSource.getVariable().substring(1),
-											expSource.getCondition()))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId,
-											expSource.getVariable().substring(0, 1).toLowerCase()
-													+ expSource.getVariable().substring(1),
-											expSource.getCondition()))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId, expSource.getVariable(), expSource.getCondition()))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId, expSource.getVariable(), expSource.getCondition())))
-
-							&& (EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(), expTarget.getCondition()))
-									|| EmfRestTestUtil.matches(generated,
-											MATCHES_ID_VAR_COND(targetId,
-													expTarget.getVariable().substring(0, 1).toUpperCase()
-															+ expTarget.getVariable().substring(1),
-													expTarget.getCondition().substring(0, 1).toUpperCase()
-															+ expTarget.getCondition().substring(1)))
-									|| EmfRestTestUtil.matches(generated,
-											MATCHES_ID_VAR_COND(targetId,
-													expTarget.getVariable().substring(0, 1).toLowerCase()
-															+ expTarget.getVariable().substring(1),
-													expTarget.getCondition().substring(0, 1).toLowerCase()
-															+ expTarget.getCondition().substring(1)))
-									|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
-											expTarget.getVariable().substring(0, 1).toUpperCase()
-													+ expTarget.getVariable().substring(1),
-											expTarget.getCondition()))
-									|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
-											expTarget.getVariable().substring(0, 1).toLowerCase()
-													+ expTarget.getVariable().substring(1),
-											expTarget.getCondition()))
-									|| EmfRestTestUtil.matches(generated,
-											MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(),
-													expTarget.getCondition().substring(0, 1).toUpperCase()
-															+ expTarget.getCondition().substring(1)))
-									|| EmfRestTestUtil.matches(generated,
-											MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(),
-													expTarget.getCondition().substring(0, 1).toLowerCase()
-															+ expTarget.getCondition().substring(1))));
-				} else if (expTarget.getCondition().equals("")) {
-					return (EmfRestTestUtil.matches(generated,
-							MATCHES_ID_VAR_COND(srcId, expSource.getVariable(), expSource.getCondition()))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId,
-											expSource.getVariable().substring(0, 1).toUpperCase()
-													+ expSource.getVariable().substring(1),
-											expSource.getCondition().substring(0, 1).toUpperCase()
-													+ expSource.getCondition().substring(1)))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId,
-											expSource.getVariable().substring(0, 1).toLowerCase()
-													+ expSource.getVariable().substring(1),
-											expSource.getCondition().substring(0, 1).toLowerCase()
-													+ expSource.getCondition().substring(1)))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId,
-											expSource.getVariable().substring(0, 1).toUpperCase()
-													+ expSource.getVariable().substring(1),
-											expSource.getCondition()))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId,
-											expSource.getVariable().substring(0, 1).toLowerCase()
-													+ expSource.getVariable().substring(1),
-											expSource.getCondition()))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId, expSource.getVariable(),
-											expSource.getCondition().substring(0, 1).toUpperCase()
-													+ expSource.getCondition().substring(1)))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId, expSource.getVariable(),
-											expSource.getCondition().substring(0, 1).toLowerCase()
-													+ expSource.getCondition().substring(1))))
-
-							&& (EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(), expTarget.getCondition()))
-									|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
-											expTarget.getVariable().substring(0, 1).toUpperCase()
-													+ expTarget.getVariable().substring(1),
-											expTarget.getCondition()))
-									|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
-											expTarget.getVariable().substring(0, 1).toLowerCase()
-													+ expTarget.getVariable().substring(1),
-											expTarget.getCondition()))
-									|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
-											expTarget.getVariable().substring(0, 1).toUpperCase()
-													+ expTarget.getVariable().substring(1),
-											expTarget.getCondition()))
-									|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
-											expTarget.getVariable().substring(0, 1).toLowerCase()
-													+ expTarget.getVariable().substring(1),
-											expTarget.getCondition()))
-									|| EmfRestTestUtil.matches(generated,
-											MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(),
-													expTarget.getCondition()))
-									|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
-											expTarget.getVariable(), expTarget.getCondition())));
-				} else {
-					return (EmfRestTestUtil.matches(generated,
-							MATCHES_ID_VAR_COND(srcId, expSource.getVariable(), expSource.getCondition()))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId,
-											expSource.getVariable().substring(0, 1).toUpperCase()
-													+ expSource.getVariable().substring(1),
-											expSource.getCondition().substring(0, 1).toUpperCase()
-													+ expSource.getCondition().substring(1)))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId,
-											expSource.getVariable().substring(0, 1).toLowerCase()
-													+ expSource.getVariable().substring(1),
-											expSource.getCondition().substring(0, 1).toLowerCase()
-													+ expSource.getCondition().substring(1)))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId,
-											expSource.getVariable().substring(0, 1).toUpperCase()
-													+ expSource.getVariable().substring(1),
-											expSource.getCondition()))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId,
-											expSource.getVariable().substring(0, 1).toLowerCase()
-													+ expSource.getVariable().substring(1),
-											expSource.getCondition()))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId, expSource.getVariable(),
-											expSource.getCondition().substring(0, 1).toUpperCase()
-													+ expSource.getCondition().substring(1)))
-							|| EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(srcId, expSource.getVariable(),
-											expSource.getCondition().substring(0, 1).toLowerCase()
-													+ expSource.getCondition().substring(1))))
-
-							&& (EmfRestTestUtil.matches(generated,
-									MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(), expTarget.getCondition()))
-									|| EmfRestTestUtil.matches(generated,
-											MATCHES_ID_VAR_COND(targetId,
-													expTarget.getVariable().substring(0, 1).toUpperCase()
-															+ expTarget.getVariable().substring(1),
-													expTarget.getCondition().substring(0, 1).toUpperCase()
-															+ expTarget.getCondition().substring(1)))
-									|| EmfRestTestUtil.matches(generated,
-											MATCHES_ID_VAR_COND(targetId,
-													expTarget.getVariable().substring(0, 1).toLowerCase()
-															+ expTarget.getVariable().substring(1),
-													expTarget.getCondition().substring(0, 1).toLowerCase()
-															+ expTarget.getCondition().substring(1)))
-									|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
-											expTarget.getVariable().substring(0, 1).toUpperCase()
-													+ expTarget.getVariable().substring(1),
-											expTarget.getCondition()))
-									|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
-											expTarget.getVariable().substring(0, 1).toLowerCase()
-													+ expTarget.getVariable().substring(1),
-											expTarget.getCondition()))
-									|| EmfRestTestUtil.matches(generated,
-											MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(),
-													expTarget.getCondition().substring(0, 1).toUpperCase()
-															+ expTarget.getCondition().substring(1)))
-									|| EmfRestTestUtil.matches(generated,
-											MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(),
-													expTarget.getCondition().substring(0, 1).toLowerCase()
-															+ expTarget.getCondition().substring(1))));
-				}
+				
+				return verifyConnections(expSource, srcId, expTarget, targetId, generated);
 			}
 
 			);
@@ -317,6 +138,190 @@ public class ModelGenerationTestBase extends EmfRestTest {
 
 	private String firstLetterLower(String string) {
 		return string.substring(0, 1).toLowerCase() + string.substring(1);
+	}
+	
+	//Check all combination of Nodes(lower/upper case, with/without condition...)
+	private boolean verifyConnections(CEGNode expSource, String srcId,  CEGNode expTarget, String targetId, JSONArray generated) {
+		if (expSource.getCondition().equals("")) {
+			return (EmfRestTestUtil.matches(generated,
+					MATCHES_ID_VAR_COND(srcId, expSource.getVariable(), expSource.getCondition()))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId,
+									expSource.getVariable().substring(0, 1).toUpperCase()
+											+ expSource.getVariable().substring(1),
+									expSource.getCondition()))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId,
+									expSource.getVariable().substring(0, 1).toLowerCase()
+											+ expSource.getVariable().substring(1),
+									expSource.getCondition()))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId,
+									expSource.getVariable().substring(0, 1).toUpperCase()
+											+ expSource.getVariable().substring(1),
+									expSource.getCondition()))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId,
+									expSource.getVariable().substring(0, 1).toLowerCase()
+											+ expSource.getVariable().substring(1),
+									expSource.getCondition()))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId, expSource.getVariable(), expSource.getCondition()))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId, expSource.getVariable(), expSource.getCondition())))
+
+					&& (EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(), expTarget.getCondition()))
+							|| EmfRestTestUtil.matches(generated,
+									MATCHES_ID_VAR_COND(targetId,
+											expTarget.getVariable().substring(0, 1).toUpperCase()
+													+ expTarget.getVariable().substring(1),
+											expTarget.getCondition().substring(0, 1).toUpperCase()
+													+ expTarget.getCondition().substring(1)))
+							|| EmfRestTestUtil.matches(generated,
+									MATCHES_ID_VAR_COND(targetId,
+											expTarget.getVariable().substring(0, 1).toLowerCase()
+													+ expTarget.getVariable().substring(1),
+											expTarget.getCondition().substring(0, 1).toLowerCase()
+													+ expTarget.getCondition().substring(1)))
+							|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
+									expTarget.getVariable().substring(0, 1).toUpperCase()
+											+ expTarget.getVariable().substring(1),
+									expTarget.getCondition()))
+							|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
+									expTarget.getVariable().substring(0, 1).toLowerCase()
+											+ expTarget.getVariable().substring(1),
+									expTarget.getCondition()))
+							|| EmfRestTestUtil.matches(generated,
+									MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(),
+											expTarget.getCondition().substring(0, 1).toUpperCase()
+													+ expTarget.getCondition().substring(1)))
+							|| EmfRestTestUtil.matches(generated,
+									MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(),
+											expTarget.getCondition().substring(0, 1).toLowerCase()
+													+ expTarget.getCondition().substring(1))));
+		} else if (expTarget.getCondition().equals("")) {
+			return (EmfRestTestUtil.matches(generated,
+					MATCHES_ID_VAR_COND(srcId, expSource.getVariable(), expSource.getCondition()))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId,
+									expSource.getVariable().substring(0, 1).toUpperCase()
+											+ expSource.getVariable().substring(1),
+									expSource.getCondition().substring(0, 1).toUpperCase()
+											+ expSource.getCondition().substring(1)))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId,
+									expSource.getVariable().substring(0, 1).toLowerCase()
+											+ expSource.getVariable().substring(1),
+									expSource.getCondition().substring(0, 1).toLowerCase()
+											+ expSource.getCondition().substring(1)))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId,
+									expSource.getVariable().substring(0, 1).toUpperCase()
+											+ expSource.getVariable().substring(1),
+									expSource.getCondition()))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId,
+									expSource.getVariable().substring(0, 1).toLowerCase()
+											+ expSource.getVariable().substring(1),
+									expSource.getCondition()))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId, expSource.getVariable(),
+									expSource.getCondition().substring(0, 1).toUpperCase()
+											+ expSource.getCondition().substring(1)))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId, expSource.getVariable(),
+									expSource.getCondition().substring(0, 1).toLowerCase()
+											+ expSource.getCondition().substring(1))))
+
+					&& (EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(), expTarget.getCondition()))
+							|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
+									expTarget.getVariable().substring(0, 1).toUpperCase()
+											+ expTarget.getVariable().substring(1),
+									expTarget.getCondition()))
+							|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
+									expTarget.getVariable().substring(0, 1).toLowerCase()
+											+ expTarget.getVariable().substring(1),
+									expTarget.getCondition()))
+							|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
+									expTarget.getVariable().substring(0, 1).toUpperCase()
+											+ expTarget.getVariable().substring(1),
+									expTarget.getCondition()))
+							|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
+									expTarget.getVariable().substring(0, 1).toLowerCase()
+											+ expTarget.getVariable().substring(1),
+									expTarget.getCondition()))
+							|| EmfRestTestUtil.matches(generated,
+									MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(),
+											expTarget.getCondition()))
+							|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
+									expTarget.getVariable(), expTarget.getCondition())));
+		} else {
+			return (EmfRestTestUtil.matches(generated,
+					MATCHES_ID_VAR_COND(srcId, expSource.getVariable(), expSource.getCondition()))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId,
+									expSource.getVariable().substring(0, 1).toUpperCase()
+											+ expSource.getVariable().substring(1),
+									expSource.getCondition().substring(0, 1).toUpperCase()
+											+ expSource.getCondition().substring(1)))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId,
+									expSource.getVariable().substring(0, 1).toLowerCase()
+											+ expSource.getVariable().substring(1),
+									expSource.getCondition().substring(0, 1).toLowerCase()
+											+ expSource.getCondition().substring(1)))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId,
+									expSource.getVariable().substring(0, 1).toUpperCase()
+											+ expSource.getVariable().substring(1),
+									expSource.getCondition()))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId,
+									expSource.getVariable().substring(0, 1).toLowerCase()
+											+ expSource.getVariable().substring(1),
+									expSource.getCondition()))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId, expSource.getVariable(),
+									expSource.getCondition().substring(0, 1).toUpperCase()
+											+ expSource.getCondition().substring(1)))
+					|| EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(srcId, expSource.getVariable(),
+									expSource.getCondition().substring(0, 1).toLowerCase()
+											+ expSource.getCondition().substring(1))))
+
+					&& (EmfRestTestUtil.matches(generated,
+							MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(), expTarget.getCondition()))
+							|| EmfRestTestUtil.matches(generated,
+									MATCHES_ID_VAR_COND(targetId,
+											expTarget.getVariable().substring(0, 1).toUpperCase()
+													+ expTarget.getVariable().substring(1),
+											expTarget.getCondition().substring(0, 1).toUpperCase()
+													+ expTarget.getCondition().substring(1)))
+							|| EmfRestTestUtil.matches(generated,
+									MATCHES_ID_VAR_COND(targetId,
+											expTarget.getVariable().substring(0, 1).toLowerCase()
+													+ expTarget.getVariable().substring(1),
+											expTarget.getCondition().substring(0, 1).toLowerCase()
+													+ expTarget.getCondition().substring(1)))
+							|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
+									expTarget.getVariable().substring(0, 1).toUpperCase()
+											+ expTarget.getVariable().substring(1),
+									expTarget.getCondition()))
+							|| EmfRestTestUtil.matches(generated, MATCHES_ID_VAR_COND(targetId,
+									expTarget.getVariable().substring(0, 1).toLowerCase()
+											+ expTarget.getVariable().substring(1),
+									expTarget.getCondition()))
+							|| EmfRestTestUtil.matches(generated,
+									MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(),
+											expTarget.getCondition().substring(0, 1).toUpperCase()
+													+ expTarget.getCondition().substring(1)))
+							|| EmfRestTestUtil.matches(generated,
+									MATCHES_ID_VAR_COND(targetId, expTarget.getVariable(),
+											expTarget.getCondition().substring(0, 1).toLowerCase()
+													+ expTarget.getCondition().substring(1))));
+		}
 	}
 
 	protected JSONArray generateCEGWithModelRequirementsText(String text) {
