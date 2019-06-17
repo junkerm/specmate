@@ -8,7 +8,6 @@
 		public url: string;
 		public className: string = "Process";
 		public static className: string = "Process";
-
 		// Attributes
 		public id: EString;
 		public name: EString;

@@ -1,3 +1,7 @@
 .disabled {
     cursor: not-allowed;
 }
+
+.top-margin {
+    margin-top: 8px;
+}

@@ -8,7 +8,6 @@
 		public url: string;
 		public className: string = "ITracingElement";
 		public static className: string = "ITracingElement";
-
 		// Attributes
 
 		// References

@@ -1,5 +1,5 @@
--runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
--runee: JavaSE-1.8
+-runfw: org.eclipse.osgi;version='[3.13.300.v20190218-1622,3.13.300.v20190218-1622]'
+-runee: JavaSE-11
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.log)',\
 	osgi.identity;filter:='(osgi.identity=jul.to.slf4j)',\
@@ -23,7 +23,9 @@
 	bnd.identity;version='latest';id='specmate-dbprovider-oracle'
 -runproperties: \
 	osgi.console=,\
-	osgi.compatibility.bootdelegation=true
+	osgi.compatibility.bootdelegation=true,\
+	equinox.log.history.max=1000,\
+	org.osgi.service.log.admin.loglevel=DEBUG 
 -runrepos: \
 	Workspace,\
 	Local
@@ -42,7 +44,6 @@
 	org.eclipse.core.runtime;version='[3.10.0,3.10.1)',\
 	org.eclipse.emf.cdo;version='[4.5.0,4.5.1)',\
 	org.eclipse.emf.cdo.common;version='[4.5.0,4.5.1)',\
-	org.eclipse.emf.cdo.ecore.retrofit;version='[4.2.300,4.2.301)',\
 	org.eclipse.emf.cdo.server;version='[4.5.0,4.5.1)',\
 	org.eclipse.emf.cdo.server.net4j;version='[4.1.300,4.1.301)',\
 	org.eclipse.emf.cdo.server.ocl;version='[4.2.100,4.2.101)',\
@@ -81,4 +82,6 @@
 	org.objectweb.asm.all.debug;version='[5.0.2,5.0.3)',\
 	com.google.guava;version='[21.0.0,21.0.1)',\
 	org.apache.commons.lang3;version='[3.5.0,3.5.1)',\
-	slf4j.api;version='[1.7.25,1.7.26)'
+	slf4j.api;version='[1.7.25,1.7.26)',\
+	org.eclipse.emf.cdo.ecore.retrofit;version='[4.2.300,4.2.301)'
+-resolve: auto
