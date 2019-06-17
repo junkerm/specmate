@@ -48,8 +48,8 @@ Test-Cases: \
 	specmate-cdo-server;version=latest,\
 	specmate-dbprovider-api;version=latest,\
 	specmate-dbprovider-h2;version=latest
--runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
--runee: JavaSE-1.8
+-runfw: org.eclipse.osgi;version='[3.13.300.v20190218-1622,3.13.300.v20190218-1622]'
+-runee: JavaSE-11
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
@@ -158,7 +158,10 @@ Test-Cases: \
 	com.google.guava;version='[21.0.0,21.0.1)',\
 	org.apache.commons.lang3;version='[3.5.0,3.5.1)',\
 	slf4j.api;version='[1.7.25,1.7.26)',\
-	log4j;version='[1.2.17,1.2.18)'
+	log4j;version='[1.2.17,1.2.18)',\
+	com.sun.activation.javax.activation;version='[1.2.0,1.2.1)',\
+	javax.activation-api;version='[1.2.0,1.2.1)',\
+	jaxb-api;version='[2.3.1,2.3.2)'
 -runvm: -ea, -Djdk.crypto.KeyAgreement.legacyKDF=true
 -runproperties: \
 	jetty.http.port=8088,\
@@ -168,4 +171,7 @@ Test-Cases: \
 	tester.dir=testdir,\
 	tester.trace=true,\
 	tester.continuous=true,\
-	osgi.compatibility.bootdelegation=true
+	osgi.compatibility.bootdelegation=true,\
+	equinox.log.history.max=1000,\
+	org.osgi.service.log.admin.loglevel=DEBUG 
+-resolve: auto

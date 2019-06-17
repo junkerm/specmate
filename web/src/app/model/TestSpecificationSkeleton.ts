@@ -8,7 +8,6 @@
 		public url: string;
 		public className: string = "TestSpecificationSkeleton";
 		public static className: string = "TestSpecificationSkeleton";
-
 		// Attributes
 		public name: EString;
 		public language: EString;

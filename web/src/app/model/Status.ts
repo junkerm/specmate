@@ -8,7 +8,6 @@
 		public url: string;
 		public className: string = "Status";
 		public static className: string = "Status";
-
 		// Attributes
 		public value: EString;
 

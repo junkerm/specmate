@@ -10,7 +10,6 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.cause_effect_patterns.resolve.XTextException;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.config.api.IConfigService;
 import com.specmate.emfrest.api.IRestService;

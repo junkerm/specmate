@@ -22,6 +22,8 @@
 	"CEGGenerator": {
 		"confirm": "Ursache-Wirkungs-Modell erstellen",
 		"confirmationTitle": "Ursache-Wirkungs-Modell erstellen und vorhandenes Modell überschreiben?",
+		"couldNotGenerate": "Für die angegebene Anforderung konnte kein Modell erstellt werden.",
+		"couldNotGenerateTitle": "Ein Fehler ist aufgetreten",
 		"generate": "Modell generieren (experimentell)"
 	},
 	"Cause-EffectModels": "Ursache-Wirkungs-Modelle",
