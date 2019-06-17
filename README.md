@@ -1,7 +1,7 @@
 # Specmate
 
 ## How to set up your development environment
-1. Install Eclipse Neon.2 Modeling Tools
+1. Install Eclipse 2019-03 Modeling Tools
 2. From the Eclipse Marketplace, install 
     - bndtools 4.2
 3. From the update site http://download.eclipse.org/acceleo/updates/releases/3.7, install Acceleo
