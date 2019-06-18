@@ -44,11 +44,13 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
 
 		@Override
 		protected void failed(Throwable e, Description description) {
+			System.out.println("Test failed: " + description.toString());
 			result = false;
 		}
 
 		@Override
 		protected void succeeded(Description description) {
+			System.out.println("Test succeeded: " + description.toString());
 			result = true;
 		}
 	};
