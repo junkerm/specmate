@@ -10,7 +10,9 @@ Test-Cases: \
 	com.specmate.test.integration.CDOPersistencyValidationTest,\
 	com.specmate.test.integration.ErrorResponsesTest,\
 	com.specmate.test.integration.NLPServiceTest,\
-	com.specmate.test.integration.ModelGenerationTest
+	com.specmate.test.integration.ModelGenerationTestEn,\
+	com.specmate.test.integration.ModelGenerationTestDe,\
+	com.specmate.test.integration.ModelGenerationTestDe_2
 -buildpath: \
 	biz.aQute.launcher,\
 	specmate-persistency-api;version=latest,\
