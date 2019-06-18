@@ -7,12 +7,13 @@ import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import com.saucelabs.junit.SauceOnDemandTestWatcher;
+//import com.saucelabs.junit.SauceOnDemandTestWatcher;
 import com.specmate.uitests.pagemodel.LoginElements;
 
 import java.net.URL;
@@ -30,11 +31,11 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     public static String buildTag;
     public static final String tunnelidentifier = System.getenv("TRAVIS_JOB_NUMBER");
    
-    public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication();
+    //public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication();
 
     /**Mark the Sauce Job as passed/failed when the test succeeds or fails*/
-    @Rule
-    public SauceOnDemandTestWatcher resultReportingTestWatcher = new SauceOnDemandTestWatcher(this, authentication);
+    //@Rule
+    //public SauceOnDemandTestWatcher resultReportingTestWatcher = new SauceOnDemandTestWatcher(this, authentication);
 
     @Rule
     public TestName name = new TestName() {
@@ -101,6 +102,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
 
     @After
     public void tearDown() throws Exception {
+    	((JavascriptExecutor)driver).executeScript("sauce:job-result=passed");
         driver.quit();
     }
 
