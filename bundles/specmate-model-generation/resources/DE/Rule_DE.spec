@@ -214,6 +214,11 @@ def rule Negation_2 {
 	[Head] - OBJA -> [Head_SubA] - DET -> 'kein(en?)?':[Head_SubB] 
 }
 
+def rule Negation_3 {
+	[Head] - ADV -> 'nicht' 
+	[Head] - SUBJ -> [Head_SubB]
+}
+
 def subtrees Variable, Condition
 
 def rule CondVar {
