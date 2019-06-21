@@ -1,5 +1,4 @@
 -runfw: org.eclipse.osgi;version='[3.13.300.v20190218-1622,3.13.300.v20190218-1622]'
--runee: JavaSE-11
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.glassfish.hk2.locator)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.log)',\
