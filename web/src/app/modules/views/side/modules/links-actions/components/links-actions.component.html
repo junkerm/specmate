@@ -29,6 +29,12 @@
         </li>
         <li *ngIf="canExportTestprocedure" class="list-group-item">
             <export-testprocedure-button [testProcedure]="element"></export-testprocedure-button>
+            {{'exportTestprocedure' | translate}}:<br />
+            <ul>
+                <li>
+                    <get-test-procedure-skeleton-button [testprocedure]="element" language="CSV"></get-test-procedure-skeleton-button>
+                </li>
+            </ul>
         </li>
         <li *ngIf="canExportTestspecification" class="list-group-item">
             {{'exportTestspecification' | translate}}:<br />

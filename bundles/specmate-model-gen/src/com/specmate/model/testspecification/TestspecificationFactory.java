@@ -38,6 +38,15 @@ public interface TestspecificationFactory extends EFactory {
 	 * @generated
 	 */
 	TestSpecificationSkeleton createTestSpecificationSkeleton();
+	
+	/**
+	 * Returns a new object of class '<em>Test Procedure Skeleton</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Test Procedure Skeleton</em>'.
+	 * @generated
+	 */
+	TestProcedureSkeleton createTestProcedureSkeleton();
 
 	/**
 	 * Returns a new object of class '<em>Test Parameter</em>'.

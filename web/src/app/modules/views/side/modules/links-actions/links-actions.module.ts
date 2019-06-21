@@ -11,6 +11,7 @@ import { SpecmateSharedModule } from '../../../../specmate/specmate.shared.modul
 import { AuthModule } from '../../../main/authentication/modules/auth/auth.module';
 import { LinksActions } from './components/links-actions.component';
 import { AdditionalInformationService } from './services/additional-information.service';
+import { GetTestProcedureSkeletonButtonModule } from '../../../../actions/modules/get-test-procedure-skeleton-button/get-test-procedure-skeleton-button.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { AdditionalInformationService } from './services/additional-information.
     TestSpecificationGeneratorButtonModule,
     ExportTestprocedureButtonModule,
     GetTestSpecificationSkeletonButtonModule,
+    GetTestProcedureSkeletonButtonModule,
     SpecmateSharedModule,
     TranslateModule,
     CegModelGeneratorButtonModule,
