@@ -32,10 +32,12 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     public static String seleniumURI;
     public static String buildTag;
     public static final String tunnelidentifier = System.getenv("TRAVIS_JOB_NUMBER");
-    private static boolean result = true;
+    protected static boolean resultLogin = false;
+    protected static boolean resultModel = false;
+    protected static boolean resultProcess = false;
 
     
-    @Rule
+    /*@Rule
 	public final TestWatcher watcher = new TestWatcher() {
 		@Override
 		public Statement apply(Statement base, Description description) {
@@ -51,7 +53,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
 		protected void succeeded(Description description) {
 			result = true;
 		}
-	};
+	};*/
 
     @Rule
     public TestName name = new TestName() {
@@ -118,7 +120,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
 
     @After
     public void tearDown() throws Exception {
-    	((JavascriptExecutor)driver).executeScript("sauce:job-result=" + (result ? "passed" : "failed"));
+    	((JavascriptExecutor)driver).executeScript("sauce:job-result=" + ((resultLogin && resultModel && resultProcess) ? "passed" : "failed"));
     	
         driver.quit();
     }
