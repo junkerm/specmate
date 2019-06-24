@@ -42,7 +42,9 @@ export abstract class ContentContainerBase<T extends IContainer> implements OnIn
     public async create(name: string): Promise<void> {
         if (name && this.validPattern(name)) {
             const element = await this.createElement(name);
-            this.navigator.navigate(element);
+            if (element != undefined) {
+                this.navigator.navigate(element);
+            }
         }
     }
 

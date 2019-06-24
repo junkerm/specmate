@@ -4,6 +4,8 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.Vector;
 
 import org.apache.uima.jcas.JCas;
@@ -17,10 +19,10 @@ import com.specmate.cause_effect_patterns.parse.matcher.MatchRule;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchUtil;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultWrapper;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultWrapper.RuleType;
-import com.specmate.cause_effect_patterns.resolve.XTextException;
-import com.specmate.cause_effect_patterns.resolve.XTextUtil;
+import com.specmate.cause_effect_patterns.resolve.GenerateMatcherUtil;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.config.api.IConfigService;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
@@ -30,12 +32,15 @@ import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.EnglishSentenceUnfolder;
 import com.specmate.nlp.util.GermanSentenceUnfolder;
 import com.specmate.nlp.util.SentenceUnfolderBase;
+import com.specmate.xtext.XTextException;
+import com.specmate.xtext.XTextUtil;
 
 public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 	private INLPService tagger;
 	private List<MatchRule> rules;
 	private CEGCreation creation;
 	private ELanguage lang;
+	private IConfigService configService;
 	
 	private static final int XSTART  = 225;
 	private static final int YSTART  = 225;
@@ -44,33 +49,76 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 	private static final int YOFFSET = 150;
 	
 	
-	public PatternbasedCEGGenerator(ELanguage lang, INLPService tagger) throws SpecmateException {
-		this("resources/"+lang.getLanguage().toUpperCase(), lang, tagger);
-	}
-	
-	public PatternbasedCEGGenerator(String folder, ELanguage lang, INLPService tagger) throws SpecmateException {
-		
-		URI dep;
-		URI pos;
-		URI rule;
-		try {
-			dep = getLocalFile(folder + "/Dep_" + lang.getLanguage().toUpperCase() + ".spec");
-			pos = getLocalFile(folder + "/Pos_" + lang.getLanguage().toUpperCase() + ".spec");
-			rule = getLocalFile(folder + "/Rule_"+ lang.getLanguage().toUpperCase() + ".spec");
-		} catch (URISyntaxException e) {
-			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM , e);
-		}
-		
-		try {
-			this.rules = XTextUtil.generateMatchers(rule, dep, pos);
-		} catch (XTextException e) {
-			throw new SpecmateInternalException(ErrorCode.NLP, e);
-		} 
+	public PatternbasedCEGGenerator(ELanguage lang, INLPService tagger, IConfigService configService) throws SpecmateException {
 		this.tagger = tagger;
 		this.creation = new CEGCreation();
 		this.lang = lang;
+		this.configService = configService;
+		loadRessources();
 	}
-
+	
+	private void loadRessources() throws SpecmateInternalException {
+		String[] paths = readURIStringsFromConfig();
+		String depPath = paths[0];
+		String posPath = paths[1];
+		String rulePath = paths[2];
+		String langCode = this.lang.getLanguage().toUpperCase();
+		
+		try {
+			URI dep = getURI(depPath,  "resources/"+langCode+"/Dep_"+langCode+".spec");
+			URI pos = getURI(posPath,  "resources/"+langCode+"/Pos_"+langCode+".spec");
+			URI rule = getURI(rulePath,"resources/"+langCode+"/Rule_"+langCode+".spec");
+			
+			this.rules = new GenerateMatcherUtil().loadXTextResources(rule, dep, pos);
+		} catch (XTextException e) {
+			throw new SpecmateInternalException(ErrorCode.NLP, e);
+		} catch (URISyntaxException e) {
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
+		} 
+	}
+	
+	/**
+	 * Read in the location paths from the configService
+	 * @return A String Array of length 3 with the paths to {dependency, POS, rules} in that order. 
+	 * If there is no data given for any of those paths, the specific element is null. 
+	 */
+	private String[] readURIStringsFromConfig() {
+		Set<Entry<Object, Object>> configData = this.configService.getConfigurationProperties("generation.dsl");
+		String depPath = null;
+		String posPath = null;
+		String rulePath = null;
+		String langCode = this.lang.toString().toUpperCase();
+		
+		//generation.dsl.<LANG>.rule
+		//generation.dsl.<LANG>.dependency
+		//generation.dsl.<LANG>.pos
+		for(Entry<Object,Object> entry: configData) {
+			String key = (String) entry.getKey();
+			
+			if(key.equals("generation.dsl."+langCode+".rule")) {
+				rulePath = (String) entry.getValue();
+			}
+			
+			if(key.equals("generation.dsl."+langCode+".dependency")) {
+				depPath = (String) entry.getValue();
+			}
+			
+			if(key.equals("generation.dsl."+langCode+".pos")) {
+				posPath = (String) entry.getValue();
+			}
+		}
+		
+		String[] result = {depPath, posPath, rulePath};
+		return result;
+	}
+	
+	private URI getURI(String path, String localDefault) throws URISyntaxException {
+		if(path != null) {
+			return URI.createURI(path);
+		}
+		return getLocalFile(localDefault);
+	}
+	
 	private URI getLocalFile(String fileName) throws URISyntaxException {
 		Bundle bundle = FrameworkUtil.getBundle(PatternbasedCEGGenerator.class);
 		return URI.createURI(bundle.getResource(fileName).toURI().toString());

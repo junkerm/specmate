@@ -8,7 +8,6 @@
 		 url: string;
 		 className: string;
 		
-
 		// Attributes
 		 description: EString;
 

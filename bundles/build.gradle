@@ -1,20 +1,84 @@
 /*
  * Master Gradle build script
  *
- * Depends on bndWorkspace and bndURI properties set by settings.gradle.
+ * Depends on bndPlugin property set by settings.gradle.
+ * and bnd_* values from gradle.properties.
  */
 
-/* Add bnd as a script dependency */
-buildscript {
-  dependencies {
-    classpath files(bndURI)
-  }
+import aQute.lib.io.IO
+
+if (JavaVersion.current().isJava9Compatible()) {
+  ext.jpmsOptions = [
+    '--illegal-access=warn',
+    '--add-opens=java.base/java.lang=ALL-UNNAMED',
+    '--add-opens=java.base/java.lang.invoke=ALL-UNNAMED',
+    '--add-opens=java.base/java.io=ALL-UNNAMED',
+    '--add-opens=java.base/java.net=ALL-UNNAMED',
+    '--add-opens=java.base/java.nio=ALL-UNNAMED',
+    '--add-opens=java.base/java.util=ALL-UNNAMED',
+    '--add-opens=java.base/java.util.jar=ALL-UNNAMED',
+    '--add-opens=java.base/java.util.regex=ALL-UNNAMED',
+    '--add-opens=java.base/java.util.zip=ALL-UNNAMED',
+    '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED',
+    '--add-opens=java.base/sun.net.www.protocol.file=ALL-UNNAMED',
+    '--add-opens=java.base/sun.net.www.protocol.ftp=ALL-UNNAMED',
+    '--add-opens=java.base/sun.net.www.protocol.http=ALL-UNNAMED',
+    '--add-opens=java.base/sun.net.www.protocol.https=ALL-UNNAMED',
+    '--add-opens=java.base/sun.net.www.protocol.jar=ALL-UNNAMED',
+    '--add-opens=java.base/sun.net.www.protocol.jrt=ALL-UNNAMED'
+  ]
 }
 
 /* Configure the subprojects */
 subprojects {
-  def bndProject = bndWorkspace.getProject(name)
-  if (bndProject != null) {
-    plugins.apply 'biz.aQute.bnd'
+  if (plugins.hasPlugin('biz.aQute.bnd')) {
+    group bnd('-groupid')
+    version bnd('base.version')
+    tasks.named('javadoc') {
+      options.tags = [
+        'Immutable:t:',
+        'ThreadSafe:t:',
+        'NotThreadSafe:t:',
+        'GuardedBy:mf:"Guarded By:"'
+      ]
+    }
+    tasks.named('test') {
+      testLogging {
+        exceptionFormat 'full'
+      }
+      if (JavaVersion.current().isJava9Compatible()) {
+        jvmArgs jpmsOptions
+        environment 'JAVA_OPTS': jpmsOptions.join(' ')
+      }
+      inputs.files(fileTree(project.projectDir) {
+        include 'testresources/', 'testdata/'
+        exclude {
+          def f = it.file
+          if (f.directory && f.list().length == 0) {
+            return true
+          }
+          try {
+            return "git check-ignore ${f}".execute().waitFor() == 0
+          } catch (Exception e) {
+            return false
+          }
+        }
+      }).withPropertyName('testFolders')
+      if (System.properties['maven.repo.local']) {
+        systemProperty 'maven.repo.local', IO.getFile(gradle.startParameter.currentDir, System.properties['maven.repo.local'])
+      }
+    }
+  }
+}
+
+tasks.named('wrapper') {
+  jarFile = rootProject.file('.gradle-wrapper/gradle-wrapper.jar')
+}
+
+tasks.register('buildscriptDependencies') {
+  doLast {
+    println "bnd_plugin: ${bnd_plugin}"
+    println "bnd_repourl: ${bnd_repourl}"
+    println buildscript.configurations.classpath.asPath
   }
 }

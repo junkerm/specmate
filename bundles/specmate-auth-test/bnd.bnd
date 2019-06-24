@@ -16,8 +16,8 @@ Test-Cases: \
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.emf.ecore,\
 	org.eclipse.emf.common
--runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
--runee: JavaSE-1.8
+-runfw: org.eclipse.osgi;version='[3.13.300.v20190218-1622,3.13.300.v20190218-1622]'
+-runee: JavaSE-11
 -runproperties:\
 	jetty.http.port=8088,\
 	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
@@ -26,7 +26,9 @@ Test-Cases: \
 	osgi.compatibility.bootdelegation=true,\
 	tester.trace=true,\
 	tester.continuous=true,\
-	tester.dir=testdir
+	tester.dir=testdir,\
+	equinox.log.history.max=1000,\
+	org.osgi.service.log.admin.loglevel=DEBUG 
 -runvm: -ea
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
@@ -133,4 +135,7 @@ Test-Cases: \
 	org.eclipse.net4j.tcp;version='[4.1.400,4.1.401)',\
 	specmate-administration;version=snapshot,\
 	specmate-metrics;version=snapshot,\
-	specmate-persistency-cdo;version=snapshot
+	specmate-persistency-cdo;version=snapshot,\
+	com.sun.activation.javax.activation;version='[1.2.0,1.2.1)',\
+	javax.activation-api;version='[1.2.0,1.2.1)',\
+	jaxb-api;version='[2.3.1,2.3.2)'

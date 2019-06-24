@@ -17,8 +17,10 @@
 	specmate-common;version=latest,\
 	specmate-model-support;version=latest,\
 	org.apache.commons.lang3,\
+	specmate-metrics;version=latest,\
 	specmate-cause-effect-patterns,\
-	specmate-config-api;version=latest
+	specmate-config-api;version=latest,\
+	specmate-xtext;version=latest
 Private-Package: \
 	com.specmate.modelgeneration,\
 	com.specmate.modelgeneration.legacy

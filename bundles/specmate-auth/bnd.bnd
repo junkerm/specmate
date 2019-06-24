@@ -13,7 +13,8 @@
 	org.apache.servicemix.bundles.junit,\
 	specmate-connectors;version=latest,\
 	specmate-model-support;version=latest,\
-	specmate-auth-api;version=latest
+	specmate-auth-api;version=latest,\
+	specmate-metrics;version=latest
 Private-Package: \
 	com.specmate.auth.internal
 Export-Package: com.specmate.auth.config

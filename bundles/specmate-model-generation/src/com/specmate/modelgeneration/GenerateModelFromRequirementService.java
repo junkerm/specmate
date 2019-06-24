@@ -5,14 +5,17 @@ import java.net.URISyntaxException;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.cause_effect_patterns.resolve.XTextException;
 import com.specmate.common.exception.SpecmateException;
+import com.specmate.config.api.IConfigService;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.metrics.ICounter;
+import com.specmate.metrics.IMetricsService;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.modelgeneration.legacy.EnglishCEGFromRequirementGenerator;
 import com.specmate.modelgeneration.legacy.GermanCEGFromRequirementGenerator;
@@ -32,6 +35,14 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 	INLPService tagger;
 	private LogService logService;
+	private IConfigService configService;
+	private IMetricsService metricsService; 
+	private ICounter modelGenCounter;
+	
+	@Activate
+	public void activate() throws SpecmateException {
+		this.modelGenCounter = metricsService.createCounter("model_generation_counter", "Total number of generated models");
+	}
 
 	@Override
 	public String getServiceName() {
@@ -52,6 +63,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 			this.logService.log(LogService.LOG_INFO, "Model Generation STARTED");
 			model = generateModelFromDescription(model);
 			this.logService.log(LogService.LOG_INFO, "Model Generation FINISHED");
+			this.modelGenCounter.inc();
 		} catch (SpecmateException e) {
 			this.logService.log(LogService.LOG_ERROR, "Model Generation failed with following error:\n"+e.getMessage());			
 			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
@@ -77,7 +89,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		ELanguage lang = NLPUtil.detectLanguage(text);
 		ICEGFromRequirementGenerator generator;
 		
-		generator = new PatternbasedCEGGenerator(lang, tagger); 
+		generator = new PatternbasedCEGGenerator(lang, tagger, this.configService); 
 		
 		try {
 			generator.createModel(model, text);
@@ -105,5 +117,15 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	void setNlptagging(INLPService tagger) {
 		this.tagger = tagger;
 	}
-
+	
+	/** Service reference for config service */
+	@Reference
+	public void setConfigurationService(IConfigService configService) {
+		this.configService = configService;
+  }
+  
+	@Reference
+	public void setMetricsService(IMetricsService metricsService) {
+		this.metricsService = metricsService;
+	}
 }

@@ -25,16 +25,15 @@
 		[if not (aClass.interface)]public[/if] url: string;
 		[if not (aClass.interface)]public[/if] className: string[if not (aClass.interface)] = "[aClass.name.toUpperFirst()/]"[/if];
 		[if not (aClass.interface)]public static className: string = "[aClass.name.toUpperFirst()/]";[/if]
-
 		// Attributes
 		[for (a: EAttribute | aClass.eAllAttributes)]
 		[if not (aClass.interface)]public[/if] [a.name/]: [a.eType.name/][if (a.many)]['['/][']'/][/if];
-		[/for]
+		[/for] 
 
 		// References
 		[for (r: EReference | aClass.eAllReferences)]
 		[if not (r.containment)][if (not (aClass.interface))]public[/if] [r.name/]: Proxy[if (r.many)]['['/][']'/][/if];[/if]
-		[/for]
+		[/for] 
 
 		// Containment
 		[comment Containment for history package /]

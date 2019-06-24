@@ -22,6 +22,8 @@
 	"CEGGenerator": {
 		"confirm": "Ursache-Wirkungs-Modell erstellen",
 		"confirmationTitle": "Ursache-Wirkungs-Modell erstellen und vorhandenes Modell überschreiben?",
+		"couldNotGenerate": "Für die angegebene Anforderung konnte kein Modell erstellt werden.",
+		"couldNotGenerateTitle": "Ein Fehler ist aufgetreten",
 		"generate": "Modell generieren (experimentell)"
 	},
 	"Cause-EffectModels": "Ursache-Wirkungs-Modelle",
@@ -46,7 +48,7 @@
 	"LinksandActions": "Links & Actions",
 	"Model": "Modell",
 	"Model Requirements": "Modellanforderungen",
-	"ModelHasErrors": "Fehlerhaftes Model",
+	"ModelHasErrors": "Fehlerhaftes Modell",
 	"Name": "Name",
 	"Negation of this connection": "Negation der Verbindung",
 	"NoWarnings": "Keine Warnungen",
@@ -238,12 +240,12 @@
 		"errorContradictoryModel": "Wirkung hat wiedersprüchliche Ursachen.",
 		"errorDublicateIOVariable": "Variable ist gleichzeitig Ursache und Wirkung.",
 		"errorDublicateNode": "Doppelter Knoten.",
-		"errorEmptyModel": "Das Model ist leer.",
+		"errorEmptyModel": "Das Modell ist leer.",
 		"errorInvalidName": "Unerlaubtes Zeichen im Namen.",
 		"errorMissingCondition": "Fehlende Bedingung.",
 		"errorMissingFields": "Fehlende Felder: {{fields}}",
 		"errorNoEndNode": "Kein Endknoten.",
-		"errorNoSteps": "Keine Schritte im Model.",
+		"errorNoSteps": "Keine Schritte im Modell.",
 		"errorNodeWithoutIncomingConnection": "Knoten ohne eingehende Verbindung.",
 		"errorNodeWithoutOutgoingConnection": "Knoten ohne ausgehende Verbindung.",
 		"errorNotOneStartNode": "Nicht genau ein Startknoten.",
@@ -252,7 +254,7 @@
 		"errorProcessNodeMultipleOutgoingConnections": "Nicht-Entscheidungsknoten mit mehreren ausgehenden Verbindungen.",
 		"errorProcessStartIncomingConnection": "Startknoten mit eingehenden Verbindungen.",
 		"errorSingleIndegreeNode": "Knoten hat nur eine Ursache und ist somit überflüssig.",
-		"errorUnconnectedNode": "Unverbundener Knoten im Model."
+		"errorUnconnectedNode": "Unverbundener Knoten im Modell."
 	},
 	"version": "Version",
 	"welcome": {

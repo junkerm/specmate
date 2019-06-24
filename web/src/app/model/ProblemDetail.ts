@@ -8,7 +8,6 @@
 		public url: string;
 		public className: string = "ProblemDetail";
 		public static className: string = "ProblemDetail";
-
 		// Attributes
 		public ecode: ErrorCode;
 		public status: EInt;

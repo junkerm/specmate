@@ -19,7 +19,8 @@
 	specmate-rest;version=latest,\
 	org.apache.commons.lang3;version=3.5,\
 	org.eclipse.equinox.common,\
-	org.eclipse.net4j.util
+	org.eclipse.net4j.util,\
+	specmate-metrics;version=latest
 Private-Package: \
 	com.specmate.testspecification.internal.services,\
 	com.specmate.testspecification.internal.testskeleton

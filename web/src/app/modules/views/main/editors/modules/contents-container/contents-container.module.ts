@@ -14,6 +14,7 @@ import { FolderContainer } from './components/folder-container.component';
 import { ProcessModelContainer } from './components/process-model-container.component';
 import { RelatedRequirementsContainer } from './components/related-requirements-container.component';
 import { TestSpecificationContainer } from './components/test-specification-container.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
@@ -25,7 +26,8 @@ import { TestSpecificationContainer } from './components/test-specification-cont
         IconsModule,
         ShortModelErrorDisplayModule,
         IconsModule,
-        TranslateModule
+        TranslateModule,
+        FormsModule
     ],
     exports: [CEGModelContainer, ProcessModelContainer, TestSpecificationContainer, RelatedRequirementsContainer, FolderContainer],
     declarations: [CEGModelContainer, ProcessModelContainer, TestSpecificationContainer, RelatedRequirementsContainer, FolderContainer],

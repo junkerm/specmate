@@ -34,7 +34,7 @@ export class TestStepRow extends SimpleInputFormBase {
     }
 
     protected get fields(): string[] {
-        return ['description', 'expectedOutcome'];
+        return ['name', 'description', 'expectedOutcome'];
     }
 
     public get testStep(): TestStep {

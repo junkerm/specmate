@@ -56,6 +56,9 @@
                 <div class="form-control-feedback">
                     <span [hidden]="validPattern(newNameInput.value)" class="form-text">{{errorMessage}}</span>
                 </div>
+                <div class="input-group top-margin">
+                    <textarea [(ngModel)]="modelDescription" class="form-control form-control-sm" rows="5" placeholder="{{'Model Requirements'|translate}}"></textarea>
+                </div>
             </div>
             <div class="col">
                 <div class="input-group">
