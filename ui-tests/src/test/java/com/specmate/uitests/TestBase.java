@@ -1,14 +1,17 @@
 package com.specmate.uitests;
 
-import com.saucelabs.common.SauceOnDemandAuthentication;
 
 import org.junit.*;
 import org.junit.rules.TestName;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.junit.runners.model.Statement;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.CapabilityType;
@@ -18,7 +21,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
-import com.saucelabs.junit.SauceOnDemandTestWatcher;
+//import com.saucelabs.junit.SauceOnDemandTestWatcher;
 import com.specmate.uitests.pagemodel.LoginElements;
 
 import java.net.URL;
@@ -37,12 +40,26 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     public static String seleniumURI;
     public static String buildTag;
     public static final String tunnelidentifier = System.getenv("TRAVIS_JOB_NUMBER");
-   
-    public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication();
+    private static boolean result;
 
-    /**Mark the Sauce Job as passed/failed when the test succeeds or fails*/
+    
     @Rule
-    public SauceOnDemandTestWatcher resultReportingTestWatcher = new SauceOnDemandTestWatcher(this, authentication);
+	public final TestWatcher watcher = new TestWatcher() {
+		@Override
+		public Statement apply(Statement base, Description description) {
+			return super.apply(base, description);
+		}
+
+		@Override
+		protected void failed(Throwable e, Description description) {
+			result = false;
+		}
+
+		@Override
+		protected void succeeded(Description description) {
+			result = true;
+		}
+	};
 
     @Rule
     public TestName name = new TestName() {
@@ -109,6 +126,8 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
 
     @After
     public void tearDown() throws Exception {
+    	((JavascriptExecutor)driver).executeScript("sauce:job-result=" + (result ? "passed" : "failed"));
+    	
         driver.quit();
     }
 
