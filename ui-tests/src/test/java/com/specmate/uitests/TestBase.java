@@ -32,7 +32,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     public static String seleniumURI;
     public static String buildTag;
     public static final String tunnelidentifier = System.getenv("TRAVIS_JOB_NUMBER");
-    private static boolean result;
+    private static boolean result = true;
 
     
     @Rule
