@@ -7,17 +7,25 @@ import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 
 import com.saucelabs.junit.SauceOnDemandTestWatcher;
 import com.specmate.uitests.pagemodel.LoginElements;
 
 import java.net.URL;
+import java.time.Duration;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 
@@ -120,7 +128,23 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
         }
     }
     
+    protected void waitForProjectsToLoad() {
+    	Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+    	       .withTimeout(Duration.ofSeconds(30))
+    	       .pollingEvery(Duration.ofSeconds(5))
+    	       .ignoring(NoSuchElementException.class);
+    	
+
+    	wait.until(new Function<WebDriver, WebElement>() {
+    	     public WebElement apply(WebDriver driver) {
+    	       driver.navigate().refresh();
+    	       return driver.findElement(By.id("login-username-textfield"));
+    	     }
+    	});
+    }
+    
 	public void performLogin(LoginElements login) {
+		waitForProjectsToLoad();
 		login.username("username");
 		login.password("password");
 		login.changeToEnglish();
