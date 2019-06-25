@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -129,6 +130,10 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
         if (buildTag == null) {
             buildTag = System.getenv("SAUCE_BUILD_NAME");
         }
+    }
+    
+    protected void annotate(String description) {
+    	((JavascriptExecutor) driver).executeScript("sauce:context=" + description);
     }
     
     protected void waitForProjectsToLoad() {
