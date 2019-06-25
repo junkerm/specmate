@@ -152,6 +152,5 @@ public class ProcessModelTest extends TestBase {
 
 		// Assert that the related requirement is not shown in the requirement overview, as we deleted the model referencing the requirement
 		assertFalse(requirementOverview.checkForRelatedRequirement());
-		resultProcess = true;
 	}
 }

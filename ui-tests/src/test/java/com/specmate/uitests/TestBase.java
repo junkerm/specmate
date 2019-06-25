@@ -1,15 +1,15 @@
 package com.specmate.uitests;
 
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.rules.TestName;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.junit.runners.model.Statement;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -33,33 +33,11 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     public static String seleniumURI;
     public static String buildTag;
     public static final String tunnelidentifier = System.getenv("TRAVIS_JOB_NUMBER");
-    protected static boolean resultLogin = false;
-    protected static boolean resultModel = false;
-    protected static boolean resultProcess = false;
     
     public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication();
     
     @Rule
     public SauceOnDemandTestWatcher resultReportingTestWatcher = new SauceOnDemandTestWatcher(this, authentication);
-
-    
-    /*@Rule
-	public final TestWatcher watcher = new TestWatcher() {
-		@Override
-		public Statement apply(Statement base, Description description) {
-			return super.apply(base, description);
-		}
-
-		@Override
-		protected void failed(Throwable e, Description description) {
-			result = false;
-		}
-
-		@Override
-		protected void succeeded(Description description) {
-			result = true;
-		}
-	};*/
 
     @Rule
     public TestName name = new TestName() {
@@ -126,8 +104,6 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
 
     @After
     public void tearDown() throws Exception {
-    	//((JavascriptExecutor)driver).executeScript("sauce:job-result=" + ((resultLogin && resultModel && resultProcess) ? "passed" : "failed"));
-    	
         driver.quit();
     }
 

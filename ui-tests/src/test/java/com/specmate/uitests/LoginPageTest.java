@@ -27,6 +27,5 @@ public class LoginPageTest extends TestBase {
 		performLogin(login);
 
 		assertTrue(login.isLoggedIn());
-		resultLogin = true;
 	 }
 }
