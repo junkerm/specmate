@@ -1,10 +1,12 @@
 package com.specmate.uitests;
 
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.rules.TestName;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -21,7 +23,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
-//import com.saucelabs.junit.SauceOnDemandTestWatcher;
+import com.saucelabs.junit.SauceOnDemandTestWatcher;
 import com.specmate.uitests.pagemodel.LoginElements;
 
 import java.net.URL;
@@ -30,6 +32,7 @@ import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 
 @Ignore
@@ -40,26 +43,11 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     public static String seleniumURI;
     public static String buildTag;
     public static final String tunnelidentifier = System.getenv("TRAVIS_JOB_NUMBER");
-    private static boolean result;
-
+    
+    public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication();
     
     @Rule
-	public final TestWatcher watcher = new TestWatcher() {
-		@Override
-		public Statement apply(Statement base, Description description) {
-			return super.apply(base, description);
-		}
-
-		@Override
-		protected void failed(Throwable e, Description description) {
-			result = false;
-		}
-
-		@Override
-		protected void succeeded(Description description) {
-			result = true;
-		}
-	};
+    public SauceOnDemandTestWatcher resultReportingTestWatcher = new SauceOnDemandTestWatcher(this, authentication);
 
     @Rule
     public TestName name = new TestName() {
@@ -126,8 +114,6 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
 
     @After
     public void tearDown() throws Exception {
-    	((JavascriptExecutor)driver).executeScript("sauce:job-result=" + (result ? "passed" : "failed"));
-    	
         driver.quit();
     }
 
