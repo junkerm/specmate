@@ -46,6 +46,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     
     public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication();
     
+    /**Mark the Sauce Job as passed/failed when the test succeeds or fails*/
     @Rule
     public SauceOnDemandTestWatcher resultReportingTestWatcher = new SauceOnDemandTestWatcher(this, authentication);
 
