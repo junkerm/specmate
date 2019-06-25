@@ -15,13 +15,14 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-//import com.saucelabs.junit.SauceOnDemandTestWatcher;
+import com.saucelabs.junit.SauceOnDemandTestWatcher;
 import com.specmate.uitests.pagemodel.LoginElements;
 
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
+import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 
 @Ignore
@@ -35,6 +36,11 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     protected static boolean resultLogin = false;
     protected static boolean resultModel = false;
     protected static boolean resultProcess = false;
+    
+    public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication();
+    
+    @Rule
+    public SauceOnDemandTestWatcher resultReportingTestWatcher = new SauceOnDemandTestWatcher(this, authentication);
 
     
     /*@Rule
@@ -120,7 +126,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
 
     @After
     public void tearDown() throws Exception {
-    	((JavascriptExecutor)driver).executeScript("sauce:job-result=" + ((resultLogin && resultModel && resultProcess) ? "passed" : "failed"));
+    	//((JavascriptExecutor)driver).executeScript("sauce:job-result=" + ((resultLogin && resultModel && resultProcess) ? "passed" : "failed"));
     	
         driver.quit();
     }
