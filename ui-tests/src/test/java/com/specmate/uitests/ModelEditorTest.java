@@ -86,7 +86,6 @@ public class ModelEditorTest extends TestBase {
 					
 		// Save CEG
 		commonControl.save();
-	
 					
 		// Create test specification
 		cegEditor.generateTestSpecification();
