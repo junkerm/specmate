@@ -12,14 +12,11 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.junit.runners.model.Statement;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
@@ -140,7 +137,6 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     	       .pollingEvery(Duration.ofSeconds(5))
     	       .ignoring(NoSuchElementException.class);
     	
-
     	wait.until(new Function<WebDriver, WebElement>() {
     	     public WebElement apply(WebDriver driver) {
     	       driver.navigate().refresh();
