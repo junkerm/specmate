@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
@@ -38,6 +39,8 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 	 */
 	private static final String DEPENDENCY_TYPE_KON = "KON";
 	private static final String DEPENDENCY_TYPE_CJ = "CJ";
+
+	private static final Pattern CONJ_PATTERN = Pattern.compile("(?<!,)(\\s+(und|oder))");
 
 	/** {@inheritDoc} */
 	@Override
@@ -218,12 +221,14 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 	}
 
 	/** Determines either an accusative or dative object dependency */
-	private Optional<Dependency> findObjectDependency(JCas jCas, Annotation anno, boolean isGovernor) {
-		Optional<Dependency> obj = NLPUtil.findDependency(jCas, anno, DEPENDENCY_TYPE_ACCUSATIVE_OBJECT, isGovernor);
-		if (!obj.isPresent()) {
-			obj = NLPUtil.findDependency(jCas, anno, DEPENDENCY_TYPE_DATIVE_OBJECT, isGovernor);
+	@Override
+	protected Optional<Dependency> findObjectDependency(JCas jCas, Annotation anno, boolean isGovernor) {
+		Optional<Dependency> optObjDep = NLPUtil.findDependency(jCas, anno, DEPENDENCY_TYPE_ACCUSATIVE_OBJECT,
+				isGovernor);
+		if (!optObjDep.isPresent()) {
+			optObjDep = NLPUtil.findDependency(jCas, anno, DEPENDENCY_TYPE_DATIVE_OBJECT, isGovernor);
 		}
-		return obj;
+		return optObjDep;
 	}
 
 	/** Follows the conjunction dependency until a subject is found */
@@ -284,7 +289,7 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 		}
 		return Optional.empty();
 	}
-	
+
 	@Override
 	protected List<Dependency> getConjunctiveAdjectiveModifyers(JCas jCas, Annotation np) {
 		return new Vector<Dependency>();
@@ -293,7 +298,12 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 	@Override
 	protected List<Pair<Integer, String>> completeConjunctiveAdjectiveNounPhrase(JCas jCas, Annotation np,
 			List<Dependency> modifiers) {
-		return new Vector<Pair<Integer,String>>();
+		return new Vector<Pair<Integer, String>>();
+	}
+
+	@Override
+	protected String insertCommasBeforeConjunctions(String text) {
+		return CONJ_PATTERN.matcher(text).replaceAll(r -> "," + r.group(1));
 	}
 
 }
