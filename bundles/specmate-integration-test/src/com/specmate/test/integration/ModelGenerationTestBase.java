@@ -127,7 +127,7 @@ public class ModelGenerationTestBase extends EmfRestTest {
 
 			Assert.assertTrue("Connection from node (\"" + expSource.getVariable() + "\",\"" + expSource.getCondition()
 					+ "\")" + " to node (\"" + expTarget.getVariable() + "\",\"" + expTarget.getCondition()
-					+ "\")  not found", matched);
+					+ "\")  not found. Negated: "+ conn.isNegate(), matched);
 		}
 
 	}
