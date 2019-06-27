@@ -3,8 +3,10 @@ package com.specmate.uitests.pagemodel;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -69,6 +71,7 @@ public class RequirementOverviewElements {
 	}
 	
 	public void deleteModel(String modelName) {
+		scrollDownTo(By.cssSelector("ceg-model-container"));
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.id("requirement-" + modelName + "-deletemodel-button")));
@@ -77,6 +80,7 @@ public class RequirementOverviewElements {
 	}
 	
 	public void deleteDuplicateModel(String modelName) {
+		scrollDownTo(By.cssSelector("ceg-model-container"));
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button")));
@@ -136,31 +140,39 @@ public class RequirementOverviewElements {
 	}
 	
 	public boolean checkForDeletedModel(String modelName) {
-		driver.navigate().refresh();
+		scrollDownTo(By.cssSelector("ceg-model-container"));
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ceg-model-container")));
 		return isElementPresent(By.id("requirement-" + modelName + "-deletemodel-button"));
 	}
 	
 	public boolean checkForDeletedDuplicateModel(String modelName) {
-		driver.navigate().refresh();
+		scrollDownTo(By.cssSelector("ceg-model-container"));
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ceg-model-container")));
 		return isElementPresent(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button"));
 	}
 	
 	public boolean checkForDeletedProcess(String processName) {
-		driver.navigate().refresh();
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ceg-model-container")));
 		return isElementPresent(By.id("requirement-" + processName + "-deleteprocess-button"));
 	}
 	
 	public boolean checkForDeletedDuplicateProcess(String processName) {
-		driver.navigate().refresh();
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ceg-model-container")));
 		return isElementPresent(By.id("requirement-Copy 1 of " + processName + "-deleteprocess-button"));
+	}
+	
+	protected void scrollDownTo(By elementLocator) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+
+		// Find element by locator
+		WebElement Element = driver.findElement(elementLocator);
+
+		// Scroll the page till the element is found
+		js.executeScript("arguments[0].scrollIntoView();", Element);
 	}
 
 	protected boolean isElementPresent(By selector) {

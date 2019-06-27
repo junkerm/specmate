@@ -169,6 +169,11 @@ public class EditorElements {
 	 * Generates a test specification within the Editor
 	 */
 	public void generateTestSpecification() {
+		// Wait as the save operation needs time to finish 
+		try{
+			Thread.sleep(1500);
+		} catch(InterruptedException ie){
+		}
 		scrollDownTo(generateTestSpec);
 		driver.findElement(generateTestSpec).click();
 	}

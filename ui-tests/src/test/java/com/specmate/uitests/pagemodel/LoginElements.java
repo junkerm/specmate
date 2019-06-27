@@ -80,4 +80,3 @@ public class LoginElements {
 		return Objects.equals(URL, expectedURL);
 	}
 }
-
