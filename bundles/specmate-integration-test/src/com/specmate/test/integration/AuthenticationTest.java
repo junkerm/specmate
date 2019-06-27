@@ -60,6 +60,22 @@ public class AuthenticationTest extends EmfRestTest {
 
 		resetSelectedProject();
 	}
+	
+	@Test
+	public void testWrongProjectAtLogin() throws SpecmateException {
+		UserSession session = authenticationService.authenticate("resttest", "resttest", projectAName);
+		RestClient clientProjectA = new RestClient(REST_ENDPOINT, session.getId(), logService);
+			
+		String wrongProjectName = "wrongProjectName";
+		String LOGIN_JSON = "{\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"className\":\"User\",\"userName\":\"resttest\",\"passWord\":\"resttest\",\"projectName\":\"" + wrongProjectName + "\"}";
+		RestResult<JSONObject> result = clientProjectA.post("login", new JSONObject(LOGIN_JSON));
+		int loginStatus = result.getResponse().getStatus();
+
+		assertEquals(Status.UNAUTHORIZED.getStatusCode(), loginStatus);
+		result.getResponse().close();
+
+		resetSelectedProject();
+	}
 
 	@Test
 	public void testUnauthorizedGet() throws SpecmateException {
