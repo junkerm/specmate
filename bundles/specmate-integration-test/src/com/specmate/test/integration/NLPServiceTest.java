@@ -93,6 +93,12 @@ public class NLPServiceTest {
 		unfolded = unfolder.unfold(nlpService, text, ELanguage.EN);
 		Assert.assertEquals("The window contain an entry, and the list contain an entry.", unfolded);
 
+		text = "If the user clicks the button, Specmate displays a window and Specmate saves the changes and Specmate reloads the page.";
+		unfolded = unfolder.unfold(nlpService, text, ELanguage.EN);
+		Assert.assertEquals(
+				"If the user clicks the button, Specmate displays a window and Specmate saves the changes and Specmate reloads the page.",
+				unfolded);
+
 	}
 
 	@Test
@@ -107,8 +113,8 @@ public class NLPServiceTest {
 				"Wenn das Werkzeug fehlschlägt, oder das Werkzeug einen Fehler hat, oder das Werkzeug ein Problem hat, dann zeigt das Werkzeug ein Warnfenster, und zeigt das Werkzeug einen Fehlermarker an, und gibt das Werkzeug eine Meldung aus.",
 				unfolded);
 
-		// Ensure nothing changes when applied on the already replace text
-		text = "Wenn das Werkzeug fehlschlägt, oder das Werkzeug einen Fehler hat, oder das Werkzeug ein Problem hat, dann zeigt das Werkzeug ein Warnfenster, und zeigt das Werkzeug einen Fehlermarker an, und gibt das Werkzeug eine Meldung aus.";
+//		 Ensure nothing changes when applied on the already replace text
+		text = "Wenn das Werkzeug fehlschlägt, oder wenn das Werkzeug einen Fehler hat, oder wenn das Werkzeug ein Problem hat, dann zeigt das Werkzeug ein Warnfenster, und dann zeigt das Werkzeug einen Fehlermarker an, und dann gibt das Werkzeug eine Meldung aus.";
 		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
 		Assert.assertEquals(
 				"Wenn das Werkzeug fehlschlägt, oder das Werkzeug einen Fehler hat, oder das Werkzeug ein Problem hat, dann zeigt das Werkzeug ein Warnfenster, und zeigt das Werkzeug einen Fehlermarker an, und gibt das Werkzeug eine Meldung aus.",
@@ -145,6 +151,12 @@ public class NLPServiceTest {
 		text = "Das Fenster und die Liste enthalten einen Eintrag.";
 		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
 		Assert.assertEquals("Das Fenster enthalten einen Eintrag, und die Liste enthalten einen Eintrag.", unfolded);
+
+		text = "Wenn das Werkzeug einen Fehler oder ein Problem erkennt oder der Benutzer keine Anmeldung hat, zeigt das Werkzeug ein Warnfenster an und gibt einen Signalton aus.";
+		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
+		Assert.assertEquals(
+				"Wenn das Werkzeug einen Fehler oder ein Problem erkennt oder der Benutzer keine Anmeldung hat, zeigt das Werkzeug ein Warnfenster an und gibt einen Signalton aus.",
+				unfolded);
 
 	}
 
