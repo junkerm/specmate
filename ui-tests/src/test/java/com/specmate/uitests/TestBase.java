@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -128,9 +129,19 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     }
     
     protected void waitForProjectsToLoad() {
-    	WebDriverWait wait = new WebDriverWait(driver, 25); //throws exception if element is not found within 10 seconds
-    	driver.navigate().refresh();
-    	wait.until(ExpectedConditions.presenceOfElementLocated(By.id("login-username-textfield")));
+    	boolean displayed = false;
+    	int counter = 50;
+    	do{
+    		if(counter<0) {
+    			break;
+    		}
+    		try{
+    			displayed = driver.findElement(By.id("login-username-textfield")).isDisplayed();
+    			counter--;
+    		} catch (NoSuchElementException e){
+    			driver.navigate().refresh();
+    		}
+    	} while(!displayed);
     }
     
 	public void performLogin(LoginElements login) {
