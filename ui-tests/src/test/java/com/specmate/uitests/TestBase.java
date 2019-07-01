@@ -130,15 +130,12 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     
     protected void waitForProjectsToLoad() {
     	boolean displayed = false;
-    	int counter = 50;
-    	do{
-    		if(counter<0) {
-    			break;
-    		}
-    		try{
-    			displayed = driver.findElement(By.id("login-username-textfield")).isDisplayed();
+    	int counter = 3;
+    	do {
+    		try {
+    			displayed = driver.findElement(By.id("login-username-textfield")).isDisplayed() || (counter<0);
     			counter--;
-    		} catch (NoSuchElementException e){
+    		} catch (NoSuchElementException e) {
     			driver.navigate().refresh();
     		}
     	} while(!displayed);
