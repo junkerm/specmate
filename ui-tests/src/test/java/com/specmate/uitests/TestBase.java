@@ -138,7 +138,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     
     protected void waitForProjectsToLoad() {
     	Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-    	       .withTimeout(Duration.ofSeconds(30))
+    	       .withTimeout(Duration.ofSeconds(35))
     	       .pollingEvery(Duration.ofSeconds(5))
     	       .ignoring(NoSuchElementException.class);
     	
