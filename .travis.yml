@@ -19,7 +19,7 @@ install:
 script:
 - cd ../web && npm run build-prod
 - cd ../bundles && ./gradlew --no-daemon build export --continue
-- cd ../bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &
+- cd ../bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx10000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &
 - sleep 10
 - cd ../ui-tests/ && mvn clean test
 after_success:
