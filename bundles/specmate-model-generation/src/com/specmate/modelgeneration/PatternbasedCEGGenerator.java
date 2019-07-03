@@ -390,9 +390,6 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 			DirectCause dHead = resolveCause(model, nodes, cause.getFirstArgument(), posTable, offset);
 			result.positiveCauses = dHead.negativeCauses;
 			result.negativeCauses = dHead.positiveCauses;
-			if(dHead.effectType.equals(NodeType.AND)) {
-				result.effectType = NodeType.OR;
-			}
 		} else {
 			// Create Direct Node
 			CEGNode node = addDirectNode(model, nodes, cause, posTable, offset, NodeType.AND);

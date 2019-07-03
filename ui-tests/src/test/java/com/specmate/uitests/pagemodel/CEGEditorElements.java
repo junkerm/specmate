@@ -101,7 +101,6 @@ public class CEGEditorElements extends EditorElements {
 		return isElementPresent(By.cssSelector(".tilde"));
 	}
 	
-	
 	public boolean checkUndoConnection() {
 		int numberOfConnections = driver.findElements(By.cssSelector("g:first-child > [generic-graphical-connection]"))
 				.size();
