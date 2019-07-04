@@ -19,7 +19,8 @@
 	org.apache.commons.lang3,\
 	specmate-cause-effect-patterns,\
 	specmate-config-api;version=latest,\
-	specmate-xtext;version=latest
+	specmate-xtext;version=latest,\
+	specmate-objectif
 Private-Package: \
 	com.specmate.modelgeneration,\
 	com.specmate.modelgeneration.legacy

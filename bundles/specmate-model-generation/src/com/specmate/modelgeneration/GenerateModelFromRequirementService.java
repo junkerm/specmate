@@ -76,7 +76,9 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		ELanguage lang = NLPUtil.detectLanguage(text);
 		ICEGFromRequirementGenerator generator;
 		
-		generator = new PatternbasedCEGGenerator(lang, tagger); 
+		generator = new GenerateModelFromPseudoCode();
+		
+		//generator = new PatternbasedCEGGenerator(lang, tagger); 
 		
 		try {
 			generator.createModel(model, text);
