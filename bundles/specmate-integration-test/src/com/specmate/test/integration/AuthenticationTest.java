@@ -63,15 +63,26 @@ public class AuthenticationTest extends EmfRestTest {
 	
 	@Test
 	public void testWrongProjectAtLogin() throws SpecmateException {
-		UserSession session = authenticationService.authenticate("resttest", "resttest", projectAName);
 		RestClient clientProjectA = new RestClient(REST_ENDPOINT, session.getId(), logService);
-			
-		String wrongProjectName = "wrongProjectName";
-		String LOGIN_JSON = "{\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"className\":\"User\",\"userName\":\"resttest\",\"passWord\":\"resttest\",\"projectName\":\"" + wrongProjectName + "\"}";
-		RestResult<JSONObject> result = clientProjectA.post("login", new JSONObject(LOGIN_JSON));
+		
+		// correct login
+		String rightLoginJson = "{\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"className\":\"User\",\"userName\":\"resttest\",\"passWord\":\"resttest\",\"projectName\":\"" + projectAName + "\"}";
+		RestResult<JSONObject> result = clientProjectA.post("login", new JSONObject(rightLoginJson));
 		int loginStatus = result.getResponse().getStatus();
-
+		assertEquals(Status.OK.getStatusCode(), loginStatus);
+		
+		// wrong project name in login
+		String wrongProjectName = "wrongProjectName";
+		String wrongLoginJson = "{\"___nsuri\":\"http://specmate.com/20190125/model/user\",\"className\":\"User\",\"userName\":\"resttest\",\"passWord\":\"resttest\",\"projectName\":\"" + wrongProjectName + "\"}";
+		result = clientProjectA.post("login", new JSONObject(wrongLoginJson));
+		loginStatus = result.getResponse().getStatus();
 		assertEquals(Status.UNAUTHORIZED.getStatusCode(), loginStatus);
+		
+		// correct login
+		result = clientProjectA.post("login", new JSONObject(rightLoginJson));
+		loginStatus = result.getResponse().getStatus();
+		assertEquals(Status.OK.getStatusCode(), loginStatus);
+		
 		result.getResponse().close();
 
 		resetSelectedProject();
