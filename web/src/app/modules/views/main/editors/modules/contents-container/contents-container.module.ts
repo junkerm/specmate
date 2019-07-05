@@ -14,6 +14,7 @@ import { FolderContainer } from './components/folder-container.component';
 import { ProcessModelContainer } from './components/process-model-container.component';
 import { RelatedRequirementsContainer } from './components/related-requirements-container.component';
 import { TestSpecificationContainer } from './components/test-specification-container.component';
+import { ContentsContainerService } from './services/contents-container.service';
 
 @NgModule({
     imports: [
@@ -29,6 +30,6 @@ import { TestSpecificationContainer } from './components/test-specification-cont
     ],
     exports: [CEGModelContainer, ProcessModelContainer, TestSpecificationContainer, RelatedRequirementsContainer, FolderContainer],
     declarations: [CEGModelContainer, ProcessModelContainer, TestSpecificationContainer, RelatedRequirementsContainer, FolderContainer],
-    providers: [],
+    providers: [ContentsContainerService],
 })
 export class ContentsContainerModule { }

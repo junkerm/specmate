@@ -12,6 +12,7 @@ import { ConfirmationModal } from '../../../../../../notification/modules/modals
 import { AdditionalInformationService } from '../../../../../side/modules/links-actions/services/additional-information.service';
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
 import { TestSpecificationContentContainerBase } from '../base/testspecification-generatable-content-container-base';
+import { ContentsContainerService } from '../services/contents-container.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -27,6 +28,7 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
         translate: TranslateService,
         modal: ConfirmationModal,
         clipboardService: ClipboardService,
+        private contentService: ContentsContainerService,
         additionalInformationService: AdditionalInformationService) {
         super(dataService, navigator, translate, modal, clipboardService, additionalInformationService);
     }
@@ -37,5 +39,16 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
         let factory: ModelFactoryBase = new CEGModelFactory(this.dataService);
         const element = await factory.create(this.parent, true, Id.uuid, name);
         return element as CEGModel;
+    }
+
+    public async delete(element: CEGModel,
+        message: string = this.translate.instant('doYouReallyWantToDelete', { name: element.name })): Promise<void> {
+        try {
+            await this.modal.openOkCancel('ConfirmationRequired', message);
+            await this.dataService.deleteElement(element.url, false, Id.uuid);
+            await this.dataService.commit(this.translate.instant('delete'));
+            await this.readContents();
+            this.contentService.isDeleted();
+        } catch (e) { }
     }
 }
