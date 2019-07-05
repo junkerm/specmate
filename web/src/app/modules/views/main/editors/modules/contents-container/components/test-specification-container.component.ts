@@ -33,10 +33,8 @@ export class TestSpecificationContainer extends ContentContainerBase<TestSpecifi
         clipboardService: ClipboardService) {
         super(dataService, navigator, translate, modal, clipboardService);
 
-        contentService.deleted$.subscribe(
-            doThis => {
-                this.readContents();
-            });
+        contentService.onModelDeleted.subscribe(
+            () => this.readContents());
     }
 
     protected condition = (element: IContainer) => Type.is(element, TestSpecification);

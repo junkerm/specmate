@@ -28,9 +28,9 @@ export class ProcessModelContainer extends TestSpecificationContentContainerBase
         translate: TranslateService,
         modal: ConfirmationModal,
         additionalInformationService: AdditionalInformationService,
-        private contentService: ContentsContainerService,
+        contentService: ContentsContainerService,
         clipboardService: ClipboardService) {
-        super(dataService, navigator, translate, modal, clipboardService, additionalInformationService);
+        super(dataService, navigator, translate, modal, clipboardService, contentService, additionalInformationService);
     }
 
     protected condition = (element: IContainer) => Type.is(element, Process);
@@ -41,14 +41,4 @@ export class ProcessModelContainer extends TestSpecificationContentContainerBase
         return element as Process;
     }
 
-    public async delete(element: Process,
-        message: string = this.translate.instant('doYouReallyWantToDelete', { name: element.name })): Promise<void> {
-        try {
-            await this.modal.openOkCancel('ConfirmationRequired', message);
-            await this.dataService.deleteElement(element.url, false, Id.uuid);
-            await this.dataService.commit(this.translate.instant('delete'));
-            await this.readContents();
-            this.contentService.isDeleted();
-        } catch (e) { }
-    }
 }

@@ -1,18 +1,14 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { IContainer } from '../../../../../../../model/IContainer';
-import { Subject } from 'rxjs';
 
  @Injectable()
 export class ContentsContainerService {
 
-   private onModelDeleted = new Subject<string>();
-
-   deleted$ = this.onModelDeleted.asObservable();
+   public onModelDeleted = new EventEmitter<void>();
 
    constructor() { }
 
    public isDeleted() {
-    this.onModelDeleted.next();
+    this.onModelDeleted.emit();
 }
 
 }

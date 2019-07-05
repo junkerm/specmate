@@ -27,9 +27,9 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
         translate: TranslateService,
         modal: ConfirmationModal,
         clipboardService: ClipboardService,
-        private contentService: ContentsContainerService,
+        contentService: ContentsContainerService,
         additionalInformationService: AdditionalInformationService) {
-        super(dataService, navigator, translate, modal, clipboardService, additionalInformationService);
+        super(dataService, navigator, translate, modal, clipboardService, contentService, additionalInformationService);
     }
 
     modelDescription: string;
@@ -67,14 +67,4 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
         return element;
     }
 
-    public async delete(element: CEGModel,
-        message: string = this.translate.instant('doYouReallyWantToDelete', { name: element.name })): Promise<void> {
-        try {
-            await this.modal.openOkCancel('ConfirmationRequired', message);
-            await this.dataService.deleteElement(element.url, false, Id.uuid);
-            await this.dataService.commit(this.translate.instant('delete'));
-            await this.readContents();
-            this.contentService.isDeleted();
-        } catch (e) { }
-    }
 }

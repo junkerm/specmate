@@ -6,6 +6,8 @@ import { ConfirmationModal } from '../../../../../../notification/modules/modals
 import { AdditionalInformationService } from '../../../../../side/modules/links-actions/services/additional-information.service';
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
 import { ContentContainerBase } from './contents-container-base';
+import { ContentsContainerService } from '../services/content-container.service';
+import { Id } from '../../../../../../../util/id';
 
 export abstract class TestSpecificationContentContainerBase<T extends IContainer> extends ContentContainerBase<T> {
 
@@ -15,12 +17,24 @@ export abstract class TestSpecificationContentContainerBase<T extends IContainer
         translate: TranslateService,
         modal: ConfirmationModal,
         clipboardService: ClipboardService,
+        private contentService: ContentsContainerService,
         protected additionalInformationService: AdditionalInformationService) {
         super(dataService, navigator, translate, modal, clipboardService);
     }
 
     public get canGenerateTestSpecification(): boolean {
         return this.additionalInformationService.canGenerateTestSpecifications;
+    }
+
+    public async delete(element: T,
+        message: string = this.translate.instant('doYouReallyWantToDelete', { name: element.name })): Promise<void> {
+        try {
+            await this.modal.openOkCancel('ConfirmationRequired', message);
+            await this.dataService.deleteElement(element.url, false, Id.uuid);
+            await this.dataService.commit(this.translate.instant('delete'));
+            await this.readContents();
+            this.contentService.isDeleted();
+        } catch (e) { }
     }
 
 }
