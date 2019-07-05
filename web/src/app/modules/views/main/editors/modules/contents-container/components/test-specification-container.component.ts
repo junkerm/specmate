@@ -14,6 +14,7 @@ import { NavigatorService } from '../../../../../../navigation/modules/navigator
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
 import { ContentContainerBase } from '../base/contents-container-base';
+import { ContentsContainerService } from '../services/content-container.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -28,8 +29,14 @@ export class TestSpecificationContainer extends ContentContainerBase<TestSpecifi
         navigator: NavigatorService,
         translate: TranslateService,
         modal: ConfirmationModal,
+        contentService: ContentsContainerService,
         clipboardService: ClipboardService) {
         super(dataService, navigator, translate, modal, clipboardService);
+
+        contentService.deleted$.subscribe(
+            doThis => {
+                this.readContents();
+            });
     }
 
     protected condition = (element: IContainer) => Type.is(element, TestSpecification);
