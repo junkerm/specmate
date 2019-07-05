@@ -1,14 +1,14 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 
- @Injectable()
+@Injectable()
 export class ContentsContainerService {
 
-   public onModelDeleted = new EventEmitter<void>();
+    @Output() onModelDeleted: EventEmitter<void> = new EventEmitter<void>();
 
-   constructor() { }
+    constructor() { }
 
-   public isDeleted() {
-    this.onModelDeleted.emit();
-}
+    public isDeleted() {
+        this.onModelDeleted.emit();
+    }
 
 }
