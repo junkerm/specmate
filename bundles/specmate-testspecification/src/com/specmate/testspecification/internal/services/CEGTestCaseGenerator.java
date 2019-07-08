@@ -56,7 +56,7 @@ import com.specmate.testspecification.internal.services.TaggedBoolean.ETag;
 
 public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNode> {
 	
-	private Comparator<NodeEvaluation> setComparator;
+	private Comparator<CEGNodeEvaluation> setComparator;
 
 	public CEGTestCaseGenerator(TestSpecification specification) {
 		super(specification, CEGModel.class, CEGNode.class);
@@ -107,17 +107,17 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	/** Generates test cases for the nodes of a CEG. */
 	@Override
 	protected void generateTestCases() throws SpecmateException {
-		Pair<SortedSet<NodeEvaluation>, SortedSet<NodeEvaluation>> evaluations = computeEvaluations();
-		SortedSet<NodeEvaluation> consistent = evaluations.getLeft();
-		SortedSet<NodeEvaluation> inconsistent = evaluations.getRight();
+		Pair<SortedSet<CEGNodeEvaluation>, SortedSet<CEGNodeEvaluation>> evaluations = computeEvaluations();
+		SortedSet<CEGNodeEvaluation> consistent = evaluations.getLeft();
+		SortedSet<CEGNodeEvaluation> inconsistent = evaluations.getRight();
 		int position = 0;
-		for (NodeEvaluation evaluation : consistent) {
+		for (CEGNodeEvaluation evaluation : consistent) {
 			TestCase testCase = createTestCase(evaluation, specification, true);
 			testCase.setPosition(position++);
 			specification.getContents().add(testCase);
 		}
 		List<TestCase> inconsistentTestCases = new ArrayList<TestCase>();
-		for (NodeEvaluation evaluation : inconsistent) {
+		for (CEGNodeEvaluation evaluation : inconsistent) {
 			TestCase testCase = createTestCase(evaluation, specification, false);
 			boolean newTc = !inconsistentTestCases.stream().anyMatch(tc -> {
 				EqualityHelper helper = new IdNamePositionIgnoreEqualityHelper();
@@ -134,7 +134,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/** Creates a test case for a single node evaluation. */
-	private TestCase createTestCase(NodeEvaluation evaluation, TestSpecification specification, boolean isConsistent) {
+	private TestCase createTestCase(CEGNodeEvaluation evaluation, TestSpecification specification, boolean isConsistent) {
 		TestCase testCase = super.createTestCase(specification);
 		testCase.setConsistent(isConsistent);
 		List<TestParameter> parameters = SpecmateEcoreUtil.pickInstancesOf(specification.getContents(),
@@ -187,36 +187,36 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	 * @return
 	 * @throws SpecmateException
 	 */
-	private Pair<SortedSet<NodeEvaluation>, SortedSet<NodeEvaluation>> computeEvaluations() throws SpecmateException {
+	private Pair<SortedSet<CEGNodeEvaluation>, SortedSet<CEGNodeEvaluation>> computeEvaluations() throws SpecmateException {
 		// TODO: fix ordering, SortedSet instead of Set
-		SortedSet<NodeEvaluation> consistentEvaluations = getInitialEvaluations();
-		SortedSet<NodeEvaluation> inconsistentEvaluations = new TreeSet<NodeEvaluation>(setComparator);
-		SortedSet<NodeEvaluation> intermediateEvaluations = getIntermediateEvaluations(consistentEvaluations);
+		SortedSet<CEGNodeEvaluation> consistentEvaluations = getInitialEvaluations();
+		SortedSet<CEGNodeEvaluation> inconsistentEvaluations = new TreeSet<CEGNodeEvaluation>(setComparator);
+		SortedSet<CEGNodeEvaluation> intermediateEvaluations = getIntermediateEvaluations(consistentEvaluations);
 		while (!intermediateEvaluations.isEmpty()) {
-			for (NodeEvaluation evaluation : intermediateEvaluations) {
+			for (CEGNodeEvaluation evaluation : intermediateEvaluations) {
 				consistentEvaluations.remove(evaluation);
 				Optional<IModelNode> intermediateNodeOpt = getAnyIntermediateNode(evaluation);
 				AssertUtil.assertTrue(intermediateNodeOpt.isPresent());
 				IModelNode node = intermediateNodeOpt.get();
-				Pair<SortedSet<NodeEvaluation>, SortedSet<NodeEvaluation>> iterationResult = iterateEvaluation(evaluation, node);
+				Pair<SortedSet<CEGNodeEvaluation>, SortedSet<CEGNodeEvaluation>> iterationResult = iterateEvaluation(evaluation, node);
 				consistentEvaluations.addAll(iterationResult.getLeft());
 				inconsistentEvaluations.addAll(iterationResult.getRight());
 			}
 			intermediateEvaluations = getIntermediateEvaluations(consistentEvaluations);
 		}
 
-		Pair<SortedSet<NodeEvaluation>, SortedSet<NodeEvaluation>> refinedEvaluations = refineEvaluations(consistentEvaluations);
+		Pair<SortedSet<CEGNodeEvaluation>, SortedSet<CEGNodeEvaluation>> refinedEvaluations = refineEvaluations(consistentEvaluations);
 		refinedEvaluations.getRight().addAll(inconsistentEvaluations);
 		return refinedEvaluations;
 	}
 
-	private Pair<SortedSet<NodeEvaluation>, SortedSet<NodeEvaluation>> refineEvaluations(SortedSet<NodeEvaluation> evaluationList)
+	private Pair<SortedSet<CEGNodeEvaluation>, SortedSet<CEGNodeEvaluation>> refineEvaluations(SortedSet<CEGNodeEvaluation> evaluationList)
 			throws SpecmateException {
-		Pair<SortedSet<NodeEvaluation>, SortedSet<NodeEvaluation>> mergedEvals = mergeCompatibleEvaluations(evaluationList);
-		SortedSet<NodeEvaluation> merged = mergedEvals.getLeft();
-		SortedSet<NodeEvaluation> inconsistent = mergedEvals.getRight();
-		SortedSet<NodeEvaluation> filled = new TreeSet<NodeEvaluation>(setComparator);
-		for (NodeEvaluation eval : merged) {
+		Pair<SortedSet<CEGNodeEvaluation>, SortedSet<CEGNodeEvaluation>> mergedEvals = mergeCompatibleEvaluations(evaluationList);
+		SortedSet<CEGNodeEvaluation> merged = mergedEvals.getLeft();
+		SortedSet<CEGNodeEvaluation> inconsistent = mergedEvals.getRight();
+		SortedSet<CEGNodeEvaluation> filled = new TreeSet<CEGNodeEvaluation>(setComparator);
+		for (CEGNodeEvaluation eval : merged) {
 			filled.add(fill(eval));
 		}
 		return Pair.of(filled, inconsistent);
@@ -226,14 +226,14 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	 * Returns the inital evaluations for the CEG model, where all output nodes are
 	 * set one time true and one time false.
 	 */
-	private SortedSet<NodeEvaluation> getInitialEvaluations() {
+	private SortedSet<CEGNodeEvaluation> getInitialEvaluations() {
 		initComparator();
-		SortedSet<NodeEvaluation> evaluations = new TreeSet<NodeEvaluation>(setComparator);
+		SortedSet<CEGNodeEvaluation> evaluations = new TreeSet<CEGNodeEvaluation>(setComparator);
 		nodes.stream().filter(node -> (determineParameterTypeForNode(node) == ParameterType.OUTPUT)).forEach(node -> {
-			NodeEvaluation positiveEvaluation = new NodeEvaluation();
+			CEGNodeEvaluation positiveEvaluation = new CEGNodeEvaluation();
 			positiveEvaluation.put(node, new TaggedBoolean(true, TaggedBoolean.ETag.ALL));
 			evaluations.add(positiveEvaluation);
-			NodeEvaluation negativeEvaluation = new NodeEvaluation();
+			CEGNodeEvaluation negativeEvaluation = new CEGNodeEvaluation();
 			negativeEvaluation.put(node, new TaggedBoolean(false, TaggedBoolean.ETag.ALL));
 			evaluations.add(negativeEvaluation);
 		});		
@@ -245,10 +245,10 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	 * containing the different evaluations
 	 */
 	private void initComparator () {
-		setComparator = new Comparator<NodeEvaluation>() {
+		setComparator = new Comparator<CEGNodeEvaluation>() {
 
 			@Override
-			public int compare(NodeEvaluation nodeEval1, NodeEvaluation nodeEval2) {
+			public int compare(CEGNodeEvaluation nodeEval1, CEGNodeEvaluation nodeEval2) {
 				Set<Entry<IContainer, TaggedBoolean>> sortedSet1 = nodeEval1.entrySet();
 				Set<Entry<IContainer, TaggedBoolean>> sortedSet2 = nodeEval2.entrySet();
 				
@@ -326,7 +326,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/** Retrieves a node that has predecessors with out a set value */
-	private Optional<IModelNode> getAnyIntermediateNode(NodeEvaluation evaluation) {
+	private Optional<IModelNode> getAnyIntermediateNode(CEGNodeEvaluation evaluation) {
 		for (Entry<IContainer, TaggedBoolean> entry : evaluation.entrySet()) {
 			if (entry.getValue().tag == ETag.ANY) {
 				continue;
@@ -347,9 +347,9 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	 * Returns evaluations that have intermediate nodes (i.e. nodes that have to be
 	 * evaluated)
 	 */
-	private SortedSet<NodeEvaluation> getIntermediateEvaluations(SortedSet<NodeEvaluation> evaluations) {
-		SortedSet<NodeEvaluation> intermediate = new TreeSet<NodeEvaluation>(setComparator);
-		for (NodeEvaluation evaluation : evaluations) {
+	private SortedSet<CEGNodeEvaluation> getIntermediateEvaluations(SortedSet<CEGNodeEvaluation> evaluations) {
+		SortedSet<CEGNodeEvaluation> intermediate = new TreeSet<CEGNodeEvaluation>(setComparator);
+		for (CEGNodeEvaluation evaluation : evaluations) {
 			if (getAnyIntermediateNode(evaluation).isPresent()) {
 				intermediate.add(evaluation);
 			}
@@ -361,10 +361,10 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	 * Takes evaluation and a node and computes the evaluations of the nodes
 	 * predecessors
 	 */
-	private Pair<SortedSet<NodeEvaluation>, SortedSet<NodeEvaluation>> iterateEvaluation(NodeEvaluation evaluation, IModelNode node)
+	private Pair<SortedSet<CEGNodeEvaluation>, SortedSet<CEGNodeEvaluation>> iterateEvaluation(CEGNodeEvaluation evaluation, IModelNode node)
 			throws SpecmateException {
-		SortedSet<NodeEvaluation> consistent = new TreeSet<NodeEvaluation>(setComparator);
-		SortedSet<NodeEvaluation> inconsistent = new TreeSet<NodeEvaluation>(setComparator);
+		SortedSet<CEGNodeEvaluation> consistent = new TreeSet<CEGNodeEvaluation>(setComparator);
+		SortedSet<CEGNodeEvaluation> inconsistent = new TreeSet<CEGNodeEvaluation>(setComparator);
 		AssertUtil.assertEquals(evaluation.get(node).tag, ETag.ALL);
 		switch (((CEGNode) node).getType()) {
 		case AND:
@@ -377,14 +377,14 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 		return Pair.of(consistent, inconsistent);
 	}
 
-	private void handleAllCase(boolean isAnd, NodeEvaluation evaluation, IModelNode node,
-			SortedSet<NodeEvaluation> consistent, SortedSet<NodeEvaluation> inconsistent) throws SpecmateException {
+	private void handleAllCase(boolean isAnd, CEGNodeEvaluation evaluation, IModelNode node,
+			SortedSet<CEGNodeEvaluation> consistent, SortedSet<CEGNodeEvaluation> inconsistent) throws SpecmateException {
 		boolean nodeValue = evaluation.get(node).value;
 		boolean failure;
 		// case where node is true in AND case or node is false in OR case
 		if ((isAnd && nodeValue) || (!isAnd && !nodeValue)) {
 			for (IModelConnection selectedConn : node.getIncomingConnections()) {
-				NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
+				CEGNodeEvaluation newEvaluation = (CEGNodeEvaluation) evaluation.clone();
 				failure = false;
 				for (IModelConnection conn : node.getIncomingConnections()) {
 					boolean value = isAnd ^ ((CEGConnection) conn).isNegate();
@@ -401,7 +401,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			// case where node is false in AND case or node is true in OR case
 		} else {
 			for (IModelConnection selectedConn : node.getIncomingConnections()) {
-				NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
+				CEGNodeEvaluation newEvaluation = (CEGNodeEvaluation) evaluation.clone();
 				failure = false;
 				for (IModelConnection conn : node.getIncomingConnections()) {
 					boolean value = ((conn == selectedConn) ^ (isAnd ^ ((CEGConnection) conn).isNegate()));
@@ -424,7 +424,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	 *
 	 * @return false if an inconsistent value would be set in the node
 	 */
-	private boolean checkAndSet(NodeEvaluation evaluation, CEGNode node, TaggedBoolean effectiveValue)
+	private boolean checkAndSet(CEGNodeEvaluation evaluation, CEGNode node, TaggedBoolean effectiveValue)
 			throws SpecmateException {
 		if (evaluation.containsKey(node) && evaluation.get(node).value != effectiveValue.value) {
 			return false;
@@ -440,11 +440,11 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	 *
 	 * @throws SpecmateException
 	 */
-	private Pair<SortedSet<NodeEvaluation>, SortedSet<NodeEvaluation>> mergeCompatibleEvaluations(SortedSet<NodeEvaluation> evaluations)
+	private Pair<SortedSet<CEGNodeEvaluation>, SortedSet<CEGNodeEvaluation>> mergeCompatibleEvaluations(SortedSet<CEGNodeEvaluation> evaluations)
 			throws SpecmateException {
-		SortedSet<NodeEvaluation> result = new TreeSet<NodeEvaluation>(setComparator);
+		SortedSet<CEGNodeEvaluation> result = new TreeSet<CEGNodeEvaluation>(setComparator);
 		while (evaluations.size() > 0) {
-			SortedSet<NodeEvaluation> candidates = getMergeCandiate(evaluations);
+			SortedSet<CEGNodeEvaluation> candidates = getMergeCandiate(evaluations);
 
 			if (candidates.isEmpty()) {
 				// There is no merge candidate:
@@ -455,15 +455,15 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			}
 
 			evaluations.removeAll(candidates);
-			NodeEvaluation merged = mergeAllEvaluations(candidates);
+			CEGNodeEvaluation merged = mergeAllEvaluations(candidates);
 			result.add(merged);
 		}
 		return Pair.of(result, new TreeSet<>(setComparator));
 	}
 
-	private SortedSet<NodeEvaluation> getMergeCandiate(SortedSet<NodeEvaluation> evaluations) throws SpecmateException {
+	private SortedSet<CEGNodeEvaluation> getMergeCandiate(SortedSet<CEGNodeEvaluation> evaluations) throws SpecmateException {
 		// Map to track between logical variables and evaluations
-		TreeMap<Integer, NodeEvaluation> var2EvalMap = new TreeMap<Integer, NodeEvaluation>(new Comparator<Integer>() {
+		TreeMap<Integer, CEGNodeEvaluation> var2EvalMap = new TreeMap<Integer, CEGNodeEvaluation>(new Comparator<Integer>() {
 			@Override 
 			public int compare(Integer i1, Integer i2) {
 				return Integer.compare(i1, i2);
@@ -497,14 +497,14 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 		}
 	}
 
-	private SortedSet<NodeEvaluation> extractEnabledEvaluations(TreeMap<Integer, NodeEvaluation> var2EvalMap, int[] model) {
-		SortedSet<NodeEvaluation> toMerge = new TreeSet<>(setComparator);
+	private SortedSet<CEGNodeEvaluation> extractEnabledEvaluations(TreeMap<Integer, CEGNodeEvaluation> var2EvalMap, int[] model) {
+		SortedSet<CEGNodeEvaluation> toMerge = new TreeSet<>(setComparator);
 		for (int i = 0; i < model.length; i++) {
 			int var = model[i];
 			if (var <= 0) {
 				continue;
 			}
-			NodeEvaluation eval = var2EvalMap.get(var);
+			CEGNodeEvaluation eval = var2EvalMap.get(var);
 			if (eval != null) {
 				toMerge.add(eval);
 			}
@@ -512,9 +512,9 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 		return toMerge;
 	}
 
-	private TreeMap<Integer, NodeEvaluation> pushEvaluations(SortedSet<NodeEvaluation> evaluations, GateTranslator translator,
+	private TreeMap<Integer, CEGNodeEvaluation> pushEvaluations(SortedSet<CEGNodeEvaluation> evaluations, GateTranslator translator,
 			WeightedMaxSatDecorator maxSat, int maxVar) throws ContradictionException {
-		TreeMap<Integer, NodeEvaluation> var2EvalMap = new TreeMap<Integer, NodeEvaluation>(new Comparator<Integer>() {
+		TreeMap<Integer, CEGNodeEvaluation> var2EvalMap = new TreeMap<Integer, CEGNodeEvaluation>(new Comparator<Integer>() {
 			@Override 
 			public int compare(Integer i1, Integer i2) {
 				return Integer.compare(i1, i2);
@@ -522,7 +522,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 		});
 
 		int nextVar = 1;
-		for (NodeEvaluation evaluation : evaluations) {
+		for (CEGNodeEvaluation evaluation : evaluations) {
 			int varForEval = getAdditionalVar(nextVar);
 			var2EvalMap.put(varForEval, evaluation);
 			nextVar++;
@@ -556,19 +556,19 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 		return vector;
 	}
 
-	private NodeEvaluation mergeAllEvaluations(Set<NodeEvaluation> clique) {
-		NodeEvaluation evaluation = new NodeEvaluation();
-		for (NodeEvaluation toMerge : clique) {
+	private CEGNodeEvaluation mergeAllEvaluations(Set<CEGNodeEvaluation> clique) {
+		CEGNodeEvaluation evaluation = new CEGNodeEvaluation();
+		for (CEGNodeEvaluation toMerge : clique) {
 			evaluation.putAll(toMerge);
 		}
 		return evaluation;
 	}
 
 	/** Fills out all unset nodes in the given node evaluation */
-	private NodeEvaluation fill(NodeEvaluation evaluation) throws SpecmateException {
+	private CEGNodeEvaluation fill(CEGNodeEvaluation evaluation) throws SpecmateException {
 		ISolver solver = initSolver(evaluation);
 		try {
-			NodeEvaluation filled = new NodeEvaluation();
+			CEGNodeEvaluation filled = new CEGNodeEvaluation();
 			int[] model = solver.findModel();
 			if (model == null) {
 				throw new SpecmateInternalException(ErrorCode.TESTGENERATION,
@@ -587,7 +587,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	 * Sets the value in an evaluation based on an original evaluation and a model
 	 * value.
 	 */
-	private void setModelValue(NodeEvaluation originalEvaluation, NodeEvaluation targetEvaluation, int varNameValue) {
+	private void setModelValue(CEGNodeEvaluation originalEvaluation, CEGNodeEvaluation targetEvaluation, int varNameValue) {
 		boolean value = varNameValue > 0;
 		int varName = (value ? 1 : -1) * varNameValue;
 		IModelNode node = getNodeForVar(varName);
@@ -600,7 +600,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/** Initializes the SAT4J solver. */
-	private GateTranslator initSolver(NodeEvaluation evaluation) throws SpecmateException {
+	private GateTranslator initSolver(CEGNodeEvaluation evaluation) throws SpecmateException {
 		GateTranslator translator = new GateTranslator(SolverFactory.newLight());
 		try {
 			pushCEGStructure(translator);
@@ -611,7 +611,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 		return translator;
 	}
 
-	private void pushEvaluation(NodeEvaluation evaluation, GateTranslator translator) throws ContradictionException {
+	private void pushEvaluation(CEGNodeEvaluation evaluation, GateTranslator translator) throws ContradictionException {
 		for (IModelNode node : nodes) {
 			int varForNode = getVarForNode(node);
 			TaggedBoolean value = evaluation.get(node);

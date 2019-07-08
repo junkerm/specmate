@@ -6,9 +6,9 @@ import java.util.TreeMap;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.requirements.CEGNode;
 
-class NodeEvaluation extends TreeMap<IContainer, TaggedBoolean> {
+class CEGNodeEvaluation extends TreeMap<IContainer, TaggedBoolean> {
 	
-	public NodeEvaluation() {
+	public CEGNodeEvaluation() {
 		super(evaluationComperator);
 	}
 	
