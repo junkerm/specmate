@@ -306,4 +306,23 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 		return CONJ_PATTERN.matcher(text).replaceAll(r -> "," + r.group(1));
 	}
 
+	@Override
+	protected Optional<Annotation> getAssociatedSubjectConditional(JCas jCas, Annotation subject) {
+		Optional<Dependency> optSubjectDep = findSubjectDependency(jCas, subject, false);
+		if (optSubjectDep.isEmpty()) {
+			return Optional.empty();
+		}
+		Token verb = optSubjectDep.get().getGovernor();
+		Optional<Dependency> optConditionalDep = NLPUtil.findDependency(jCas, verb, "KONJ", true);
+		if (optConditionalDep.isPresent()) {
+			return Optional.of(optConditionalDep.get().getDependent());
+		}
+		optConditionalDep = NLPUtil.findDependency(jCas, verb, "ADV", true);
+		if (optConditionalDep.isPresent()) {
+			return Optional.of(optConditionalDep.get().getDependent());
+		} else {
+			return Optional.empty();
+		}
+	}
+
 }

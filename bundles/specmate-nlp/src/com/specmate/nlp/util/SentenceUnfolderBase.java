@@ -84,17 +84,24 @@ public abstract class SentenceUnfolderBase {
 			if (optImplicitSubjectAndOrder.isPresent()) {
 				Annotation implicitSubject = optImplicitSubjectAndOrder.get().getLeft();
 				EWordOrder wordOrder = optImplicitSubjectAndOrder.get().getRight();
+				int ip = determineSubjectInsertionPoint(jCas, vp, wordOrder);
 
 				List<Pair<Annotation, Annotation>> allConjunctedImplicitSubjects = completeSubjectsByConjunction(jCas,
 						implicitSubject);
+
+				Optional<Annotation> optAssociatedConditional = getAssociatedSubjectConditional(jCas, implicitSubject);
+				String assConditionalWordText = optAssociatedConditional.isPresent()
+						? optAssociatedConditional.get().getCoveredText().toLowerCase()
+						: "";
+				insertions.add(Pair.of(ip, assConditionalWordText));
+
 				for (Pair<Annotation, Annotation> toInsert : allConjunctedImplicitSubjects) {
 					Annotation conjunctionWord = toInsert.getLeft();
 					Annotation subjectWord = toInsert.getRight();
 
-					String conj = conjunctionWord != null ? conjunctionWord.getCoveredText() + " " : "";
+					String conjunctionWordText = conjunctionWord != null ? conjunctionWord.getCoveredText() + " " : "";
 
-					int ip = determineSubjectInsertionPoint(jCas, vp, wordOrder);
-					insertions.add(Pair.of(ip, conj + subjectWord.getCoveredText()));
+					insertions.add(Pair.of(ip, conjunctionWordText + subjectWord.getCoveredText()));
 				}
 			}
 		}
@@ -217,6 +224,14 @@ public abstract class SentenceUnfolderBase {
 	protected abstract int determineVerbInsertionPoint(JCas jcas, Annotation np, Annotation verb, EWordOrder order,
 			ENounRole role);
 
+	/**
+	 * Determines an object dependency associated with the given annoation.
+	 */
 	protected abstract Optional<Dependency> findObjectDependency(JCas jCas, Annotation anno, boolean isGovernor);
+
+	/**
+	 * Determines an associated conditional word associated with a subject
+	 */
+	protected abstract Optional<Annotation> getAssociatedSubjectConditional(JCas jCas, Annotation implicitSubject);
 
 }

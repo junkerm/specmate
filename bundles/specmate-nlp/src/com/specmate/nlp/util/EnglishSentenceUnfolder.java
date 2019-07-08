@@ -233,4 +233,9 @@ public class EnglishSentenceUnfolder extends SentenceUnfolderBase {
 		return CONJ_PATTERN.matcher(text).replaceAll(r -> "," + r.group(1));
 	}
 
+	@Override
+	protected Optional<Annotation> getAssociatedSubjectConditional(JCas jCas, Annotation implicitSubject) {
+		return Optional.empty();
+	}
+
 }
