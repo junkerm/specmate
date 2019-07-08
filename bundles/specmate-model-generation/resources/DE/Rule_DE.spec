@@ -16,9 +16,13 @@ def rule Condition1_2 {
 	[Effect] - NEB -> [Cause] - KONJ -> KOUS:'(wenn)|(falls)|(weil)|(sofern)|(damit)|(obwohl)|(obgleich)|(obschon)|(obzwar)|(wenngleich)|(wiewohl)'	
 }
 
+def rule Condition1_3 {
+	[Effect] - OBJC -> [Cause] - KONJ -> KOUS:'(wenn)|(falls)|(weil)|(sofern)|(damit)|(obwohl)|(obgleich)|(obschon)|(obzwar)|(wenngleich)|(wiewohl)'	
+}
+
 // Das Werkzeug zeigt ein Fenster an, weil es einen Fehler erkannt hat.
 // Das Werkzeug zeigt ein Fenster an, sofern es einen Fehler findet.
-def rule Condition1_3 {
+def rule Condition1_4 {
 	[Effect] - OBJC -> [Cause] - KONJ -> KOUS:'(weil)|(sofern)|(obwohl)|(obgleich)|(obschon)|(obzwar)|(wenngleich)|(wiewohl)'	
 }
 
