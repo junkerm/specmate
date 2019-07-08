@@ -29,6 +29,7 @@ export class CommonControls {
 
     public save(): void {
         if (this.isSaveEnabled) {
+            this.validator.validateCurrent();
             this.dataService.commit(this.translate.instant('save'));
         }
     }
@@ -40,6 +41,7 @@ export class CommonControls {
     public undo(): void {
         if (this.isUndoEnabled) {
             this.dataService.undo();
+            this.validator.validateCurrent();
         }
     }
 

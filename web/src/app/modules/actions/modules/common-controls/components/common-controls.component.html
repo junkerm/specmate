@@ -1,16 +1,20 @@
 <div class="input-group input-group-sm"></div>
 <form *ngIf="isEnabled && connected" class="form-inline">
-    <button id="commoncontrol-save-button" class="btn btn-sm btn-secondary brighter-secondary-outline" title="{{'save' | translate}}"
-        [disabled]="!isSaveEnabled" (click)="cancelEvent($event); save()"><i class="fa fa-save" aria-hidden="true"></i></button>&nbsp;
-    <button id="commoncontrol-undo-button" class="btn btn-sm btn-secondary brighter-secondary-outline" title="{{'undo' | translate}}"
-        [disabled]="!isUndoEnabled" (click)="cancelEvent($event); undo()"><i class="fa fa-undo" aria-hidden="true"></i></button>&nbsp;
-    <button id="commoncontrol-forward-button" class="btn btn-sm btn-secondary brighter-secondary-outline" title="{{'navigate.back' | translate}}"
-        [disabled]="!isBackEnabled" (click)="cancelEvent($event); back()"><i class="fa fa-arrow-circle-left"
+    <button id="commoncontrol-save-button" class="btn btn-sm btn-secondary brighter-secondary-outline"
+        title="{{'save' | translate}}" [disabled]="!isSaveEnabled" (click)="cancelEvent($event); save()"><i
+            class="fa fa-save" aria-hidden="true"></i></button>&nbsp;
+    <button id="commoncontrol-undo-button" class="btn btn-sm btn-secondary brighter-secondary-outline"
+        title="{{'undo' | translate}}" [disabled]="!isUndoEnabled" (click)="cancelEvent($event); undo()"><i
+            class="fa fa-undo" aria-hidden="true"></i></button>&nbsp;
+    <button id="commoncontrol-forward-button" class="btn btn-sm btn-secondary brighter-secondary-outline"
+        title="{{'navigate.back' | translate}}" [disabled]="!isBackEnabled" (click)="cancelEvent($event); back()"><i
+            class="fa fa-arrow-circle-left" aria-hidden="true"></i></button>&nbsp;
+    <button id="commoncontrol-back-button" class="btn btn-sm btn-secondary brighter-secondary-outline"
+        title="{{'navigate.forward' | translate}}" [disabled]="!isForwardEnabled"
+        (click)="cancelEvent($event); forward()"><i class="fa fa-arrow-circle-right"
             aria-hidden="true"></i></button>&nbsp;
-    <button id="commoncontrol-back-button" class="btn btn-sm btn-secondary brighter-secondary-outline" title="{{'navigate.forward' | translate}}"
-        [disabled]="!isForwardEnabled" (click)="cancelEvent($event); forward()"><i class="fa fa-arrow-circle-right"
-            aria-hidden="true"></i></button>&nbsp;
+    <validate-button [textEnabled]="false"></validate-button>
 </form>
-<div *ngIf="!connected" class="btn btn-sm btn-outline-danger" title="{{'connection.lost' | translate}}"><i aria-hidden="true"
-        class="fa fa-exclamation-triangle"></i>&nbsp;{{'connection.lost' | translate}}
+<div *ngIf="!connected" class="btn btn-sm btn-outline-danger" title="{{'connection.lost' | translate}}"><i
+        aria-hidden="true" class="fa fa-exclamation-triangle"></i>&nbsp;{{'connection.lost' | translate}}
 </div>

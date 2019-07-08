@@ -10,9 +10,9 @@ import { Coords } from '../util/coords';
 import { GraphicalNodeBase } from './graphical-node-base';
 
 export abstract class DraggableElementBase<T extends ISpecmatePositionableModelObject> extends GraphicalNodeBase<T> {
-    constructor(sel: SelectedElementService, val: ValidationService,
-                        mul: MultiselectionService) {
-        super(sel, val, mul);
+    constructor(selectedElementService: SelectedElementService, validationService: ValidationService,
+                        multiselectionService: MultiselectionService) {
+        super(selectedElementService, validationService, multiselectionService);
     }
 
     private isGrabbed = false;
