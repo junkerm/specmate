@@ -31,19 +31,36 @@ public class ModelGenerationTestBase extends EmfRestTest {
 	private Predicate<JSONObject> MATCHES_VAR_COND(String var, String cond, String type) {
 		return (obj -> obj.getString(ECLASS).equals(CEGNode.class.getSimpleName())
 				&& obj.getString(RequirementsPackage.Literals.CEG_NODE__TYPE.getName()).equals(type)
-				&& (obj.getString(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName())).toLowerCase()
-						.equals(var.toLowerCase())
-				&& (obj.getString(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName())).toLowerCase()
-						.equals(cond.toLowerCase()));
+				&& checkStringEquality(obj.getString(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName()), var)
+				&& checkStringEquality(obj.getString(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName()), cond));
 	}
 
 	private Predicate<JSONObject> MATCHES_ID_VAR_COND(String id, String var, String cond) {
 		return (obj -> obj.getString(ECLASS).equals(CEGNode.class.getSimpleName())
 				&& obj.getString(BasePackage.Literals.IID__ID.getName()).equals(id)
-				&& (obj.getString(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName())).toLowerCase()
-						.equals(var.toLowerCase())
-				&& (obj.getString(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName())).toLowerCase()
-						.equals(cond.toLowerCase()));
+				&& checkStringEquality(obj.getString(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName()), var)
+				&& checkStringEquality(obj.getString(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName()), cond));
+	}
+	
+	
+	/**
+	 * Check if two strings contain the same words. Order and case are not important 
+	 * @param s1
+	 * @param s2
+	 * @return
+	 */
+	private boolean checkStringEquality(String s1, String s2) {
+		if(s1.equalsIgnoreCase(s2)) {
+			return true;
+		}
+		String s1Lower = s1.toLowerCase();
+		String[] stringArray = s2.toLowerCase().split(" ");
+		for (String string : stringArray) {
+			if(!s1Lower.contains(string)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public ModelGenerationTestBase() throws Exception {
