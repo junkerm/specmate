@@ -16,8 +16,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.saucelabs.junit.SauceOnDemandTestWatcher;
 import com.specmate.uitests.pagemodel.LoginElements;
@@ -130,12 +128,13 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     
     /** 
      * If the projects are not loaded beforehand, Specmate will display 'Bad Gateway' till they are loaded.
-     * This method checks for 2 minutes (driver.findElement TimeOut (30 seconds) * counter (4)) if the 
-     * loading is finished and refreshes the page each 30 seconds
+     * This method checks for 30 seconds (driver.findElement TimeOut (5 seconds) * counter (6)) if the 
+     * loading is finished and refreshes the page each 5 seconds
      * 	*/
     protected void waitForProjectsToLoad() {
     	boolean displayed = false;
-    	int counter = 3;
+    	int counter = 5;
+    	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     	do {
     		try {
     			displayed = driver.findElement(By.id("login-username-textfield")).isDisplayed() || (counter<0);
@@ -144,6 +143,8 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     			driver.navigate().refresh();
     		}
     	} while(!displayed);
+    	// Change timeout back to the defined value
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
     
 	public void performLogin(LoginElements login) {
