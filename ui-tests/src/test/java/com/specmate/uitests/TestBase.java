@@ -137,8 +137,8 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     	do {
     		try {
-    			displayed = driver.findElement(By.id("login-username-textfield")).isDisplayed() || (counter<0);
     			counter--;
+    			displayed = (counter<0) || driver.findElement(By.id("login-username-textfield")).isDisplayed();
     		} catch (NoSuchElementException e) {
     			driver.navigate().refresh();
     		}
