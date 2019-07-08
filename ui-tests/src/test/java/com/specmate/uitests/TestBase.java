@@ -128,7 +128,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     
     /** 
      * If the projects are not loaded beforehand, Specmate will display 'Bad Gateway' till they are loaded.
-     * This method checks for 30 seconds (driver.findElement TimeOut (5 seconds) * counter (6)) if the 
+     * This method checks for 30 seconds (driver.findElement TimeOut (defined by implictlyWait) (5 seconds) * counter (6)) if the 
      * loading is finished and refreshes the page each 5 seconds
      * 	*/
     protected void waitForProjectsToLoad() {
