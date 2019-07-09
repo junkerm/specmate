@@ -35,16 +35,11 @@ public class GenerateModelFromPseudoCode implements ICEGFromRequirementGenerator
 
 	@Override
 	public CEGModel createModel(CEGModel model, String text) throws SpecmateException {
-		return translateObjectIf(model);
-	}
-
-	//
-	public CEGModel translateObjectIf(CEGModel model) throws SpecmateException {
 		List<BusinessRuleNode> rules;
 		// First, we need to load all pseudo code lines from a document / input.
 		try {
-			rules = loadRules("/resources/test_rules.objectif");
-		} catch (URISyntaxException | XTextException e) {
+			rules = new BusinessRuleUtil().parseXTextResource(text);
+		} catch (XTextException e) {
 			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "...");
 		}
 

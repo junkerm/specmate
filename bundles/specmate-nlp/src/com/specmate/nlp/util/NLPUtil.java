@@ -242,9 +242,12 @@ public class NLPUtil {
 	private static String DE_Pattern = "\\b(der|die|das|ein|eine|einen)\\b";
 	
 	public static ELanguage detectLanguage(String text) {
+		if (text.matches(".*WENN.*ENDE-WENN.*")) {
+			return ELanguage.PSEUDO;
+		}		
 		if (text.matches("(?i)(.*)"+DE_Pattern+"(.*)")) {
 			return ELanguage.DE;
-		}
+		}		
 		return ELanguage.EN;
 	}
 
