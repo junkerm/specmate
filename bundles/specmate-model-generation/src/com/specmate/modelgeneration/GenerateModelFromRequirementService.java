@@ -72,7 +72,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		if (text == null || StringUtils.isEmpty(text)) {
 			return model;
 		}
-		text = new PersonalPronounsReplacer(tagger).replacePronouns(text);
+		//text = new PersonalPronounsReplacer(tagger).replacePronouns(text);
 		ELanguage lang = NLPUtil.detectLanguage(text);
 		ICEGFromRequirementGenerator generator;
 		
