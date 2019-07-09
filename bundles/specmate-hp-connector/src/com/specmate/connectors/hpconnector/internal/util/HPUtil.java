@@ -49,8 +49,9 @@ public class HPUtil {
 		Requirement requirement = SpecmateEcoreUtil.getFirstAncestorOfType(procedure, Requirement.class);
 		if (requirement != null) {
 			return requirement.getPlatform();
-		} else
+		} else {
 			return null;
+		}
 	}
 
 	private static List<TestStep> getSteps(TestProcedure procedure) {
@@ -61,7 +62,7 @@ public class HPUtil {
 
 	private static JSONObject getJSONForTestStep(TestStep step) {
 		JSONObject jsonForStep = new JSONObject();
-		jsonForStep.put("name", "Step " + (step.getPosition() + 1));
+		jsonForStep.put("name", step.getName());
 		jsonForStep.put("description", step.getDescription());
 		jsonForStep.put("expected", step.getExpectedOutcome());
 		return jsonForStep;
