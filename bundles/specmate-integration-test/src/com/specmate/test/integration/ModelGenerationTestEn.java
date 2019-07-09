@@ -2,15 +2,16 @@ package com.specmate.test.integration;
 
 import org.json.JSONArray;
 import org.junit.FixMethodOrder;
-import org.junit.runners.MethodSorters;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RequirementsFactory;
 
 /**
- * 
+ *
  * Class to test the CEG-Model generation for english sentences.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -164,10 +165,10 @@ public class ModelGenerationTestEn extends ModelGenerationTestBase {
 
 	@Test
 	public void testModelGenerationEN11_and_1() {
-		String text = "If the user presses the button and the model is not saved, Specmate saves the model.";
+		String text = "If the user clicks the button and the model is not saved, Specmate saves the model.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "The user", "Presses the button", NodeType.AND);
+		CEGNode node1 = createNode(model, "The user", "Clicks the button", NodeType.AND);
 		CEGNode node2 = createNode(model, "The model", "Is saved", NodeType.AND);
 		CEGNode node3 = createNode(model, "Specmate", "Saves the model", NodeType.AND);
 		createConnection(model, node1, node3, false);
