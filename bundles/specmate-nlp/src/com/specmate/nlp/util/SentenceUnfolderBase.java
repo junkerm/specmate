@@ -90,10 +90,10 @@ public abstract class SentenceUnfolderBase {
 						implicitSubject);
 
 				Optional<Annotation> optAssociatedConditional = getAssociatedSubjectConditional(jCas, implicitSubject);
-				String assConditionalWordText = optAssociatedConditional.isPresent()
-						? optAssociatedConditional.get().getCoveredText().toLowerCase()
-						: "";
-				insertions.add(Pair.of(ip, assConditionalWordText));
+				if (optAssociatedConditional.isPresent()) {
+					String assConditionalWordText = optAssociatedConditional.get().getCoveredText().toLowerCase();
+					insertions.add(Pair.of(ip, assConditionalWordText));
+				}
 
 				for (Pair<Annotation, Annotation> toInsert : allConjunctedImplicitSubjects) {
 					Annotation conjunctionWord = toInsert.getLeft();

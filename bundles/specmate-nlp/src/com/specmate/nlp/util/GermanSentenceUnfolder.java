@@ -317,12 +317,8 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 		if (optConditionalDep.isPresent()) {
 			return Optional.of(optConditionalDep.get().getDependent());
 		}
-		optConditionalDep = NLPUtil.findDependency(jCas, verb, "ADV", true);
-		if (optConditionalDep.isPresent()) {
-			return Optional.of(optConditionalDep.get().getDependent());
-		} else {
-			return Optional.empty();
-		}
+
+		return Optional.empty();
 	}
 
 }

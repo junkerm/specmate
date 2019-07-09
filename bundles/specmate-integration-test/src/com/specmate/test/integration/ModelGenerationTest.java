@@ -92,8 +92,8 @@ public class ModelGenerationTest extends EmfRestTest {
 		CEGModel model = f.createCEGModel();
 		CEGNode node1 = createNode(model, "An error", "Is detected", NodeType.AND);
 		CEGNode node2 = createNode(model, "The user", "Has login", NodeType.AND);
-		CEGNode node3 = createNode(model, "Login"   , "Is needed", NodeType.AND);
-		CEGNode node4 = createNode(model, "Inner Node 2-1", "Is fulfilled", NodeType.AND); //XXX
+		CEGNode node3 = createNode(model, "Login", "Is needed", NodeType.AND);
+		CEGNode node4 = createNode(model, "Inner Node 2-1", "Is fulfilled", NodeType.AND); // XXX
 		CEGNode node5 = createNode(model, "A warning window", "Is shown", NodeType.OR);
 		CEGNode node6 = createNode(model, "A signal", "Is emitted", NodeType.OR);
 
@@ -131,7 +131,7 @@ public class ModelGenerationTest extends EmfRestTest {
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
 		CEGNode node1 = createNode(model, "Das Werkzeug", "Erkennt einen Fehler", NodeType.AND);
-		CEGNode node1b = createNode(model,"Das Werkzeug", "Ein Problem erkennt", NodeType.AND);
+		CEGNode node1b = createNode(model, "Das Werkzeug", "Wenn erkennt ein Problem", NodeType.AND);
 		CEGNode node2 = createNode(model, "Der Benutzer", "Eine Anmeldung hat", NodeType.AND);
 		CEGNode node3 = createNode(model, "Das Werkzeug", "Zeigt an ein Warnfenster", NodeType.OR);
 		CEGNode node4 = createNode(model, "Das Werkzeug", "Gibt einen Signalton aus", NodeType.OR);
@@ -166,30 +166,27 @@ public class ModelGenerationTest extends EmfRestTest {
 		checkResultingModel(generated, model);
 	}
 
-	/*@Test
-	public void testModelGenerationDe3_AndOr() {
-		String text = "Wenn der Benutzer keine Anmeldung hat und Anmeldepflicht besteht oder vom Werkzeug ein Fehler erkannt wird, zeigt das Werkzeug ein Warnfenster an und gibt einen Signalton aus.";
-		RequirementsFactory f = RequirementsFactory.eINSTANCE;
-		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "Vom Werkzeug ein Fehler", "Erkannt wird", NodeType.AND);
-		CEGNode node2 = createNode(model, "Der Benutzer", "Eine Anmeldung hat", NodeType.AND);
-		CEGNode node3 = createNode(model, "Anmeldepflicht", "Besteht", NodeType.AND);
-		CEGNode node4 = createNode(model, "Innerer Knoten 2-1", "Ist erfüllt",
-				NodeType.AND);
-		CEGNode node5 = createNode(model, "Das Werkzeug", "Zeigt an ein Warnfenster", NodeType.OR);
-		CEGNode node6 = createNode(model, "Das Werkzeug", "Gibt einen Signalton aus", NodeType.OR);
-
-		createConnection(model, node2, node4, true);
-		createConnection(model, node3, node4, false);
-		createConnection(model, node4, node5, false);
-		createConnection(model, node4, node6, false);
-		createConnection(model, node1, node5, false);
-		createConnection(model, node1, node6, false);
-
-		JSONArray generated = generateCEGWithModelRequirementsText(text);
-		checkResultingModel(generated, model);
-	} 
-	*/
+	/*
+	 * @Test public void testModelGenerationDe3_AndOr() { String text =
+	 * "Wenn der Benutzer keine Anmeldung hat und Anmeldepflicht besteht oder vom Werkzeug ein Fehler erkannt wird, zeigt das Werkzeug ein Warnfenster an und gibt einen Signalton aus."
+	 * ; RequirementsFactory f = RequirementsFactory.eINSTANCE; CEGModel model =
+	 * f.createCEGModel(); CEGNode node1 = createNode(model,
+	 * "Vom Werkzeug ein Fehler", "Erkannt wird", NodeType.AND); CEGNode node2 =
+	 * createNode(model, "Der Benutzer", "Eine Anmeldung hat", NodeType.AND);
+	 * CEGNode node3 = createNode(model, "Anmeldepflicht", "Besteht", NodeType.AND);
+	 * CEGNode node4 = createNode(model, "Innerer Knoten 2-1", "Ist erfüllt",
+	 * NodeType.AND); CEGNode node5 = createNode(model, "Das Werkzeug",
+	 * "Zeigt an ein Warnfenster", NodeType.OR); CEGNode node6 = createNode(model,
+	 * "Das Werkzeug", "Gibt einen Signalton aus", NodeType.OR);
+	 * 
+	 * createConnection(model, node2, node4, true); createConnection(model, node3,
+	 * node4, false); createConnection(model, node4, node5, false);
+	 * createConnection(model, node4, node6, false); createConnection(model, node1,
+	 * node5, false); createConnection(model, node1, node6, false);
+	 * 
+	 * JSONArray generated = generateCEGWithModelRequirementsText(text);
+	 * checkResultingModel(generated, model); }
+	 */
 
 	@Test
 	public void testModelGenerationDe4_SpecmateExamples() {
@@ -209,7 +206,7 @@ public class ModelGenerationTest extends EmfRestTest {
 	}
 
 	private void checkResultingModel(JSONArray generated, CEGModel model) {
- 		List<CEGNode> nodesExp = SpecmateEcoreUtil.pickInstancesOf(model.getContents(), CEGNode.class);
+		List<CEGNode> nodesExp = SpecmateEcoreUtil.pickInstancesOf(model.getContents(), CEGNode.class);
 		List<CEGConnection> connExp = SpecmateEcoreUtil.pickInstancesOf(model.getContents(), CEGConnection.class);
 
 		// Verify number of nodes
@@ -222,7 +219,7 @@ public class ModelGenerationTest extends EmfRestTest {
 			boolean matched = (EmfRestTestUtil.matches(generated,
 					MATCHES_VAR_COND(node.getVariable(), node.getCondition(), node.getType().getLiteral())));
 			Assert.assertTrue("Node with variable \"" + node.getVariable() + "\" and condition \"" + node.getCondition()
-					+ "\" not found." , matched);
+					+ "\" not found.", matched);
 		}
 
 		// Verify connections
