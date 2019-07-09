@@ -27,6 +27,9 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	@Override
 	public UserSession authenticate(String username, String password, String projectname) throws SpecmateException {
 		IProject project = projectService.getProject(projectname);
+		if (project == null) {
+			throw new SpecmateAuthorizationException("Project " + projectname + " does not exist.");
+		}
 		boolean authenticated = project.getConnector().authenticate(username, password);
 		if (!authenticated) {
 			throw new SpecmateAuthorizationException("User " + username + " not authenticated.");
