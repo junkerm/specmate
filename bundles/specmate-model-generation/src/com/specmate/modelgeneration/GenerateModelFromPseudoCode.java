@@ -90,9 +90,11 @@ public class GenerateModelFromPseudoCode implements ICEGFromRequirementGenerator
 			ObjectifNode rootCause = rule.getCause();
 			identifyCauses(rootCause, singleOrCauses, andCausesGroups);
 
+			// superior rule
 			if (nesting == false) {
 				connectCausesToBR(cegNodeBR, singleOrCauses, andCausesGroups, model);
 			} else {
+				// inferior rule
 				connectCausesToNestedBR(cegNodeBR, singleOrCauses, andCausesGroups, model);
 			}
 
@@ -211,7 +213,6 @@ public class GenerateModelFromPseudoCode implements ICEGFromRequirementGenerator
 		CEGNode intermediateNodeNested = null;
 
 		if (singleOrCauses.size() > 1) {
-			System.out.println("hallo" + brnum);
 			intermediateNodeNested = creation.createNode(model, "Intermediate Node" + (intermediatenum++), "is present",
 					0, 0, NodeType.OR);
 			creation.createConnection(model, intermediateNodeNested, cegNodeBR, false);
