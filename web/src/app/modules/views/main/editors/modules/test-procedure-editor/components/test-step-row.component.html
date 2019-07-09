@@ -5,12 +5,17 @@
     <td>{{getPosition(testStep)}}</td>
     <td>
         <div class="input-group input-group-sm">
-            <input formControlName="description" type="text" class="form-control form-control-sm" />
+            <textarea formControlName="name" type="text" class="form-control form-control-sm" autosize></textarea>
         </div>
     </td>
     <td>
         <div class="input-group input-group-sm">
-            <input formControlName="expectedOutcome" type="text" class="form-control form-control-sm" />
+            <textarea formControlName="description" type="text" class="form-control form-control-sm" autosize></textarea>
+        </div>
+    </td>
+    <td>
+        <div class="input-group input-group-sm">
+            <textarea formControlName="expectedOutcome" type="text" class="form-control form-control-sm" autosize></textarea>
         </div>
     </td>
     <td>

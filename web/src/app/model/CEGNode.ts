@@ -8,7 +8,6 @@
 		public url: string;
 		public className: string = "CEGNode";
 		public static className: string = "CEGNode";
-
 		// Attributes
 		public id: EString;
 		public name: EString;

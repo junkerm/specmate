@@ -9,7 +9,6 @@
 		public url: string;
 		public className: string = "Operation";
 		public static className: string = "Operation";
-
 		// Attributes
 		public type: OperationType;
 

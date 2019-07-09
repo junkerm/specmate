@@ -8,7 +8,6 @@
 		public url: string;
 		public className: string = "CEGConnection";
 		public static className: string = "CEGConnection";
-
 		// Attributes
 		public id: EString;
 		public name: EString;

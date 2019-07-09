@@ -8,7 +8,6 @@
 		public url: string;
 		public className: string = "IModelConnection";
 		public static className: string = "IModelConnection";
-
 		// Attributes
 		public id: EString;
 		public name: EString;

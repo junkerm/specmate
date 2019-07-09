@@ -12,7 +12,7 @@ def rule LimitedCondition_2 {
 }
 
 
-def subtrees Cause, Effect, TMP
+def subtrees Cause, Effect, TMP, Effect_SubA, Cause_SubA
 
 //  If the tool detects an error then the tool beeps.
 def rule Condition1_1 {
@@ -42,27 +42,33 @@ def rule Condition1_5 {
 
 // When the tool detects an error then the tool beeps.
 def rule Condition2_1 {
-	[Cause] - dobj -> [Effect]
+	[Cause] - ccomp -> [Effect]
 	[Cause] - advmod -> WRB:'when'
 	[Cause] - advmod -> RB: 'then'
 }
 
 def rule Condition2_2 {
+	[Cause] - dobj -> [Effect]
+	[Cause] - advmod -> WRB:'when'
+	[Cause] - advmod -> RB: 'then'
+}
+
+def rule Condition2_3 {
 	[Cause] - advcl -> [Effect]
 	[Cause] - advmod -> RB: 'then'
 	[Cause] - advmod -> WRB:'when'
 }
 
 // When the tool detects an error, the tool beeps.
-def rule Condition2_3 {
+def rule Condition2_4 {
 	[Effect] - dep -> [Cause] - advmod -> WRB:'when'
 }
 // The tool beeps when the tool detects an error.
-def rule Condition2_4 {
+def rule Condition2_5 {
 	[Effect] - advcl -> [Cause] - advmod -> WRB:'when'
 }
 
-def rule Condition2_5 {
+def rule Condition2_6 {
 	[Cause] - advmod -> WRB: 'when'
 	[Cause] - parataxis -> [Effect]
 }
@@ -77,6 +83,23 @@ def rule Condition3_1 {
 def rule Condition4_1 {
 	[Cause] - advcl -> [Effect] - mark -> IN:'as'
 	[Effect] - nsubj -> NN:'result' - det -> DT:'a'
+}
+def rule Condition4_2 {
+	[Cause] - ccomp -> [Effect]
+	[Cause] - prep -> IN:'as' - pobj -> NN:'result' -det -> DT:'a'
+}
+
+// Specmate shows the error window as a result of invalid login data.
+def rule Condition4_3 {
+	[Effect] - dobj -> [Effect_SubA] - prep -> IN:'as' - pobj -> NN:'result':[TMP] - prep -> IN:'of' - pobj -> [Cause]
+}
+
+// Specmate shows the error window as a result of invalid login data.
+def rule Condition4_4 {
+	[Effect] - prep -> IN:'as' - pobj -> NN:'result':[TMP] - prep -> IN:'of' - pobj -> [Cause]
+}
+def rule Condition4_5 {
+	[Cause] - prep -> IN:'as' - pobj -> NN:'result' -rcmod -> [Effect]
 }
 
 // The tool beeps due to the tool detecting an error.
@@ -100,19 +123,30 @@ def rule Condition6_2 {
 	[Effect] - dep -> VBG:'owning':[TMP] - prep -> TO:'to' - pobj -> [Cause]
 }
 
-
 // The tool beeps provided/supposing that the tool detected an error.
 def rule Condition7_1 {
 	[Effect] - partmod -> (VBN:'provided'|VBG:'supposing') -ccomp -> [Cause] - complm -> IN:'that' 
 }
-// Supposing that the tool detected an error , the tool beeps .
+	
+// Specmate saves the model provided that the model is correct.
 def rule Condition7_2 {
+	[Effect] -ccomp -> (VBD:'provided'|VBG:'supposing') -ccomp -> [Cause] - complm -> IN:'that' 
+	[Effect] -ccomp -> (VBD:'provided'|VBG:'supposing') -nsubj -> [Effect_SubA]
+}
+// Supposing that the tool detected an error, the tool beeps .
+def rule Condition7_3 {
 	[Effect] -dep-> VBG:'supposing' -ccomp-> [Cause] -complm-> IN:'that'
 }
 
 // Provided that the tool detected an error, the tool beeps.
+def rule Condition7_4 {
+	VBN:'provided'  - ccomp -> [Cause] - dobj -> [Cause_SubA] -appos -> [Effect]
+	[Cause] - complm -> IN:'that'
+}
+
+// Provided that the tool detected an error, the tool beeps.
 // Provided that the tool crashed, the tool beeps.
-def rule Condition7_3 {
+def rule Condition7_5 {
 	VBN:'provided'  - ccomp -> [Cause] - dobj -> [Effect]
 	[Cause] - complm -> IN:'that'
 }
@@ -125,11 +159,18 @@ def rule Condition8_1 {
 
 // The tool detects an error so that it can report it.
 def rule Condition9_1 {
-	[Cause] - dep -> [Effect] - dep -> IN:'that'
+	[Cause] - advcl -> [Effect] - dep -> IN:'that'
 	[Effect] - advmod -> RB:'so'
 }
-// The tool detects an error so to report it.
+
+// The tool detects an error so that it can report it.
 def rule Condition9_2 {
+	[Cause] - dobj -> [Effect] - dep -> IN:'that'
+	[Effect] - advmod -> RB:'so'
+}
+
+// The tool detects an error so to report it.
+def rule Condition9_3 {
 	[Cause] - advmod -> RB:'so'
 	[Cause] - xcomp -> [Effect] - aux -> TO:'to'
 }
@@ -184,8 +225,8 @@ def rule Condition13_1 {
 	[Effect] - prep -> IN:'on' - pobj -> NN:'condition'
 }
 
-// On the condiction that the tool detected an error, the tool beeps.
-// On the condiction that the tool crashes, the tool beeps.
+// On the condition that the tool detected an error, the tool beeps.
+// On the condition that the tool crashes, the tool beeps.
 def rule Condition13_2 {
 	IN:'on' - pobj -> NN:'condition' - prep -> IN:'that' - pobj -> [Cause] - appos -> [Effect]
 }
@@ -264,10 +305,10 @@ def rule Negation_2 {
 }
 
 def rule Negation_3 {
-	[Head] -dobj-> [Head_tmp] - det -> DT:'no'
+	[Head] - dobj-> [Head_tmp] - det -> DT:'no'
 }
 
-def subtrees Variable, Condition
+def subtrees Variable, Condition, Variable_Sub
 
 def rule CondVar_1 {
 	[Condition] - nsubj -> [Variable]

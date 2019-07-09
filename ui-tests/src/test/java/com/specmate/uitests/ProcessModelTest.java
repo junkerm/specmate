@@ -123,7 +123,7 @@ public class ProcessModelTest extends TestBase {
 
 		// Click on created process in the requirement overview
 		processEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
-
+		requirementOverview.refreshRequirementOverviewPage();
 		// Assert that the related requirement is shown in the requirement overview
 		assertTrue(requirementOverview.checkForRelatedRequirement());
 		
@@ -138,11 +138,13 @@ public class ProcessModelTest extends TestBase {
 		// Delete duplicate
 		processEditor.clickOnRelatedRequirement("Erlaubnis Autofahren");
 		requirementOverview.deleteDuplicateProcess(processName);
+		requirementOverview.refreshRequirementOverviewPage();
 		// The process should be deleted, thus, use assertFalse
 		assertFalse(requirementOverview.checkForDeletedDuplicateProcess(processName));
 
 		// Delete created process
 		requirementOverview.deleteProcess(processName);
+		requirementOverview.refreshRequirementOverviewPage();
 		// The should should be deleted, thus, use assertFalse
 		assertFalse(requirementOverview.checkForDeletedProcess(processName));
 

@@ -3,35 +3,36 @@ language:
 - java
 - node_js
 node_js:
-- '7'
+- '10'
+services:
+- docker
 jdk:
-- oraclejdk8
+- openjdk11
 addons:
   sauce_connect: true
-  apt:
-    packages:
-      - oracle-java8-installer
 env:
 - TERM=dumb
 install:
 - cd web && npm run init
 - cd ../bundles && ./gradlew --version
+- cd ..
 script:
-- cd ../web && npm run build-prod
-- cd ../bundles && ./gradlew --no-daemon build --continue
-- cd ../bundles && ./gradlew --no-daemon export
-- cd ../bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &
+- (cd web && npm run build-prod)
+- (cd bundles && ./gradlew --no-daemon build --continue -x check)
+- (cd bundles && ./gradlew --no-daemon export -x check)
+- (cd bundles && ./gradlew --no-daemon check)
+- (cd bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &)
 - sleep 10
-- cd ../ui-tests/ && mvn clean test
+- (cd ui-tests/ && mvn clean test)
 after_success:
-- git status
-- echo $TRAVIS_TAG
-- cd bundles/specmate-std-env/generated/distributions/executable/
-- mv dev-specmate-all.jar dev-specmate-all-$TRAVIS_TAG.jar 
-- mv prod-specmate-all.jar prod-specmate-all-$TRAVIS_TAG.jar
-- mv prod-specmate-cdo-server.jar prod-specmate-cdo-server-$TRAVIS_TAG.jar
-- mv prod-specmate-no-cdo-server.jar prod-specmate-no-cdo-server-$TRAVIS_TAG.jar
-- cd ../../../../..
+- DOCKER_TAG=$TRAVIS_BRANCH
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker build -t ${DOCKER_USERNAME}/specmate:${DOCKER_TAG} .
+- docker push ${DOCKER_USERNAME}/specmate:${DOCKER_TAG}
+- (cd bundles/specmate-std-env/generated/distributions/executable/&& mv dev-specmate-all.jar dev-specmate-all-$TRAVIS_TAG.jar)
+- (cd bundles/specmate-std-env/generated/distributions/executable/&& mv prod-specmate-all.jar prod-specmate-all-$TRAVIS_TAG.jar)
+- (cd bundles/specmate-std-env/generated/distributions/executable/&& mv prod-specmate-cdo-server.jar prod-specmate-cdo-server-$TRAVIS_TAG.jar)
+- (cd bundles/specmate-std-env/generated/distributions/executable/&& mv prod-specmate-no-cdo-server.jar prod-specmate-no-cdo-server-$TRAVIS_TAG.jar)
 cache:
   directories:
   - cnf/cache/stable

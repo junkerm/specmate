@@ -9,7 +9,6 @@
 		public url: string;
 		public className: string = "History";
 		public static className: string = "History";
-
 		// Attributes
 
 		// References

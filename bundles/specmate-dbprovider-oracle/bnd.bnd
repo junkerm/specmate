@@ -21,6 +21,7 @@ Import-Package: \
  	com.oracle.common.internal.net.ipclw.mql.*;resolution:=optional, \
 	com.oracle.common.io.*;resolution:=optional, \
 	com.oracle.common.net.*;resolution:=optional, \
+	com.oracle.net.*;resolution:=optional, \
 	com.sun.security.auth.module*;resolution:=optional, \
 	oracle.i18n.text.*;resolution:=optional, \
 	oracle.ons.*;resolution:=optional, \

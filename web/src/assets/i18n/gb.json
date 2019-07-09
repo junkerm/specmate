@@ -22,6 +22,8 @@
 	"CEGGenerator": {
 		"confirm": "Generate Cause-Effect-Model",
 		"confirmationTitle": "Generate Cause-Effect-Model and overwrite existing model?",
+		"couldNotGenerate": "Could not generate a model for the provided requirement.",
+		"couldNotGenerateTitle": "An Error Occured",
 		"generate": "Generate Model (experimental)"
 	},
 	"Cause-EffectModels": "Cause-Effect Models",

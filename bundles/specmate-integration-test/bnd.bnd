@@ -10,7 +10,9 @@ Test-Cases: \
 	com.specmate.test.integration.CDOPersistencyValidationTest,\
 	com.specmate.test.integration.ErrorResponsesTest,\
 	com.specmate.test.integration.NLPServiceTest,\
-	com.specmate.test.integration.ModelGenerationTest
+	com.specmate.test.integration.ModelGenerationTestEn,\
+	com.specmate.test.integration.ModelGenerationTestDe,\
+	com.specmate.test.integration.ModelGenerationTestDe_2
 -buildpath: \
 	biz.aQute.launcher,\
 	specmate-persistency-api;version=latest,\
@@ -60,8 +62,8 @@ Test-Cases: \
 	specmate-objectif;version=latest,\
 	specmate-xtext
 
--runee: JavaSE-1.8
--runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
+-runee: JavaSE-11
+-runfw: org.eclipse.osgi;version='[3.13.300.v20190218-1622,3.13.300.v20190218-1622]'
 -runsystempackages:  \
 	sun.reflect
 -runvm: -ea, -Djdk.crypto.KeyAgreement.legacyKDF=true
@@ -281,7 +283,9 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.eclipse.xtext.util;version='[2.10.0,2.10.1)',\
 	org.eclipse.xtext.xbase.lib;version='[2.10.0,2.10.1)',\
 	specmate-objectif;version=snapshot,\
-	specmate-xtext;version=snapshot
+	specmate-xtext;version=snapshot,\
+	com.sun.activation.javax.activation;version='[1.2.0,1.2.1)',\
+	jaxb-api;version='[2.3.1,2.3.2)'
 
 -runproperties: \
 	jetty.http.port=8088,\
@@ -291,7 +295,9 @@ Bundle-Version: 0.0.0.${tstamp}
 	tester.dir=testdir,\
 	tester.trace=true,\
 	tester.continuous=true,\
-	osgi.compatibility.bootdelegation=true
+	osgi.compatibility.bootdelegation=true,\
+	equinox.log.history.max=1000,\
+	org.osgi.service.log.admin.loglevel=DEBUG 
 
 -runprogramargs: --configurationFile config/specmate-config-test.properties
 
@@ -301,3 +307,4 @@ Bundle-Version: 0.0.0.${tstamp}
 Private-Package: \
 	com.specmate.test.integration,\
 	com.specmate.test.integration.support
+-resolve: auto
