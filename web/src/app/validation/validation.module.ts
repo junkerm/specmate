@@ -16,6 +16,7 @@ import { NodeNoOutgoingValidator } from './process/node-no-outgoing-validator';
 import { NodeSingleOutgoingConnectionValidator } from './process/node-single-outgoing-connection-validator';
 import { StartNodeNoIncomingConnectionValidator } from './process/start-node-no-incoming-connection-validator';
 import { StartNodeValidator } from './process/start-node-validator';
+import { InvalidNodeVariableValidator } from './ceg/invalid-node-variable-validator';
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import { StartNodeValidator } from './process/start-node-validator';
     NodeNoOutgoingValidator,
     StartNodeValidator,
     StartNodeNoIncomingConnectionValidator,
-    DecisionMultipleOutgoingConnectionsValidator
+    DecisionMultipleOutgoingConnectionsValidator,
+    InvalidNodeVariableValidator
   ],
   bootstrap: [
     // COMPONENTS THAT ARE BOOTSTRAPPED HERE

@@ -225,7 +225,8 @@ export class MetaInfo {
 			longDesc: 'The variable of a node',
 			required: true,
 			type: 'text',
-			position: '1'		
+			position: '1',
+			allowedPattern: '^[^,;|]*$'	
 		},			{
 			name: "condition",
 			shortDesc: 'Condition',

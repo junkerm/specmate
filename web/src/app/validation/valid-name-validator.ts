@@ -4,22 +4,15 @@ import { ElementValidatorBase } from './element-validator-base';
 import { ValidationErrorSeverity } from './validation-error-severity';
 import { ValidationMessage } from './validation-message';
 import { ValidationResult } from './validation-result';
+import { ValidationUtil } from './validation-util';
 
 export class ValidNameValidator extends ElementValidatorBase<IContainer> {
 
     public validate(element: IContainer, contents: IContainer[] = []): ValidationResult {
-        if (MetaInfo.INamed === undefined || MetaInfo.INamed[0] === undefined) {
-            return ValidationResult.VALID;
-        }
-        let validPattern = MetaInfo.INamed[0].allowedPattern;
-        if (validPattern === undefined) {
-            return ValidationResult.VALID;
-        }
-        let validName: RegExp = new RegExp(validPattern);
         if (element === undefined || element.name === undefined) {
             return ValidationResult.VALID;
         }
-        if (!element.name.match(validName)) {
+        if (!ValidationUtil.isValidName(element.name)) {
             let message = ValidationMessage.ERROR_INVALID_NAME;
             return new ValidationResult(message, false, [element], ValidationErrorSeverity.SAVE_DISABLED);
         }
