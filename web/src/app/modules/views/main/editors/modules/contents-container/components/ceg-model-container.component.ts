@@ -12,6 +12,7 @@ import { ConfirmationModal } from '../../../../../../notification/modules/modals
 import { AdditionalInformationService } from '../../../../../side/modules/links-actions/services/additional-information.service';
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
 import { TestSpecificationContentContainerBase } from '../base/testspecification-generatable-content-container-base';
+import { min } from 'rxjs/operators';
 
 @Component({
     moduleId: module.id.toString(),
@@ -31,7 +32,24 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
     }
 
     modelDescription: string;
+    objectifIndicator = 'WENN';
 
+    public isObjectif(): boolean {
+        let desc = this.modelDescription;
+
+        if (desc == undefined) {
+            desc = '';
+        }
+        desc = desc.trim();
+
+        if (desc.length <= 3) {
+            return false;
+        }
+        let relevantLength = Math.min(this.objectifIndicator.length, desc.length);
+        let cmpA = this.objectifIndicator.substring(0, relevantLength);
+        let cmpB = desc.substring(0, relevantLength);
+        return cmpA === cmpB;
+    }
 
     protected condition = (element: IContainer) => Type.is(element, CEGModel);
 
@@ -39,13 +57,14 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
         let factory: ModelFactoryBase = new CEGModelFactory(this.dataService);
         const element = await factory.create(this.parent, true, Id.uuid, name) as CEGModel;
 
-        if (this.modelDescription == undefined) {
-            this.modelDescription = '';
+        let description = this.modelDescription;
+        if (description == undefined) {
+            description = '';
         }
-        this.modelDescription = this.modelDescription.trim();
+        description = description.trim();
 
-        if (this.modelDescription.length > 0) {
-            element.modelRequirements = this.modelDescription;
+        if (description.length > 0) {
+            element.modelRequirements = description;
             await this.dataService.updateElement(element, true, Id.uuid);
             await this.dataService.commit(this.translate.instant('save'));
             await this.dataService.performOperations(element.url, 'generateModel');
@@ -57,7 +76,7 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
                 await this.dataService.deleteElement(element.url, true, Id.uuid);
                 await this.dataService.commit(this.translate.instant('save'));
                 await this.dataService.deleteCachedContent(element.url);
-                await this.modal.openOk(this.translate.instant('CEGGenerator.couldNotGenerateTitle'), 
+                await this.modal.openOk(this.translate.instant('CEGGenerator.couldNotGenerateTitle'),
                         this.translate.instant('CEGGenerator.couldNotGenerate'));
                 return undefined;
             }
