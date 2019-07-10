@@ -47,7 +47,8 @@
 	osgi.identity;filter:='(osgi.identity=specmate-jira-connector)',\
 	osgi.identity;filter:='(osgi.identity=specmate-nlp)',\
 	osgi.identity;filter:='(osgi.identity=specmate-model-generation)',\
-	bnd.identity;id='log4j'
+	bnd.identity;id='log4j',\
+	bnd.identity;id='specmate-objectif'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -222,7 +223,8 @@
 	org.eclipse.xtext.xbase.lib;version='[2.10.0,2.10.1)',\
 	specmate-cause-effect-patterns;version=snapshot,\
 	specmate-xtext;version=snapshot,\
-	jaxb-api;version='[2.3.1,2.3.2)'
+	jaxb-api;version='[2.3.0,2.3.1)',\
+	specmate-objectif;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8080,\
@@ -238,3 +240,4 @@
 -runvm: -Xmx6000m\n\
 	-Djdk.crypto.KeyAgreement.legacyKDF=true
 -resolve: auto
+-runee: JavaSE-11

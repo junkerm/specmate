@@ -93,7 +93,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		if(lang == ELanguage.PSEUDO) {
 			generator = new GenerateModelFromPseudoCode();
 		} else {
-			generator = new PatternbasedCEGGenerator(lang, tagger); 
+			generator = new PatternbasedCEGGenerator(lang, tagger, this.configService); 
 		}
 
 		
