@@ -13,21 +13,16 @@ import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
 
 import com.saucelabs.junit.SauceOnDemandTestWatcher;
 import com.specmate.uitests.pagemodel.LoginElements;
 
 import java.net.URL;
-import java.time.Duration;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
@@ -131,18 +126,25 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
         }
     }
     
+    /** 
+     * If the projects are not loaded beforehand, Specmate will display 'Bad Gateway' till they are loaded.
+     * This method checks for 30 seconds (driver.findElement TimeOut (defined by implictlyWait) (5 seconds) * counter (6)) if the 
+     * loading is finished and refreshes the page each 5 seconds
+     * 	*/
     protected void waitForProjectsToLoad() {
-    	Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-    	       .withTimeout(Duration.ofSeconds(30))
-    	       .pollingEvery(Duration.ofSeconds(5))
-    	       .ignoring(NoSuchElementException.class);
-    	
-    	wait.until(new Function<WebDriver, WebElement>() {
-    	     public WebElement apply(WebDriver driver) {
-    	       driver.navigate().refresh();
-    	       return driver.findElement(By.id("login-username-textfield"));
-    	     }
-    	});
+    	boolean displayed = false;
+    	int counter = 5;
+    	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    	do {
+    		try {
+    			counter--;
+    			displayed = (counter<0) || driver.findElement(By.id("login-username-textfield")).isDisplayed();
+    		} catch (NoSuchElementException e) {
+    			driver.navigate().refresh();
+    		}
+    	} while(!displayed);
+    	// Change timeout back to the defined value
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
     
 	public void performLogin(LoginElements login) {
