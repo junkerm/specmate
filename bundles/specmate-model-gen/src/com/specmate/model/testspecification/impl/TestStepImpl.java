@@ -122,6 +122,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getId() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_STEP__ID, BasePackage.Literals.IID__ID, true, true);
 	}
@@ -131,6 +132,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setId(String newId) {
 		eDynamicSet(TestspecificationPackage.TEST_STEP__ID, BasePackage.Literals.IID__ID, newId);
 	}
@@ -140,6 +142,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_STEP__NAME, BasePackage.Literals.INAMED__NAME, true, true);
 	}
@@ -149,6 +152,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		eDynamicSet(TestspecificationPackage.TEST_STEP__NAME, BasePackage.Literals.INAMED__NAME, newName);
 	}
@@ -158,6 +162,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDescription() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_STEP__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
 	}
@@ -167,6 +172,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDescription(String newDescription) {
 		eDynamicSet(TestspecificationPackage.TEST_STEP__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
 	}
@@ -176,6 +182,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getPosition() {
 		return (Integer)eDynamicGet(TestspecificationPackage.TEST_STEP__POSITION, BasePackage.Literals.IPOSITIONABLE__POSITION, true, true);
 	}
@@ -185,6 +192,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPosition(int newPosition) {
 		eDynamicSet(TestspecificationPackage.TEST_STEP__POSITION, BasePackage.Literals.IPOSITIONABLE__POSITION, newPosition);
 	}
@@ -194,6 +202,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getExpectedOutcome() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME, TestspecificationPackage.Literals.TEST_STEP__EXPECTED_OUTCOME, true, true);
 	}
@@ -203,6 +212,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExpectedOutcome(String newExpectedOutcome) {
 		eDynamicSet(TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME, TestspecificationPackage.Literals.TEST_STEP__EXPECTED_OUTCOME, newExpectedOutcome);
 	}
@@ -213,6 +223,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<TestParameter> getReferencedTestParameters() {
 		return (EList<TestParameter>)eDynamicGet(TestspecificationPackage.TEST_STEP__REFERENCED_TEST_PARAMETERS, TestspecificationPackage.Literals.TEST_STEP__REFERENCED_TEST_PARAMETERS, true, true);
 	}

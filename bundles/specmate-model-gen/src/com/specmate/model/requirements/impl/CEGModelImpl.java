@@ -118,6 +118,7 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getId() {
 		return (String)eDynamicGet(RequirementsPackage.CEG_MODEL__ID, BasePackage.Literals.IID__ID, true, true);
 	}
@@ -127,6 +128,7 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setId(String newId) {
 		eDynamicSet(RequirementsPackage.CEG_MODEL__ID, BasePackage.Literals.IID__ID, newId);
 	}
@@ -136,6 +138,7 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return (String)eDynamicGet(RequirementsPackage.CEG_MODEL__NAME, BasePackage.Literals.INAMED__NAME, true, true);
 	}
@@ -145,6 +148,7 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		eDynamicSet(RequirementsPackage.CEG_MODEL__NAME, BasePackage.Literals.INAMED__NAME, newName);
 	}
@@ -154,6 +158,7 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDescription() {
 		return (String)eDynamicGet(RequirementsPackage.CEG_MODEL__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
 	}
@@ -163,6 +168,7 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDescription(String newDescription) {
 		eDynamicSet(RequirementsPackage.CEG_MODEL__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
 	}
@@ -173,6 +179,7 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<IContentElement> getContents() {
 		return (EList<IContentElement>)eDynamicGet(RequirementsPackage.CEG_MODEL__CONTENTS, BasePackage.Literals.ICONTAINER__CONTENTS, true, true);
 	}
@@ -183,6 +190,7 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<ITracingElement> getTracesTo() {
 		return (EList<ITracingElement>)eDynamicGet(RequirementsPackage.CEG_MODEL__TRACES_TO, BasePackage.Literals.ITRACING_ELEMENT__TRACES_TO, true, true);
 	}
@@ -193,6 +201,7 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<ITracingElement> getTracesFrom() {
 		return (EList<ITracingElement>)eDynamicGet(RequirementsPackage.CEG_MODEL__TRACES_FROM, BasePackage.Literals.ITRACING_ELEMENT__TRACES_FROM, true, true);
 	}
@@ -202,6 +211,7 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getModelRequirements() {
 		return (String)eDynamicGet(RequirementsPackage.CEG_MODEL__MODEL_REQUIREMENTS, RequirementsPackage.Literals.CEG_MODEL__MODEL_REQUIREMENTS, true, true);
 	}
@@ -211,6 +221,7 @@ public class CEGModelImpl extends CDOObjectImpl implements CEGModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setModelRequirements(String newModelRequirements) {
 		eDynamicSet(RequirementsPackage.CEG_MODEL__MODEL_REQUIREMENTS, RequirementsPackage.Literals.CEG_MODEL__MODEL_REQUIREMENTS, newModelRequirements);
 	}

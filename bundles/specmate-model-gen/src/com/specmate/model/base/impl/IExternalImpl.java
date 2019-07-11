@@ -100,6 +100,7 @@ public class IExternalImpl extends CDOObjectImpl implements IExternal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getExtId() {
 		return (String)eDynamicGet(BasePackage.IEXTERNAL__EXT_ID, BasePackage.Literals.IEXTERNAL__EXT_ID, true, true);
 	}
@@ -109,6 +110,7 @@ public class IExternalImpl extends CDOObjectImpl implements IExternal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExtId(String newExtId) {
 		eDynamicSet(BasePackage.IEXTERNAL__EXT_ID, BasePackage.Literals.IEXTERNAL__EXT_ID, newExtId);
 	}
@@ -118,6 +120,7 @@ public class IExternalImpl extends CDOObjectImpl implements IExternal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getExtId2() {
 		return (String)eDynamicGet(BasePackage.IEXTERNAL__EXT_ID2, BasePackage.Literals.IEXTERNAL__EXT_ID2, true, true);
 	}
@@ -127,6 +130,7 @@ public class IExternalImpl extends CDOObjectImpl implements IExternal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExtId2(String newExtId2) {
 		eDynamicSet(BasePackage.IEXTERNAL__EXT_ID2, BasePackage.Literals.IEXTERNAL__EXT_ID2, newExtId2);
 	}
@@ -136,6 +140,7 @@ public class IExternalImpl extends CDOObjectImpl implements IExternal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getSource() {
 		return (String)eDynamicGet(BasePackage.IEXTERNAL__SOURCE, BasePackage.Literals.IEXTERNAL__SOURCE, true, true);
 	}
@@ -145,6 +150,7 @@ public class IExternalImpl extends CDOObjectImpl implements IExternal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(String newSource) {
 		eDynamicSet(BasePackage.IEXTERNAL__SOURCE, BasePackage.Literals.IEXTERNAL__SOURCE, newSource);
 	}
@@ -154,6 +160,7 @@ public class IExternalImpl extends CDOObjectImpl implements IExternal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isLive() {
 		return (Boolean)eDynamicGet(BasePackage.IEXTERNAL__LIVE, BasePackage.Literals.IEXTERNAL__LIVE, true, true);
 	}
@@ -163,6 +170,7 @@ public class IExternalImpl extends CDOObjectImpl implements IExternal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLive(boolean newLive) {
 		eDynamicSet(BasePackage.IEXTERNAL__LIVE, BasePackage.Literals.IEXTERNAL__LIVE, newLive);
 	}

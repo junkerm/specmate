@@ -116,6 +116,7 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getId() {
 		return (String)eDynamicGet(BasePackage.FOLDER__ID, BasePackage.Literals.IID__ID, true, true);
 	}
@@ -125,6 +126,7 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setId(String newId) {
 		eDynamicSet(BasePackage.FOLDER__ID, BasePackage.Literals.IID__ID, newId);
 	}
@@ -134,6 +136,7 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return (String)eDynamicGet(BasePackage.FOLDER__NAME, BasePackage.Literals.INAMED__NAME, true, true);
 	}
@@ -143,6 +146,7 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		eDynamicSet(BasePackage.FOLDER__NAME, BasePackage.Literals.INAMED__NAME, newName);
 	}
@@ -152,6 +156,7 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDescription() {
 		return (String)eDynamicGet(BasePackage.FOLDER__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
 	}
@@ -161,6 +166,7 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDescription(String newDescription) {
 		eDynamicSet(BasePackage.FOLDER__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
 	}
@@ -171,6 +177,7 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<IContentElement> getContents() {
 		return (EList<IContentElement>)eDynamicGet(BasePackage.FOLDER__CONTENTS, BasePackage.Literals.ICONTAINER__CONTENTS, true, true);
 	}
@@ -181,6 +188,7 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<ITracingElement> getTracesTo() {
 		return (EList<ITracingElement>)eDynamicGet(BasePackage.FOLDER__TRACES_TO, BasePackage.Literals.ITRACING_ELEMENT__TRACES_TO, true, true);
 	}
@@ -191,6 +199,7 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<ITracingElement> getTracesFrom() {
 		return (EList<ITracingElement>)eDynamicGet(BasePackage.FOLDER__TRACES_FROM, BasePackage.Literals.ITRACING_ELEMENT__TRACES_FROM, true, true);
 	}
@@ -200,6 +209,7 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isLibrary() {
 		return (Boolean)eDynamicGet(BasePackage.FOLDER__LIBRARY, BasePackage.Literals.FOLDER__LIBRARY, true, true);
 	}
@@ -209,6 +219,7 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLibrary(boolean newLibrary) {
 		eDynamicSet(BasePackage.FOLDER__LIBRARY, BasePackage.Literals.FOLDER__LIBRARY, newLibrary);
 	}

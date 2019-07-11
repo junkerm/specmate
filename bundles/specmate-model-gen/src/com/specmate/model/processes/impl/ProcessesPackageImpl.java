@@ -123,7 +123,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link ProcessesPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -137,17 +137,24 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		if (isInited) return (ProcessesPackage)EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI);
 
 		// Obtain or create and register package
-		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ProcessesPackageImpl());
+		Object registeredProcessesPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		ProcessesPackageImpl theProcessesPackage = registeredProcessesPackage instanceof ProcessesPackageImpl ? (ProcessesPackageImpl)registeredProcessesPackage : new ProcessesPackageImpl();
 
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		BasePackageImpl theBasePackage = (BasePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI) instanceof BasePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI) : BasePackage.eINSTANCE);
-		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) instanceof RequirementsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) : RequirementsPackage.eINSTANCE);
-		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
-		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
-		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
-		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI);
+		BasePackageImpl theBasePackage = (BasePackageImpl)(registeredPackage instanceof BasePackageImpl ? registeredPackage : BasePackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI);
+		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(registeredPackage instanceof RequirementsPackageImpl ? registeredPackage : RequirementsPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI);
+		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(registeredPackage instanceof TestspecificationPackageImpl ? registeredPackage : TestspecificationPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI);
+		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(registeredPackage instanceof HistoryPackageImpl ? registeredPackage : HistoryPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI);
+		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(registeredPackage instanceof AdministrationPackageImpl ? registeredPackage : AdministrationPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI);
+		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(registeredPackage instanceof BatchPackageImpl ? registeredPackage : BatchPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theProcessesPackage.createPackageContents();
@@ -170,7 +177,6 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		// Mark meta-data to indicate it can't be changed
 		theProcessesPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(ProcessesPackage.eNS_URI, theProcessesPackage);
 		return theProcessesPackage;
@@ -181,6 +187,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getProcess() {
 		return processEClass;
 	}
@@ -190,6 +197,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getProcessNode() {
 		return processNodeEClass;
 	}
@@ -199,6 +207,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getProcessStep() {
 		return processStepEClass;
 	}
@@ -208,6 +217,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getProcessStep_ExpectedOutcome() {
 		return (EAttribute)processStepEClass.getEStructuralFeatures().get(0);
 	}
@@ -217,6 +227,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getProcessDecision() {
 		return processDecisionEClass;
 	}
@@ -226,6 +237,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getProcessConnection() {
 		return processConnectionEClass;
 	}
@@ -235,6 +247,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getProcessConnection_Condition() {
 		return (EAttribute)processConnectionEClass.getEStructuralFeatures().get(0);
 	}
@@ -244,6 +257,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getProcessStart() {
 		return processStartEClass;
 	}
@@ -253,6 +267,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getProcessEnd() {
 		return processEndEClass;
 	}
@@ -262,6 +277,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ProcessesFactory getProcessesFactory() {
 		return (ProcessesFactory)getEFactoryInstance();
 	}
@@ -373,32 +389,32 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * @generated
 	 */
 	protected void createForm_metaAnnotations() {
-		String source = "http://specmate.com/form_meta";	
+		String source = "http://specmate.com/form_meta";
 		addAnnotation
-		  (getProcessStep_ExpectedOutcome(), 
-		   source, 
+		  (getProcessStep_ExpectedOutcome(),
+		   source,
 		   new String[] {
-			 "shortDesc", "Expected Outcome",
-			 "longDesc", "",
-			 "required", "false",
-			 "type", "text",
-			 "position", "101"
-		   });	
+			   "shortDesc", "Expected Outcome",
+			   "longDesc", "",
+			   "required", "false",
+			   "type", "text",
+			   "position", "101"
+		   });
 		addAnnotation
-		  (processConnectionEClass, 
-		   source, 
+		  (processConnectionEClass,
+		   source,
 		   new String[] {
-			 "disabled1", "name"
-		   });	
+			   "disabled1", "name"
+		   });
 		addAnnotation
-		  (getProcessConnection_Condition(), 
-		   source, 
+		  (getProcessConnection_Condition(),
+		   source,
 		   new String[] {
-			 "shortDesc", "Condition",
-			 "longDesc", "The condition the variable has to fulfil",
-			 "required", "false",
-			 "type", "text",
-			 "position", "2"
+			   "shortDesc", "Condition",
+			   "longDesc", "The condition the variable has to fulfil",
+			   "required", "false",
+			   "type", "text",
+			   "position", "2"
 		   });
 	}
 

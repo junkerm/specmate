@@ -127,6 +127,7 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getId() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_CASE__ID, BasePackage.Literals.IID__ID, true, true);
 	}
@@ -136,6 +137,7 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setId(String newId) {
 		eDynamicSet(TestspecificationPackage.TEST_CASE__ID, BasePackage.Literals.IID__ID, newId);
 	}
@@ -145,6 +147,7 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_CASE__NAME, BasePackage.Literals.INAMED__NAME, true, true);
 	}
@@ -154,6 +157,7 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		eDynamicSet(TestspecificationPackage.TEST_CASE__NAME, BasePackage.Literals.INAMED__NAME, newName);
 	}
@@ -163,6 +167,7 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDescription() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_CASE__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
 	}
@@ -172,6 +177,7 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDescription(String newDescription) {
 		eDynamicSet(TestspecificationPackage.TEST_CASE__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
 	}
@@ -182,6 +188,7 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<IContentElement> getContents() {
 		return (EList<IContentElement>)eDynamicGet(TestspecificationPackage.TEST_CASE__CONTENTS, BasePackage.Literals.ICONTAINER__CONTENTS, true, true);
 	}
@@ -191,6 +198,7 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getPosition() {
 		return (Integer)eDynamicGet(TestspecificationPackage.TEST_CASE__POSITION, BasePackage.Literals.IPOSITIONABLE__POSITION, true, true);
 	}
@@ -200,6 +208,7 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPosition(int newPosition) {
 		eDynamicSet(TestspecificationPackage.TEST_CASE__POSITION, BasePackage.Literals.IPOSITIONABLE__POSITION, newPosition);
 	}
@@ -209,6 +218,7 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isConsistent() {
 		return (Boolean)eDynamicGet(TestspecificationPackage.TEST_CASE__CONSISTENT, TestspecificationPackage.Literals.TEST_CASE__CONSISTENT, true, true);
 	}
@@ -218,6 +228,7 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConsistent(boolean newConsistent) {
 		eDynamicSet(TestspecificationPackage.TEST_CASE__CONSISTENT, TestspecificationPackage.Literals.TEST_CASE__CONSISTENT, newConsistent);
 	}

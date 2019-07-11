@@ -95,6 +95,7 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<String> getAllowedUrls() {
 		return (EList<String>)eDynamicGet(UsermodelPackage.USER__ALLOWED_URLS, UsermodelPackage.Literals.USER__ALLOWED_URLS, true, true);
 	}
@@ -104,6 +105,7 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getUserName() {
 		return (String)eDynamicGet(UsermodelPackage.USER__USER_NAME, UsermodelPackage.Literals.USER__USER_NAME, true, true);
 	}
@@ -113,6 +115,7 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setUserName(String newUserName) {
 		eDynamicSet(UsermodelPackage.USER__USER_NAME, UsermodelPackage.Literals.USER__USER_NAME, newUserName);
 	}
@@ -122,6 +125,7 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPassWord() {
 		return (String)eDynamicGet(UsermodelPackage.USER__PASS_WORD, UsermodelPackage.Literals.USER__PASS_WORD, true, true);
 	}
@@ -131,6 +135,7 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPassWord(String newPassWord) {
 		eDynamicSet(UsermodelPackage.USER__PASS_WORD, UsermodelPackage.Literals.USER__PASS_WORD, newPassWord);
 	}
@@ -140,6 +145,7 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getProjectName() {
 		return (String)eDynamicGet(UsermodelPackage.USER__PROJECT_NAME, UsermodelPackage.Literals.USER__PROJECT_NAME, true, true);
 	}
@@ -149,6 +155,7 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setProjectName(String newProjectName) {
 		eDynamicSet(UsermodelPackage.USER__PROJECT_NAME, UsermodelPackage.Literals.USER__PROJECT_NAME, newProjectName);
 	}

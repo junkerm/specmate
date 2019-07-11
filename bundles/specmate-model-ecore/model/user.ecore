@@ -23,5 +23,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="TargetSystem" eType="#//AccessRights"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="libraryFolders" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDeleted" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
 </ecore:EPackage>

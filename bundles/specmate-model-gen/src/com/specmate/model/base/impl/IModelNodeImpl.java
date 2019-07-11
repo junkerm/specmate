@@ -130,6 +130,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getId() {
 		return (String)eDynamicGet(BasePackage.IMODEL_NODE__ID, BasePackage.Literals.IID__ID, true, true);
 	}
@@ -139,6 +140,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setId(String newId) {
 		eDynamicSet(BasePackage.IMODEL_NODE__ID, BasePackage.Literals.IID__ID, newId);
 	}
@@ -148,6 +150,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return (String)eDynamicGet(BasePackage.IMODEL_NODE__NAME, BasePackage.Literals.INAMED__NAME, true, true);
 	}
@@ -157,6 +160,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		eDynamicSet(BasePackage.IMODEL_NODE__NAME, BasePackage.Literals.INAMED__NAME, newName);
 	}
@@ -166,6 +170,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDescription() {
 		return (String)eDynamicGet(BasePackage.IMODEL_NODE__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
 	}
@@ -175,6 +180,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDescription(String newDescription) {
 		eDynamicSet(BasePackage.IMODEL_NODE__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
 	}
@@ -185,6 +191,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<IContentElement> getContents() {
 		return (EList<IContentElement>)eDynamicGet(BasePackage.IMODEL_NODE__CONTENTS, BasePackage.Literals.ICONTAINER__CONTENTS, true, true);
 	}
@@ -195,6 +202,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<ITracingElement> getTracesTo() {
 		return (EList<ITracingElement>)eDynamicGet(BasePackage.IMODEL_NODE__TRACES_TO, BasePackage.Literals.ITRACING_ELEMENT__TRACES_TO, true, true);
 	}
@@ -205,6 +213,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<ITracingElement> getTracesFrom() {
 		return (EList<ITracingElement>)eDynamicGet(BasePackage.IMODEL_NODE__TRACES_FROM, BasePackage.Literals.ITRACING_ELEMENT__TRACES_FROM, true, true);
 	}
@@ -214,6 +223,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public double getX() {
 		return (Double)eDynamicGet(BasePackage.IMODEL_NODE__X, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__X, true, true);
 	}
@@ -223,6 +233,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setX(double newX) {
 		eDynamicSet(BasePackage.IMODEL_NODE__X, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__X, newX);
 	}
@@ -232,6 +243,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public double getY() {
 		return (Double)eDynamicGet(BasePackage.IMODEL_NODE__Y, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y, true, true);
 	}
@@ -241,6 +253,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setY(double newY) {
 		eDynamicSet(BasePackage.IMODEL_NODE__Y, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y, newY);
 	}
@@ -251,6 +264,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<IModelConnection> getOutgoingConnections() {
 		return (EList<IModelConnection>)eDynamicGet(BasePackage.IMODEL_NODE__OUTGOING_CONNECTIONS, BasePackage.Literals.IMODEL_NODE__OUTGOING_CONNECTIONS, true, true);
 	}
@@ -261,6 +275,7 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<IModelConnection> getIncomingConnections() {
 		return (EList<IModelConnection>)eDynamicGet(BasePackage.IMODEL_NODE__INCOMING_CONNECTIONS, BasePackage.Literals.IMODEL_NODE__INCOMING_CONNECTIONS, true, true);
 	}

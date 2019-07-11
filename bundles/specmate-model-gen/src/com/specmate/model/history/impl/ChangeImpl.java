@@ -133,6 +133,7 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getObjectName() {
 		return (String)eDynamicGet(HistoryPackage.CHANGE__OBJECT_NAME, HistoryPackage.Literals.CHANGE__OBJECT_NAME, true, true);
 	}
@@ -142,6 +143,7 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObjectName(String newObjectName) {
 		eDynamicSet(HistoryPackage.CHANGE__OBJECT_NAME, HistoryPackage.Literals.CHANGE__OBJECT_NAME, newObjectName);
 	}
@@ -151,6 +153,7 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getObjectType() {
 		return (String)eDynamicGet(HistoryPackage.CHANGE__OBJECT_TYPE, HistoryPackage.Literals.CHANGE__OBJECT_TYPE, true, true);
 	}
@@ -160,6 +163,7 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObjectType(String newObjectType) {
 		eDynamicSet(HistoryPackage.CHANGE__OBJECT_TYPE, HistoryPackage.Literals.CHANGE__OBJECT_TYPE, newObjectType);
 	}
@@ -169,6 +173,7 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOldValue() {
 		return (String)eDynamicGet(HistoryPackage.CHANGE__OLD_VALUE, HistoryPackage.Literals.CHANGE__OLD_VALUE, true, true);
 	}
@@ -178,6 +183,7 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOldValue(String newOldValue) {
 		eDynamicSet(HistoryPackage.CHANGE__OLD_VALUE, HistoryPackage.Literals.CHANGE__OLD_VALUE, newOldValue);
 	}
@@ -187,6 +193,7 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getNewValue() {
 		return (String)eDynamicGet(HistoryPackage.CHANGE__NEW_VALUE, HistoryPackage.Literals.CHANGE__NEW_VALUE, true, true);
 	}
@@ -196,6 +203,7 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNewValue(String newNewValue) {
 		eDynamicSet(HistoryPackage.CHANGE__NEW_VALUE, HistoryPackage.Literals.CHANGE__NEW_VALUE, newNewValue);
 	}
@@ -205,6 +213,7 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFeature() {
 		return (String)eDynamicGet(HistoryPackage.CHANGE__FEATURE, HistoryPackage.Literals.CHANGE__FEATURE, true, true);
 	}
@@ -214,6 +223,7 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFeature(String newFeature) {
 		eDynamicSet(HistoryPackage.CHANGE__FEATURE, HistoryPackage.Literals.CHANGE__FEATURE, newFeature);
 	}
@@ -223,6 +233,7 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsCreate() {
 		return (Boolean)eDynamicGet(HistoryPackage.CHANGE__IS_CREATE, HistoryPackage.Literals.CHANGE__IS_CREATE, true, true);
 	}
@@ -232,6 +243,7 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsCreate(boolean newIsCreate) {
 		eDynamicSet(HistoryPackage.CHANGE__IS_CREATE, HistoryPackage.Literals.CHANGE__IS_CREATE, newIsCreate);
 	}
@@ -241,6 +253,7 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsDelete() {
 		return (Boolean)eDynamicGet(HistoryPackage.CHANGE__IS_DELETE, HistoryPackage.Literals.CHANGE__IS_DELETE, true, true);
 	}
@@ -250,6 +263,7 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsDelete(boolean newIsDelete) {
 		eDynamicSet(HistoryPackage.CHANGE__IS_DELETE, HistoryPackage.Literals.CHANGE__IS_DELETE, newIsDelete);
 	}

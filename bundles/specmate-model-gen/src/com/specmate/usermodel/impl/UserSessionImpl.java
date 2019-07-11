@@ -27,6 +27,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getSourceSystem <em>Source System</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getTargetSystem <em>Target System</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getLibraryFolders <em>Library Folders</em>}</li>
+ *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#isIsDeleted <em>Is Deleted</em>}</li>
  * </ul>
  *
  * @generated
@@ -93,6 +94,16 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	protected static final AccessRights TARGET_SYSTEM_EDEFAULT = AccessRights.NONE;
 
 	/**
+	 * The default value of the '{@link #isIsDeleted() <em>Is Deleted</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsDeleted()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IS_DELETED_EDEFAULT = false;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -126,6 +137,7 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getId() {
 		return (String)eDynamicGet(UsermodelPackage.USER_SESSION__ID, UsermodelPackage.Literals.USER_SESSION__ID, true, true);
 	}
@@ -135,6 +147,7 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setId(String newId) {
 		eDynamicSet(UsermodelPackage.USER_SESSION__ID, UsermodelPackage.Literals.USER_SESSION__ID, newId);
 	}
@@ -144,6 +157,7 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getAllowedPathPattern() {
 		return (String)eDynamicGet(UsermodelPackage.USER_SESSION__ALLOWED_PATH_PATTERN, UsermodelPackage.Literals.USER_SESSION__ALLOWED_PATH_PATTERN, true, true);
 	}
@@ -153,6 +167,7 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAllowedPathPattern(String newAllowedPathPattern) {
 		eDynamicSet(UsermodelPackage.USER_SESSION__ALLOWED_PATH_PATTERN, UsermodelPackage.Literals.USER_SESSION__ALLOWED_PATH_PATTERN, newAllowedPathPattern);
 	}
@@ -162,6 +177,7 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getUserName() {
 		return (String)eDynamicGet(UsermodelPackage.USER_SESSION__USER_NAME, UsermodelPackage.Literals.USER_SESSION__USER_NAME, true, true);
 	}
@@ -171,6 +187,7 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setUserName(String newUserName) {
 		eDynamicSet(UsermodelPackage.USER_SESSION__USER_NAME, UsermodelPackage.Literals.USER_SESSION__USER_NAME, newUserName);
 	}
@@ -180,6 +197,7 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public long getLastActive() {
 		return (Long)eDynamicGet(UsermodelPackage.USER_SESSION__LAST_ACTIVE, UsermodelPackage.Literals.USER_SESSION__LAST_ACTIVE, true, true);
 	}
@@ -189,6 +207,7 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLastActive(long newLastActive) {
 		eDynamicSet(UsermodelPackage.USER_SESSION__LAST_ACTIVE, UsermodelPackage.Literals.USER_SESSION__LAST_ACTIVE, newLastActive);
 	}
@@ -198,6 +217,7 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AccessRights getSourceSystem() {
 		return (AccessRights)eDynamicGet(UsermodelPackage.USER_SESSION__SOURCE_SYSTEM, UsermodelPackage.Literals.USER_SESSION__SOURCE_SYSTEM, true, true);
 	}
@@ -207,6 +227,7 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSourceSystem(AccessRights newSourceSystem) {
 		eDynamicSet(UsermodelPackage.USER_SESSION__SOURCE_SYSTEM, UsermodelPackage.Literals.USER_SESSION__SOURCE_SYSTEM, newSourceSystem);
 	}
@@ -216,6 +237,7 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AccessRights getTargetSystem() {
 		return (AccessRights)eDynamicGet(UsermodelPackage.USER_SESSION__TARGET_SYSTEM, UsermodelPackage.Literals.USER_SESSION__TARGET_SYSTEM, true, true);
 	}
@@ -225,6 +247,7 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTargetSystem(AccessRights newTargetSystem) {
 		eDynamicSet(UsermodelPackage.USER_SESSION__TARGET_SYSTEM, UsermodelPackage.Literals.USER_SESSION__TARGET_SYSTEM, newTargetSystem);
 	}
@@ -235,8 +258,29 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<String> getLibraryFolders() {
 		return (EList<String>)eDynamicGet(UsermodelPackage.USER_SESSION__LIBRARY_FOLDERS, UsermodelPackage.Literals.USER_SESSION__LIBRARY_FOLDERS, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public boolean isIsDeleted() {
+		return (Boolean)eDynamicGet(UsermodelPackage.USER_SESSION__IS_DELETED, UsermodelPackage.Literals.USER_SESSION__IS_DELETED, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setIsDeleted(boolean newIsDeleted) {
+		eDynamicSet(UsermodelPackage.USER_SESSION__IS_DELETED, UsermodelPackage.Literals.USER_SESSION__IS_DELETED, newIsDeleted);
 	}
 
 	/**
@@ -261,6 +305,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 				return getTargetSystem();
 			case UsermodelPackage.USER_SESSION__LIBRARY_FOLDERS:
 				return getLibraryFolders();
+			case UsermodelPackage.USER_SESSION__IS_DELETED:
+				return isIsDeleted();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -296,6 +342,9 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 				getLibraryFolders().clear();
 				getLibraryFolders().addAll((Collection<? extends String>)newValue);
 				return;
+			case UsermodelPackage.USER_SESSION__IS_DELETED:
+				setIsDeleted((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -329,6 +378,9 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 			case UsermodelPackage.USER_SESSION__LIBRARY_FOLDERS:
 				getLibraryFolders().clear();
 				return;
+			case UsermodelPackage.USER_SESSION__IS_DELETED:
+				setIsDeleted(IS_DELETED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -355,6 +407,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 				return getTargetSystem() != TARGET_SYSTEM_EDEFAULT;
 			case UsermodelPackage.USER_SESSION__LIBRARY_FOLDERS:
 				return !getLibraryFolders().isEmpty();
+			case UsermodelPackage.USER_SESSION__IS_DELETED:
+				return isIsDeleted() != IS_DELETED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

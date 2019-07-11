@@ -96,7 +96,7 @@ public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link BatchPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -110,17 +110,24 @@ public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 		if (isInited) return (BatchPackage)EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI);
 
 		// Obtain or create and register package
-		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new BatchPackageImpl());
+		Object registeredBatchPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		BatchPackageImpl theBatchPackage = registeredBatchPackage instanceof BatchPackageImpl ? (BatchPackageImpl)registeredBatchPackage : new BatchPackageImpl();
 
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		BasePackageImpl theBasePackage = (BasePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI) instanceof BasePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI) : BasePackage.eINSTANCE);
-		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) instanceof RequirementsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) : RequirementsPackage.eINSTANCE);
-		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
-		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
-		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
-		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI);
+		BasePackageImpl theBasePackage = (BasePackageImpl)(registeredPackage instanceof BasePackageImpl ? registeredPackage : BasePackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI);
+		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(registeredPackage instanceof RequirementsPackageImpl ? registeredPackage : RequirementsPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI);
+		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(registeredPackage instanceof TestspecificationPackageImpl ? registeredPackage : TestspecificationPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI);
+		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(registeredPackage instanceof ProcessesPackageImpl ? registeredPackage : ProcessesPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI);
+		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(registeredPackage instanceof HistoryPackageImpl ? registeredPackage : HistoryPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI);
+		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(registeredPackage instanceof AdministrationPackageImpl ? registeredPackage : AdministrationPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theBatchPackage.createPackageContents();
@@ -143,7 +150,6 @@ public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 		// Mark meta-data to indicate it can't be changed
 		theBatchPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(BatchPackage.eNS_URI, theBatchPackage);
 		return theBatchPackage;
@@ -154,6 +160,7 @@ public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBatchOperation() {
 		return batchOperationEClass;
 	}
@@ -163,6 +170,7 @@ public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBatchOperation_Operations() {
 		return (EReference)batchOperationEClass.getEStructuralFeatures().get(0);
 	}
@@ -172,6 +180,7 @@ public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOperation() {
 		return operationEClass;
 	}
@@ -181,6 +190,7 @@ public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getOperation_Type() {
 		return (EAttribute)operationEClass.getEStructuralFeatures().get(0);
 	}
@@ -190,6 +200,7 @@ public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperation_Target() {
 		return (EReference)operationEClass.getEStructuralFeatures().get(1);
 	}
@@ -199,6 +210,7 @@ public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperation_Value() {
 		return (EReference)operationEClass.getEStructuralFeatures().get(2);
 	}
@@ -208,6 +220,7 @@ public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getOperationType() {
 		return operationTypeEEnum;
 	}
@@ -217,6 +230,7 @@ public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public BatchFactory getBatchFactory() {
 		return (BatchFactory)getEFactoryInstance();
 	}

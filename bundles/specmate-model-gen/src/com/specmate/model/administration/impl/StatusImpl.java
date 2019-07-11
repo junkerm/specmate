@@ -67,6 +67,7 @@ public class StatusImpl extends CDOObjectImpl implements Status {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getValue() {
 		return (String)eDynamicGet(AdministrationPackage.STATUS__VALUE, AdministrationPackage.Literals.STATUS__VALUE, true, true);
 	}
@@ -76,6 +77,7 @@ public class StatusImpl extends CDOObjectImpl implements Status {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(String newValue) {
 		eDynamicSet(AdministrationPackage.STATUS__VALUE, AdministrationPackage.Literals.STATUS__VALUE, newValue);
 	}

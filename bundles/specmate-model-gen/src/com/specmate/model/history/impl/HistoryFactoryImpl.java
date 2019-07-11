@@ -69,6 +69,7 @@ public class HistoryFactoryImpl extends EFactoryImpl implements HistoryFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public History createHistory() {
 		HistoryImpl history = new HistoryImpl();
 		return history;
@@ -79,6 +80,7 @@ public class HistoryFactoryImpl extends EFactoryImpl implements HistoryFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public HistoryEntry createHistoryEntry() {
 		HistoryEntryImpl historyEntry = new HistoryEntryImpl();
 		return historyEntry;
@@ -89,6 +91,7 @@ public class HistoryFactoryImpl extends EFactoryImpl implements HistoryFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Change createChange() {
 		ChangeImpl change = new ChangeImpl();
 		return change;
@@ -99,6 +102,7 @@ public class HistoryFactoryImpl extends EFactoryImpl implements HistoryFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public HistoryPackage getHistoryPackage() {
 		return (HistoryPackage)getEPackage();
 	}

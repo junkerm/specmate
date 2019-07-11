@@ -71,7 +71,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link UsermodelPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -85,7 +85,8 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 		if (isInited) return (UsermodelPackage)EPackage.Registry.INSTANCE.getEPackage(UsermodelPackage.eNS_URI);
 
 		// Obtain or create and register package
-		UsermodelPackageImpl theUsermodelPackage = (UsermodelPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof UsermodelPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new UsermodelPackageImpl());
+		Object registeredUsermodelPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		UsermodelPackageImpl theUsermodelPackage = registeredUsermodelPackage instanceof UsermodelPackageImpl ? (UsermodelPackageImpl)registeredUsermodelPackage : new UsermodelPackageImpl();
 
 		isInited = true;
 
@@ -98,7 +99,6 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 		// Mark meta-data to indicate it can't be changed
 		theUsermodelPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(UsermodelPackage.eNS_URI, theUsermodelPackage);
 		return theUsermodelPackage;
@@ -109,6 +109,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getUser() {
 		return userEClass;
 	}
@@ -118,6 +119,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUser_AllowedUrls() {
 		return (EAttribute)userEClass.getEStructuralFeatures().get(0);
 	}
@@ -127,6 +129,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUser_UserName() {
 		return (EAttribute)userEClass.getEStructuralFeatures().get(1);
 	}
@@ -136,6 +139,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUser_PassWord() {
 		return (EAttribute)userEClass.getEStructuralFeatures().get(2);
 	}
@@ -145,6 +149,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUser_ProjectName() {
 		return (EAttribute)userEClass.getEStructuralFeatures().get(3);
 	}
@@ -154,6 +159,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getUserSession() {
 		return userSessionEClass;
 	}
@@ -163,6 +169,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUserSession_Id() {
 		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(0);
 	}
@@ -172,6 +179,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUserSession_AllowedPathPattern() {
 		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(1);
 	}
@@ -181,6 +189,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUserSession_UserName() {
 		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(2);
 	}
@@ -190,6 +199,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUserSession_LastActive() {
 		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(3);
 	}
@@ -199,6 +209,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUserSession_SourceSystem() {
 		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(4);
 	}
@@ -208,6 +219,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUserSession_TargetSystem() {
 		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(5);
 	}
@@ -217,6 +229,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUserSession_LibraryFolders() {
 		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(6);
 	}
@@ -226,6 +239,17 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public EAttribute getUserSession_IsDeleted() {
+		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EEnum getAccessRights() {
 		return accessRightsEEnum;
 	}
@@ -235,6 +259,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public UsermodelFactory getUsermodelFactory() {
 		return (UsermodelFactory)getEFactoryInstance();
 	}
@@ -272,6 +297,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 		createEAttribute(userSessionEClass, USER_SESSION__SOURCE_SYSTEM);
 		createEAttribute(userSessionEClass, USER_SESSION__TARGET_SYSTEM);
 		createEAttribute(userSessionEClass, USER_SESSION__LIBRARY_FOLDERS);
+		createEAttribute(userSessionEClass, USER_SESSION__IS_DELETED);
 
 		// Create enums
 		accessRightsEEnum = createEEnum(ACCESS_RIGHTS);
@@ -321,6 +347,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 		initEAttribute(getUserSession_SourceSystem(), this.getAccessRights(), "SourceSystem", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUserSession_TargetSystem(), this.getAccessRights(), "TargetSystem", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUserSession_LibraryFolders(), ecorePackage.getEString(), "libraryFolders", null, 0, -1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUserSession_IsDeleted(), ecorePackage.getEBoolean(), "isDeleted", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(accessRightsEEnum, AccessRights.class, "AccessRights");

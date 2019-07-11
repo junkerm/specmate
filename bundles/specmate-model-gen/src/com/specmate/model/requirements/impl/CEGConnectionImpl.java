@@ -57,6 +57,7 @@ public class CEGConnectionImpl extends IModelConnectionImpl implements CEGConnec
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isNegate() {
 		return (Boolean)eDynamicGet(RequirementsPackage.CEG_CONNECTION__NEGATE, RequirementsPackage.Literals.CEG_CONNECTION__NEGATE, true, true);
 	}
@@ -66,6 +67,7 @@ public class CEGConnectionImpl extends IModelConnectionImpl implements CEGConnec
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNegate(boolean newNegate) {
 		eDynamicSet(RequirementsPackage.CEG_CONNECTION__NEGATE, RequirementsPackage.Literals.CEG_CONNECTION__NEGATE, newNegate);
 	}

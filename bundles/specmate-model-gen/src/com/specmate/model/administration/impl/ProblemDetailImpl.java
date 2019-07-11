@@ -101,6 +101,7 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ErrorCode getEcode() {
 		return (ErrorCode)eDynamicGet(AdministrationPackage.PROBLEM_DETAIL__ECODE, AdministrationPackage.Literals.PROBLEM_DETAIL__ECODE, true, true);
 	}
@@ -110,6 +111,7 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setEcode(ErrorCode newEcode) {
 		eDynamicSet(AdministrationPackage.PROBLEM_DETAIL__ECODE, AdministrationPackage.Literals.PROBLEM_DETAIL__ECODE, newEcode);
 	}
@@ -119,6 +121,7 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getStatus() {
 		return (Integer)eDynamicGet(AdministrationPackage.PROBLEM_DETAIL__STATUS, AdministrationPackage.Literals.PROBLEM_DETAIL__STATUS, true, true);
 	}
@@ -128,6 +131,7 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStatus(int newStatus) {
 		eDynamicSet(AdministrationPackage.PROBLEM_DETAIL__STATUS, AdministrationPackage.Literals.PROBLEM_DETAIL__STATUS, newStatus);
 	}
@@ -137,6 +141,7 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDetail() {
 		return (String)eDynamicGet(AdministrationPackage.PROBLEM_DETAIL__DETAIL, AdministrationPackage.Literals.PROBLEM_DETAIL__DETAIL, true, true);
 	}
@@ -146,6 +151,7 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDetail(String newDetail) {
 		eDynamicSet(AdministrationPackage.PROBLEM_DETAIL__DETAIL, AdministrationPackage.Literals.PROBLEM_DETAIL__DETAIL, newDetail);
 	}
@@ -155,6 +161,7 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getInstance() {
 		return (String)eDynamicGet(AdministrationPackage.PROBLEM_DETAIL__INSTANCE, AdministrationPackage.Literals.PROBLEM_DETAIL__INSTANCE, true, true);
 	}
@@ -164,6 +171,7 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInstance(String newInstance) {
 		eDynamicSet(AdministrationPackage.PROBLEM_DETAIL__INSTANCE, AdministrationPackage.Literals.PROBLEM_DETAIL__INSTANCE, newInstance);
 	}

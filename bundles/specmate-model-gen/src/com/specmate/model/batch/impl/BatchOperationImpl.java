@@ -64,6 +64,7 @@ public class BatchOperationImpl extends CDOObjectImpl implements BatchOperation 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<Operation> getOperations() {
 		return (EList<Operation>)eDynamicGet(BatchPackage.BATCH_OPERATION__OPERATIONS, BatchPackage.Literals.BATCH_OPERATION__OPERATIONS, true, true);
 	}

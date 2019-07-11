@@ -63,7 +63,7 @@ public interface CEGNode extends IModelNode {
 	 * @return the value of the '<em>Variable</em>' attribute.
 	 * @see #setVariable(String)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_Variable()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Variable' longDesc='The variable of a node' required='true' type='text' position='1'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Variable' longDesc='The variable of a node' required='true' type='text' position='1' allowedPattern='^[^,;|]*$'"
 	 * @generated
 	 */
 	String getVariable();

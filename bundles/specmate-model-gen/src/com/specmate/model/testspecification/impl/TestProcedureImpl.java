@@ -160,6 +160,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getId() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__ID, BasePackage.Literals.IID__ID, true, true);
 	}
@@ -169,6 +170,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setId(String newId) {
 		eDynamicSet(TestspecificationPackage.TEST_PROCEDURE__ID, BasePackage.Literals.IID__ID, newId);
 	}
@@ -178,6 +180,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__NAME, BasePackage.Literals.INAMED__NAME, true, true);
 	}
@@ -187,6 +190,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		eDynamicSet(TestspecificationPackage.TEST_PROCEDURE__NAME, BasePackage.Literals.INAMED__NAME, newName);
 	}
@@ -196,6 +200,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDescription() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
 	}
@@ -205,6 +210,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDescription(String newDescription) {
 		eDynamicSet(TestspecificationPackage.TEST_PROCEDURE__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
 	}
@@ -215,6 +221,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<IContentElement> getContents() {
 		return (EList<IContentElement>)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__CONTENTS, BasePackage.Literals.ICONTAINER__CONTENTS, true, true);
 	}
@@ -224,6 +231,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getExtId() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__EXT_ID, BasePackage.Literals.IEXTERNAL__EXT_ID, true, true);
 	}
@@ -233,6 +241,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExtId(String newExtId) {
 		eDynamicSet(TestspecificationPackage.TEST_PROCEDURE__EXT_ID, BasePackage.Literals.IEXTERNAL__EXT_ID, newExtId);
 	}
@@ -242,6 +251,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getExtId2() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__EXT_ID2, BasePackage.Literals.IEXTERNAL__EXT_ID2, true, true);
 	}
@@ -251,6 +261,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExtId2(String newExtId2) {
 		eDynamicSet(TestspecificationPackage.TEST_PROCEDURE__EXT_ID2, BasePackage.Literals.IEXTERNAL__EXT_ID2, newExtId2);
 	}
@@ -260,6 +271,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getSource() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__SOURCE, BasePackage.Literals.IEXTERNAL__SOURCE, true, true);
 	}
@@ -269,6 +281,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(String newSource) {
 		eDynamicSet(TestspecificationPackage.TEST_PROCEDURE__SOURCE, BasePackage.Literals.IEXTERNAL__SOURCE, newSource);
 	}
@@ -278,6 +291,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isLive() {
 		return (Boolean)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__LIVE, BasePackage.Literals.IEXTERNAL__LIVE, true, true);
 	}
@@ -287,6 +301,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLive(boolean newLive) {
 		eDynamicSet(TestspecificationPackage.TEST_PROCEDURE__LIVE, BasePackage.Literals.IEXTERNAL__LIVE, newLive);
 	}
@@ -296,6 +311,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsRegressionTest() {
 		return (Boolean)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST, TestspecificationPackage.Literals.TEST_PROCEDURE__IS_REGRESSION_TEST, true, true);
 	}
@@ -305,6 +321,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsRegressionTest(boolean newIsRegressionTest) {
 		eDynamicSet(TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST, TestspecificationPackage.Literals.TEST_PROCEDURE__IS_REGRESSION_TEST, newIsRegressionTest);
 	}

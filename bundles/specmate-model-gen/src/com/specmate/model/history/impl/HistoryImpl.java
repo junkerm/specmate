@@ -68,6 +68,7 @@ public class HistoryImpl extends CDOObjectImpl implements History {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<HistoryEntry> getEntries() {
 		return (EList<HistoryEntry>)eDynamicGet(HistoryPackage.HISTORY__ENTRIES, HistoryPackage.Literals.HISTORY__ENTRIES, true, true);
 	}

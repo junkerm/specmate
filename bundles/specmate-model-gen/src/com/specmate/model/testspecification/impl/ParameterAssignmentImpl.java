@@ -120,6 +120,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getId() {
 		return (String)eDynamicGet(TestspecificationPackage.PARAMETER_ASSIGNMENT__ID, BasePackage.Literals.IID__ID, true, true);
 	}
@@ -129,6 +130,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setId(String newId) {
 		eDynamicSet(TestspecificationPackage.PARAMETER_ASSIGNMENT__ID, BasePackage.Literals.IID__ID, newId);
 	}
@@ -138,6 +140,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return (String)eDynamicGet(TestspecificationPackage.PARAMETER_ASSIGNMENT__NAME, BasePackage.Literals.INAMED__NAME, true, true);
 	}
@@ -147,6 +150,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		eDynamicSet(TestspecificationPackage.PARAMETER_ASSIGNMENT__NAME, BasePackage.Literals.INAMED__NAME, newName);
 	}
@@ -156,6 +160,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDescription() {
 		return (String)eDynamicGet(TestspecificationPackage.PARAMETER_ASSIGNMENT__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
 	}
@@ -165,6 +170,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDescription(String newDescription) {
 		eDynamicSet(TestspecificationPackage.PARAMETER_ASSIGNMENT__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
 	}
@@ -174,6 +180,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TestParameter getParameter() {
 		return (TestParameter)eDynamicGet(TestspecificationPackage.PARAMETER_ASSIGNMENT__PARAMETER, TestspecificationPackage.Literals.PARAMETER_ASSIGNMENT__PARAMETER, true, true);
 	}
@@ -202,6 +209,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setParameter(TestParameter newParameter) {
 		eDynamicSet(TestspecificationPackage.PARAMETER_ASSIGNMENT__PARAMETER, TestspecificationPackage.Literals.PARAMETER_ASSIGNMENT__PARAMETER, newParameter);
 	}
@@ -211,6 +219,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getCondition() {
 		return (String)eDynamicGet(TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION, TestspecificationPackage.Literals.PARAMETER_ASSIGNMENT__CONDITION, true, true);
 	}
@@ -220,6 +229,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCondition(String newCondition) {
 		eDynamicSet(TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION, TestspecificationPackage.Literals.PARAMETER_ASSIGNMENT__CONDITION, newCondition);
 	}
@@ -229,6 +239,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getValue() {
 		return (String)eDynamicGet(TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE, TestspecificationPackage.Literals.PARAMETER_ASSIGNMENT__VALUE, true, true);
 	}
@@ -238,6 +249,7 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(String newValue) {
 		eDynamicSet(TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE, TestspecificationPackage.Literals.PARAMETER_ASSIGNMENT__VALUE, newValue);
 	}

@@ -93,7 +93,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link AdministrationPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -107,17 +107,24 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 		if (isInited) return (AdministrationPackage)EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI);
 
 		// Obtain or create and register package
-		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new AdministrationPackageImpl());
+		Object registeredAdministrationPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		AdministrationPackageImpl theAdministrationPackage = registeredAdministrationPackage instanceof AdministrationPackageImpl ? (AdministrationPackageImpl)registeredAdministrationPackage : new AdministrationPackageImpl();
 
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		BasePackageImpl theBasePackage = (BasePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI) instanceof BasePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI) : BasePackage.eINSTANCE);
-		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) instanceof RequirementsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) : RequirementsPackage.eINSTANCE);
-		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
-		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
-		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
-		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI);
+		BasePackageImpl theBasePackage = (BasePackageImpl)(registeredPackage instanceof BasePackageImpl ? registeredPackage : BasePackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI);
+		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(registeredPackage instanceof RequirementsPackageImpl ? registeredPackage : RequirementsPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI);
+		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(registeredPackage instanceof TestspecificationPackageImpl ? registeredPackage : TestspecificationPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI);
+		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(registeredPackage instanceof ProcessesPackageImpl ? registeredPackage : ProcessesPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI);
+		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(registeredPackage instanceof HistoryPackageImpl ? registeredPackage : HistoryPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI);
+		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(registeredPackage instanceof BatchPackageImpl ? registeredPackage : BatchPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theAdministrationPackage.createPackageContents();
@@ -140,7 +147,6 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 		// Mark meta-data to indicate it can't be changed
 		theAdministrationPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(AdministrationPackage.eNS_URI, theAdministrationPackage);
 		return theAdministrationPackage;
@@ -151,6 +157,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getStatus() {
 		return statusEClass;
 	}
@@ -160,6 +167,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStatus_Value() {
 		return (EAttribute)statusEClass.getEStructuralFeatures().get(0);
 	}
@@ -169,6 +177,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getProblemDetail() {
 		return problemDetailEClass;
 	}
@@ -178,6 +187,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getProblemDetail_Ecode() {
 		return (EAttribute)problemDetailEClass.getEStructuralFeatures().get(0);
 	}
@@ -187,6 +197,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getProblemDetail_Status() {
 		return (EAttribute)problemDetailEClass.getEStructuralFeatures().get(1);
 	}
@@ -196,6 +207,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getProblemDetail_Detail() {
 		return (EAttribute)problemDetailEClass.getEStructuralFeatures().get(2);
 	}
@@ -205,6 +217,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getProblemDetail_Instance() {
 		return (EAttribute)problemDetailEClass.getEStructuralFeatures().get(3);
 	}
@@ -214,6 +227,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getErrorCode() {
 		return errorCodeEEnum;
 	}
@@ -223,6 +237,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AdministrationFactory getAdministrationFactory() {
 		return (AdministrationFactory)getEFactoryInstance();
 	}

@@ -100,6 +100,7 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public long getTimestamp() {
 		return (Long)eDynamicGet(HistoryPackage.HISTORY_ENTRY__TIMESTAMP, HistoryPackage.Literals.HISTORY_ENTRY__TIMESTAMP, true, true);
 	}
@@ -109,6 +110,7 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTimestamp(long newTimestamp) {
 		eDynamicSet(HistoryPackage.HISTORY_ENTRY__TIMESTAMP, HistoryPackage.Literals.HISTORY_ENTRY__TIMESTAMP, newTimestamp);
 	}
@@ -118,6 +120,7 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getUser() {
 		return (String)eDynamicGet(HistoryPackage.HISTORY_ENTRY__USER, HistoryPackage.Literals.HISTORY_ENTRY__USER, true, true);
 	}
@@ -127,6 +130,7 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setUser(String newUser) {
 		eDynamicSet(HistoryPackage.HISTORY_ENTRY__USER, HistoryPackage.Literals.HISTORY_ENTRY__USER, newUser);
 	}
@@ -137,6 +141,7 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<String> getDeletedObjects() {
 		return (EList<String>)eDynamicGet(HistoryPackage.HISTORY_ENTRY__DELETED_OBJECTS, HistoryPackage.Literals.HISTORY_ENTRY__DELETED_OBJECTS, true, true);
 	}
@@ -146,6 +151,7 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getComment() {
 		return (String)eDynamicGet(HistoryPackage.HISTORY_ENTRY__COMMENT, HistoryPackage.Literals.HISTORY_ENTRY__COMMENT, true, true);
 	}
@@ -155,6 +161,7 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setComment(String newComment) {
 		eDynamicSet(HistoryPackage.HISTORY_ENTRY__COMMENT, HistoryPackage.Literals.HISTORY_ENTRY__COMMENT, newComment);
 	}
@@ -165,6 +172,7 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<Change> getChanges() {
 		return (EList<Change>)eDynamicGet(HistoryPackage.HISTORY_ENTRY__CHANGES, HistoryPackage.Literals.HISTORY_ENTRY__CHANGES, true, true);
 	}

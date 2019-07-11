@@ -251,6 +251,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getId() {
 		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__ID, BasePackage.Literals.IID__ID, true, true);
 	}
@@ -260,6 +261,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setId(String newId) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__ID, BasePackage.Literals.IID__ID, newId);
 	}
@@ -269,6 +271,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__NAME, BasePackage.Literals.INAMED__NAME, true, true);
 	}
@@ -278,6 +281,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__NAME, BasePackage.Literals.INAMED__NAME, newName);
 	}
@@ -287,6 +291,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDescription() {
 		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
 	}
@@ -296,6 +301,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDescription(String newDescription) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
 	}
@@ -306,6 +312,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<IContentElement> getContents() {
 		return (EList<IContentElement>)eDynamicGet(RequirementsPackage.REQUIREMENT__CONTENTS, BasePackage.Literals.ICONTAINER__CONTENTS, true, true);
 	}
@@ -316,6 +323,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<ITracingElement> getTracesTo() {
 		return (EList<ITracingElement>)eDynamicGet(RequirementsPackage.REQUIREMENT__TRACES_TO, BasePackage.Literals.ITRACING_ELEMENT__TRACES_TO, true, true);
 	}
@@ -326,6 +334,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<ITracingElement> getTracesFrom() {
 		return (EList<ITracingElement>)eDynamicGet(RequirementsPackage.REQUIREMENT__TRACES_FROM, BasePackage.Literals.ITRACING_ELEMENT__TRACES_FROM, true, true);
 	}
@@ -335,6 +344,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getExtId() {
 		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__EXT_ID, BasePackage.Literals.IEXTERNAL__EXT_ID, true, true);
 	}
@@ -344,6 +354,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExtId(String newExtId) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__EXT_ID, BasePackage.Literals.IEXTERNAL__EXT_ID, newExtId);
 	}
@@ -353,6 +364,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getExtId2() {
 		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__EXT_ID2, BasePackage.Literals.IEXTERNAL__EXT_ID2, true, true);
 	}
@@ -362,6 +374,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExtId2(String newExtId2) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__EXT_ID2, BasePackage.Literals.IEXTERNAL__EXT_ID2, newExtId2);
 	}
@@ -371,6 +384,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getSource() {
 		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__SOURCE, BasePackage.Literals.IEXTERNAL__SOURCE, true, true);
 	}
@@ -380,6 +394,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(String newSource) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__SOURCE, BasePackage.Literals.IEXTERNAL__SOURCE, newSource);
 	}
@@ -389,6 +404,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isLive() {
 		return (Boolean)eDynamicGet(RequirementsPackage.REQUIREMENT__LIVE, BasePackage.Literals.IEXTERNAL__LIVE, true, true);
 	}
@@ -398,6 +414,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLive(boolean newLive) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__LIVE, BasePackage.Literals.IEXTERNAL__LIVE, newLive);
 	}
@@ -407,6 +424,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getNumberOfTests() {
 		return (Integer)eDynamicGet(RequirementsPackage.REQUIREMENT__NUMBER_OF_TESTS, RequirementsPackage.Literals.REQUIREMENT__NUMBER_OF_TESTS, true, true);
 	}
@@ -416,6 +434,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNumberOfTests(int newNumberOfTests) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__NUMBER_OF_TESTS, RequirementsPackage.Literals.REQUIREMENT__NUMBER_OF_TESTS, newNumberOfTests);
 	}
@@ -425,6 +444,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getTac() {
 		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__TAC, RequirementsPackage.Literals.REQUIREMENT__TAC, true, true);
 	}
@@ -434,6 +454,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTac(String newTac) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__TAC, RequirementsPackage.Literals.REQUIREMENT__TAC, newTac);
 	}
@@ -443,6 +464,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getImplementingUnit() {
 		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__IMPLEMENTING_UNIT, RequirementsPackage.Literals.REQUIREMENT__IMPLEMENTING_UNIT, true, true);
 	}
@@ -452,6 +474,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setImplementingUnit(String newImplementingUnit) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__IMPLEMENTING_UNIT, RequirementsPackage.Literals.REQUIREMENT__IMPLEMENTING_UNIT, newImplementingUnit);
 	}
@@ -461,6 +484,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getImplementingBOTeam() {
 		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__IMPLEMENTING_BO_TEAM, RequirementsPackage.Literals.REQUIREMENT__IMPLEMENTING_BO_TEAM, true, true);
 	}
@@ -470,6 +494,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setImplementingBOTeam(String newImplementingBOTeam) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__IMPLEMENTING_BO_TEAM, RequirementsPackage.Literals.REQUIREMENT__IMPLEMENTING_BO_TEAM, newImplementingBOTeam);
 	}
@@ -479,6 +504,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getImplementingITTeam() {
 		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__IMPLEMENTING_IT_TEAM, RequirementsPackage.Literals.REQUIREMENT__IMPLEMENTING_IT_TEAM, true, true);
 	}
@@ -488,6 +514,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setImplementingITTeam(String newImplementingITTeam) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__IMPLEMENTING_IT_TEAM, RequirementsPackage.Literals.REQUIREMENT__IMPLEMENTING_IT_TEAM, newImplementingITTeam);
 	}
@@ -497,6 +524,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPlannedRelease() {
 		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__PLANNED_RELEASE, RequirementsPackage.Literals.REQUIREMENT__PLANNED_RELEASE, true, true);
 	}
@@ -506,6 +534,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPlannedRelease(String newPlannedRelease) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__PLANNED_RELEASE, RequirementsPackage.Literals.REQUIREMENT__PLANNED_RELEASE, newPlannedRelease);
 	}
@@ -515,6 +544,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getStatus() {
 		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__STATUS, RequirementsPackage.Literals.REQUIREMENT__STATUS, true, true);
 	}
@@ -524,6 +554,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStatus(String newStatus) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__STATUS, RequirementsPackage.Literals.REQUIREMENT__STATUS, newStatus);
 	}
@@ -533,6 +564,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsRegressionRequirement() {
 		return (Boolean)eDynamicGet(RequirementsPackage.REQUIREMENT__IS_REGRESSION_REQUIREMENT, RequirementsPackage.Literals.REQUIREMENT__IS_REGRESSION_REQUIREMENT, true, true);
 	}
@@ -542,6 +574,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsRegressionRequirement(boolean newIsRegressionRequirement) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__IS_REGRESSION_REQUIREMENT, RequirementsPackage.Literals.REQUIREMENT__IS_REGRESSION_REQUIREMENT, newIsRegressionRequirement);
 	}
@@ -551,6 +584,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPlatform() {
 		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__PLATFORM, RequirementsPackage.Literals.REQUIREMENT__PLATFORM, true, true);
 	}
@@ -560,6 +594,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPlatform(String newPlatform) {
 		eDynamicSet(RequirementsPackage.REQUIREMENT__PLATFORM, RequirementsPackage.Literals.REQUIREMENT__PLATFORM, newPlatform);
 	}

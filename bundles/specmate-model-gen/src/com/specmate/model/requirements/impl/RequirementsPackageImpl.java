@@ -109,7 +109,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link RequirementsPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -123,17 +123,24 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		if (isInited) return (RequirementsPackage)EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI);
 
 		// Obtain or create and register package
-		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof RequirementsPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new RequirementsPackageImpl());
+		Object registeredRequirementsPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		RequirementsPackageImpl theRequirementsPackage = registeredRequirementsPackage instanceof RequirementsPackageImpl ? (RequirementsPackageImpl)registeredRequirementsPackage : new RequirementsPackageImpl();
 
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		BasePackageImpl theBasePackage = (BasePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI) instanceof BasePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI) : BasePackage.eINSTANCE);
-		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
-		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
-		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
-		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
-		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI);
+		BasePackageImpl theBasePackage = (BasePackageImpl)(registeredPackage instanceof BasePackageImpl ? registeredPackage : BasePackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI);
+		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(registeredPackage instanceof TestspecificationPackageImpl ? registeredPackage : TestspecificationPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI);
+		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(registeredPackage instanceof ProcessesPackageImpl ? registeredPackage : ProcessesPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI);
+		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(registeredPackage instanceof HistoryPackageImpl ? registeredPackage : HistoryPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI);
+		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(registeredPackage instanceof AdministrationPackageImpl ? registeredPackage : AdministrationPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI);
+		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(registeredPackage instanceof BatchPackageImpl ? registeredPackage : BatchPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theRequirementsPackage.createPackageContents();
@@ -156,7 +163,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		// Mark meta-data to indicate it can't be changed
 		theRequirementsPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(RequirementsPackage.eNS_URI, theRequirementsPackage);
 		return theRequirementsPackage;
@@ -167,6 +173,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRequirement() {
 		return requirementEClass;
 	}
@@ -176,6 +183,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRequirement_NumberOfTests() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(0);
 	}
@@ -185,6 +193,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRequirement_Tac() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(1);
 	}
@@ -194,6 +203,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRequirement_ImplementingUnit() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(2);
 	}
@@ -203,6 +213,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRequirement_ImplementingBOTeam() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(3);
 	}
@@ -212,6 +223,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRequirement_ImplementingITTeam() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(4);
 	}
@@ -221,6 +233,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRequirement_PlannedRelease() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(5);
 	}
@@ -230,6 +243,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRequirement_Status() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(6);
 	}
@@ -239,6 +253,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRequirement_IsRegressionRequirement() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(7);
 	}
@@ -248,6 +263,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRequirement_Platform() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(8);
 	}
@@ -257,6 +273,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCEGModel() {
 		return cegModelEClass;
 	}
@@ -266,6 +283,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCEGModel_ModelRequirements() {
 		return (EAttribute)cegModelEClass.getEStructuralFeatures().get(0);
 	}
@@ -275,6 +293,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCEGNode() {
 		return cegNodeEClass;
 	}
@@ -284,6 +303,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCEGNode_Type() {
 		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(0);
 	}
@@ -293,6 +313,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCEGNode_Variable() {
 		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(1);
 	}
@@ -302,6 +323,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCEGNode_Condition() {
 		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(2);
 	}
@@ -311,6 +333,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCEGConnection() {
 		return cegConnectionEClass;
 	}
@@ -320,6 +343,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCEGConnection_Negate() {
 		return (EAttribute)cegConnectionEClass.getEStructuralFeatures().get(0);
 	}
@@ -329,6 +353,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getNodeType() {
 		return nodeTypeEEnum;
 	}
@@ -338,6 +363,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RequirementsFactory getRequirementsFactory() {
 		return (RequirementsFactory)getEFactoryInstance();
 	}
@@ -467,64 +493,65 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	protected void createForm_metaAnnotations() {
-		String source = "http://specmate.com/form_meta";	
+		String source = "http://specmate.com/form_meta";
 		addAnnotation
-		  (getCEGModel_ModelRequirements(), 
-		   source, 
+		  (getCEGModel_ModelRequirements(),
+		   source,
 		   new String[] {
-			 "shortDesc", "Model Requirements",
-			 "longDesc", "",
-			 "required", "false",
-			 "type", "longText",
-			 "rows", "5",
-			 "position", "110"
-		   });	
+			   "shortDesc", "Model Requirements",
+			   "longDesc", "",
+			   "required", "false",
+			   "type", "longText",
+			   "rows", "5",
+			   "position", "110"
+		   });
 		addAnnotation
-		  (cegNodeEClass, 
-		   source, 
+		  (cegNodeEClass,
+		   source,
 		   new String[] {
-			 "disabled1", "name",
-			 "disabled2", "description"
-		   });	
+			   "disabled1", "name",
+			   "disabled2", "description"
+		   });
 		addAnnotation
-		  (getCEGNode_Type(), 
-		   source, 
+		  (getCEGNode_Type(),
+		   source,
 		   new String[] {
-			 "shortDesc", "Type",
-			 "longDesc", "The type of a node",
-			 "required", "true",
-			 "type", "singleSelection",
-			 "values", "[\"AND\", \"OR\"]",
-			 "position", "3"
-		   });	
+			   "shortDesc", "Type",
+			   "longDesc", "The type of a node",
+			   "required", "true",
+			   "type", "singleSelection",
+			   "values", "[\"AND\", \"OR\"]",
+			   "position", "3"
+		   });
 		addAnnotation
-		  (getCEGNode_Variable(), 
-		   source, 
+		  (getCEGNode_Variable(),
+		   source,
 		   new String[] {
-			 "shortDesc", "Variable",
-			 "longDesc", "The variable of a node",
-			 "required", "true",
-			 "type", "text",
-			 "position", "1"
-		   });	
+			   "shortDesc", "Variable",
+			   "longDesc", "The variable of a node",
+			   "required", "true",
+			   "type", "text",
+			   "position", "1",
+			   "allowedPattern", "^[^,;|]*$"
+		   });
 		addAnnotation
-		  (getCEGNode_Condition(), 
-		   source, 
+		  (getCEGNode_Condition(),
+		   source,
 		   new String[] {
-			 "shortDesc", "Condition",
-			 "longDesc", "The condition the variable has to fulfil",
-			 "required", "true",
-			 "type", "text",
-			 "position", "2"
-		   });	
+			   "shortDesc", "Condition",
+			   "longDesc", "The condition the variable has to fulfil",
+			   "required", "true",
+			   "type", "text",
+			   "position", "2"
+		   });
 		addAnnotation
-		  (getCEGConnection_Negate(), 
-		   source, 
+		  (getCEGConnection_Negate(),
+		   source,
 		   new String[] {
-			 "shortDesc", "Negate",
-			 "longDesc", "Negation of this connection",
-			 "type", "checkbox",
-			 "position", "1"
+			   "shortDesc", "Negate",
+			   "longDesc", "Negation of this connection",
+			   "type", "checkbox",
+			   "position", "1"
 		   });
 	}
 

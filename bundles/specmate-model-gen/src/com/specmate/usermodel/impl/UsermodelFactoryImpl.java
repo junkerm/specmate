@@ -99,6 +99,7 @@ public class UsermodelFactoryImpl extends EFactoryImpl implements UsermodelFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public User createUser() {
 		UserImpl user = new UserImpl();
 		return user;
@@ -109,6 +110,7 @@ public class UsermodelFactoryImpl extends EFactoryImpl implements UsermodelFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public UserSession createUserSession() {
 		UserSessionImpl userSession = new UserSessionImpl();
 		return userSession;
@@ -139,6 +141,7 @@ public class UsermodelFactoryImpl extends EFactoryImpl implements UsermodelFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public UsermodelPackage getUsermodelPackage() {
 		return (UsermodelPackage)getEPackage();
 	}

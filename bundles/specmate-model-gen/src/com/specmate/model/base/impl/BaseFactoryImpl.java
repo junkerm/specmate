@@ -71,6 +71,7 @@ public class BaseFactoryImpl extends EFactoryImpl implements BaseFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Folder createFolder() {
 		FolderImpl folder = new FolderImpl();
 		return folder;
@@ -81,6 +82,7 @@ public class BaseFactoryImpl extends EFactoryImpl implements BaseFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IExternal createIExternal() {
 		IExternalImpl iExternal = new IExternalImpl();
 		return iExternal;
@@ -91,6 +93,7 @@ public class BaseFactoryImpl extends EFactoryImpl implements BaseFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IModelConnection createIModelConnection() {
 		IModelConnectionImpl iModelConnection = new IModelConnectionImpl();
 		return iModelConnection;
@@ -101,6 +104,7 @@ public class BaseFactoryImpl extends EFactoryImpl implements BaseFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IModelNode createIModelNode() {
 		IModelNodeImpl iModelNode = new IModelNodeImpl();
 		return iModelNode;
@@ -111,6 +115,7 @@ public class BaseFactoryImpl extends EFactoryImpl implements BaseFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ITracingElement createITracingElement() {
 		ITracingElementImpl iTracingElement = new ITracingElementImpl();
 		return iTracingElement;
@@ -121,6 +126,7 @@ public class BaseFactoryImpl extends EFactoryImpl implements BaseFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public BasePackage getBasePackage() {
 		return (BasePackage)getEPackage();
 	}

@@ -78,6 +78,7 @@ public class ProcessesFactoryImpl extends EFactoryImpl implements ProcessesFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public com.specmate.model.processes.Process createProcess() {
 		ProcessImpl process = new ProcessImpl();
 		return process;
@@ -88,6 +89,7 @@ public class ProcessesFactoryImpl extends EFactoryImpl implements ProcessesFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ProcessStep createProcessStep() {
 		ProcessStepImpl processStep = new ProcessStepImpl();
 		return processStep;
@@ -98,6 +100,7 @@ public class ProcessesFactoryImpl extends EFactoryImpl implements ProcessesFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ProcessDecision createProcessDecision() {
 		ProcessDecisionImpl processDecision = new ProcessDecisionImpl();
 		return processDecision;
@@ -108,6 +111,7 @@ public class ProcessesFactoryImpl extends EFactoryImpl implements ProcessesFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ProcessConnection createProcessConnection() {
 		ProcessConnectionImpl processConnection = new ProcessConnectionImpl();
 		return processConnection;
@@ -118,6 +122,7 @@ public class ProcessesFactoryImpl extends EFactoryImpl implements ProcessesFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ProcessStart createProcessStart() {
 		ProcessStartImpl processStart = new ProcessStartImpl();
 		return processStart;
@@ -128,6 +133,7 @@ public class ProcessesFactoryImpl extends EFactoryImpl implements ProcessesFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ProcessEnd createProcessEnd() {
 		ProcessEndImpl processEnd = new ProcessEndImpl();
 		return processEnd;
@@ -138,6 +144,7 @@ public class ProcessesFactoryImpl extends EFactoryImpl implements ProcessesFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ProcessesPackage getProcessesPackage() {
 		return (ProcessesPackage)getEPackage();
 	}

@@ -57,6 +57,7 @@ public class ProcessConnectionImpl extends IModelConnectionImpl implements Proce
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getCondition() {
 		return (String)eDynamicGet(ProcessesPackage.PROCESS_CONNECTION__CONDITION, ProcessesPackage.Literals.PROCESS_CONNECTION__CONDITION, true, true);
 	}
@@ -66,6 +67,7 @@ public class ProcessConnectionImpl extends IModelConnectionImpl implements Proce
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCondition(String newCondition) {
 		eDynamicSet(ProcessesPackage.PROCESS_CONNECTION__CONDITION, ProcessesPackage.Literals.PROCESS_CONNECTION__CONDITION, newCondition);
 	}

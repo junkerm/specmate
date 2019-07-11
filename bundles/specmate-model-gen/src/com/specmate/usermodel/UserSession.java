@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link com.specmate.usermodel.UserSession#getSourceSystem <em>Source System</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getTargetSystem <em>Target System</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getLibraryFolders <em>Library Folders</em>}</li>
+ *   <li>{@link com.specmate.usermodel.UserSession#isIsDeleted <em>Is Deleted</em>}</li>
  * </ul>
  *
  * @see com.specmate.usermodel.UsermodelPackage#getUserSession()
@@ -206,5 +207,27 @@ public interface UserSession extends CDOObject {
 	 * @generated
 	 */
 	EList<String> getLibraryFolders();
+
+	/**
+	 * Returns the value of the '<em><b>Is Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Is Deleted</em>' attribute.
+	 * @see #setIsDeleted(boolean)
+	 * @see com.specmate.usermodel.UsermodelPackage#getUserSession_IsDeleted()
+	 * @model
+	 * @generated
+	 */
+	boolean isIsDeleted();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.usermodel.UserSession#isIsDeleted <em>Is Deleted</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Is Deleted</em>' attribute.
+	 * @see #isIsDeleted()
+	 * @generated
+	 */
+	void setIsDeleted(boolean value);
 
 } // UserSession

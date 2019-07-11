@@ -99,6 +99,7 @@ public class BatchFactoryImpl extends EFactoryImpl implements BatchFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public BatchOperation createBatchOperation() {
 		BatchOperationImpl batchOperation = new BatchOperationImpl();
 		return batchOperation;
@@ -109,6 +110,7 @@ public class BatchFactoryImpl extends EFactoryImpl implements BatchFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Operation createOperation() {
 		OperationImpl operation = new OperationImpl();
 		return operation;
@@ -139,6 +141,7 @@ public class BatchFactoryImpl extends EFactoryImpl implements BatchFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public BatchPackage getBatchPackage() {
 		return (BatchPackage)getEPackage();
 	}

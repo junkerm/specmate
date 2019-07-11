@@ -68,6 +68,7 @@ public class ITracingElementImpl extends CDOObjectImpl implements ITracingElemen
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<ITracingElement> getTracesTo() {
 		return (EList<ITracingElement>)eDynamicGet(BasePackage.ITRACING_ELEMENT__TRACES_TO, BasePackage.Literals.ITRACING_ELEMENT__TRACES_TO, true, true);
 	}
@@ -78,6 +79,7 @@ public class ITracingElementImpl extends CDOObjectImpl implements ITracingElemen
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<ITracingElement> getTracesFrom() {
 		return (EList<ITracingElement>)eDynamicGet(BasePackage.ITRACING_ELEMENT__TRACES_FROM, BasePackage.Literals.ITRACING_ELEMENT__TRACES_FROM, true, true);
 	}

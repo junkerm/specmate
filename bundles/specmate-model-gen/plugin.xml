@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin
+      name="%pluginName"
+      id="specmate-model-gen"
+      version="1.0.0"
+      provider-name="%providerName">
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime.compatibility"/>
+      <import plugin="org.eclipse.emf.ecore" export="true"/>
+      <import plugin="org.eclipse.emf.cdo" export="true"/>
+   </requires>
+
+   <runtime>
+      <library name="specmate-model-gen.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated user -->
+      <package
+            uri="http://specmate.com/20190125/model/user"
+            class="com.specmate.usermodel.UsermodelPackage"/>
+   </extension>
+
+</plugin>

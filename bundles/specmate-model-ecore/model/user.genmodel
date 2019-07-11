@@ -10,8 +10,27 @@
   <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
   <genPackages prefix="Usermodel" basePackage="com.specmate" disposableProviderFactory="true"
       ecorePackage="user.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="user.ecore#//AccessRights">
+      <genEnumLiterals ecoreEnumLiteral="user.ecore#//AccessRights/NONE"/>
+      <genEnumLiterals ecoreEnumLiteral="user.ecore#//AccessRights/READ"/>
+      <genEnumLiterals ecoreEnumLiteral="user.ecore#//AccessRights/WRITE"/>
+      <genEnumLiterals ecoreEnumLiteral="user.ecore#//AccessRights/ALL"/>
+    </genEnums>
     <genClasses ecoreClass="user.ecore#//User">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//User/allowedUrls"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//User/userName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//User/passWord"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//User/projectName"/>
+    </genClasses>
+    <genClasses ecoreClass="user.ecore#//UserSession">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/allowedPathPattern"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/userName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/lastActive"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/SourceSystem"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/TargetSystem"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/libraryFolders"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/isDeleted"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

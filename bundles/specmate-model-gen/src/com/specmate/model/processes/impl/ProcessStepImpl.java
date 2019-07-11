@@ -55,6 +55,7 @@ public class ProcessStepImpl extends ProcessNodeImpl implements ProcessStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getExpectedOutcome() {
 		return (String)eDynamicGet(ProcessesPackage.PROCESS_STEP__EXPECTED_OUTCOME, ProcessesPackage.Literals.PROCESS_STEP__EXPECTED_OUTCOME, true, true);
 	}
@@ -64,6 +65,7 @@ public class ProcessStepImpl extends ProcessNodeImpl implements ProcessStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExpectedOutcome(String newExpectedOutcome) {
 		eDynamicSet(ProcessesPackage.PROCESS_STEP__EXPECTED_OUTCOME, ProcessesPackage.Literals.PROCESS_STEP__EXPECTED_OUTCOME, newExpectedOutcome);
 	}

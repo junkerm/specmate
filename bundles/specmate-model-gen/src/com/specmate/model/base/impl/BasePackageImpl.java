@@ -172,7 +172,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link BasePackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -186,17 +186,24 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		if (isInited) return (BasePackage)EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI);
 
 		// Obtain or create and register package
-		BasePackageImpl theBasePackage = (BasePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof BasePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new BasePackageImpl());
+		Object registeredBasePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		BasePackageImpl theBasePackage = registeredBasePackage instanceof BasePackageImpl ? (BasePackageImpl)registeredBasePackage : new BasePackageImpl();
 
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) instanceof RequirementsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) : RequirementsPackage.eINSTANCE);
-		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
-		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
-		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
-		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
-		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI);
+		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(registeredPackage instanceof RequirementsPackageImpl ? registeredPackage : RequirementsPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI);
+		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(registeredPackage instanceof TestspecificationPackageImpl ? registeredPackage : TestspecificationPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI);
+		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(registeredPackage instanceof ProcessesPackageImpl ? registeredPackage : ProcessesPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI);
+		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(registeredPackage instanceof HistoryPackageImpl ? registeredPackage : HistoryPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI);
+		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(registeredPackage instanceof AdministrationPackageImpl ? registeredPackage : AdministrationPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI);
+		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(registeredPackage instanceof BatchPackageImpl ? registeredPackage : BatchPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theBasePackage.createPackageContents();
@@ -219,7 +226,6 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		// Mark meta-data to indicate it can't be changed
 		theBasePackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(BasePackage.eNS_URI, theBasePackage);
 		return theBasePackage;
@@ -230,6 +236,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getINamed() {
 		return iNamedEClass;
 	}
@@ -239,6 +246,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getINamed_Name() {
 		return (EAttribute)iNamedEClass.getEStructuralFeatures().get(0);
 	}
@@ -248,6 +256,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIDescribed() {
 		return iDescribedEClass;
 	}
@@ -257,6 +266,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIDescribed_Description() {
 		return (EAttribute)iDescribedEClass.getEStructuralFeatures().get(0);
 	}
@@ -266,6 +276,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIID() {
 		return iidEClass;
 	}
@@ -275,6 +286,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIID_Id() {
 		return (EAttribute)iidEClass.getEStructuralFeatures().get(0);
 	}
@@ -284,6 +296,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIContentElement() {
 		return iContentElementEClass;
 	}
@@ -293,6 +306,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIContainer() {
 		return iContainerEClass;
 	}
@@ -302,6 +316,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIContainer_Contents() {
 		return (EReference)iContainerEClass.getEStructuralFeatures().get(0);
 	}
@@ -311,6 +326,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getISpecmateModelObject() {
 		return iSpecmateModelObjectEClass;
 	}
@@ -320,6 +336,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getFolder() {
 		return folderEClass;
 	}
@@ -329,6 +346,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getFolder_Library() {
 		return (EAttribute)folderEClass.getEStructuralFeatures().get(0);
 	}
@@ -338,6 +356,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIPositionable() {
 		return iPositionableEClass;
 	}
@@ -347,6 +366,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIPositionable_Position() {
 		return (EAttribute)iPositionableEClass.getEStructuralFeatures().get(0);
 	}
@@ -356,6 +376,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIExternal() {
 		return iExternalEClass;
 	}
@@ -365,6 +386,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIExternal_ExtId() {
 		return (EAttribute)iExternalEClass.getEStructuralFeatures().get(0);
 	}
@@ -374,6 +396,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIExternal_ExtId2() {
 		return (EAttribute)iExternalEClass.getEStructuralFeatures().get(1);
 	}
@@ -383,6 +406,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIExternal_Source() {
 		return (EAttribute)iExternalEClass.getEStructuralFeatures().get(2);
 	}
@@ -392,6 +416,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIExternal_Live() {
 		return (EAttribute)iExternalEClass.getEStructuralFeatures().get(3);
 	}
@@ -401,6 +426,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getISpecmatePositionableModelObject() {
 		return iSpecmatePositionableModelObjectEClass;
 	}
@@ -410,6 +436,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getISpecmatePositionableModelObject_X() {
 		return (EAttribute)iSpecmatePositionableModelObjectEClass.getEStructuralFeatures().get(0);
 	}
@@ -419,6 +446,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getISpecmatePositionableModelObject_Y() {
 		return (EAttribute)iSpecmatePositionableModelObjectEClass.getEStructuralFeatures().get(1);
 	}
@@ -428,6 +456,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIModelConnection() {
 		return iModelConnectionEClass;
 	}
@@ -437,6 +466,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIModelConnection_Source() {
 		return (EReference)iModelConnectionEClass.getEStructuralFeatures().get(0);
 	}
@@ -446,6 +476,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIModelConnection_Target() {
 		return (EReference)iModelConnectionEClass.getEStructuralFeatures().get(1);
 	}
@@ -455,6 +486,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIModelNode() {
 		return iModelNodeEClass;
 	}
@@ -464,6 +496,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIModelNode_OutgoingConnections() {
 		return (EReference)iModelNodeEClass.getEStructuralFeatures().get(0);
 	}
@@ -473,6 +506,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIModelNode_IncomingConnections() {
 		return (EReference)iModelNodeEClass.getEStructuralFeatures().get(1);
 	}
@@ -482,6 +516,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getITracingElement() {
 		return iTracingElementEClass;
 	}
@@ -491,6 +526,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getITracingElement_TracesTo() {
 		return (EReference)iTracingElementEClass.getEStructuralFeatures().get(0);
 	}
@@ -500,6 +536,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getITracingElement_TracesFrom() {
 		return (EReference)iTracingElementEClass.getEStructuralFeatures().get(1);
 	}
@@ -509,6 +546,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public BaseFactory getBaseFactory() {
 		return (BaseFactory)getEFactoryInstance();
 	}
@@ -676,28 +714,28 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * @generated
 	 */
 	protected void createForm_metaAnnotations() {
-		String source = "http://specmate.com/form_meta";	
+		String source = "http://specmate.com/form_meta";
 		addAnnotation
-		  (getINamed_Name(), 
-		   source, 
+		  (getINamed_Name(),
+		   source,
 		   new String[] {
-			 "shortDesc", "Name",
-			 "longDesc", "",
-			 "required", "true",
-			 "type", "text",
-			 "position", "0",
-			 "allowedPattern", "^[^,;|]*$"
-		   });	
+			   "shortDesc", "Name",
+			   "longDesc", "",
+			   "required", "true",
+			   "type", "text",
+			   "position", "0",
+			   "allowedPattern", "^[^,;|]*$"
+		   });
 		addAnnotation
-		  (getIDescribed_Description(), 
-		   source, 
+		  (getIDescribed_Description(),
+		   source,
 		   new String[] {
-			 "shortDesc", "Description",
-			 "longDesc", "",
-			 "required", "false",
-			 "type", "longText",
-			 "rows", "5",
-			 "position", "100"
+			   "shortDesc", "Description",
+			   "longDesc", "",
+			   "required", "false",
+			   "type", "longText",
+			   "rows", "5",
+			   "position", "100"
 		   });
 	}
 

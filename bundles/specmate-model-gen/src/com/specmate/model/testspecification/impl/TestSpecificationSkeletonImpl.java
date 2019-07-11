@@ -91,6 +91,7 @@ public class TestSpecificationSkeletonImpl extends CDOObjectImpl implements Test
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_SPECIFICATION_SKELETON__NAME, BasePackage.Literals.INAMED__NAME, true, true);
 	}
@@ -100,6 +101,7 @@ public class TestSpecificationSkeletonImpl extends CDOObjectImpl implements Test
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		eDynamicSet(TestspecificationPackage.TEST_SPECIFICATION_SKELETON__NAME, BasePackage.Literals.INAMED__NAME, newName);
 	}
@@ -109,6 +111,7 @@ public class TestSpecificationSkeletonImpl extends CDOObjectImpl implements Test
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLanguage() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_SPECIFICATION_SKELETON__LANGUAGE, TestspecificationPackage.Literals.TEST_SPECIFICATION_SKELETON__LANGUAGE, true, true);
 	}
@@ -118,6 +121,7 @@ public class TestSpecificationSkeletonImpl extends CDOObjectImpl implements Test
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLanguage(String newLanguage) {
 		eDynamicSet(TestspecificationPackage.TEST_SPECIFICATION_SKELETON__LANGUAGE, TestspecificationPackage.Literals.TEST_SPECIFICATION_SKELETON__LANGUAGE, newLanguage);
 	}
@@ -127,6 +131,7 @@ public class TestSpecificationSkeletonImpl extends CDOObjectImpl implements Test
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getCode() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_SPECIFICATION_SKELETON__CODE, TestspecificationPackage.Literals.TEST_SPECIFICATION_SKELETON__CODE, true, true);
 	}
@@ -136,6 +141,7 @@ public class TestSpecificationSkeletonImpl extends CDOObjectImpl implements Test
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCode(String newCode) {
 		eDynamicSet(TestspecificationPackage.TEST_SPECIFICATION_SKELETON__CODE, TestspecificationPackage.Literals.TEST_SPECIFICATION_SKELETON__CODE, newCode);
 	}

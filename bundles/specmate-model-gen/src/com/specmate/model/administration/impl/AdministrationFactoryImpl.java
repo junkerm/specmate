@@ -99,6 +99,7 @@ public class AdministrationFactoryImpl extends EFactoryImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Status createStatus() {
 		StatusImpl status = new StatusImpl();
 		return status;
@@ -109,6 +110,7 @@ public class AdministrationFactoryImpl extends EFactoryImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ProblemDetail createProblemDetail() {
 		ProblemDetailImpl problemDetail = new ProblemDetailImpl();
 		return problemDetail;
@@ -139,6 +141,7 @@ public class AdministrationFactoryImpl extends EFactoryImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AdministrationPackage getAdministrationPackage() {
 		return (AdministrationPackage)getEPackage();
 	}

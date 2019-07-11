@@ -80,6 +80,7 @@ public class CEGNodeImpl extends IModelNodeImpl implements CEGNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NodeType getType() {
 		return (NodeType)eDynamicGet(RequirementsPackage.CEG_NODE__TYPE, RequirementsPackage.Literals.CEG_NODE__TYPE, true, true);
 	}
@@ -89,6 +90,7 @@ public class CEGNodeImpl extends IModelNodeImpl implements CEGNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(NodeType newType) {
 		eDynamicSet(RequirementsPackage.CEG_NODE__TYPE, RequirementsPackage.Literals.CEG_NODE__TYPE, newType);
 	}
@@ -98,6 +100,7 @@ public class CEGNodeImpl extends IModelNodeImpl implements CEGNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getVariable() {
 		return (String)eDynamicGet(RequirementsPackage.CEG_NODE__VARIABLE, RequirementsPackage.Literals.CEG_NODE__VARIABLE, true, true);
 	}
@@ -107,6 +110,7 @@ public class CEGNodeImpl extends IModelNodeImpl implements CEGNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setVariable(String newVariable) {
 		eDynamicSet(RequirementsPackage.CEG_NODE__VARIABLE, RequirementsPackage.Literals.CEG_NODE__VARIABLE, newVariable);
 	}
@@ -116,6 +120,7 @@ public class CEGNodeImpl extends IModelNodeImpl implements CEGNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getCondition() {
 		return (String)eDynamicGet(RequirementsPackage.CEG_NODE__CONDITION, RequirementsPackage.Literals.CEG_NODE__CONDITION, true, true);
 	}
@@ -125,6 +130,7 @@ public class CEGNodeImpl extends IModelNodeImpl implements CEGNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCondition(String newCondition) {
 		eDynamicSet(RequirementsPackage.CEG_NODE__CONDITION, RequirementsPackage.Literals.CEG_NODE__CONDITION, newCondition);
 	}

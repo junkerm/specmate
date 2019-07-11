@@ -116,6 +116,7 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getId() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_PARAMETER__ID, BasePackage.Literals.IID__ID, true, true);
 	}
@@ -125,6 +126,7 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setId(String newId) {
 		eDynamicSet(TestspecificationPackage.TEST_PARAMETER__ID, BasePackage.Literals.IID__ID, newId);
 	}
@@ -134,6 +136,7 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_PARAMETER__NAME, BasePackage.Literals.INAMED__NAME, true, true);
 	}
@@ -143,6 +146,7 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		eDynamicSet(TestspecificationPackage.TEST_PARAMETER__NAME, BasePackage.Literals.INAMED__NAME, newName);
 	}
@@ -152,6 +156,7 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDescription() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_PARAMETER__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
 	}
@@ -161,6 +166,7 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDescription(String newDescription) {
 		eDynamicSet(TestspecificationPackage.TEST_PARAMETER__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
 	}
@@ -170,6 +176,7 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ParameterType getType() {
 		return (ParameterType)eDynamicGet(TestspecificationPackage.TEST_PARAMETER__TYPE, TestspecificationPackage.Literals.TEST_PARAMETER__TYPE, true, true);
 	}
@@ -179,6 +186,7 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(ParameterType newType) {
 		eDynamicSet(TestspecificationPackage.TEST_PARAMETER__TYPE, TestspecificationPackage.Literals.TEST_PARAMETER__TYPE, newType);
 	}
@@ -189,6 +197,7 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public EList<ParameterAssignment> getAssignments() {
 		return (EList<ParameterAssignment>)eDynamicGet(TestspecificationPackage.TEST_PARAMETER__ASSIGNMENTS, TestspecificationPackage.Literals.TEST_PARAMETER__ASSIGNMENTS, true, true);
 	}

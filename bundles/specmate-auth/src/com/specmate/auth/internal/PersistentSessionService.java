@@ -126,8 +126,10 @@ public class PersistentSessionService extends BaseSessionService {
 		sessionTransaction.doAndCommit(new IChange<Object>() {
 			@Override
 			public Object doChange() throws SpecmateException {
-				// TODO: detach class should not delete session, just mark is as inactive
-				SpecmateEcoreUtil.detach(session);
+				// TODO: detach class should not delete session, just mark it as inactive
+				//SpecmateEcoreUtil.detach(session);
+				// Set Session isDeleted Property to true, to indicate that this session was deleted
+				session.setIsDeleted(true);
 				return null;
 			}
 		});
@@ -139,7 +141,8 @@ public class PersistentSessionService extends BaseSessionService {
 
 	@Override
 	protected UserSession getSession(String token) throws SpecmateException {
-		String query = "UserSession.allInstances()->select(u | u.id='" + token + "')";
+		// Only get the active sessions, the deleted sessions are only used for the login counter
+		String query = "UserSession.allInstances()->select(u | u.id='" + token + "' and u.isDeleted=false)";
 
 		List<Object> results = sessionView.query(query,
 				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());

@@ -101,6 +101,7 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Requirement createRequirement() {
 		RequirementImpl requirement = new RequirementImpl();
 		return requirement;
@@ -111,6 +112,7 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CEGModel createCEGModel() {
 		CEGModelImpl cegModel = new CEGModelImpl();
 		return cegModel;
@@ -121,6 +123,7 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CEGNode createCEGNode() {
 		CEGNodeImpl cegNode = new CEGNodeImpl();
 		return cegNode;
@@ -131,6 +134,7 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CEGConnection createCEGConnection() {
 		CEGConnectionImpl cegConnection = new CEGConnectionImpl();
 		return cegConnection;
@@ -161,6 +165,7 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RequirementsPackage getRequirementsPackage() {
 		return (RequirementsPackage)getEPackage();
 	}
