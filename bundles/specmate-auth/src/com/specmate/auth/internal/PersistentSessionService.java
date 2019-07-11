@@ -126,6 +126,7 @@ public class PersistentSessionService extends BaseSessionService {
 		sessionTransaction.doAndCommit(new IChange<Object>() {
 			@Override
 			public Object doChange() throws SpecmateException {
+				// TODO: detach class should not delete session, just mark is as inactive
 				SpecmateEcoreUtil.detach(session);
 				return null;
 			}
@@ -156,7 +157,7 @@ public class PersistentSessionService extends BaseSessionService {
 	}
 	
 	private boolean isNewUser(String userName) {
-		String query = "UserSession.allInstances()->select(u | u.userName='" + userName + "')";
+		String query = "UserSession.allInstances()->select(u | u.userName='" + userName + "' and u.lastActive>)";
 
 		List<Object> results = sessionView.query(query,
 				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
