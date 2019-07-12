@@ -46,7 +46,7 @@ public class NLPServiceTest {
 		Assert.assertEquals(
 				"If (IN) the (DT) tool (NN) detects (VBZ) an (DT) error (NN) , (,) it (PRP) shows (VBZ) a (DT) warning (NN) window (NN) . (.)",
 				posString);
-		
+
 		result = nlpService.processText("Wenn das Werkzeug einen Fehler erkennt, zeigt es ein Warnfenster.",
 				ELanguage.DE);
 
@@ -69,58 +69,92 @@ public class NLPServiceTest {
 
 	}
 
-	/*@Test
+	@Test
 	public void testSentenceUnfoldingEnglish() throws SpecmateException {
 		INLPService nlpService = getNLPService();
+		EnglishSentenceUnfolder unfolder = new EnglishSentenceUnfolder();
 
 		String text = "If the tool has an error or fails, the tool alerts the user and shows a window.";
-		String unfolded = new EnglishSentenceUnfolder().unfold(nlpService, text, ELanguage.EN);
+		String unfolded = unfolder.unfold(nlpService, text, ELanguage.EN);
 		Assert.assertEquals(
-				"If the tool has an error or the tool fails, the tool alerts the user and the tool shows a window.",
+				"If the tool has an error, or the tool fails, the tool alerts the user, and the tool shows a window.",
 				unfolded);
 
 		text = "The magazine contains the nicest hiking tours and trips.";
-		unfolded = new EnglishSentenceUnfolder().unfold(nlpService, text, ELanguage.EN);
-		Assert.assertEquals("The magazine contains the nicest hiking tours and The magazine contains trips.", unfolded);
-	}*/
+		unfolded = unfolder.unfold(nlpService, text, ELanguage.EN);
+		Assert.assertEquals("The magazine contains the nicest hiking tours, and The magazine contains trips.",
+				unfolded);
+
+		text = "If the field is empty or contains errors, the button is greyed out.";
+		unfolded = unfolder.unfold(nlpService, text, ELanguage.EN);
+		Assert.assertEquals("If the field is empty, or the field contains errors, the button is greyed out.", unfolded);
+
+		text = "The window and the list contain an entry.";
+		unfolded = unfolder.unfold(nlpService, text, ELanguage.EN);
+		Assert.assertEquals("The window contain an entry, and the list contain an entry.", unfolded);
+
+		text = "If the user clicks the button, the tool shows a window and saves the changes.";
+		unfolded = unfolder.unfold(nlpService, text, ELanguage.EN);
+		Assert.assertEquals("If the user clicks the button, the tool shows a window, and the tool saves the changes.",
+				unfolded);
+
+	}
 
 	@Test
 	public void testSentenceUnfoldingGerman() throws SpecmateException {
 		INLPService nlpService = getNLPService();
 		SentenceUnfolderBase unfolder = new GermanSentenceUnfolder();
 
-		String text = "Wenn das Werkzeug fehlschlägt oder einen Fehler oder ein Problem hat, zeigt das Werkzeug ein Warnfenster und einen Fehlermarker an und gibt eine Meldung aus.";
+		// Ensure replace is correct
+		String text = "Wenn das Werkzeug fehlschlägt oder einen Fehler oder ein Problem hat, dann zeigt das Werkzeug ein Warnfenster und einen Fehlermarker an und gibt eine Meldung aus.";
 		String unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
 		Assert.assertEquals(
-				"Wenn das Werkzeug fehlschlägt oder das Werkzeug einen Fehler hat oder das Werkzeug ein Problem hat, zeigt das Werkzeug ein Warnfenster und zeigt das Werkzeug einen Fehlermarker an und gibt das Werkzeug eine Meldung aus.",
+				"Wenn das Werkzeug fehlschlägt, oder wenn das Werkzeug einen Fehler hat, oder wenn das Werkzeug ein Problem hat, dann zeigt das Werkzeug ein Warnfenster, und zeigt das Werkzeug einen Fehlermarker an, und gibt das Werkzeug eine Meldung aus.",
 				unfolded);
+
+//		 Ensure nothing changes when applied on the already replace text
+//		text = "Wenn das Werkzeug fehlschlägt, oder wenn das Werkzeug einen Fehler hat, oder wenn das Werkzeug ein Problem hat, dann zeigt das Werkzeug ein Warnfenster, und  zeigt das Werkzeug einen Fehlermarker an, und gibt das Werkzeug eine Meldung aus.";
+//		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
+//		Assert.assertEquals(
+//				"Wenn das Werkzeug fehlschlägt, oder wenn das Werkzeug einen Fehler hat, oder wenn das Werkzeug ein Problem hat, dann zeigt das Werkzeug ein Warnfenster, und dann zeigt das Werkzeug einen Fehlermarker an, und dann gibt das Werkzeug eine Meldung aus.",
+//				unfolded);
 
 		text = "Das Magazin hat die schönsten Wanderungen und Ausflugziele.";
 		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
-		Assert.assertEquals("Das Magazin hat die schönsten Wanderungen und Das Magazin hat Ausflugziele.", unfolded);
+		Assert.assertEquals("Das Magazin hat die schönsten Wanderungen, und Das Magazin hat Ausflugziele.", unfolded);
 
 		text = "Felix Lindner legte sein Abitur ab und nahm dann ein Studium der neueren Sprachen auf.";
 		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
 		Assert.assertEquals(
-				"Felix Lindner legte sein Abitur ab und Felix nahm dann ein Studium der neueren Sprachen auf.",
+				"Felix Lindner legte sein Abitur ab, und Felix nahm dann ein Studium der neueren Sprachen auf.",
 				unfolded);
 
 		text = "Der sowjetische Chirurg Fjodorow reist im Jahr 1982 nach Kabul, um dort Vorlesungen zu halten und um in einem Militärkrankenhaus zu arbeiten.";
 		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
 		Assert.assertEquals(
-				"Der sowjetische Chirurg Fjodorow reist im Jahr 1982 nach Kabul, um dort Vorlesungen zu halten und um in einem Militärkrankenhaus zu arbeiten.",
+				"Der sowjetische Chirurg Fjodorow reist im Jahr 1982 nach Kabul, um dort Vorlesungen zu halten, und um in einem Militärkrankenhaus zu arbeiten.",
 				unfolded);
 
 		text = "Er versorgt Verwundete beider Seiten und befragt sie nach ihren Erfahrungen und persönlichen Lebensumständen.";
 		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
 		Assert.assertEquals(
-				"Er versorgt Verwundete beider Seiten und Er befragt sie nach ihren Erfahrungen und persönlichen Lebensumständen.",
+				"Er versorgt Verwundete beider Seiten, und Er befragt sie nach ihren Erfahrungen, und persönlichen Lebensumständen.",
 				unfolded);
 
-		text = "Der häufige Blätterpilz wächst im Herbst  und fruktifiziert gerne in Hexenringen.";
+		text = "Der häufige Blätterpilz wächst im Herbst und fruktifiziert gerne in Hexenringen.";
 		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
 		Assert.assertEquals(
-				"Der häufige Blätterpilz wächst im Herbst  und Der häufige Blätterpilz fruktifiziert gerne in Hexenringen.",
+				"Der häufige Blätterpilz wächst im Herbst, und Der häufige Blätterpilz fruktifiziert gerne in Hexenringen.",
+				unfolded);
+
+		text = "Das Fenster und die Liste enthalten einen Eintrag.";
+		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
+		Assert.assertEquals("Das Fenster enthalten einen Eintrag, und die Liste enthalten einen Eintrag.", unfolded);
+
+		text = "Wenn das Werkzeug einen Fehler oder ein Problem erkennt oder der Benutzer keine Anmeldung hat, zeigt das Werkzeug ein Warnfenster an und gibt einen Signalton aus.";
+		unfolded = unfolder.unfold(nlpService, text, ELanguage.DE);
+		Assert.assertEquals(
+				"Wenn das Werkzeug einen Fehler erkennt, oder wenn das Werkzeug ein Problem erkennt, oder der Benutzer keine Anmeldung hat, zeigt das Werkzeug ein Warnfenster an, und gibt das Werkzeug einen Signalton aus.",
 				unfolded);
 
 	}

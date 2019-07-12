@@ -3,7 +3,6 @@ package com.specmate.nlp.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
@@ -40,29 +39,34 @@ public abstract class SentenceUnfolderBase {
 	 */
 	public String unfold(INLPService nlpService, String text, ELanguage language) throws SpecmateException {
 		JCas jCas = nlpService.processText(text, language);
-		
+
 		String unfoldedText = "";
-		for (Sentence sentenceStageA: NLPUtil.getSentences(jCas)) {
-			String unfoldedStageA 	= insertImplicitNouns(jCas, sentenceStageA);
-			
-			JCas jCasStageB =  nlpService.processText(unfoldedStageA, language);
+		for (Sentence sentenceStageA : NLPUtil.getSentences(jCas)) {
+			String unfoldedStageA = insertImplicitNouns(jCas, sentenceStageA);
+
+			JCas jCasStageB = nlpService.processText(unfoldedStageA, language);
 			Sentence sentenceStageB = NLPUtil.getSentences(jCasStageB).iterator().next();
 			String unfoldedStageB = insertsImplicitVerbs(jCasStageB, sentenceStageB);
-			
+
 			JCas jCasStageC = nlpService.processText(unfoldedStageB, language);
 			Sentence sentenceStageC = NLPUtil.getSentences(jCasStageC).iterator().next();
 			String unfoldedStageC = insertImplicitSubjects(jCasStageC, sentenceStageC);
-			unfoldedText +=unfoldedStageC;
+
+			String result = insertCommasBeforeConjunctions(unfoldedStageC);
+
+			unfoldedText += result;
 		}
 		return unfoldedText;
 
 	}
 
+	protected abstract String insertCommasBeforeConjunctions(String unfoldedStageC);
+
 	/** Insert Nouns into adjective conjunctions */
 	private String insertImplicitNouns(JCas jCas, Sentence sentence) {
 		List<Chunk> nounPhrases = NLPUtil.getNounPhraseChunks(jCas, sentence);
 		List<Pair<Integer, String>> insertions = new ArrayList<Pair<Integer, String>>();
-		
+
 		for (Annotation np : nounPhrases) {
 			List<Dependency> modifiers = getConjunctiveAdjectiveModifyers(jCas, np);
 			insertions.addAll(completeConjunctiveAdjectiveNounPhrase(jCas, np, modifiers));
@@ -80,17 +84,24 @@ public abstract class SentenceUnfolderBase {
 			if (optImplicitSubjectAndOrder.isPresent()) {
 				Annotation implicitSubject = optImplicitSubjectAndOrder.get().getLeft();
 				EWordOrder wordOrder = optImplicitSubjectAndOrder.get().getRight();
+				int ip = determineSubjectInsertionPoint(jCas, vp, wordOrder);
 
 				List<Pair<Annotation, Annotation>> allConjunctedImplicitSubjects = completeSubjectsByConjunction(jCas,
 						implicitSubject);
+
+				Optional<Annotation> optAssociatedConditional = getAssociatedSubjectConditional(jCas, implicitSubject);
+				if (optAssociatedConditional.isPresent()) {
+					String assConditionalWordText = optAssociatedConditional.get().getCoveredText().toLowerCase();
+					insertions.add(Pair.of(ip, assConditionalWordText));
+				}
+
 				for (Pair<Annotation, Annotation> toInsert : allConjunctedImplicitSubjects) {
 					Annotation conjunctionWord = toInsert.getLeft();
 					Annotation subjectWord = toInsert.getRight();
 
-					String conj = conjunctionWord != null ? conjunctionWord.getCoveredText() + " " : "";
+					String conjunctionWordText = conjunctionWord != null ? conjunctionWord.getCoveredText() + " " : "";
 
-					int ip = determineSubjectInsertionPoint(jCas, vp, wordOrder);
-					insertions.add(Pair.of(ip, conj + subjectWord.getCoveredText()));
+					insertions.add(Pair.of(ip, conjunctionWordText + subjectWord.getCoveredText()));
 				}
 			}
 		}
@@ -113,21 +124,20 @@ public abstract class SentenceUnfolderBase {
 				ENounRole nounRole = toInsert.getRight();
 
 				int ip = determineVerbInsertionPoint(jCas, np, implicitVerb, wordOrder, nounRole);
-				insertions.add(Pair.of(ip, implicitVerb.getCoveredText()));
+				String addObject = "";
+				if (nounRole == ENounRole.SUBJ) {
+					Optional<Dependency> optObjDep = findObjectDependency(jCas, implicitVerb, true);
+					if (optObjDep.isPresent()) {
+						Annotation objNounPhrase = NLPUtil.getCoveringNounPhraseOrToken(jCas,
+								optObjDep.get().getDependent());
+						addObject = " " + objNounPhrase.getCoveredText();
+					}
+				}
+
+				insertions.add(Pair.of(ip, implicitVerb.getCoveredText() + addObject));
 			}
 		}
 		return insert(sentence.getCoveredText(), insertions);
-	}
-
-	private String toTextWithDependents(JCas jCas, Annotation anno) {
-		Set<Annotation> allWithDeps = NLPUtil.collectAllDependents(jCas, anno);
-		int begin = Integer.MAX_VALUE;
-		int end = 0;
-		for (Annotation a : allWithDeps) {
-			begin = Math.min(a.getBegin(), begin);
-			end = Math.max(a.getEnd(), end);
-		}
-		return jCas.getDocumentText().substring(begin, end + 1);
 	}
 
 	/** Finds noun phrases without a dependency (object or subject) to a verb */
@@ -172,12 +182,13 @@ public abstract class SentenceUnfolderBase {
 
 	/** Find all adjective conjunctions of the given nounphrase */
 	protected abstract List<Dependency> getConjunctiveAdjectiveModifyers(JCas jCas, Annotation np);
-	
+
 	/**
 	 * Distribute the nounphrase over all adjective conjuncitons.
 	 */
-	protected abstract List<Pair<Integer, String>> completeConjunctiveAdjectiveNounPhrase(JCas jCas, Annotation np, List<Dependency> modifiers);
-	
+	protected abstract List<Pair<Integer, String>> completeConjunctiveAdjectiveNounPhrase(JCas jCas, Annotation np,
+			List<Dependency> modifiers);
+
 	/**
 	 * Determines an implicit subject for a verb phrase by finding conjuncted verbs
 	 * and there subjects
@@ -212,5 +223,15 @@ public abstract class SentenceUnfolderBase {
 	 */
 	protected abstract int determineVerbInsertionPoint(JCas jcas, Annotation np, Annotation verb, EWordOrder order,
 			ENounRole role);
+
+	/**
+	 * Determines an object dependency associated with the given annoation.
+	 */
+	protected abstract Optional<Dependency> findObjectDependency(JCas jCas, Annotation anno, boolean isGovernor);
+
+	/**
+	 * Determines an associated conditional word associated with a subject
+	 */
+	protected abstract Optional<Annotation> getAssociatedSubjectConditional(JCas jCas, Annotation implicitSubject);
 
 }
