@@ -122,6 +122,7 @@
           <details key="required" value="true"/>
           <details key="type" value="text"/>
           <details key="position" value="1"/>
+          <details key="allowedPattern" value="^[^,;|]*$"/>
         </eAnnotations>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">

@@ -20,6 +20,7 @@ export class ValidationMessage {
     public static ERROR_PROCESS_NODE_MULTIPLE_OUTGOING_CONNECTIONS = 'errorProcessNodeMultipleOutgoingConnections';
     public static ERROR_PROCESS_DECISION_WITH_ONE_OR_FEWER_OUTGOING_CONNECTIONS = 'errorProcessDecisionWithOneOrFewerOutgoingConnections';
     public static ERROR_INVALID_NAME = 'errorInvalidName';
+    public static ERROR_INVALID_VARIABLE = 'errorInvalidVariable';
 
 
     constructor(private messageKey: string, private interpolationParameters?: Object) {}
