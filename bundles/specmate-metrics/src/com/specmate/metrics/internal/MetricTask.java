@@ -23,7 +23,7 @@ public class MetricTask extends SchedulerTask  {
 	@Override
 	public void run() {
 		// Reset counter to 0 
-		resetCounter();
+		//resetCounter();
 	}
 	
 	private void resetCounter() {
@@ -45,7 +45,7 @@ public class MetricTask extends SchedulerTask  {
 	
 	private void resetGauge(long difference) {
 		// Use the session view to identify how many times we need to decrement the counter 
-		String query = "UserSession.allInstances()->select(u | u.lastActive>'" + difference + "')";
+		String query = "UserSession.allInstances()->select(u | u.lastActive>" + difference + ")";
 
 		List<Object> results = sessionView.query(query,
 				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());

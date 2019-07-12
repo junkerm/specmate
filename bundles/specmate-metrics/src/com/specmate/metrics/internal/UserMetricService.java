@@ -11,12 +11,13 @@ import com.specmate.scheduler.*;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.metrics.IGauge;
 import com.specmate.metrics.IMetricsService;
+import com.specmate.metrics.IUserMetricsService;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
 import com.specmate.usermodel.UsermodelFactory;
 
 @Component(immediate=true)
-public class UserMetricService {
+public class UserMetricService implements IUserMetricsService {
 	// When Specmate starts again check if we need to initialize the the counter to some value 
 	// 1. initialize counter after restart with the currently active sessions
 	// 		1.0 sort after the most recent ones (we need sorting in order to avoid counting one user with multiple session multiple times
@@ -65,13 +66,13 @@ public class UserMetricService {
 	
 	private void initializeAfterResart() {
 		// initialize counter after restart with the currently active sessions
-		
-		/*
-		 * I want to get all Sessions which have a lager last avtive tag but remove the ones where the user name occurs multiple times
-		 * */
+		initializeGaugeCurrentDay();
+		initializeGaugeCurrentWeek();
+		initializeGaugeCurrentMonth();
+		initializeGaugeCurrentYear();
 	}
 	
-	public void activeScheduler() {
+	private void activeScheduler() {
 		// Create different schedulers for the different counters
 		try {
 			// Each minute at 00:00:05
@@ -139,8 +140,7 @@ public class UserMetricService {
 	 */
 	private boolean isNewUser(IView sessionView, String userName, long difference) {
 		
-		String query = "UserSession.allInstances()->select(u | u.userName='" + userName + "' and u.lastActive>'" + difference + "')";
-
+		String query = "UserSession.allInstances()->select(u | u.userName='" + userName + "' and u.lastActive> " + difference + " )";
 		List<Object> results = sessionView.query(query,
 				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
 
@@ -173,6 +173,64 @@ public class UserMetricService {
 		
 		return isNewUser(sessionView, userName, difference);
 	}
+	
+	/**
+	 * 
+	 * @param sessionView
+	 * @param userName
+	 * @param difference 
+	 * @return Returns if the user with the userName has been logged in in the specified time difference 
+	 */
+	private void initializeGauge(long difference, IGauge gauge) {
+		
+		
+		// Use the session view to identify how many times we need to decrement the counter 
+		String query = "UserSession.allInstances()->select(u | u.lastActive>" + difference + "->forAll(user1 | user1 <> self implies user1.userName <> self.userName))";
+		List<Object> results = sessionView.query(query,
+				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
+		int numberOfSessions = results.size();
+
+		while(numberOfSessions>0) {
+			gauge.inc();
+			numberOfSessions--;
+		}
+	}
+	
+	private void initializeGaugeCurrentDay() {
+		IGauge gauge = getCurrentGauge(CounterType.CURRENTDAY);
+		initializeGauge(TimeUtil.getDiffDay(), gauge);
+	}
+	
+	private void initializeGaugeCurrentWeek() {
+		IGauge gauge = getCurrentGauge(CounterType.CURRENTWEEK);
+		initializeGauge(TimeUtil.getDiffWeek(), gauge);
+	}
+	
+	private void initializeGaugeCurrentMonth() {
+		IGauge gauge = getCurrentGauge(CounterType.CURRENTMONTH);
+		initializeGauge(TimeUtil.getDiffMonth(), gauge);
+	}
+	
+	private void initializeGaugeCurrentYear() {
+		IGauge gauge = getCurrentGauge(CounterType.CURRENTYEAR);
+		initializeGauge(TimeUtil.getDiffYear(), gauge);
+	}
+	 
+	private IGauge getCurrentGauge(CounterType counterType) {
+		IGauge gauge = null;
+		switch (counterType) {
+		case CURRENTDAY:
+			gauge = specmate_current_day;
+		case CURRENTMONTH:
+			gauge = specmate_current_week;
+		case CURRENTWEEK:
+			gauge = specmate_current_month;
+		case CURRENTYEAR:
+			gauge = specmate_current_year; 
+		}
+		return gauge;
+	}
+	
 	
 	@Reference
 	public void setMetricsService(IMetricsService metricsService) {
