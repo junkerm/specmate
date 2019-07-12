@@ -18,19 +18,13 @@ import com.specmate.usermodel.UsermodelFactory;
 
 @Component(immediate=true)
 public class UserMetricService implements IUserMetricsService {
-	// When Specmate starts again check if we need to initialize the the counter to some value 
-	// 1. initialize counter after restart with the currently active sessions
-	// 		1.0 sort after the most recent ones (we need sorting in order to avoid counting one user with multiple session multiple times
-	// 		1.1 get all sessions in certain lastActive time frame to initialize counter again 
-	// 			SpecmateUsersLoggedIn_currentDay UserSession.getAllInstances() where u.lastActive < 24 h 
-	// 		1.2 If we have an inactive session we need to 
-	// 			
-	// 2. increase counter with isNewUserWeekly (check if the user was active the last 7 days) 
-	// 3. schedule at Sunday 0:00 and at each Day 0:00 that the respective counter (day, week, month) is reseted 
+	/*	
+	 * 1. When Specmate starts again initialize the counter 
+	 * 2. increase counter with isNewUserWeekly (check if the user was active the last 7 days) 
+	 * 3. schedule at Sunday 0:00 and at each Day 0:00 that the respective counter (day, week, month) is reseted 
+	 * 
+	 */
 	
-	// @Activator
-	// use for starting the scheduler service 
-	// initialize counter after restart
 	
 	private IPersistencyService persistencyService;
 	private IMetricsService metricsService;
@@ -74,8 +68,8 @@ public class UserMetricService implements IUserMetricsService {
 	
 	private void activeScheduler() {
 		// Create different schedulers for the different counters
+		//TODO: change schedule Time
 		try {
-			// Each minute at 00:00:05
 			String scheduleDay = "minute 2";
 			SchedulerTask metricRunnable = new MetricTask(CounterType.CURRENTDAY, specmate_current_day, sessionView);
 			metricRunnable.run();
@@ -84,7 +78,6 @@ public class UserMetricService implements IUserMetricsService {
 			// Get the resetted counter back
 			specmate_current_day = ((MetricTask) metricRunnable).getGauge();
 			
-			// Each minute at 00:00:05
 			String scheduleWeek = "minute 4";
 			SchedulerTask metricRunnableWeek = new MetricTask(CounterType.CURRENTWEEK, specmate_current_week, sessionView);
 			metricRunnable.run();
@@ -93,7 +86,6 @@ public class UserMetricService implements IUserMetricsService {
 			// Get the resetted counter back
 			specmate_current_week = ((MetricTask) metricRunnableWeek).getGauge();
 
-			// Each minute at 00:00:05
 			String scheduleMonth = "minute 6";
 			SchedulerTask metricRunnableMonth = new MetricTask(CounterType.CURRENTMONTH, specmate_current_month, sessionView);
 			metricRunnableMonth.run();
@@ -102,7 +94,6 @@ public class UserMetricService implements IUserMetricsService {
 			// Get the resetted counter back
 			specmate_current_month = ((MetricTask) metricRunnableMonth).getGauge();
 			
-			// Each minute at 00:00:05
 			String scheduleYear = "minute 8";
 			SchedulerTask metricRunnableYear = new MetricTask(CounterType.CURRENTYEAR, specmate_current_year, sessionView);
 			metricRunnableYear.run();
@@ -111,7 +102,6 @@ public class UserMetricService implements IUserMetricsService {
 			// Get the resetted counter back
 			specmate_current_year = ((MetricTask) metricRunnableYear).getGauge();
 		} catch (SpecmateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -174,16 +164,7 @@ public class UserMetricService implements IUserMetricsService {
 		return isNewUser(sessionView, userName, difference);
 	}
 	
-	/**
-	 * 
-	 * @param sessionView
-	 * @param userName
-	 * @param difference 
-	 * @return Returns if the user with the userName has been logged in in the specified time difference 
-	 */
 	private void initializeGauge(long difference, IGauge gauge) {
-		
-		
 		// Use the session view to identify how many times we need to decrement the counter 
 		String query = "UserSession.allInstances()->select(u | u.lastActive>" + difference + "->forAll(user1 | user1 <> self implies user1.userName <> self.userName))";
 		List<Object> results = sessionView.query(query,
@@ -230,8 +211,7 @@ public class UserMetricService implements IUserMetricsService {
 		}
 		return gauge;
 	}
-	
-	
+
 	@Reference
 	public void setMetricsService(IMetricsService metricsService) {
 		this.metricsService = metricsService;

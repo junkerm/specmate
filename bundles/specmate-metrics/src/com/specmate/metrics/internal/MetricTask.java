@@ -14,7 +14,6 @@ public class MetricTask extends SchedulerTask  {
 	private IView sessionView;
 	
 	public MetricTask (CounterType counterType, IGauge gauge, IView sessionView) {
-		// Übergebe die COunter hier 
 		this.counterType = counterType;
 		this.gauge = gauge;
 		this.sessionView = sessionView;
@@ -22,8 +21,7 @@ public class MetricTask extends SchedulerTask  {
 
 	@Override
 	public void run() {
-		// Reset counter to 0 
-		//resetCounter();
+		resetCounter();
 	}
 	
 	private void resetCounter() {
