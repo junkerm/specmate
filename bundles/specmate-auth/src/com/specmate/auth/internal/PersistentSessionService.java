@@ -135,6 +135,7 @@ public class PersistentSessionService extends BaseSessionService {
 		});
 		if(isNewUser(session.getUserName())) {
 			this.numberOfUsers.dec();	
+			
 		}
 		
 	}

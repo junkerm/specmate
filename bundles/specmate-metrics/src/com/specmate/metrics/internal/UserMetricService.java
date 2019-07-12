@@ -1,13 +1,17 @@
 package com.specmate.metrics.internal;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
+
 import com.specmate.scheduler.*;
 import com.specmate.common.exception.SpecmateException;
+import com.specmate.metrics.IGauge;
+import com.specmate.metrics.IMetricsService;
+import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
 import com.specmate.usermodel.UsermodelFactory;
 
@@ -27,44 +31,103 @@ public class UserMetricService {
 	// use for starting the scheduler service 
 	// initialize counter after restart
 	
+	private IPersistencyService persistencyService;
+	private IMetricsService metricsService;
+	private IView sessionView;
+	
+	private IGauge specmate_current_day;
+	private IGauge specmate_current_week;
+	private IGauge specmate_current_month;
+	private IGauge specmate_current_year;
+	
 	@Activate
-	public void start() {
+	public void start() throws SpecmateException {
+		this.sessionView = persistencyService.openView();
+		this.specmate_current_day = metricsService.
+				createGauge("specmate_login_counter_current_day", "Number of users logged in at the current day");
+		this.specmate_current_week = metricsService.
+				createGauge("specmate_login_counter_current_week", "Number of users logged in at the current week");
+		this.specmate_current_month = metricsService.
+				createGauge("specmate_login_counter_current_month", "Number of users logged in at the current month");
+		this.specmate_current_year = metricsService.
+				createGauge("specmate_login_counter_current_year", "Number of users logged in at the current year");
 		activeScheduler();
 		initializeAfterResart();
 	}
 	
+	@Deactivate
+	public void deactivate() throws SpecmateException {
+
+		if (sessionView != null) {
+			sessionView.close();
+		}
+	}
+	
 	private void initializeAfterResart() {
 		// initialize counter after restart with the currently active sessions
+		
+		/*
+		 * I want to get all Sessions which have a lager last avtive tag but remove the ones where the user name occurs multiple times
+		 * */
 	}
 	
 	public void activeScheduler() {
-		// TODO: set time intervall of scheduled job
+		// Create different schedulers for the different counters
 		try {
-			String schedule = "MetricSchedule";
-			SchedulerTask metricRunnable = new MetricTask();
+			// Each minute at 00:00:05
+			String scheduleDay = "minute 2";
+			SchedulerTask metricRunnable = new MetricTask(CounterType.CURRENTDAY, specmate_current_day, sessionView);
 			metricRunnable.run();
 			Scheduler scheduler = new Scheduler();
-			scheduler.schedule(metricRunnable, SchedulerIteratorFactory.create(schedule));
+			scheduler.schedule(metricRunnable, SchedulerIteratorFactory.create(scheduleDay));
+			// Get the resetted counter back
+			specmate_current_day = ((MetricTask) metricRunnable).getGauge();
+			
+			// Each minute at 00:00:05
+			String scheduleWeek = "minute 4";
+			SchedulerTask metricRunnableWeek = new MetricTask(CounterType.CURRENTWEEK, specmate_current_week, sessionView);
+			metricRunnable.run();
+			Scheduler schedulerWeek = new Scheduler();
+			schedulerWeek.schedule(metricRunnableWeek, SchedulerIteratorFactory.create(scheduleWeek));
+			// Get the resetted counter back
+			specmate_current_week = ((MetricTask) metricRunnableWeek).getGauge();
+
+			// Each minute at 00:00:05
+			String scheduleMonth = "minute 6";
+			SchedulerTask metricRunnableMonth = new MetricTask(CounterType.CURRENTMONTH, specmate_current_month, sessionView);
+			metricRunnableMonth.run();
+			Scheduler schedulerMonth = new Scheduler();
+			schedulerMonth.schedule(metricRunnableMonth, SchedulerIteratorFactory.create(scheduleMonth));
+			// Get the resetted counter back
+			specmate_current_month = ((MetricTask) metricRunnableMonth).getGauge();
+			
+			// Each minute at 00:00:05
+			String scheduleYear = "minute 8";
+			SchedulerTask metricRunnableYear = new MetricTask(CounterType.CURRENTYEAR, specmate_current_year, sessionView);
+			metricRunnableYear.run();
+			Scheduler schedulerYear = new Scheduler();
+			schedulerYear.schedule(metricRunnableYear, SchedulerIteratorFactory.create(scheduleYear));
+			// Get the resetted counter back
+			specmate_current_year = ((MetricTask) metricRunnableYear).getGauge();
 		} catch (SpecmateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	
 	public void loginCounter(IView sessionView, String userName) {
 		// Increment the different counters
 		if (isNewUserCurrentDay(sessionView, userName)) {
-			
+			specmate_current_day.inc();
 		}
 		if (isNewUserCurrentWeek(sessionView, userName)) {
-			
+			specmate_current_week.inc();
 		}
 		if (isNewUserCurrentMonth(sessionView, userName)) {
-			
+			specmate_current_month.inc();
 		}
 		if (isNewUserCurrentYear(sessionView, userName)) {
-			
+			specmate_current_year.inc();
 		}
 	}
 	/**
@@ -88,51 +151,36 @@ public class UserMetricService {
 	}
 	
 	private boolean isNewUserCurrentDay(IView sessionView, String userName) {
-		long oneDay = 1000*60*60*24;
-		long now = new Date().getTime();
-		long difference = now - oneDay;
+		long difference = TimeUtil.getDiffDay();
 		
 		return isNewUser(sessionView, userName, difference);
 	}
 	
 	private boolean isNewUserCurrentWeek(IView sessionView, String userName) {
-		long oneWeek = 1000*60*60*24*7;
-		long now = new Date().getTime();
-		long difference = now - oneWeek;
+		long difference = TimeUtil.getDiffWeek();
 		
 		return isNewUser(sessionView, userName, difference);
 	}
 	
 	private boolean isNewUserCurrentMonth(IView sessionView, String userName) {
-		// TODO: depending on the month we need to multiply with either 30 or 31 or 28 
-		int daysInCurrentMonth = getDaysInMonth();
-		long oneMonth = 1000*60*60*24*7*daysInCurrentMonth;
-		long now = new Date().getTime();
-		long difference = now - oneMonth;
+		long difference = TimeUtil.getDiffMonth();
 		
 		return isNewUser(sessionView, userName, difference);
 	}
 	
 	private boolean isNewUserCurrentYear(IView sessionView, String userName) {
-		int daysInCurrentMonth = getDaysInMonth();
-		int daysInCurrentYear = getDaysInYear();
-		long oneYear = 1000*60*60*24*7*daysInCurrentMonth*daysInCurrentYear;
-		long now = new Date().getTime();
-		long difference = now - oneYear;
+		long difference = TimeUtil.getDiffYear(); 
 		
 		return isNewUser(sessionView, userName, difference);
 	}
 	
-	private int getDaysInMonth() {
-		Calendar c = Calendar.getInstance();
-		c.setTime(new Date());
-		return c.getActualMaximum(Calendar.DAY_OF_MONTH);
-	}
-	
-	private int getDaysInYear() {
-		Calendar c = Calendar.getInstance();
-		c.setTime(new Date());
-		return c.getActualMaximum(Calendar.DAY_OF_YEAR);
+	@Reference
+	public void setMetricsService(IMetricsService metricsService) {
+		this.metricsService = metricsService;
 	}
 
+	@Reference 
+	public void setPersistencyService(IPersistencyService persistencyService) {
+		this.persistencyService = persistencyService;
+	}
 }
