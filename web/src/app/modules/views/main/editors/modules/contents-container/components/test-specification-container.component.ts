@@ -34,7 +34,7 @@ export class TestSpecificationContainer extends ContentContainerBase<TestSpecifi
         super(dataService, navigator, translate, modal, clipboardService);
 
         contentService.onModelDeleted.subscribe(
-            () => this.readContents());
+            () => {this.readContents()});
     }
 
     protected condition = (element: IContainer) => Type.is(element, TestSpecification);

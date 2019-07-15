@@ -28,8 +28,8 @@ export abstract class TestSpecificationContentContainerBase<T extends IContainer
 
     public async delete(element: T,
         message: string = this.translate.instant('doYouReallyWantToDelete', { name: element.name })): Promise<void> {
-        super.delete(element, message);
-        this.contentService.isDeleted();
+        await super.delete(element, message);
+        await this.contentService.isDeleted();
     }
 
 }
