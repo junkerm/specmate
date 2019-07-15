@@ -242,6 +242,7 @@
 		"errorDublicateNode": "Doppelter Knoten.",
 		"errorEmptyModel": "Das Modell ist leer.",
 		"errorInvalidName": "Unerlaubtes Zeichen im Namen.",
+		"errorInvalidVariable": "Ungültiger Variablenname: ungültige Zeichen: , ; |",
 		"errorMissingCondition": "Fehlende Bedingung.",
 		"errorMissingFields": "Fehlende Felder: {{fields}}",
 		"errorNoEndNode": "Kein Endknoten.",

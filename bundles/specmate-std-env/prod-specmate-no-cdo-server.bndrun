@@ -203,7 +203,8 @@
 	org.eclipse.xtext.util;version='[2.10.0,2.10.1)',\
 	org.eclipse.xtext.xbase.lib;version='[2.10.0,2.10.1)',\
 	specmate-cause-effect-patterns;version=snapshot,\
-	jaxb-api;version='[2.3.1,2.3.2)'
+	jaxb-api;version='[2.3.1,2.3.2)',\
+	specmate-xtext;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8080,\

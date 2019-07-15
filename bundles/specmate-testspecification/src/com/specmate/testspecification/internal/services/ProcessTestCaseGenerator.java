@@ -73,7 +73,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 	protected void generateTestCases() throws SpecmateException {
 		List<GraphPath<IModelNode, ProcessConnection>> allPaths = getAllPaths();
 		List<GraphPath<IModelNode, ProcessConnection>> filteredPaths = filterDuplicatePaths(allPaths);
-		List<NodeEvaluation> evaluations = computeEvaluations(filteredPaths);
+		List<ProcessNodeEvaluation> evaluations = computeEvaluations(filteredPaths);
 		createTestCases(evaluations, filteredPaths);
 	}
 
@@ -107,10 +107,10 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		return filteredPaths;
 	}
 
-	private void createTestCases(List<NodeEvaluation> evaluations,
+	private void createTestCases(List<ProcessNodeEvaluation> evaluations,
 			List<GraphPath<IModelNode, ProcessConnection>> paths) {
 		for (int i = 0; i < evaluations.size(); i++) {
-			NodeEvaluation evaluation = evaluations.get(i);
+			ProcessNodeEvaluation evaluation = evaluations.get(i);
 			GraphPath<IModelNode, ProcessConnection> path = paths.get(i);
 			TestCase testCase = createTestCase(evaluation, this.specification);
 			testCase.setConsistent(true);
@@ -202,10 +202,10 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		procedure.getContents().add(testStep);
 	}
 
-	private List<NodeEvaluation> computeEvaluations(List<GraphPath<IModelNode, ProcessConnection>> allPaths) {
-		List<NodeEvaluation> evaluations = new ArrayList<>();
+	private List<ProcessNodeEvaluation> computeEvaluations(List<GraphPath<IModelNode, ProcessConnection>> allPaths) {
+		List<ProcessNodeEvaluation> evaluations = new ArrayList<>();
 		for (GraphPath<IModelNode, ProcessConnection> path : allPaths) {
-			NodeEvaluation evaluation = new NodeEvaluation();
+			ProcessNodeEvaluation evaluation = new ProcessNodeEvaluation();
 			Set<IModelNode> decisions = path.getVertexList().stream()
 					.filter((IModelNode node) -> node instanceof ProcessDecision).collect(Collectors.toSet());
 			for (IModelNode decision : decisions) {
@@ -220,7 +220,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		return evaluations;
 	}
 
-	private TestCase createTestCase(NodeEvaluation evaluation, TestSpecification specification) {
+	private TestCase createTestCase(ProcessNodeEvaluation evaluation, TestSpecification specification) {
 		TestCase testCase = super.createTestCase(specification);
 
 		List<TestParameter> parameters = SpecmateEcoreUtil.pickInstancesOf(specification.getContents(),
