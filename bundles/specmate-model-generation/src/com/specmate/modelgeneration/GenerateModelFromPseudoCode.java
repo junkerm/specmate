@@ -1,12 +1,7 @@
 package com.specmate.modelgeneration;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.eclipse.emf.common.util.URI;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
 
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.common.exception.SpecmateInternalException;
@@ -40,7 +35,8 @@ public class GenerateModelFromPseudoCode implements ICEGFromRequirementGenerator
 		try {
 			rules = new BusinessRuleUtil().parseXTextResource(text);
 		} catch (XTextException e) {
-			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "...");
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM,
+					"Unfortunately, the XText parsing of your inserted pseudo code went wrong." + e.getMessage());
 		}
 
 		BusinessRuleNode rule = rules.get(0);
@@ -107,6 +103,14 @@ public class GenerateModelFromPseudoCode implements ICEGFromRequirementGenerator
 			// RootCause contains all causes of a rule.
 			ObjectifNode rootCause = rule.getCause();
 			List<ObjectifNode> effects = new ArrayList<ObjectifNode>();
+			List<ObjectifNode> alternativeEffects = new ArrayList<ObjectifNode>();
+			
+			identifyEffects(rootEffect, effects);
+
+			if (rule.hasAlternative()) {
+				rootEffect = rule.getAlternative();
+				identifyEffects(rootEffect, alternativeEffects);
+			}
 
 			// 1. Case = The rule contains only one cause. This is the case if the rootCause
 			// is a "LiteralNode".
@@ -118,13 +122,25 @@ public class GenerateModelFromPseudoCode implements ICEGFromRequirementGenerator
 
 				creation.createConnection(model, cegNode, cegNodeBR, false);
 				// Search for effects of the rule.
-				identifyEffects(rootEffect, effects);
+				//identifyEffects(rootEffect, effects);
+
+//				if (rule.hasAlternative()) {
+//					rootEffect = rule.getAlternative();
+//					identifyEffects(rootEffect, alternativeEffects);
+//				}
 
 				// Connect the rule node with all identified effects.
 				for (ObjectifNode effect : effects) {
 					CEGNode cegNodeEffect = creation.createNode(model, ((LiteralNode) effect).getContent(),
 							"is present", 0, 0, null);
 					creation.createConnection(model, cegNodeBR, cegNodeEffect, false);
+				}
+
+				// Connect the rule node with its alternative effects
+				for (ObjectifNode effect : alternativeEffects) {
+					CEGNode cegNodeEffect = creation.createNode(model, ((LiteralNode) effect).getContent(),
+							"is present", 0, 0, null);
+					creation.createConnection(model, cegNodeBR, cegNodeEffect, true);
 				}
 			} else {
 
@@ -134,25 +150,30 @@ public class GenerateModelFromPseudoCode implements ICEGFromRequirementGenerator
 				List<ObjectifNode> singleOrCauses = new ArrayList<ObjectifNode>();
 
 				identifyCauses(rootCause, singleOrCauses, andCausesGroups);
-				identifyEffects(rootEffect, effects);
+				//identifyEffects(rootEffect, effects);
 
 				if (nesting == false) {
 					connectCausesToBR(cegNodeBR, singleOrCauses, andCausesGroups, model);
 				} else {
 					connectCausesToNestedBR(cegNodeBR, singleOrCauses, andCausesGroups, model);
 				}
-				connectBRToEffects(cegNodeBR, effects, model);
+				connectBRToEffects(cegNodeBR, effects, alternativeEffects, model);
 			}
 		}
 		return model;
 	}
 
-	private void connectBRToEffects(CEGNode cegNodeBR, List<ObjectifNode> effects, CEGModel model) {
+	private void connectBRToEffects(CEGNode cegNodeBR, List<ObjectifNode> effects,
+			List<ObjectifNode> alternativeEffects, CEGModel model) {
 		// Iterate over all effects and connect the business rule node with these
 		// effects.
 		for (ObjectifNode effect : effects) {
 			CEGNode cegNode = creation.createNode(model, ((LiteralNode) effect).getContent(), "is present", 0, 0, null);
 			creation.createConnection(model, cegNodeBR, cegNode, false);
+		}
+		for (ObjectifNode effect : alternativeEffects) {
+			CEGNode cegNode = creation.createNode(model, ((LiteralNode) effect).getContent(), "is present", 0, 0, null);
+			creation.createConnection(model, cegNodeBR, cegNode, true);
 		}
 	}
 
@@ -263,12 +284,10 @@ public class GenerateModelFromPseudoCode implements ICEGFromRequirementGenerator
 			}
 
 			if (rootEffect.getLeft() instanceof AndNode) {
-				// wiederholt aufrufen aber mit geupdateter root cause
 				connectAndCauses(rootEffect.getLeft(), effects);
 			}
 
 			if (rootEffect.getRight() instanceof AndNode) {
-				// wiederholt aufrufen aber mit geupdateter root cause
 				connectAndCauses(rootEffect.getRight(), effects);
 			}
 		}
@@ -355,16 +374,5 @@ public class GenerateModelFromPseudoCode implements ICEGFromRequirementGenerator
 			// This is the case if the rule consists of only one cause.
 			orCauses.add(rootCause);
 		}
-	}
-
-	// Method that loads all rules from a local file.
-	private List<BusinessRuleNode> loadRules(String mainFile) throws URISyntaxException, XTextException {
-		URI main = getLocalFile(mainFile);
-		return new BusinessRuleUtil().loadXTextResources(main);
-	}
-
-	private URI getLocalFile(String fileName) throws URISyntaxException {
-		Bundle bundle = FrameworkUtil.getBundle(GenerateModelFromRequirementService.class);
-		return URI.createURI(bundle.getResource(fileName).toURI().toString());
 	}
 }

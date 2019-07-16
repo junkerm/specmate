@@ -22,7 +22,7 @@ public class ObjectifTest {
 	@Test
 	public void testLoadRules() throws URISyntaxException, XTextException {
 		List<BusinessRuleNode> rules = loadRules("/resources/test_rules.objectif");
-		Assert.assertTrue(rules.size() == 4);
+		Assert.assertTrue(rules.size() == 5);
 	}
 	
 	@Test
@@ -37,7 +37,7 @@ public class ObjectifTest {
 		Assert.assertTrue(causeA instanceof LiteralNode);
 		Assert.assertTrue(((LiteralNode)causeA).getContent().equals("A=5"));
 		Assert.assertTrue(causeB instanceof LiteralNode);
-		Assert.assertTrue(((LiteralNode)causeB).getContent().equals("B=3"));
+		Assert.assertTrue(((LiteralNode)causeB).getContent().equals("X=9"));
 		
 		ObjectifNode effect = rule.getEffect();
 		Assert.assertTrue(effect instanceof LiteralNode);
@@ -100,6 +100,32 @@ public class ObjectifTest {
 		ObjectifNode alternative = rule.getAlternative();
 		Assert.assertTrue(alternative instanceof LiteralNode);
 		Assert.assertTrue(((LiteralNode)alternative).getContent().equals("C=2"));
+	}
+	
+	@Test
+	public void testAlternativeCombinedWithNesting() throws URISyntaxException, XTextException {
+		List<BusinessRuleNode> rules = loadRules("/resources/test_rules.objectif");
+		BusinessRuleNode rule = rules.get(4);
+		ObjectifNode cause = rule.getCause();
+		Assert.assertTrue(cause instanceof LiteralNode);
+		Assert.assertTrue(((LiteralNode)cause).getContent().equals("A=1"));
+		ObjectifNode effect = rule.getEffect();
+		Assert.assertTrue(effect instanceof BusinessRuleNode);
+		BusinessRuleNode ruleB = (BusinessRuleNode) effect; 
+		
+		ObjectifNode causeB = ruleB.getCause();
+		Assert.assertTrue(causeB instanceof LiteralNode);
+		Assert.assertTrue(((LiteralNode)causeB).getContent().equals("B=1"));
+		
+		ObjectifNode effectB = ruleB.getEffect();
+		Assert.assertTrue(effectB instanceof LiteralNode);
+		Assert.assertTrue(((LiteralNode)effectB).getContent().equals("C=1"));
+		
+		Assert.assertTrue(ruleB.hasAlternative());
+		ObjectifNode alternative = ruleB.getAlternative();
+		Assert.assertTrue(alternative instanceof LiteralNode);
+		Assert.assertTrue(((LiteralNode)alternative).getContent().equals("C=2"));
+		
 	}
 	
 	private List<BusinessRuleNode> loadRules(String mainFile) throws URISyntaxException, XTextException {

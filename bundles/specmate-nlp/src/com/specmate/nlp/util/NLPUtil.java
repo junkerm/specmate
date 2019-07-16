@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -242,7 +243,9 @@ public class NLPUtil {
 	private static String DE_Pattern = "\\b(der|die|das|ein|eine|einen)\\b";
 	
 	public static ELanguage detectLanguage(String text) {
-		if (text.matches(".*WENN.*ENDE-WENN.*")) {
+		Pattern pattern= Pattern.compile(".*WENN.*ENDE-WENN.*", Pattern.DOTALL);
+		
+		if (pattern.matcher(text).matches()) {
 			return ELanguage.PSEUDO;
 		}		
 		if (text.matches("(?i)(.*)"+DE_Pattern+"(.*)")) {
