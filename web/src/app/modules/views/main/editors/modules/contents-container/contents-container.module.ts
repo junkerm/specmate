@@ -15,6 +15,7 @@ import { ProcessModelContainer } from './components/process-model-container.comp
 import { RelatedRequirementsContainer } from './components/related-requirements-container.component';
 import { TestSpecificationContainer } from './components/test-specification-container.component';
 import { FormsModule } from '@angular/forms';
+import { ContentsContainerService } from './services/content-container.service';
 
 @NgModule({
     imports: [
@@ -31,6 +32,6 @@ import { FormsModule } from '@angular/forms';
     ],
     exports: [CEGModelContainer, ProcessModelContainer, TestSpecificationContainer, RelatedRequirementsContainer, FolderContainer],
     declarations: [CEGModelContainer, ProcessModelContainer, TestSpecificationContainer, RelatedRequirementsContainer, FolderContainer],
-    providers: [],
+    providers: [ContentsContainerService],
 })
 export class ContentsContainerModule { }

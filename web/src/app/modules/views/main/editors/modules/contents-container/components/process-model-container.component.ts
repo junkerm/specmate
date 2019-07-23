@@ -12,6 +12,7 @@ import { ConfirmationModal } from '../../../../../../notification/modules/modals
 import { AdditionalInformationService } from '../../../../../side/modules/links-actions/services/additional-information.service';
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
 import { TestSpecificationContentContainerBase } from '../base/testspecification-generatable-content-container-base';
+import { ContentsContainerService } from '../services/content-container.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -27,8 +28,9 @@ export class ProcessModelContainer extends TestSpecificationContentContainerBase
         translate: TranslateService,
         modal: ConfirmationModal,
         additionalInformationService: AdditionalInformationService,
+        contentService: ContentsContainerService,
         clipboardService: ClipboardService) {
-        super(dataService, navigator, translate, modal, clipboardService, additionalInformationService);
+        super(dataService, navigator, translate, modal, clipboardService, contentService, additionalInformationService);
     }
 
     protected condition = (element: IContainer) => Type.is(element, Process);
@@ -38,4 +40,5 @@ export class ProcessModelContainer extends TestSpecificationContentContainerBase
         const element = await factory.create(this.parent, true, Id.uuid, name);
         return element as Process;
     }
+
 }
