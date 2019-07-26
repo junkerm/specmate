@@ -12,15 +12,15 @@ import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestSpecificationSkeleton;
 import com.specmate.model.testspecification.TestspecificationFactory;
-import com.specmate.testspecification.internal.testskeleton.CSVTestSpecificationSkeleton;
-import com.specmate.testspecification.internal.testskeleton.JavaTestSpecificationSkeleton;
+import com.specmate.testspecification.internal.exporters.CSVTestSpecificationExporter;
+import com.specmate.testspecification.internal.exporters.JavaTestSpecificationExporter;
 
 public class TestSkeletonTest {
 	@Test
 	public void testJavaSkeleton() {
 		TestSpecification ts = getTestSpecification();
 
-		JavaTestSpecificationSkeleton skel = new JavaTestSpecificationSkeleton("JAVA");
+		JavaTestSpecificationExporter skel = new JavaTestSpecificationExporter();
 		TestSpecificationSkeleton result = skel.generate(ts);
 		String code = result.getCode();
 
@@ -32,7 +32,7 @@ public class TestSkeletonTest {
 	public void testCSVSkeleton() {
 		TestSpecification ts = getTestSpecification();
 
-		CSVTestSpecificationSkeleton skel = new CSVTestSpecificationSkeleton("CSV");
+		CSVTestSpecificationExporter skel = new CSVTestSpecificationExporter();
 		TestSpecificationSkeleton result = skel.generate(ts);
 		String code = result.getCode();
 		

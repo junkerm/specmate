@@ -1,4 +1,4 @@
-package com.specmate.testspecification.internal.services;
+package com.specmate.testspecification.internal.generators;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,7 +51,7 @@ import com.specmate.model.testspecification.TestCase;
 import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestspecificationFactory;
-import com.specmate.testspecification.internal.services.TaggedBoolean.ETag;
+import com.specmate.testspecification.internal.generators.TaggedBoolean.ETag;
 
 public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNode> {
 	

@@ -1,16 +1,21 @@
-package com.specmate.testspecification.internal.testskeleton;
+package com.specmate.testspecification.internal.exporters;
 
 import java.util.List;
+
+import org.osgi.service.component.annotations.Component;
 
 import com.specmate.model.testspecification.ParameterAssignment;
 import com.specmate.model.testspecification.TestCase;
 import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestSpecification;
+import com.specmate.testspecification.api.ITestSpecificationExporter;
 
-public class JavaTestSpecificationSkeleton extends BaseSkeleton {
+/** Exports a test specification to java */
+@Component(immediate = true, service = ITestSpecificationExporter.class)
+public class JavaTestSpecificationExporter extends TestSpecificationExporterBase {
 
-	public JavaTestSpecificationSkeleton(String language) {
-		super(language);
+	public JavaTestSpecificationExporter() {
+		super("java");
 	}
 
 	@Override

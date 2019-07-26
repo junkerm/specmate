@@ -1,4 +1,4 @@
-package com.specmate.testspecification.internal.services;
+package com.specmate.testspecification.internal.generators;
 
 import java.util.Comparator;
 import java.util.Iterator;
