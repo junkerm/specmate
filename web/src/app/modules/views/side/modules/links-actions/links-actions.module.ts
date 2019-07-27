@@ -4,7 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { CegModelGeneratorButtonModule } from '../../../../actions/modules/ceg-model-generator-button/ceg-model-generator-button.module';
 import { ExportTestprocedureButtonModule } from '../../../../actions/modules/export-testprocedure-button/export-testprocedure-button.module';
-import { GetTestSpecificationSkeletonButtonModule } from '../../../../actions/modules/get-test-specification-skeleton-button/get-test-specification-skeleton-button.module';
+import { TestExportButtonModule } from '../../../../actions/modules/test-export-button/test-export-button.module';
 import { TestSpecificationGeneratorButtonModule } from '../../../../actions/modules/test-specification-generator-button/test-specification-generator-button.module';
 import { NavigatorModule } from '../../../../navigation/modules/navigator/navigator.module';
 import { SpecmateSharedModule } from '../../../../specmate/specmate.shared.module';
@@ -19,7 +19,7 @@ import { AdditionalInformationService } from './services/additional-information.
     NavigatorModule,
     TestSpecificationGeneratorButtonModule,
     ExportTestprocedureButtonModule,
-    GetTestSpecificationSkeletonButtonModule,
+    TestExportButtonModule,
     SpecmateSharedModule,
     TranslateModule,
     CegModelGeneratorButtonModule,

@@ -1,5 +1,7 @@
 package com.specmate.testspecification.internal.exporters;
 
+import static com.specmate.testspecification.internal.exporters.ExportUtil.replaceInvalidChars;
+
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -10,16 +12,11 @@ import com.specmate.model.testspecification.ParameterAssignment;
 import com.specmate.model.testspecification.TestCase;
 import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestSpecification;
-import com.specmate.testspecification.api.ITestSpecificationExporter;
+import com.specmate.testspecification.api.ITestExporter;
 
 /** Exports a test specification as CSV */
-@Component(immediate = true, service = ITestSpecificationExporter.class)
+@Component(immediate = true, service = ITestExporter.class)
 public class CSVTestSpecificationExporter extends TestSpecificationExporterBase {
-
-	/** Char to wrap text fields in */
-	private static final String TEXT_WRAP = "\"";
-	/** Char to separate columns */
-	private static final String COL_SEP = ";";
 
 	public CSVTestSpecificationExporter() {
 		super("csv");
@@ -28,12 +25,13 @@ public class CSVTestSpecificationExporter extends TestSpecificationExporterBase 
 	@Override
 	protected void generateHeader(StringBuilder sb, TestSpecification testSpecification2,
 			List<TestParameter> parameters) {
-		StringJoiner joiner = new StringJoiner(COL_SEP);
+		StringJoiner joiner = new StringJoiner(ExportUtil.CSV_COL_SEP);
 		joiner.add("\"TC\"");
 		for (TestParameter param : parameters) {
-			joiner.add(StringUtils.wrap(param.getType().toString() + " - " + param.getName(), TEXT_WRAP));
+			joiner.add(
+					StringUtils.wrap(param.getType().toString() + " - " + param.getName(), ExportUtil.CSV_TEXT_WRAP));
 		}
-		sb.append(joiner).append("\n");
+		sb.append(joiner).append(ExportUtil.CSV_LINE_SEP);
 	}
 
 	@Override
@@ -43,23 +41,23 @@ public class CSVTestSpecificationExporter extends TestSpecificationExporterBase 
 
 	@Override
 	protected void generateTestCaseFooter(StringBuilder sb, TestCase tc) {
-		sb.append("\n");
+		sb.append(ExportUtil.CSV_LINE_SEP);
 	}
 
 	@Override
 	protected void generateTestCaseHeader(StringBuilder sb, TestSpecification ts, TestCase tc) {
-		sb.append(tc.getName() + COL_SEP);
+		sb.append(tc.getName() + ExportUtil.CSV_COL_SEP);
 	}
 
 	@Override
 	protected void generateTestCaseParameterAssignments(StringBuilder sb, List<ParameterAssignment> assignments) {
-		StringJoiner joiner = new StringJoiner(COL_SEP);
+		StringJoiner joiner = new StringJoiner(ExportUtil.CSV_COL_SEP);
 		for (ParameterAssignment assignment : assignments) {
 			String assignmentValue = assignment.getCondition();
 			String characterToEscape = "=";
 			String escapeString = StringUtils.isEmpty(assignmentValue) ? ""
 					: escapeString(assignmentValue, characterToEscape);
-			joiner.add(StringUtils.wrap(escapeString + assignmentValue, TEXT_WRAP));
+			joiner.add(StringUtils.wrap(escapeString + assignmentValue, ExportUtil.CSV_TEXT_WRAP));
 		}
 		sb.append(joiner.toString());
 	}

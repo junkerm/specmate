@@ -128,6 +128,7 @@
 	"elementCouldNotBeUpdated": "Could nto update element",
 	"errorLoggedOut": "You were logged out due to an unknown error.",
 	"expand": "",
+	"exportAlm": "Export to ALM",
 	"exportTestprocedure": "Export test procedure",
 	"exportTestspecification": "Export test specification",
 	"failed": "Failed",

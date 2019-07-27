@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { SpecmateSharedModule } from '../../../specmate/specmate.shared.module';
-import { GetTestSpecificationSkeletonButton } from './components/get-test-specification-skeleton-button.component';
+import { TestExportButton } from './components/test-export-button.component';
 
 @NgModule({
   imports: [
@@ -11,11 +11,11 @@ import { GetTestSpecificationSkeletonButton } from './components/get-test-specif
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
-    GetTestSpecificationSkeletonButton
+   TestExportButton
   ],
   exports: [
     // THE COMPONENTS VISIBLE TO THE OUTSIDE
-    GetTestSpecificationSkeletonButton
+    TestExportButton
   ],
   providers: [
     // SERVICES
@@ -25,4 +25,4 @@ import { GetTestSpecificationSkeletonButton } from './components/get-test-specif
   ]
 })
 
-export class GetTestSpecificationSkeletonButtonModule { }
+export class TestExportButtonModule { }

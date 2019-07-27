@@ -19,16 +19,18 @@ import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.metrics.ICounter;
 import com.specmate.metrics.IMetricsService;
+import com.specmate.model.testspecification.TestProcedure;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestSpecificationSkeleton;
 import com.specmate.rest.RestResult;
-import com.specmate.testspecification.api.ITestSpecificationExporter;
+import com.specmate.testspecification.api.ITestExporter;
 
 /** Service that exports a test specification in various formats */
 @Component(immediate = true, service = IRestService.class)
-public class TestSpecificationExportService extends RestServiceBase {
-	private final String LPARAM = "language";
-	private Map<String, ITestSpecificationExporter> exporters = new HashMap<String, ITestSpecificationExporter>();
+public class TestExportService extends RestServiceBase {
+	private final String LANGUAGE_PARAM = "language";
+	private Map<String, ITestExporter> testSpecificationExporters = new HashMap<String, ITestExporter>();
+	private Map<String, ITestExporter> testProcedureExporters = new HashMap<String, ITestExporter>();
 	private IMetricsService metricsService;
 	private ICounter exportCounter;
 	private LogService logService;
@@ -40,38 +42,33 @@ public class TestSpecificationExportService extends RestServiceBase {
 
 	@Override
 	public String getServiceName() {
-		return "generateTestSkeleton";
+		return "export";
 	}
 
 	@Override
 	public boolean canGet(Object object) {
-		return object instanceof TestSpecification;
+		return (object instanceof TestSpecification) || (object instanceof TestProcedure);
 	}
 
 	@Override
 	public RestResult<?> get(Object object, MultivaluedMap<String, String> queryParams, String token)
 			throws SpecmateException {
 
-		String language = queryParams.getFirst(LPARAM);
+		String language = queryParams.getFirst(LANGUAGE_PARAM);
 		if (language == null) {
-			throw new SpecmateValidationException("Language for test skeleton not specified.");
+			throw new SpecmateValidationException("Language for export not specified.");
 		}
-
-		ITestSpecificationExporter generator = exporters.get(language);
+		ITestExporter generator = null;
+		if (object instanceof TestSpecification) {
+			generator = testSpecificationExporters.get(language);
+		} else if (object instanceof TestProcedure) {
+			generator = testProcedureExporters.get(language);
+		}
 		if (generator == null) {
 			throw new SpecmateValidationException("Generator for langauge " + language + " does not exist.");
 		}
-
-		if (!(object instanceof TestSpecification)) {
-			throw new SpecmateValidationException(
-					"Cannot generate test skeleton for object of type " + object.getClass().getName());
-		}
-
-		TestSpecification ts = (TestSpecification) object;
-
 		exportCounter.inc();
-
-		return new RestResult<TestSpecificationSkeleton>(Response.Status.OK, generator.generate(ts));
+		return new RestResult<TestSpecificationSkeleton>(Response.Status.OK, generator.generate(object));
 	}
 
 	@Reference
@@ -85,18 +82,27 @@ public class TestSpecificationExportService extends RestServiceBase {
 	}
 
 	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
-	public void addTestSpecificationExporter(ITestSpecificationExporter exporter) {
-		if (exporters.containsKey(exporter.getLanguage())) {
-			logService.log(LogService.LOG_WARNING, "Test specification exporter for langugae " + exporter.getLanguage()
-					+ " already exists. Ignoring: " + exporter.getClass().getName());
+	public void addTestSpecificationExporter(ITestExporter exporter) {
+		if (exporter.canExportTestProcedure()) {
+			addToExporterCollection(exporter, testProcedureExporters);
 		}
-		exporters.put(exporter.getLanguage(), exporter);
+		if (exporter.canExportTestSpecification()) {
+			addToExporterCollection(exporter, testSpecificationExporters);
+		}
 	}
 
-	public void removeTestSpecificationExporter(ITestSpecificationExporter exporter) {
-		ITestSpecificationExporter existing = exporters.get(exporter.getLanguage());
+	public void removeTestSpecificationExporter(ITestExporter exporter) {
+		ITestExporter existing = testSpecificationExporters.get(exporter.getLanguage());
 		if (existing == exporter) {
-			exporters.remove(exporter.getLanguage());
+			testSpecificationExporters.remove(exporter.getLanguage());
 		}
+	}
+
+	private void addToExporterCollection(ITestExporter exporter, Map<String, ITestExporter> exporterMap) {
+		if (exporterMap.containsKey(exporter.getLanguage())) {
+			logService.log(LogService.LOG_WARNING, "Test exporter for langugae " + exporter.getLanguage()
+					+ " already exists. Ignoring: " + exporter.getClass().getName());
+		}
+		exporterMap.put(exporter.getLanguage(), exporter);
 	}
 }

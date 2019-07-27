@@ -15,7 +15,7 @@ import com.specmate.model.testspecification.TestspecificationFactory;
 import com.specmate.testspecification.internal.exporters.CSVTestSpecificationExporter;
 import com.specmate.testspecification.internal.exporters.JavaTestSpecificationExporter;
 
-public class TestSkeletonTest {
+public class TestExportTest {
 	@Test
 	public void testJavaSkeleton() {
 		TestSpecification ts = getTestSpecification();
