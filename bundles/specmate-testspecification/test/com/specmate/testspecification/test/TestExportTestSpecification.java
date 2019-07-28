@@ -14,10 +14,11 @@ import com.specmate.model.testspecification.TestSpecificationSkeleton;
 import com.specmate.model.testspecification.TestspecificationFactory;
 import com.specmate.testspecification.internal.exporters.CSVTestSpecificationExporter;
 import com.specmate.testspecification.internal.exporters.JavaTestSpecificationExporter;
+import com.specmate.testspecification.internal.exporters.JavascriptTestSpecificationExporter;
 
-public class TestExportTest {
+public class TestExportTestSpecification {
 	@Test
-	public void testJavaSkeleton() {
+	public void testJavaExport() {
 		TestSpecification ts = getTestSpecification();
 
 		JavaTestSpecificationExporter skel = new JavaTestSpecificationExporter();
@@ -27,15 +28,29 @@ public class TestExportTest {
 		Assert.assertTrue(code.contains("public void TSTest___in1__in11___in2_____out1__out11___out2__out12()"));
 		Assert.assertTrue(code.contains("public void TSTest___in1__in21___in2__in22___out1__out21___out2__out22()"));
 	}
-	
+
 	@Test
-	public void testCSVSkeleton() {
+	public void testJavascriptExport() {
+		TestSpecification ts = getTestSpecification();
+
+		JavascriptTestSpecificationExporter skel = new JavascriptTestSpecificationExporter();
+		TestSpecificationSkeleton result = skel.generate(ts);
+		String code = result.getCode();
+
+		Assert.assertTrue(code.contains("	it('TS___in1__in11___in2_____out1__out11___out2__out12', () => {\n"
+				+ "		throw new Error('not implemented yet');\n" + "	});"));
+		Assert.assertTrue(code.contains("it('TS___in1__in21___in2__in22___out1__out21___out2__out22', () => {\n"
+				+ "		throw new Error('not implemented yet');\n" + "	});"));
+	}
+
+	@Test
+	public void testCSVExport() {
 		TestSpecification ts = getTestSpecification();
 
 		CSVTestSpecificationExporter skel = new CSVTestSpecificationExporter();
 		TestSpecificationSkeleton result = skel.generate(ts);
 		String code = result.getCode();
-		
+
 		Assert.assertTrue(code.contains("\"TC\";\"INPUT - in1\";\"INPUT - in2\";\"OUTPUT - out1\";\"OUTPUT - out2\""));
 		Assert.assertTrue(code.contains("tc1;\"in11\";;\"out11\";\"out12\""));
 		Assert.assertTrue(code.contains("tc2;\"in21\";\"in22\";\"out21\";\"out22\""));
@@ -77,7 +92,7 @@ public class TestExportTest {
 		assIn11.setParameter(input1);
 		assIn11.setCondition("in11");
 
-		//empty input assignment
+		// empty input assignment
 		ParameterAssignment assIn12 = f.createParameterAssignment();
 		assIn12.setParameter(input2);
 		assIn12.setCondition("");
