@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Folder } from '../../../../../model/Folder';
+import { TranslateService } from '@ngx-translate/core';
 import { IContainer } from '../../../../../model/IContainer';
 import { FieldMetaItem, MetaInfo } from '../../../../../model/meta/field-meta';
-import { Type } from '../../../../../util/type';
 import { ElementValidatorBase } from '../../../../../validation/element-validator-base';
 import { RequiredFieldsValidator } from '../../../../../validation/required-fields-validator';
 import { TextLengthValidator } from '../../../../../validation/text-length-validator';
 import { ValidNameValidator } from '../../../../../validation/valid-name-validator';
-import { ValidationErrorSeverity } from '../../../../../validation/validation-error-severity';
 import { ValidationResult } from '../../../../../validation/validation-result';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
-import { ValidationCache } from '../util/validation-cache';
+import { ValidationCache, ValidationPair } from '../util/validation-cache';
+import { ValidationErrorSeverity } from '../../../../../validation/validation-error-severity';
 
 @Injectable()
 export class ValidationService {
@@ -20,13 +18,12 @@ export class ValidationService {
     private validNameValidator: ValidNameValidator = new ValidNameValidator();
     private textLengthValidator: TextLengthValidator = new TextLengthValidator();
 
-    constructor(private navigator: NavigatorService, private dataService: SpecmateDataService) {
-        this.validationCache = new ValidationCache();
-        // dataService.elementChanged.subscribe(() => this.validateCurrent());
+    constructor(private navigator: NavigatorService, translate: TranslateService) {
+        this.validationCache = new ValidationCache(translate);
         navigator.hasNavigated.subscribe(() => this.validateCurrent());
     }
 
-    public getValidationResults(parentElement: IContainer): ValidationResult[] {
+    public getValidationResults(parentElement: IContainer): ValidationPair[] {
         return parentElement ? this.validationCache.getValidationResults(parentElement.url) : [];
     }
 
@@ -34,7 +31,7 @@ export class ValidationService {
 
     private static elementValidators: { [className: string]: ElementValidatorBase<IContainer>[] };
 
-    public validate(element: IContainer, contents: IContainer[] = []): ValidationResult[] {
+    public validate(element: IContainer, contents: IContainer[] = []): ValidationPair[] {
         return this.validateElement(element).concat(this.validateAll(contents));
     }
 
@@ -42,20 +39,19 @@ export class ValidationService {
         const element = this.navigator.currentElement;
         const contents = await this.navigator.currentContents;
         this.refreshValidation(element, contents);
-
     }
 
-    private validateElement(element: IContainer): ValidationResult[] {
+    private validateElement(element: IContainer): ValidationPair[] {
         if (element === undefined) {
             return [];
         }
         return this.validationCache.getValidationResults(element.url);
     }
 
-    private validateAll(elements: IContainer[]): ValidationResult[] {
+    private validateAll(elements: IContainer[]): ValidationPair[] {
         return elements
             .map((element: IContainer) => this.validateElement(element))
-            .reduce((a: ValidationResult[], b: ValidationResult[]) => a.concat(b), []);
+            .reduce((a: ValidationPair[], b: ValidationPair[]) => a.concat(b), []);
     }
 
     public async refreshValidation(element: IContainer, contents: IContainer[] = [], clear = true): Promise<void> {
@@ -74,6 +70,11 @@ export class ValidationService {
         this.validationCache.addValidationResultsToCache(elementResults);
     }
 
+    public get currentSeverities(): ValidationErrorSeverity[] {
+        return this.validate(this.navigator.currentElement, this.navigator.currentContents)
+            .map(validationResult => validationResult.severity);
+    }
+
     public isValid(element: IContainer): boolean {
         const isValid = this.validationCache.isValid(element.url);
         return isValid;
@@ -81,22 +82,6 @@ export class ValidationService {
 
     public get currentValid(): boolean {
         return this.isValid(this.navigator.currentElement);
-    }
-
-    public get currentSeverities(): ValidationErrorSeverity[] {
-        return this.validate(this.navigator.currentElement, this.navigator.currentContents)
-            .map(validationResult => validationResult.severity);
-    }
-
-    public get currentInvalidElements(): IContainer[] {
-        if (this.navigator.currentElement === undefined) {
-            return [];
-        }
-
-        return this.validate(this.navigator.currentElement, this.navigator.currentContents)
-            .filter((result: ValidationResult) => !result.isValid)
-            .map((result: ValidationResult) => result.elements)
-            .reduce((prev: IContainer[], cur: IContainer[]) => prev.concat(cur), []);
     }
 
     public allValid(contents: IContainer[]): boolean {

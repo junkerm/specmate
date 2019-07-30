@@ -1,64 +1,55 @@
 import { ValidationResult } from '../../../../../validation/validation-result';
 import { Url } from '../../../../../util/url';
+import { TranslateService } from '@ngx-translate/core';
+import { IContainer } from '../../../../../model/IContainer';
+import { ValidationErrorSeverity } from '../../../../../validation/validation-error-severity';
+
+
+export type ValidationPair = { element: IContainer, message: string, severity: ValidationErrorSeverity };
 
 export class ValidationCache {
 
-    private dataCache: {[url: string]: ValidationResult[]} = {};
+    private dataCache: { [url: string]: ValidationPair[] } = {};
+
+    constructor(private translate: TranslateService) { }
 
     public isValid(url: string): boolean {
-        if(this.dataCache[url] !== undefined && this.dataCache[url].length > 0) {
+        if (this.dataCache[url] !== undefined && this.dataCache[url].length > 0) {
             return false;
         }
         return true;
     }
 
-    private emptyValidatatonResults: ValidationResult[] = [];
-    public getValidationResults(url: string): ValidationResult[] {
+    private emptyValidatatonResults: ValidationPair[] = [];
+    public getValidationResults(url: string): ValidationPair[] {
         return this.dataCache[url] || this.emptyValidatatonResults;
     }
 
-    public addValidationResultsToCache(entries: ValidationResult[]): void {
-        for (const entry of entries.filter(entry => !entry.isValid)) {
-            let urls = entry.elements.map(el => el.url);
-            for (const elUrl of urls) {
-                this.addToCache(elUrl, entry);
+    public addValidationResultsToCache(validationResults: ValidationResult[]): void {
+        for (const validationResult of validationResults.filter(validationResult => !validationResult.isValid)) {
+            for (const element of validationResult.elements) {
+                this.addToCache(element.url, {
+                    element: element,
+                    message: validationResult.message.getMessageTranslated(this.translate),
+                    severity: validationResult.severity
+                });
             }
         }
     }
 
-    private addToCache(url: string, entry: ValidationResult): void {
+    private addToCache(url: string, entry: ValidationPair): void {
         while (url != undefined) {
             if (!(url in this.dataCache)) {
                 this.dataCache[url] = [];
             }
-            this.dataCache[url].push(entry);
+            if (this.dataCache[url].find(pair => pair.message === entry.message && pair.element === entry.element) === undefined) {
+                this.dataCache[url].push(entry);
+            }
             url = Url.parent(url);
         }
     }
 
-    public removeEntry(url: string) {
-        if (!(url in this.dataCache)) {
-            return;
-        }
-        let results = this.dataCache[url];
-        delete this.dataCache[url];
-        /* Changing one element might make the results of other elements to become invalid as well:
-        * A => Result[A,B], Result[A]
-        * B => Result[A,B]
-        *
-        * delete A
-        * A => []
-        * B => Result[A,B]   <-- Now invalid and needs to be removed
-        */
-        for (const valRes of results) {
-            for (const element of valRes.elements) {
-                delete this.dataCache[element.url];
-            }
-        }
-    }
-
     public clear(): void {
-        console.log('clearing...');
         const urls = [];
         for (let url in this.dataCache) {
             urls.push(url);
@@ -66,6 +57,5 @@ export class ValidationCache {
         for (let url of urls) {
             delete this.dataCache[url];
         }
-        console.log('clearing done');
     }
 }
