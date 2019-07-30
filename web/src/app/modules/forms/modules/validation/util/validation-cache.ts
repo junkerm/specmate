@@ -1,4 +1,5 @@
 import { ValidationResult } from '../../../../../validation/validation-result';
+import { Url } from '../../../../../util/url';
 
 export class ValidationCache {
 
@@ -16,24 +17,22 @@ export class ValidationCache {
         return this.dataCache[url] || this.emptyValidatatonResults;
     }
 
-    public addValidationResultsToCache(url: string, entries: ValidationResult[]): void {
-        if (!(url in this.dataCache)) {
-            this.dataCache[url] = [];
-        }
-        this.dataCache[url] = entries.filter(entry => !entry.isValid);
-        // One Result might affect multiple elements
-        // These Results are stored in the cache of every individual element
+    public addValidationResultsToCache(entries: ValidationResult[]): void {
         for (const entry of entries.filter(entry => !entry.isValid)) {
             let urls = entry.elements.map(el => el.url);
             for (const elUrl of urls) {
-                if (elUrl !== url) {
-                    if (!(elUrl in this.dataCache)) {
-                        this.dataCache[elUrl] = [];
-                    }
-                    this.dataCache[url].push(entry);
-                    this.dataCache[elUrl].push(entry);
-                }
+                this.addToCache(elUrl, entry);
             }
+        }
+    }
+
+    private addToCache(url: string, entry: ValidationResult): void {
+        while (url != undefined) {
+            if (!(url in this.dataCache)) {
+                this.dataCache[url] = [];
+            }
+            this.dataCache[url].push(entry);
+            url = Url.parent(url);
         }
     }
 
@@ -59,6 +58,14 @@ export class ValidationCache {
     }
 
     public clear(): void {
-        this.dataCache = {};
+        console.log('clearing...');
+        const urls = [];
+        for (let url in this.dataCache) {
+            urls.push(url);
+        }
+        for (let url of urls) {
+            delete this.dataCache[url];
+        }
+        console.log('clearing done');
     }
 }

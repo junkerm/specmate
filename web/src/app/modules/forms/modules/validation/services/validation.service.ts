@@ -59,6 +59,9 @@ export class ValidationService {
     }
 
     public async refreshValidation(element: IContainer, contents: IContainer[] = [], clear = true): Promise<void> {
+        if (clear) {
+            this.validationCache.clear();
+        }
         const requiredFieldsResults: ValidationResult = this.getRequiredFieldsValidator(element).validate(element);
         const validNameResult: ValidationResult = this.validNameValidator.validate(element);
         const textLengthValidationResult: ValidationResult = this.textLengthValidator.validate(element);
@@ -68,11 +71,7 @@ export class ValidationService {
                 .concat(requiredFieldsResults)
                 .concat(validNameResult)
                 .concat(textLengthValidationResult);
-
-        if (clear) {
-            this.validationCache.clear();
-        }
-        this.validationCache.addValidationResultsToCache(element.url, elementResults);
+        this.validationCache.addValidationResultsToCache(elementResults);
     }
 
     public isValid(element: IContainer): boolean {
