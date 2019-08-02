@@ -44,34 +44,26 @@ public class ModelGenerationTestBase extends EmfRestTest {
 	
 	
 	/**
-	 * Check if two strings contain the same words. Order and case are not important 
+	 * Check if two strings contain the same words. Order and case are not relevant
 	 * @param s1
 	 * @param s2
 	 * @return
 	 */
 	private boolean checkStringEquality(String s1, String s2) {
-		//System.out.println("Strings: " + s1 + " ---- " + s2);
 		if(s1.equalsIgnoreCase(s2)) {
-			System.out.println("Erfolgreich1: " + s1 + " ---- " + s2);
 			return true;
 		}
 		String s1Lower = s1.toLowerCase();
+		s1Lower = " " + s1Lower.replace(" ", "  ") + " ";
 		String[] stringArray = s2.toLowerCase().split(" ");
 		for (String string : stringArray) {
 			if(!s1Lower.contains(string)) {
-				System.out.println("UNErfolgreich1: " + s1 + " ---- " + s2);
 				return false;
 			}
-			s1Lower= s1Lower.replace(string, "");
+			s1Lower= s1Lower.replace(" " + string + " ", "");
 		}
 		s1Lower= s1Lower.replace(" ", "");
-		System.out.println("s1Lower '" + s1Lower + "'");
-		if(s1Lower.equals("")) {
-			System.out.println("Erfolgreich2: " + s1 + " ---- " + s2);
-			return true;
-		}		
-		System.out.println("UNErfolgreich2: " + s1 + " ---- " + s2);
-		return false;
+		return s1Lower.equals("");
 	}
 
 	public ModelGenerationTestBase() throws Exception {
@@ -91,10 +83,12 @@ public class ModelGenerationTestBase extends EmfRestTest {
 				nodes += "[" + item.get("variable") + " ; ";
 			}
 			if (item.keySet().contains("condition")) {
-				nodes += item.get("condition") + "],";
+				nodes += item.get("condition") + " ; ";
+			}
+			if (item.keySet().contains("type")) {
+				nodes += item.get("type") + "],";
 			}
 		}
-		System.out.println(generated);
 
 		// Verify number of nodes
 		int numCEGNodesGen = count(generated, IS_CEG_NODE);
@@ -108,7 +102,7 @@ public class ModelGenerationTestBase extends EmfRestTest {
 					MATCHES_VAR_COND(node.getVariable(), node.getCondition(), node.getType().getLiteral())));
 
 			Assert.assertTrue("Node with variable \"" + node.getVariable() + "\" and condition \"" + node.getCondition()
-					+ "\" not found. Nodes found: " + nodes, matched);
+					+ "\" and type \""+ node.getType() +  "\" not found. Nodes found: " + nodes, matched);
 		}
 
 		// Verify connections
