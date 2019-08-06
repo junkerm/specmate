@@ -170,3 +170,13 @@ textarea:focus,
 .nav-tabs .nav-link.active {
     color: $primary;
 }
+
+.tableInput, .tableInput:focus{
+    resize:none; 
+    border:none !important;
+    background:transparent !important;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
