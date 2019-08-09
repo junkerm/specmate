@@ -30,7 +30,9 @@ export class CommonControls {
     public save(): void {
         if (this.isSaveEnabled) {
             this.validator.validateCurrent();
-            this.dataService.commit(this.translate.instant('save'));
+            if (this.isSaveEnabled) {
+                this.dataService.commit(this.translate.instant('save'));
+            }
         }
     }
 

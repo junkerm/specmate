@@ -3,6 +3,7 @@
     <button id="commoncontrol-save-button" class="btn btn-sm btn-secondary brighter-secondary-outline"
         title="{{'save' | translate}}" [disabled]="!isSaveEnabled" (click)="cancelEvent($event); save()"><i
             class="fa fa-save" aria-hidden="true"></i></button>&nbsp;
+    <validate-button [textEnabled]="false"></validate-button>&nbsp;
     <button id="commoncontrol-undo-button" class="btn btn-sm btn-secondary brighter-secondary-outline"
         title="{{'undo' | translate}}" [disabled]="!isUndoEnabled" (click)="cancelEvent($event); undo()"><i
             class="fa fa-undo" aria-hidden="true"></i></button>&nbsp;
@@ -13,7 +14,6 @@
         title="{{'navigate.forward' | translate}}" [disabled]="!isForwardEnabled"
         (click)="cancelEvent($event); forward()"><i class="fa fa-arrow-circle-right"
             aria-hidden="true"></i></button>&nbsp;
-    <validate-button [textEnabled]="false"></validate-button>
 </form>
 <div *ngIf="!connected" class="btn btn-sm btn-outline-danger" title="{{'connection.lost' | translate}}"><i
         aria-hidden="true" class="fa fa-exclamation-triangle"></i>&nbsp;{{'connection.lost' | translate}}
