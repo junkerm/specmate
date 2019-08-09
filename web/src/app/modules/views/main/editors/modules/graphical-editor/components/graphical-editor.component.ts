@@ -22,6 +22,15 @@ import { NameProvider } from '../providers/properties/name-provider';
 import { ToolProvider } from '../providers/properties/tool-provider';
 import { Area, Line, Point, Square } from '../util/area';
 
+import { mxgraph } from 'mxgraph'; // Typings only - no code!
+
+declare var require: any;
+
+const mx: typeof mxgraph = require('mxgraph')({
+    mxBasePath: 'mxgraph'
+});
+
+
 @Component({
     moduleId: module.id.toString(),
     selector: 'graphical-editor',
@@ -66,6 +75,28 @@ export class GraphicalEditor {
         public multiselectionService: MultiselectionService,
         private clipboardService: ClipboardService,
         private renderer: Renderer) { }
+
+    @ViewChild('graphContainer')
+    graphContainer: ElementRef;
+
+    private graph: mxgraph.mxGraph;
+
+    ngAfterViewInit() {
+        const graph = new mx.mxGraph(this.graphContainer.nativeElement);
+
+        try {
+            const parent = graph.getDefaultParent();
+            graph.getModel().beginUpdate();
+
+            const vertex1 = graph.insertVertex(parent, '1', 'Vertex 1', 0, 0, 200, 80);
+            const vertex2 = graph.insertVertex(parent, '2', 'Vertex 2', 0, 0, 200, 80);
+
+            graph.insertEdge(parent, '', '', vertex1, vertex2);
+        } finally {
+            graph.getModel().endUpdate();
+            new mx.mxHierarchicalLayout(graph).execute(graph.getDefaultParent());
+        }
+    }
 
     public get model(): IContainer {
         return this._model;
