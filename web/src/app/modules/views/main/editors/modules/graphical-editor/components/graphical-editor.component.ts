@@ -22,14 +22,14 @@ import { NameProvider } from '../providers/properties/name-provider';
 import { ToolProvider } from '../providers/properties/tool-provider';
 import { Area, Line, Point, Square } from '../util/area';
 
-import { mxgraph } from 'mxgraph'; // Typings only - no code!
+import { mxgraph, mxgraphFactory } from 'mxgraph-factory'; // Typings only - no code!
 
 declare var require: any;
 
-const mx: typeof mxgraph = require('mxgraph')({
-    mxBasePath: 'mxgraph'
+const { mxGraph, mxGraphModel } = mxgraphFactory({
+    mxLoadResources: false,
+    mxLoadStylesheets: false,
 });
-
 
 @Component({
     moduleId: module.id.toString(),
@@ -82,7 +82,7 @@ export class GraphicalEditor {
     private graph: mxgraph.mxGraph;
 
     ngAfterViewInit() {
-        const graph = new mx.mxGraph(this.graphContainer.nativeElement);
+        const graph = new mxgraph.mxGraph(this.graphContainer.nativeElement);
 
         try {
             const parent = graph.getDefaultParent();
@@ -94,7 +94,7 @@ export class GraphicalEditor {
             graph.insertEdge(parent, '', '', vertex1, vertex2);
         } finally {
             graph.getModel().endUpdate();
-            new mx.mxHierarchicalLayout(graph).execute(graph.getDefaultParent());
+            new mxgraph.mxHierarchicalLayout(graph).execute(graph.getDefaultParent());
         }
     }
 
