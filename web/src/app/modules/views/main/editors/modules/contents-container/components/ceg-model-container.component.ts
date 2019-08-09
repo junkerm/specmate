@@ -12,6 +12,7 @@ import { ConfirmationModal } from '../../../../../../notification/modules/modals
 import { AdditionalInformationService } from '../../../../../side/modules/links-actions/services/additional-information.service';
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
 import { TestSpecificationContentContainerBase } from '../base/testspecification-generatable-content-container-base';
+import { ContentsContainerService } from '../services/content-container.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -26,8 +27,9 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
         translate: TranslateService,
         modal: ConfirmationModal,
         clipboardService: ClipboardService,
+        contentService: ContentsContainerService,
         additionalInformationService: AdditionalInformationService) {
-        super(dataService, navigator, translate, modal, clipboardService, additionalInformationService);
+        super(dataService, navigator, translate, modal, clipboardService, contentService, additionalInformationService);
     }
 
     modelDescription: string;
@@ -57,11 +59,12 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
                 await this.dataService.deleteElement(element.url, true, Id.uuid);
                 await this.dataService.commit(this.translate.instant('save'));
                 await this.dataService.deleteCachedContent(element.url);
-                await this.modal.openOk(this.translate.instant('CEGGenerator.couldNotGenerateTitle'), 
+                await this.modal.openOk(this.translate.instant('CEGGenerator.couldNotGenerateTitle'),
                         this.translate.instant('CEGGenerator.couldNotGenerate'));
                 return undefined;
             }
         }
         return element;
     }
+
 }

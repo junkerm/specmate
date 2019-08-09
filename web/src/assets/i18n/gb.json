@@ -243,6 +243,7 @@
 		"errorDublicateNode": "Duplicate node.",
 		"errorEmptyModel": "Model empty.",
 		"errorInvalidName": "Invalid character in name.",
+		"errorInvalidVariable": "Invalid variable name: invalid characters: , ; |",
 		"errorMissingCondition": "Missing condition.",
 		"errorMissingFields": "Missing fields: {{fields}}",
 		"errorNoEndNode": "No end node.",

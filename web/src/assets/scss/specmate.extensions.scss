@@ -4,105 +4,108 @@ $color-selected-bright: $primary;
 
 $font-size-sm: 0.9375rem;
 
-input[type=text]::-ms-clear {
-    display: none;
+input[type="text"]::-ms-clear {
+  display: none;
 }
 
 button,
 .btn {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 a {
-    color: $primary;
+  color: $primary;
 }
 
 a:focus,
 a:hover,
 a.selected {
-    color: $color-selected;
+  color: $color-selected;
 }
 
 a.selected {
-    background-color: lighten($color-selected, 0.3);
-    color: #fff;
+  background-color: lighten($color-selected, 0.3);
+  color: #fff;
 }
 
 .line-breaks-visible {
-    white-space: pre-wrap;
+  white-space: pre-wrap;
 }
 
 .second {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .card.maximized {
-    height: 100%;
+  height: 100%;
 }
 
 .data-item-title {
-    font-weight: normal;
+  font-weight: normal;
 }
 
 .project-explorer {
-    background: $white;
-    overflow: scroll;
-    white-space: nowrap;
-    z-index: 1;
+  background: $white;
+  overflow: scroll;
+  white-space: nowrap;
+  z-index: 1;
 }
 
 .content-container {
-    padding: 0;
+  padding: 0;
 }
 
 .project-explorer-container {
-    overflow-x: auto!important;
+  overflow-x: auto !important;
 }
 
 .currentTreeElement {
-    border-color: $color-selected;
-    border-width: 1.5px;
-    border-style: dashed;
+  border-color: $color-selected;
+  border-width: 1.5px;
+  border-style: dashed;
 }
 
 .specmate-container {
-    height: calc(100vh - 64px);
-    margin-top: 64px;
+  height: calc(100vh - 64px);
+  margin-top: 64px;
 }
 
 .dnd-sortable-drag {
-    opacity: 0.75;
-    transform: translateX(10px);
-    transition: 0.15s;
+  opacity: 0.75;
+  transform: translateX(10px);
+  transition: 0.15s;
 }
 
 .no-bottom-margin {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
-.dropdown-item:hover, .dropdown-item:focus {
-    outline: none;
+.dropdown-item:hover,
+.dropdown-item:focus {
+  outline: none;
 }
 
-
-.btn-secondary:focus, .btn-outline-secondary {
-    box-shadow: 0 0 0 0.2rem rgba(51, 51, 51, 0.5);
-    border: 2px dashed $color-selected-dark;
+.btn-secondary:focus,
+.btn-outline-secondary {
+  box-shadow: 0 0 0 0.2rem rgba(51, 51, 51, 0.5);
+  border: 2px dashed $color-selected-dark;
 }
 
-.btn-danger:focus, .btn-outline-danger:focus{
-    box-shadow: 0 0 0 0.2rem rgba(224, 43, 11, 0.5);
-    border: 2px dashed $color-selected-bright;
+.btn-danger:focus,
+.btn-outline-danger:focus {
+  box-shadow: 0 0 0 0.2rem rgba(224, 43, 11, 0.5);
+  border: 2px dashed $color-selected-bright;
 }
 
-.brighter-secondary-outline:focus, .brighter-secondary-outline button:focus {
-    box-shadow: 0 0 0 0.2rem rgba(250, 250, 250, 0.8);
-    border: 2px dashed $color-selected-bright;
+.brighter-secondary-outline:focus,
+.brighter-secondary-outline button:focus {
+  box-shadow: 0 0 0 0.2rem rgba(250, 250, 250, 0.8);
+  border: 2px dashed $color-selected-bright;
 }
 
 .brighter-danger-outline:focus {
-    box-shadow: 0 0 0 0.2rem rgba(255, 100, 100, 0.5);
-    border: 2px dashed $color-selected-bright;
+  box-shadow: 0 0 0 0.2rem rgba(255, 100, 100, 0.5);
+  border: 2px dashed $color-selected-bright;
 }
 
 a:focus,
@@ -110,63 +113,78 @@ button:focus,
 input:focus,
 textarea:focus,
 [tabindex]:focus {
-    border: 2px dotted $color-selected !important;
+  border: 2px dotted $color-selected !important;
 }
 
 .badge {
-    font-size: 100%;
+  font-size: 100%;
 }
 
 .draggable-element-default {
-    fill:rgba(0,0,0,0);
-    stroke:none;
+  fill: rgba(0, 0, 0, 0);
+  stroke: none;
 }
 
 .draggable-element-grab {
-    fill:rgba(0,0,0,0);
-    stroke:none;
-    cursor: grab;
-    cursor: -webkit-grab;
+  fill: rgba(0, 0, 0, 0);
+  stroke: none;
+  cursor: grab;
+  cursor: -webkit-grab;
 }
 
 .draggable-element-grabbed {
-    fill:rgba(0,0,0,0);
-    stroke:none;
-    cursor: grabbing;
-    cursor: -webkit-grabbing;
+  fill: rgba(0, 0, 0, 0);
+  stroke: none;
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
 }
 
 .login-background-container {
-    height: 100vh;
-    width: 100vw;
+  height: 100vh;
+  width: 100vw;
 }
 
 .send-to-back {
-    position: absolute;
-    z-index: -10;
+  position: absolute;
+  z-index: -10;
 }
 
 .login-background-image {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 .login-form {
-    background: $white;
-    border: 1px solid $gray-400;
-    padding: 16px;
+  background: $white;
+  border: 1px solid $gray-400;
+  padding: 16px;
 }
 
 .login-top-space {
-    height: 100vh;
-    padding-top: 64px;
+  height: 100vh;
+  padding-top: 64px;
 }
 
 .nav-tabs .nav-link {
-    color: $primary;
+  color: $primary;
 }
 
 .nav-tabs .nav-link.active {
-    color: $primary;
+  color: $primary;
+}
+
+.tableInput,
+.tableInput:focus {
+  resize: none;
+  border: none !important;
+  background: transparent !important;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.tableInput:focus {
+  border: 1px solid rgb(204, 204, 204) !important;
 }
