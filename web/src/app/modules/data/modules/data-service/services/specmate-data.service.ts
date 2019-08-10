@@ -36,10 +36,16 @@ export class SpecmateDataService {
     public currentTaskName = '';
 
     private _busy = false;
+    private _busyCount = 0;
 
     private set busy(busy: boolean) {
-        this._busy = busy;
-        this.stateChanged.emit(busy);
+        if(busy){
+            this._busyCount++;
+        } else {
+            this._busyCount--;
+        }
+        this._busy = this._busyCount >0;
+        this.stateChanged.emit(this._busy);
     }
 
     public get isLoading(): boolean {
