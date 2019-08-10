@@ -7,6 +7,7 @@ import { SpecmateDataService } from '../../../../data/modules/data-service/servi
 import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
 import { ElementProvider } from '../../../../views/main/editors/modules/graphical-editor/providers/properties/element-provider';
 import { SelectedElementService } from '../../../../views/side/modules/selected-element/services/selected-element.service';
+import { ErrorNotificationModalService } from '../../../../notification/modules/modals/services/error-notification-modal.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -51,6 +52,7 @@ export class CegModelGeneratorButton {
 
     constructor(private dataService: SpecmateDataService,
         private modal: ConfirmationModal,
+        private errorModal: ErrorNotificationModalService,
         private translate: TranslateService,
         private selectedElementService: SelectedElementService) { }
 

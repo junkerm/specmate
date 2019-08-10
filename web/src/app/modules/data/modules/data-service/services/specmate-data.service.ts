@@ -39,12 +39,14 @@ export class SpecmateDataService {
     private _busyCount = 0;
 
     private set busy(busy: boolean) {
-        if(busy){
+        // We track the number how often busy has been set to true, compared to how often it has been
+        // set to false und keep the difference. The service is busy when the busy count is greater then zero.
+        if (busy) {
             this._busyCount++;
         } else {
             this._busyCount--;
         }
-        this._busy = this._busyCount >0;
+        this._busy = this._busyCount > 0;
         this.stateChanged.emit(this._busy);
     }
 
@@ -332,10 +334,14 @@ export class SpecmateDataService {
             return Promise.resolve();
         }
         this.logStart(this.translate.instant('log.delete'), url);
-        return this.serviceInterface.deleteElement(url, this.auth.token).then(() => {
-            this.scheduler.resolve(url);
-            this.logFinished(this.translate.instant('log.delete'), url);
-        }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeDeleted'), url, error));
+        return this.serviceInterface.deleteElement(url, this.auth.token)
+            .then(() => {
+                this.scheduler.resolve(url);
+                this.logFinished(this.translate.instant('log.delete'), url);
+            })
+            .catch((error) => {
+                this.handleError(this.translate.instant('elementCouldNotBeDeleted'), url, error)
+            });
     }
 
     public performOperations(url: string, operation: string, payload?: any): Promise<any> {
@@ -343,14 +349,19 @@ export class SpecmateDataService {
             return Promise.resolve(false);
         }
         this.busy = true;
-        return this.serviceInterface.performOperation(url, operation, payload, this.auth.token).then((result) => {
-            this.busy = false;
-            return result;
-        })
-            .catch((error) =>
+        return this.serviceInterface.performOperation(url, operation, payload, this.auth.token)
+            .then((result) => {
+                this.busy = false;
+                return result;
+            })
+            .catch((error) => {
+                this.busy = false;
                 this.handleError(this.translate.instant('operationCouldNotBePerformed') +
                     ' ' + this.translate.instant('operation') + ': ' + operation + ' ' +
-                    this.translate.instant('payload') + ': ' + JSON.stringify(payload), url, error));
+                    this.translate.instant('payload') + ': ' + JSON.stringify(payload), url, error)
+                return Promise.reject();
+            }
+            );
     }
 
     public performQuery(url: string, operation: string, parameters: { [key: string]: string; }): Promise<any> {
@@ -359,15 +370,18 @@ export class SpecmateDataService {
         }
         this.busy = true;
         this.logStart(this.translate.instant('log.queryOperation') + ': ' + operation, url);
-        return this.serviceInterface.performQuery(url, operation, parameters, this.auth.token).then(
-            (result: any) => {
+        return this.serviceInterface.performQuery(url, operation, parameters, this.auth.token)
+            .then((result: any) => {
                 this.busy = false;
                 this.logFinished(this.translate.instant('log.queryOperation') + ': ' + operation, url);
                 return result;
             })
-            .catch((error) =>
+            .catch((error) => {
+                this.busy = false;
                 this.handleError(this.translate.instant('queryCouldNotBePerformed') + ' ' + this.translate.instant('operation') + ': ' +
-                    operation + ' ' + this.translate.instant('parameters') + ': ' + JSON.stringify(parameters), url, error));
+                    operation + ' ' + this.translate.instant('parameters') + ': ' + JSON.stringify(parameters), url, error)
+                return Promise.reject();
+            });
     }
 
     public search(query: string, filter?: { [key: string]: string }): Promise<IContainer[]> {
@@ -376,13 +390,17 @@ export class SpecmateDataService {
         }
         this.busy = true;
         this.logStart(this.translate.instant('log.search') + ': ' + query, '');
-        return this.serviceInterface.search(query, this.auth.token, filter).then(
-            (result: IContainer[]) => {
+        return this.serviceInterface.search(query, this.auth.token, filter)
+            .then((result: IContainer[]) => {
                 this.busy = false;
                 this.logFinished(this.translate.instant('log.search') + ': ' + query, '');
                 return result;
-            }).catch((error) => this.handleError(this.translate.instant('queryCouldNotBePerformed') + ' ' +
-                this.translate.instant('operation') + ' : search ' + query, '', error));
+            })
+            .catch((error) => {
+                this.busy = false;
+                return this.handleError(this.translate.instant('queryCouldNotBePerformed') + ' ' +
+                    this.translate.instant('operation') + ' : search ' + query, '', error);
+            });
     }
 
     private logStart(message: string, url: string): Promise<any> {
