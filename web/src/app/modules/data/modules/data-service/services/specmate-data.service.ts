@@ -39,14 +39,14 @@ export class SpecmateDataService {
 
     private set busy(busy: boolean) {
         this._busy = busy;
-        this.stateChanged.emit();
+        this.stateChanged.emit(busy);
     }
 
     public get isLoading(): boolean {
         return this._busy;
     }
 
-    public stateChanged: EventEmitter<void>;
+    public stateChanged: EventEmitter<boolean>;
     public committed: EventEmitter<void>;
     public elementChanged: EventEmitter<string>;
     private cache: DataCache = new DataCache();
@@ -61,7 +61,7 @@ export class SpecmateDataService {
 
         this.serviceInterface = new ServiceInterface(http);
         this.scheduler = new Scheduler(this, this.logger, this.translate);
-        this.stateChanged = new EventEmitter<void>();
+        this.stateChanged = new EventEmitter<boolean>();
         this.committed = new EventEmitter();
         this.elementChanged = new EventEmitter<string>(true);
         this.auth.authChanged.subscribe(() => {

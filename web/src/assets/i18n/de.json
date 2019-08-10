@@ -137,6 +137,7 @@
 	"invalidCharacter": "Ungültige Zeichen: , ; |",
 	"library": "Bibliothek",
 	"loadMore": "Weitere laden",
+	"loading": "Lädt...",
 	"log": {
 		"dataError": "Datenfehler",
 		"delete": "Löschen",

@@ -35,7 +35,8 @@ export class OperationMonitor implements OnDestroy {
         private loadingModal: LoadingModalService) {
 
         this.isLoading = this.dataService.isLoading;
-        this.dataServiceSubscription = this.dataService.stateChanged.subscribe(() => {
+        this.dataServiceSubscription = 
+            this.dataService.stateChanged.pipe().debounceTime(500).subscribe(() => {
             if(this.dataService.isLoading){
                 this.loadingModal.open();
             } else {
