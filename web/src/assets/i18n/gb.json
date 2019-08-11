@@ -154,6 +154,7 @@
 	"logout": "Log Out",
 	"logoutFailed": "Log out failed.",
 	"maximize": "Maximize",
+	"modelGenerationFailed": "No model could be extracted.",
 	"name": "Name",
 	"navigate": {
 		"back": "Back",
