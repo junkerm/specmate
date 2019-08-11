@@ -35,7 +35,7 @@ public class CEGNodeEvaluationComparator implements Comparator<CEGNodeEvaluation
 			}
 			// Check if the condition of the nodes is also the same
 			int conditionResult = node1.getCondition().compareTo(node2.getCondition());
-			if (result != 0) {
+			if (conditionResult != 0) {
 				return conditionResult;
 			}
 
