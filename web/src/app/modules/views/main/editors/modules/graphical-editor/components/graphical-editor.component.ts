@@ -22,14 +22,15 @@ import { NameProvider } from '../providers/properties/name-provider';
 import { ToolProvider } from '../providers/properties/tool-provider';
 import { Area, Line, Point, Square } from '../util/area';
 
-import { mxgraph, mxgraphFactory } from 'mxgraph-factory'; // Typings only - no code!
+import { mxgraph } from 'mxgraph'; // Typings only - no code!
 
 declare var require: any;
 
-const { mxGraph, mxGraphModel } = mxgraphFactory({
-    mxLoadResources: false,
-    mxLoadStylesheets: false,
+const mx: typeof mxgraph = require('mxgraph')({
+    mxBasePath: 'mxgraph'
 });
+
+
 
 @Component({
     moduleId: module.id.toString(),
@@ -76,27 +77,49 @@ export class GraphicalEditor {
         private clipboardService: ClipboardService,
         private renderer: Renderer) { }
 
-    @ViewChild('graphContainer')
-    graphContainer: ElementRef;
 
     private graph: mxgraph.mxGraph;
+    @ViewChild('mxGraphContainer')
+    public set graphContainer(element: ElementRef) {
+        console.log(element);
+        if (element === undefined) {
+            return;
+        }
+        this.graph = new mx.mxGraph(element.nativeElement);
+        const parent = this.graph.getDefaultParent();
+        this.graph.setGridEnabled(true);
+        const vertexStyle = this.graph.getStylesheet().getDefaultVertexStyle();
+        vertexStyle[mx.mxConstants.STYLE_ROUNDED] = false;
 
-    ngAfterViewInit() {
-        const graph = new mxgraph.mxGraph(this.graphContainer.nativeElement);
+        const style = {};
+        style[mx.mxConstants.STYLE_STROKECOLOR] = '#000000';
+        style[mx.mxConstants.STYLE_SHAPE] = mx.mxConstants.SHAPE_HEXAGON;
+        this.graph.getStylesheet().putDefaultVertexStyle(style);
 
+        const edgeStyle = this.graph.getStylesheet().getDefaultEdgeStyle();
+        edgeStyle[mx.mxConstants.EDGESTYLE_ELBOW] = false;
+        edgeStyle[mx.mxConstants.EDGESTYLE_ENTITY_RELATION] = false;
+        edgeStyle[mx.mxConstants.EDGESTYLE_LOOP] = false;
+        edgeStyle[mx.mxConstants.EDGESTYLE_ORTHOGONAL] = false;
+        edgeStyle[mx.mxConstants.EDGESTYLE_SEGMENT] = false;
+        edgeStyle[mx.mxConstants.EDGESTYLE_SIDETOSIDE] = true;
+        edgeStyle[mx.mxConstants.EDGESTYLE_TOPTOBOTTOM] = false;
+        edgeStyle[mx.mxConstants.STYLE_DASHED] = true;
+        edgeStyle[mx.mxConstants.STYLE_STROKECOLOR] = '#ff0000';
+
+        this.graph.getModel().beginUpdate();
         try {
-            const parent = graph.getDefaultParent();
-            graph.getModel().beginUpdate();
+            const vertex1 = this.graph.insertVertex(parent, '1', 'Vertex 1', 0, 0, 200, 80);
+            const vertex2 = this.graph.insertVertex(parent, '2', 'Vertex 2', 0, 0, 200, 80);
 
-            const vertex1 = graph.insertVertex(parent, '1', 'Vertex 1', 0, 0, 200, 80);
-            const vertex2 = graph.insertVertex(parent, '2', 'Vertex 2', 0, 0, 200, 80);
+            const elem = this.graph.insertEdge(parent, '1-2', 'Edge 1', vertex1, vertex2);
 
-            graph.insertEdge(parent, '', '', vertex1, vertex2);
         } finally {
-            graph.getModel().endUpdate();
-            new mxgraph.mxHierarchicalLayout(graph).execute(graph.getDefaultParent());
+            this.graph.getModel().endUpdate();
+            new mx.mxHierarchicalLayout(this.graph).execute(this.graph.getDefaultParent());
         }
     }
+
 
     public get model(): IContainer {
         return this._model;
@@ -148,7 +171,7 @@ export class GraphicalEditor {
     }
 
     public get isValid(): boolean {
-        return this.validationService.isValid(this.model, this.contents);
+        return this.validationService.isValid(this.model);
     }
 
     public zoomIn(): void {

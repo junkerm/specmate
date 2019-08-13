@@ -15,52 +15,6 @@
         <tool-pallette></tool-pallette>
     </div>
 
-    <div #graphContainer id="graphContainer"></div>
+    <div #mxGraphContainer id="mxGraphContainer"></div>
 
-    <div class="editor" tabindex="0" (scroll)="onScroll($event)" #editorElement>
-        <svg:svg (click)="click($event)" (mousedown)="mousedown($event)" (mouseup)="mouseup($event)"  (mouseleave)="mouseleave($event)" (mousemove)="mousemove($event)" (mouseover)="mousemove($event)" [attr.width]="editorDimensions.width * zoom" [attr.height]="editorDimensions.height * zoom" [style.cursor]="cursor">
-            <svg:g [attr.transform]="'scale(' + zoom + ')'">
-
-                <!-- GRID -->
-                <ng-container *ngIf="isGridShown">
-                    <svg:defs>
-                        <svg:pattern id="smallGrid" [attr.width]="gridSize" [attr.height]="gridSize" patternUnits="userSpaceOnUse">
-                            <svg:path [attr.d]="'M ' + gridSize + ' 0 L 0 0 0 ' + gridSize" fill="none" stroke="gray" stroke-width="0.5" />
-                        </svg:pattern>
-                        <svg:pattern id="grid" [attr.width]="gridSize * 10" [attr.height]="gridSize * 10" patternUnits="userSpaceOnUse">
-                            <svg:rect [attr.width]="gridSize * 10" [attr.height]="gridSize * 10" fill="url(#smallGrid)" />
-                            <svg:path [attr.d]="'M '+ gridSize * 10 + ' 0 L 0 0 0 ' + gridSize * 10" fill="none" stroke="gray" stroke-width="1" />
-                        </svg:pattern>
-                    </svg:defs>
-
-                    <svg:rect id="editor-field" [attr.width]="100 / zoom + '%'" [attr.height]="100 / zoom + '%'" fill="url(#grid)" />
-                </ng-container>
-
-                <!-- Connections -->
-                <ng-container *ngFor="let connection of visibleConnections">
-                        <svg:g generic-graphical-connection [connection]="connection" [nodes]="nodes" (click)="select(connection, $event)" (dblclick)="dblclick(connection, $event)"></svg:g>
-                </ng-container>
-                
-                <!-- Nodes -->
-                <ng-container *ngFor="let node of visibleNodes">
-                    <svg:g generic-graphical-node [zoom]="zoom" [node]="node" (click)="select(node, $event)" (dblclick)="dblclick(node, $event)" id="{{node.url}}"></svg:g>
-                    <ng-container *ngIf="isCEGModel">
-                        <!-- Arcs -->
-                        <svg:g ceg-graphical-arc (dblclick)="dblclick(node, $event)" [node]="node" [connections]="connections" [nodes]="nodes" [type]="node.type"></svg:g>
-                    </ng-container>
-                </ng-container>
-
-                <!-- Selection Rect -->
-                <ng-container *ngIf="isRectShowing">
-                    <svg:rect 
-                    [attr.x] = "rect.x"
-                    [attr.y] = "rect.y"
-                    [attr.width] = "rect.width"
-                    [attr.height] = "rect.height"
-                    style="stroke-width:1; stroke:#000; fill:none">
-                    </svg:rect>
-                </ng-container>
-            </svg:g>
-        </svg:svg>
-    </div>
 </div>
