@@ -49,6 +49,7 @@ public class EditorElements {
 	public void delete(WebElement element) {
 		driver.findElement(toolbarDelete).click();
 		element.click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	public void clear() {
@@ -68,6 +69,7 @@ public class EditorElements {
 
 	public void clickOnRelatedRequirement(String requirement) {
 		driver.findElement(By.id("requirement-" + requirement + "-link")).click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	public void setModelName(String name) {
