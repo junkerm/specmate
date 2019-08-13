@@ -3,8 +3,10 @@ package com.specmate.model.support.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOState;
@@ -86,6 +88,12 @@ public class SpecmateEcoreUtil {
 
 	public static <T> List<T> getRootObjectsByType(Resource resource, Class<T> clazz) {
 		return pickInstancesOf(resource.getContents(), clazz);
+	}
+
+	public static <T> Set<T> uniqueInstancesOf(List<? extends EObject> contents, Class<T> clazz) {
+		Set<T> result = new HashSet<>();
+		result.addAll(pickInstancesOf(contents.iterator(), clazz));
+		return result;
 	}
 
 	public static <T> List<T> pickInstancesOf(List<? extends EObject> contents, Class<T> clazz) {

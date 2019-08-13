@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,7 +18,6 @@ import org.jgrapht.graph.GraphWalk;
 import com.specmate.common.AssertUtil;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.model.base.IContainer;
-import com.specmate.model.base.IModelConnection;
 import com.specmate.model.base.IModelNode;
 import com.specmate.model.processes.Process;
 import com.specmate.model.processes.ProcessConnection;
@@ -29,18 +26,15 @@ import com.specmate.model.processes.ProcessEnd;
 import com.specmate.model.processes.ProcessStart;
 import com.specmate.model.processes.ProcessStep;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
-import com.specmate.model.testspecification.ParameterAssignment;
 import com.specmate.model.testspecification.ParameterType;
-import com.specmate.model.testspecification.TestCase;
 import com.specmate.model.testspecification.TestParameter;
-import com.specmate.model.testspecification.TestProcedure;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestStep;
 import com.specmate.model.testspecification.TestspecificationFactory;
-import com.specmate.testspecification.internal.services.TaggedBoolean.ETag;
+import com.sun.tools.javac.util.Pair;
 
 /** Generates tests from a process model */
-public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IModelNode> {
+public class ProcessTestCaseGenerator2 extends TestCaseGeneratorBase<Process, IModelNode> {
 
 	/** All connections of the process */
 	private List<ProcessConnection> connections;
@@ -51,7 +45,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 	 */
 	private Map<String, TestParameter> testParameters = new HashMap<>();
 
-	public ProcessTestCaseGenerator(TestSpecification specification) {
+	public ProcessTestCaseGenerator2(TestSpecification specification) {
 		super(specification, Process.class, IModelNode.class);
 		connections = SpecmateEcoreUtil.pickInstancesOf(model.getContents(), ProcessConnection.class);
 	}
@@ -73,7 +67,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 				// in this case the test parameter is defined by the decision node
 				continue;
 			}
-			String testParameterName = extractVariableFromExpression(connection.getCondition());
+			String testParameterName = extractVariableAndConditionFromExpression(connection.getCondition()).fst;
 			TestParameter testParameter = createTestParameter(testParameterName, ParameterType.INPUT);
 			testParameters.put(testParameterName, testParameter);
 			specification.getContents().add(testParameter);
@@ -83,7 +77,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		for (ProcessStep step : steps) {
 			String expectedOutcome = step.getExpectedOutcome();
 			if (!StringUtils.isEmpty(expectedOutcome)) {
-				String variable = extractVariableFromExpression(expectedOutcome);
+				String variable = extractVariableAndConditionFromExpression(expectedOutcome).fst;
 				TestParameter testParameter = createTestParameter(variable, ParameterType.OUTPUT);
 				testParameters.put(variable, testParameter);
 				specification.getContents().add(testParameter);
@@ -91,18 +85,44 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		}
 	}
 
-	private String extractVariableFromExpression(String outcome) {
+	private Pair<String, String> extractVariableAndConditionFromExpression(String outcome) {
 		// split only at first occurence of "=", result will have length <= 2
 		String[] splitted = outcome.split("=", 2);
-		return splitted[0];
+		String variable = splitted[0];
+		String condition = splitted.length > 1 ? splitted[1] : "is present";
+		return Pair.of(variable, condition);
 	}
 
 	@Override
 	protected void generateTestCases() throws SpecmateException {
 		List<GraphPath<IModelNode, ProcessConnection>> allPaths = getAllPaths();
 		List<GraphPath<IModelNode, ProcessConnection>> filteredPaths = filterDuplicatePaths(allPaths);
-		List<ProcessNodeEvaluation> evaluations = computeEvaluations(filteredPaths);
-		createTestCases(evaluations, filteredPaths);
+		createTestCases(filteredPaths);
+
+	}
+
+	private void createTestCases(List<GraphPath<IModelNode, ProcessConnection>> paths) {
+		for (GraphPath<IModelNode, ProcessConnection> path : paths) {
+			for (int i = 0; i < path.getVertexList().size(); i++) {
+				IModelNode currentNode = path.getVertexList().get(i);
+				ProcessConnection currentConnection = null;
+				if (i < path.getEdgeList().size()) {
+					currentConnection = path.getEdgeList().get(i);
+				}
+
+				String variable;
+				String condition;
+
+				if (currentNode instanceof ProcessDecision) {
+					variable = currentNode.getName();
+					condition = currentConnection.getCondition();
+				} else {
+					if (currentNode instanceof ProcessStep) {
+						ProcessStep step = (ProcessStep) currentNode;
+						 varCond = extractVariableAndConditionFromExpression(step.getExpectedOutcome(););					}
+				}
+			}
+		}
 	}
 
 	private List<GraphPath<IModelNode, ProcessConnection>> filterDuplicatePaths(
@@ -133,58 +153,6 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 				.filter((GraphPath<IModelNode, ProcessConnection> path) -> !obsoletePaths.contains(path))
 				.collect(Collectors.toList());
 		return filteredPaths;
-	}
-
-	private void createTestCases(List<ProcessNodeEvaluation> evaluations,
-			List<GraphPath<IModelNode, ProcessConnection>> paths) {
-		for (int i = 0; i < evaluations.size(); i++) {
-			ProcessNodeEvaluation evaluation = evaluations.get(i);
-			GraphPath<IModelNode, ProcessConnection> path = paths.get(i);
-
-			TestCase testCase = createTestCase(evaluation, specification, i);
-
-			String procedureName = "Test Procedure " + (i + 1);
-			TestProcedure procedure = createTestProcedure(testCase, procedureName);
-
-			List<IModelNode> nodes = path.getVertexList();
-			List<ProcessConnection> connections = path.getEdgeList();
-			for (int j = 0; j < nodes.size(); j++) {
-				IModelNode node = nodes.get(j);
-				ProcessConnection connection = null;
-				TestParameter testParameter = null;
-				if (j < connections.size()) {
-					connection = connections.get(j);
-					testParameter = testParameters.get(getTestParameterName(connection));
-				}
-
-				String description = node.getDescription();
-				if (node instanceof ProcessStart && hasCondition(connection)) {
-					createTestStep(makePrecondition(connection), makeCheck(connection), j, procedure, testParameter,
-							description);
-				} else if (node instanceof ProcessEnd) {
-					// SKIP
-				} else if (node instanceof ProcessStep) {
-					createTestStep(makeAction(node), makeCheck((ProcessStep) node, connection), j, procedure,
-							testParameter, description);
-				} else if (node instanceof ProcessDecision) {
-					createTestStep(makeAction(connection), makeCheck(connection), j, procedure, testParameter,
-							description);
-				}
-			}
-		}
-	}
-
-	private String getTestParameterName(ProcessConnection connection) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private TestProcedure createTestProcedure(TestCase testCase, String procedureName) {
-		TestProcedure procedure = TestspecificationFactory.eINSTANCE.createTestProcedure();
-		procedure.setName(procedureName);
-		procedure.setId(SpecmateEcoreUtil.getIdForChild(testCase, procedure.eClass()));
-		testCase.getContents().add(procedure);
-		return procedure;
 	}
 
 	private String makePrecondition(ProcessConnection connection) {
@@ -245,71 +213,9 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		procedure.getContents().add(testStep);
 	}
 
-	private List<ProcessNodeEvaluation> computeEvaluations(List<GraphPath<IModelNode, ProcessConnection>> allPaths) {
-		List<ProcessNodeEvaluation> evaluations = new ArrayList<>();
-		for (GraphPath<IModelNode, ProcessConnection> path : allPaths) {
-			ProcessNodeEvaluation evaluation = new ProcessNodeEvaluation();
-
-			Set<ProcessDecision> decisions = SpecmateEcoreUtil.uniqueInstancesOf(path.getVertexList(),
-					ProcessDecision.class);
-			for (IModelNode decision : decisions) {
-				List<IModelConnection> outgoingConnections = decision.getOutgoingConnections();
-				for (IModelConnection connection : outgoingConnections) {
-					boolean isFulfilled = path.getEdgeList().contains(connection);
-					evaluation.put(connection, new TaggedBoolean(isFulfilled, ETag.ALL));
-				}
-			}
-			evaluations.add(evaluation);
-		}
-		return evaluations;
-	}
-
-	private TestCase createTestCase(ProcessNodeEvaluation evaluation, TestSpecification specification, int position) {
-		TestCase testCase = super.createTestCase(specification);
-		testCase.setConsistent(true);
-		testCase.setPosition(position);
-		specification.getContents().add(testCase);
-
-		List<TestParameter> parameters = SpecmateEcoreUtil.pickInstancesOf(specification.getContents(),
-				TestParameter.class);
-
-		for (TestParameter testParameter : parameters) {
-			ParameterAssignment assignment = TestspecificationFactory.eINSTANCE.createParameterAssignment();
-			assignment.setId(SpecmateEcoreUtil.getIdForChild(testCase, assignment.eClass()));
-			assignment.setName(assignment.getId());
-			assignment.setParameter(testParameter);
-
-			Optional<Entry<IContainer, TaggedBoolean>> evaluationEntry = Optional.empty();
-
-			String testParameterName = testParameter.getName();
-			for (Entry<IContainer, TaggedBoolean> currentEvaluationEntry : evaluation.entrySet()) {
-				IContainer currentEvaluationConnection = currentEvaluationEntry.getKey();
-				String testParameterNameFromEvaluation = getTestParameterName(
-						(ProcessConnection) currentEvaluationConnection);
-				if (testParameterNameFromEvaluation == null) {
-					getTestParameterName((ProcessConnection) currentEvaluationConnection);
-				}
-				if (testParameterNameFromEvaluation.equals(testParameterName)) {
-					evaluationEntry = Optional.of(currentEvaluationEntry);
-					break;
-				}
-			}
-
-			String value = "";
-			if (evaluationEntry.isPresent()) {
-				value = String.valueOf(evaluationEntry.get().getValue().value ? "true" : "");
-			}
-
-			assignment.setCondition(String.valueOf(value));
-			testCase.getContents().add(assignment);
-
-		}
-		return testCase;
-	}
-
 	private List<GraphPath<IModelNode, ProcessConnection>> getAllPaths() {
-		Set<IModelNode> processStarts = getStartNodes();
-		Set<IModelNode> processEnds = getEndNodes();
+		Set<ProcessStart> processStarts = getStartNodes();
+		Set<ProcessEnd> processEnds = getEndNodes();
 		DirectedGraph<IModelNode, ProcessConnection> graph = getGraph();
 
 		// AllDirectedPaths<IModelNode, ProcessConnection> allDirectedPaths =
@@ -358,16 +264,14 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		return allPaths;
 	}
 
-	private Set<IModelNode> getStartNodes() {
-		Set<IModelNode> startNodes = nodes.stream().filter((IModelNode node) -> node instanceof ProcessStart)
-				.collect(Collectors.toSet());
+	private Set<ProcessStart> getStartNodes() {
+		Set<ProcessStart> startNodes = SpecmateEcoreUtil.uniqueInstancesOf(nodes, ProcessStart.class);
 		AssertUtil.assertEquals(startNodes.size(), 1, "Number of start nodes in process is different to 1.");
 		return startNodes;
 	}
 
-	private Set<IModelNode> getEndNodes() {
-		Set<IModelNode> endNodes = nodes.stream().filter((IModelNode node) -> node instanceof ProcessEnd)
-				.collect(Collectors.toSet());
+	private Set<ProcessEnd> getEndNodes() {
+		Set<ProcessEnd> endNodes = SpecmateEcoreUtil.uniqueInstancesOf(nodes, ProcessEnd.class);
 		AssertUtil.assertTrue(endNodes.size() > 0, "No end nodes in process were found");
 		return endNodes;
 	}
