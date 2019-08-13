@@ -26,12 +26,13 @@ import com.specmate.model.processes.ProcessEnd;
 import com.specmate.model.processes.ProcessStart;
 import com.specmate.model.processes.ProcessStep;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.model.testspecification.ParameterAssignment;
 import com.specmate.model.testspecification.ParameterType;
+import com.specmate.model.testspecification.TestCase;
 import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestStep;
 import com.specmate.model.testspecification.TestspecificationFactory;
-import com.sun.tools.javac.util.Pair;
 
 /** Generates tests from a process model */
 public class ProcessTestCaseGenerator2 extends TestCaseGeneratorBase<Process, IModelNode> {
@@ -67,7 +68,7 @@ public class ProcessTestCaseGenerator2 extends TestCaseGeneratorBase<Process, IM
 				// in this case the test parameter is defined by the decision node
 				continue;
 			}
-			String testParameterName = extractVariableAndConditionFromExpression(connection.getCondition()).fst;
+			String testParameterName = extractVariableAndConditionFromExpression(connection.getCondition()).name;
 			TestParameter testParameter = createTestParameter(testParameterName, ParameterType.INPUT);
 			testParameters.put(testParameterName, testParameter);
 			specification.getContents().add(testParameter);
@@ -77,7 +78,7 @@ public class ProcessTestCaseGenerator2 extends TestCaseGeneratorBase<Process, IM
 		for (ProcessStep step : steps) {
 			String expectedOutcome = step.getExpectedOutcome();
 			if (!StringUtils.isEmpty(expectedOutcome)) {
-				String variable = extractVariableAndConditionFromExpression(expectedOutcome).fst;
+				String variable = extractVariableAndConditionFromExpression(expectedOutcome).name;
 				TestParameter testParameter = createTestParameter(variable, ParameterType.OUTPUT);
 				testParameters.put(variable, testParameter);
 				specification.getContents().add(testParameter);
@@ -85,12 +86,12 @@ public class ProcessTestCaseGenerator2 extends TestCaseGeneratorBase<Process, IM
 		}
 	}
 
-	private Pair<String, String> extractVariableAndConditionFromExpression(String outcome) {
+	private AssigmentValues extractVariableAndConditionFromExpression(String outcome) {
 		// split only at first occurence of "=", result will have length <= 2
 		String[] splitted = outcome.split("=", 2);
 		String variable = splitted[0];
-		String condition = splitted.length > 1 ? splitted[1] : "is present";
-		return Pair.of(variable, condition);
+		String condition = splitted.length > 1 && !StringUtils.isEmpty(splitted[1]) ? splitted[1] : "is present";
+		return new AssigmentValues(variable, condition);
 	}
 
 	@Override
@@ -103,6 +104,7 @@ public class ProcessTestCaseGenerator2 extends TestCaseGeneratorBase<Process, IM
 
 	private void createTestCases(List<GraphPath<IModelNode, ProcessConnection>> paths) {
 		for (GraphPath<IModelNode, ProcessConnection> path : paths) {
+			List<AssigmentValues> variableConditionList = new ArrayList<>();
 			for (int i = 0; i < path.getVertexList().size(); i++) {
 				IModelNode currentNode = path.getVertexList().get(i);
 				ProcessConnection currentConnection = null;
@@ -110,18 +112,53 @@ public class ProcessTestCaseGenerator2 extends TestCaseGeneratorBase<Process, IM
 					currentConnection = path.getEdgeList().get(i);
 				}
 
-				String variable;
-				String condition;
-
 				if (currentNode instanceof ProcessDecision) {
-					variable = currentNode.getName();
-					condition = currentConnection.getCondition();
+					if (!StringUtils.isEmpty(currentNode.getName())) {
+						String condition = currentConnection.getCondition();
+						if (StringUtils.isEmpty(condition)) {
+							condition = "is present";
+						}
+						variableConditionList
+								.add(new AssigmentValues(currentNode.getName(), condition, ParameterType.INPUT));
+					}
 				} else {
 					if (currentNode instanceof ProcessStep) {
 						ProcessStep step = (ProcessStep) currentNode;
-						 varCond = extractVariableAndConditionFromExpression(step.getExpectedOutcome(););					}
+						if (!StringUtils.isEmpty(step.getExpectedOutcome())) {
+							AssigmentValues varCond = extractVariableAndConditionFromExpression(
+									step.getExpectedOutcome());
+							varCond.type = ParameterType.OUTPUT;
+							variableConditionList.add(varCond);
+						}
+					}
+					if (!StringUtils.isEmpty(currentConnection.getCondition())) {
+						AssigmentValues varCond = extractVariableAndConditionFromExpression(
+								currentConnection.getCondition());
+						varCond.type = ParameterType.INPUT;
+						variableConditionList.add(varCond);
+					}
+
 				}
 			}
+			List<String> seenParameterNames = new ArrayList<>();
+			TestCase tc = TestspecificationFactory.eINSTANCE.createTestCase();
+			for (AssigmentValues varCond : variableConditionList) {
+				String variable = varCond.name;
+				int i = 1;
+				while (seenParameterNames.contains(variable)) {
+					i++;
+					variable = variable + " " + i;
+				}
+				TestParameter parameter = testParameters.get(variable);
+				if (parameter == null) {
+					parameter = createTestParameter(variable, varCond.type);
+					testParameters.put(parameter.getName(), parameter);
+					specification.getContents().add(parameter);
+				}
+				ParameterAssignment assignment = createParameterAssignment(tc, parameter, varCond.condition);
+				tc.getContents().add(assignment);
+			}
+			specification.getContents().add(tc);
 		}
 	}
 
@@ -289,5 +326,23 @@ public class ProcessTestCaseGenerator2 extends TestCaseGeneratorBase<Process, IM
 		}
 
 		return graph;
+	}
+
+	private class AssigmentValues {
+		public String name;
+		public String condition;
+		public ParameterType type;
+
+		public AssigmentValues(String name, String condition, ParameterType type) {
+			this.name = name;
+			this.condition = condition;
+			this.type = type;
+		}
+
+		public AssigmentValues(String name, String condition) {
+			this.name = name;
+			this.condition = condition;
+		}
+
 	}
 }
