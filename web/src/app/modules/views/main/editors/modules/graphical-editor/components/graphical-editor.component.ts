@@ -1,8 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, Renderer, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit, Renderer, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { UUID } from 'angular2-uuid';
+import { mxgraph } from 'mxgraph'; // Typings only - no code!
 import { Config } from '../../../../../../../config/config';
 import { CEGModel } from '../../../../../../../model/CEGModel';
 import { IContainer } from '../../../../../../../model/IContainer';
+import { IModelConnection } from '../../../../../../../model/IModelConnection';
 import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISpecmatePositionableModelObject';
 import { Process } from '../../../../../../../model/Process';
 import { Type } from '../../../../../../../util/type';
@@ -17,12 +20,13 @@ import { IDoubleClickTool } from '../../tool-pallette/tools/IDoubleClickTool';
 import { IDragAndDropTool } from '../../tool-pallette/tools/IDragAndDropTool';
 import { IKeyboardTool } from '../../tool-pallette/tools/IKeyboardTool';
 import { ToolBase } from '../../tool-pallette/tools/tool-base';
+import { ConverterBase } from '../converters/converter-base';
+import { NodeNameConverterProvider } from '../providers/conversion/node-name-converter-provider';
 import { ElementProvider } from '../providers/properties/element-provider';
 import { NameProvider } from '../providers/properties/name-provider';
 import { ToolProvider } from '../providers/properties/tool-provider';
 import { Area, Line, Point, Square } from '../util/area';
 
-import { mxgraph } from 'mxgraph'; // Typings only - no code!
 
 declare var require: any;
 
@@ -42,8 +46,9 @@ const mx: typeof mxgraph = require('mxgraph')({
 export class GraphicalEditor {
 
     private nameProvider: NameProvider;
-    private toolProvider: ToolProvider;
     private elementProvider: ElementProvider;
+    private toolProvider: ToolProvider;
+    private nodeNameConverter: ConverterBase<any, string>;
 
     public isGridShown = true;
 
@@ -81,38 +86,67 @@ export class GraphicalEditor {
     private graph: mxgraph.mxGraph;
     @ViewChild('mxGraphContainer')
     public set graphContainer(element: ElementRef) {
-        console.log(element);
+
         if (element === undefined) {
             return;
         }
         this.graph = new mx.mxGraph(element.nativeElement);
-        const parent = this.graph.getDefaultParent();
         this.graph.setGridEnabled(true);
+        const rubberband = new mx.mxRubberband(this.graph);
+        rubberband.reset();
         const vertexStyle = this.graph.getStylesheet().getDefaultVertexStyle();
         vertexStyle[mx.mxConstants.STYLE_ROUNDED] = false;
+        vertexStyle[mx.mxConstants.STYLE_STROKECOLOR] = '#000000';
+        vertexStyle[mx.mxConstants.STYLE_ROUNDED] = true;
+        vertexStyle[mx.mxConstants.STYLE_SHAPE] = mx.mxConstants.SHAPE_RECTANGLE;
 
-        const style = {};
-        style[mx.mxConstants.STYLE_STROKECOLOR] = '#000000';
-        style[mx.mxConstants.STYLE_SHAPE] = mx.mxConstants.SHAPE_HEXAGON;
-        this.graph.getStylesheet().putDefaultVertexStyle(style);
+        this.graph.getStylesheet().getDefaultEdgeStyle()[mx.mxConstants.STYLE_STROKECOLOR] = '#000000';
 
-        const edgeStyle = this.graph.getStylesheet().getDefaultEdgeStyle();
-        edgeStyle[mx.mxConstants.EDGESTYLE_ELBOW] = false;
-        edgeStyle[mx.mxConstants.EDGESTYLE_ENTITY_RELATION] = false;
-        edgeStyle[mx.mxConstants.EDGESTYLE_LOOP] = false;
-        edgeStyle[mx.mxConstants.EDGESTYLE_ORTHOGONAL] = false;
-        edgeStyle[mx.mxConstants.EDGESTYLE_SEGMENT] = false;
-        edgeStyle[mx.mxConstants.EDGESTYLE_SIDETOSIDE] = true;
-        edgeStyle[mx.mxConstants.EDGESTYLE_TOPTOBOTTOM] = false;
-        edgeStyle[mx.mxConstants.STYLE_DASHED] = true;
-        edgeStyle[mx.mxConstants.STYLE_STROKECOLOR] = '#ff0000';
+        this.graph.getModel().addListener(mx.mxEvent.CHANGE, (sender: mxgraph.mxEventSource, evt: mxgraph.mxEventObject) => {
+            const changes = evt.getProperty('edit').changes;
+            for (const change of changes) {
+                this.translateChange(change);
+            }
+        });
 
+        this.graph.getSelectionModel().addListener(mx.mxEvent.CHANGE, async (args: any) => {
+            if (this.graph.getSelectionCount() === 1) {
+                const selectedElement = await this.dataService.readElement(this.graph.getSelectionModel().cells[0].getId());
+                this.selectedElementService.select(selectedElement);
+            } else {
+                this.selectedElementService.deselect();
+            }
+        });
+
+        this.initGraphicalModel();
+    }
+
+    private async initGraphicalModel(): Promise<void> {
+        if (this.graph === undefined || this.model === undefined) {
+            return;
+        }
+        this._contents = await this.dataService.readContents(this.model.url, true);
+        this.elementProvider = new ElementProvider(this.model, this._contents);
+        this.nodeNameConverter = new NodeNameConverterProvider(this.model).nodeNameConverter;
+        const parent = this.graph.getDefaultParent();
         this.graph.getModel().beginUpdate();
         try {
-            const vertex1 = this.graph.insertVertex(parent, '1', 'Vertex 1', 0, 0, 200, 80);
-            const vertex2 = this.graph.insertVertex(parent, '2', 'Vertex 2', 0, 0, 200, 80);
 
-            const elem = this.graph.insertEdge(parent, '1-2', 'Edge 1', vertex1, vertex2);
+            const vertexCache: { [url: string]: mxgraph.mxCell } = {};
+            for (const node of this.elementProvider.nodes) {
+                const x = node['x'];
+                const y = node['y'];
+                const width = Config.CEG_NODE_WIDTH;
+                const height = Config.CEG_NODE_HEIGHT;
+                const value = this.nodeNameConverter ? this.nodeNameConverter.convertTo(node) : node.name;
+                const vertex = this.graph.insertVertex(parent, node.url, value, x, y, width, height);
+                vertexCache[node.url] = vertex;
+            }
+            for (const connection of this.elementProvider.connections.map(element => element as IModelConnection)) {
+                const sourceVertex = vertexCache[connection.source.url];
+                const targetVertex = vertexCache[connection.target.url];
+                this.graph.insertEdge(parent, connection.url, '', sourceVertex, targetVertex);
+            }
 
         } finally {
             this.graph.getModel().endUpdate();
@@ -120,6 +154,26 @@ export class GraphicalEditor {
         }
     }
 
+    private translateChange(change: { cell: mxgraph.mxCell }): void {
+        if (change.cell === undefined) {
+            return;
+        }
+        const element = this.contents.find(element => element.url === change.cell.id);
+        if (element === undefined) {
+            return;
+        }
+        if (this.nodeNameConverter) {
+            const elementValues = this.nodeNameConverter.convertFrom(change.cell.value);
+            for (const key in elementValues) {
+                element[key] = elementValues[key];
+            }
+        } else {
+            element['variable'] = change.cell.value;
+        }
+        element['x'] = change.cell.geometry.x;
+        element['y'] = change.cell.geometry.y;
+        this.dataService.updateElement(element, true, UUID.UUID());
+    }
 
     public get model(): IContainer {
         return this._model;
@@ -139,12 +193,14 @@ export class GraphicalEditor {
             model, this.dataService, this.selectedElementService, this.translate, this.multiselectionService, this.clipboardService);
         this.nameProvider = new NameProvider(model, this.translate);
         this._model = model;
+        this.initGraphicalModel();
     }
 
     @Input()
     public set contents(contents: IContainer[]) {
         this._contents = contents;
         this.elementProvider = new ElementProvider(this.model, this._contents);
+        this.initGraphicalModel();
     }
 
     private set focus(newFocus: boolean) {
