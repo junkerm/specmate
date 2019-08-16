@@ -114,6 +114,21 @@ export class SpecmateDataService {
         return this.readContentsServer(url).then((contents: IContainer[]) => this.readContentsComplete(contents));
     }
 
+    public readContentsRecursiveVirtually(url: string): IContainer[] {
+        const element = this.readElementVirtual(url);
+        let toVisit = [element];
+        const contents = [];
+        while (toVisit.length > 0) {
+            const currentElement = toVisit.pop();
+            const currentContents = this.readContentsVirtual(currentElement.url);
+            if (currentContents) {
+                toVisit = toVisit.concat(currentContents);
+            }
+            contents.push(currentElement);
+        }
+        return contents;
+    }
+
     private readContentsComplete(contents: IContainer[]): IContainer[] {
         this.busy = false;
         return contents;

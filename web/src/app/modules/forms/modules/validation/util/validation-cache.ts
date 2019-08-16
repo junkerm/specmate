@@ -1,89 +1,61 @@
-import { IContainer } from '../../../../../model/IContainer';
 import { ValidationResult } from '../../../../../validation/validation-result';
+import { Url } from '../../../../../util/url';
+import { TranslateService } from '@ngx-translate/core';
+import { IContainer } from '../../../../../model/IContainer';
+import { ValidationErrorSeverity } from '../../../../../validation/validation-error-severity';
+
+
+export type ValidationPair = { element: IContainer, message: string, severity: ValidationErrorSeverity };
 
 export class ValidationCache {
-    constructor() {
-        this.dataCache = {};
-        this.contentCache = {};
-    }
 
-    private dataCache: {[url: string]: ValidationResult[]};
-    private contentCache: {[url: string]: string};
+    private dataCache: { [url: string]: ValidationPair[] } = {};
 
-    public removeEntry(url: string) {
-        if (!(url in this.dataCache)) {
-            return;
-        }
-        let results = this.dataCache[url];
-        delete this.dataCache[url];
-        delete this.contentCache[url];
-        /* Changing one element might make the results of other elements to become invalid as well:
-        * A => Result[A,B], Result[A]
-        * B => Result[A,B]
-        *
-        * delete A
-        * A => []
-        * B => Result[A,B]   <-- Now invalid and needs to be removed
-        */
-        for (const valRes of results) {
-            for (const element of valRes.elements) {
-                delete this.dataCache[element.url];
-                delete this.contentCache[element.url];
-            }
-        }
-    }
+    constructor(private translate: TranslateService) { }
 
-    private static getContentString(content: string[]) {
-        return content.sort().join(' ');
-    }
-
-    public isCached(url: string, content: string[]) {
-        if (!(url in this.dataCache)) {
+    public isValid(url: string): boolean {
+        if (this.dataCache[url] !== undefined && this.dataCache[url].length > 0) {
             return false;
         }
-        let cStr = ValidationCache.getContentString(content);
-        return this.contentCache[url] === cStr;
+        return true;
     }
 
-    public getEntry(url: string) {
-        return this.dataCache[url];
+    private emptyValidatatonResults: ValidationPair[] = [];
+    public getValidationResults(url: string): ValidationPair[] {
+        return this.dataCache[url] || this.emptyValidatatonResults;
     }
 
-    public addEntriesToCache(url: string, content: string[], entries: ValidationResult[]) {
-        if (!(url in this.dataCache)) {
-            this.dataCache[url] = [];
-        }
-        this.dataCache[url] = entries;
-        // One Result might affect multiple elements
-        // These Results are stored in the cache of every individual element
-        for (const entry of entries) {
-            let urls = entry.elements.map(el => el.url);
-            for (const elUrl of urls) {
-                if (elUrl !== url) {
-                    if (!(elUrl in this.dataCache)) {
-                        this.dataCache[elUrl] = [];
-                    }
-                    this.dataCache[elUrl].push(entry);
-                }
+    public addValidationResultsToCache(validationResults: ValidationResult[]): void {
+        for (const validationResult of validationResults.filter(validationResult => !validationResult.isValid)) {
+            for (const element of validationResult.elements) {
+                this.addToCache(element.url, {
+                    element: element,
+                    message: validationResult.message.getMessageTranslated(this.translate),
+                    severity: validationResult.severity
+                });
             }
         }
     }
 
-    public findValidationResults(parentElement: IContainer, resultFilter?: (result: ValidationResult) => boolean):
-                                {[url: string]: ValidationResult[]} {
-        let out: {[url: string]: ValidationResult[]} = {};
-        for (const url in this.dataCache) {
-            if (this.dataCache.hasOwnProperty(url) && url.startsWith(parentElement.url)) {
-                if (resultFilter !== undefined) {
-                    let filteredResult = this.dataCache[url].filter(resultFilter);
-                    if (filteredResult.length > 0) {
-                        out[url] = filteredResult;
-                    }
-                } else {
-                    out[url] = this.dataCache[url];
-                }
+    private addToCache(url: string, entry: ValidationPair): void {
+        while (url != undefined) {
+            if (!(url in this.dataCache)) {
+                this.dataCache[url] = [];
             }
+            if (this.dataCache[url].find(pair => pair.message === entry.message && pair.element === entry.element) === undefined) {
+                this.dataCache[url].push(entry);
+            }
+            url = Url.parent(url);
         }
-        return out;
+    }
+
+    public clear(): void {
+        const urls = [];
+        for (let url in this.dataCache) {
+            urls.push(url);
+        }
+        for (let url of urls) {
+            delete this.dataCache[url];
+        }
     }
 }

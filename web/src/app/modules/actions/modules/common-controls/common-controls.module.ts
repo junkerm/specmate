@@ -3,13 +3,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ConnectionModule } from '../../../common/modules/connection/connection.module';
 import { SpecmateSharedModule } from '../../../specmate/specmate.shared.module';
 import { CommonControls } from './components/common-controls.component';
+import { ValidationModule } from '../../../forms/modules/validation/validation.module';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
     BrowserModule,
     SpecmateSharedModule,
-    ConnectionModule
+    ConnectionModule,
+    ValidationModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
