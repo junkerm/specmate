@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CEGModel } from '../../../../../model/CEGModel';
 import { IContainer } from '../../../../../model/IContainer';
 import { Process } from '../../../../../model/Process';
@@ -30,6 +30,7 @@ export class ShortModelErrorMessageDisplay {
         this._model = model;
         this.dataService.readContents(model.url).then((contents: IContainer[]) => {
             this.contents = contents;
+            this.validator.refreshValidation(this.model, this.contents, false);
         });
     }
 
@@ -40,6 +41,7 @@ export class ShortModelErrorMessageDisplay {
         if (this.model === undefined) {
             return false;
         }
-        return !this.validator.isValid(this.model, this.contents);
+        const hasError = !this.validator.isValid(this.model);
+        return hasError;
     }
 }

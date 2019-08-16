@@ -86,7 +86,7 @@ export class DataCache {
         return this.contentsStore[parentUrl];
     }
 
-    private getChildrenUrls(url: string): string[] {
+    public getChildrenUrls(url: string): string[] {
         let childrenUrls: string[] = [];
         for (let storedUrl in this.contentsStore) {
             if (storedUrl.startsWith(url + Url.SEP)) {

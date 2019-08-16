@@ -8,6 +8,7 @@ import { NavigatorModule } from '../../../../navigation/modules/navigator/naviga
 import { SpecmateSharedModule } from '../../../../specmate/specmate.shared.module';
 import { ErrorsWarings } from './components/errors-warnings.component';
 import { Warning } from './components/warning.component';
+import { ValidationModule } from '../../../../forms/modules/validation/validation.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { Warning } from './components/warning.component';
     SpecmateSharedModule,
     NgbModule.forRoot(),
     TranslateModule,
+    ValidationModule,
     ShortModelErrorDisplayModule
   ],
   declarations: [
