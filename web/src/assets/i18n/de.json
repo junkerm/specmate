@@ -137,6 +137,7 @@
 	"invalidCharacter": "Ungültige Zeichen: , ; |",
 	"library": "Bibliothek",
 	"loadMore": "Weitere laden",
+	"loading": "Lädt...",
 	"log": {
 		"dataError": "Datenfehler",
 		"delete": "Löschen",
@@ -153,6 +154,7 @@
 	"logout": "Abmelden",
 	"logoutFailed": "Abmeldung fehlgeschlagen.",
 	"maximize": "Maximieren",
+	"modelGenerationFailed": "Es konnte kein Modell erzeugt werden.",
 	"name": "Name",
 	"navigate": {
 		"back": "Zurück",

@@ -137,6 +137,7 @@
 	"invalidCharacter": "Invalid Characters: , ; |",
 	"library": "Library",
 	"loadMore": "Load more",
+	"loading": "Loading...",
 	"log": {
 		"dataError": "Data error",
 		"delete": "Delete",
@@ -153,6 +154,7 @@
 	"logout": "Log Out",
 	"logoutFailed": "Log out failed.",
 	"maximize": "Maximize",
+	"modelGenerationFailed": "No model could be extracted.",
 	"name": "Name",
 	"navigate": {
 		"back": "Back",
