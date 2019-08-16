@@ -235,6 +235,7 @@
 	"unknownError": "Ein unbekannter Fehler ist auf dem Server aufgetreten",
 	"unreferenced": "nicht referenziert",
 	"username": "Benutzername",
+	"validate": "validieren",
 	"validationResult": {
 		"errorCircularCauses": "Zyklische Ursachenabhängigkeit.",
 		"errorContradictoryModel": "Wirkung hat wiedersprüchliche Ursachen.",
