@@ -26,7 +26,7 @@ public class ProcessModelTest extends TestBase {
 	  * Runs a test verifying the creation of a process model.
 	  * @throws InvalidElementStateException
 	  */
-	@Test
+	//@Test
 	public void verifyProcessModelTest() {
 		Actions builder = new Actions(driver);
 		
