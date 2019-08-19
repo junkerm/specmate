@@ -137,6 +137,6 @@ public class ProcessEditorElements extends EditorElements {
 	}
 
 	public boolean relatedRequirementDisplayed() {
-		return isElementPresent(By.cssSelector("tracing-link"));
+		return UITestUtil.isElementPresent(By.cssSelector("tracing-link"), driver);
 	}
 }

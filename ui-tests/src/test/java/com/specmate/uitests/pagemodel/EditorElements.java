@@ -2,11 +2,8 @@ package com.specmate.uitests.pagemodel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -55,16 +52,6 @@ public class EditorElements {
 	public void clear() {
 		driver.findElement(toolbarClear).click();
 		driver.findElement(accept).click();
-	}
-
-	protected void scrollDownTo(By elementLocator) {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-
-		// Find element by locator
-		WebElement Element = driver.findElement(elementLocator);
-
-		// Scroll the page till the element is found
-		js.executeScript("arguments[0].scrollIntoView();", Element);
 	}
 
 	public void clickOnRelatedRequirement(String requirement) {
@@ -137,36 +124,14 @@ public class EditorElements {
 	}
 
 	public boolean errorMessageDisplayed() {
-		return isElementPresent(By.cssSelector(".text-danger"));
+		return UITestUtil.isElementPresent(By.cssSelector(".text-danger"), driver);
 	}
 
 	public boolean noWarningsMessageDisplayed() {
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.cssSelector("g:first-child > [generic-graphical-connection]")));
-		return isElementPresent(By.cssSelector(".text-success"));
-	}
-
-	/**
-	 * Checks if the element is present or absent
-	 *
-	 * @param selector
-	 * @return true if the element specified by the selector can be found, false
-	 *         otherwise
-	 */
-	protected boolean isElementPresent(By selector) {
-		// Set the timeout to 1 second in order to avoid delay
-		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-		boolean returnVal = true;
-		try {
-			driver.findElement(selector);
-		} catch (NoSuchElementException e) {
-			returnVal = false;
-		} finally {
-			// Change timeout back to the defined value
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		}
-		return returnVal;
+		return UITestUtil.isElementPresent(By.cssSelector(".text-success"), driver);
 	}
 
 	/**
@@ -178,13 +143,13 @@ public class EditorElements {
 			Thread.sleep(1500);
 		} catch (InterruptedException ie) {
 		}
-		scrollDownTo(generateTestSpec);
+		UITestUtil.scrollDownTo(generateTestSpec, driver);
 		driver.findElement(generateTestSpec).click();
 		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	public void addRelatedRequirement(String name) {
-		scrollDownTo(relatedRequirement);
+		UITestUtil.scrollDownTo(relatedRequirement, driver);
 		WebElement relatedRequirementField = driver.findElement(relatedRequirement);
 		relatedRequirementField.clear();
 		relatedRequirementField.sendKeys(name);
