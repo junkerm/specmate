@@ -13,7 +13,7 @@ public class UITestUtil {
 	
 	/** 
      * If the modal is displayed, we wait 3 seconds and then check again if the modal is still there
-     * The method checks for 15 seconds at intervals of 3 seconds (driver.findElement TimeOut 
+     * The method checks for 10 seconds at intervals of 1 second (driver.findElement TimeOut 
      * (defined by implictlyWait) (3 seconds) * counter (5)) if the modal disappeared
      * 	*/
 	public static void waitForModalToDisappear(WebDriver driver) {
@@ -21,8 +21,8 @@ public class UITestUtil {
 		
 		
 		boolean modalDisplayed = true;
-    	int counter = 6;
-    	driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+    	int counter = 11;
+    	driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
     	do {
     		try {
     			counter--;
