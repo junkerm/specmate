@@ -45,23 +45,28 @@ public class RequirementOverviewElements {
 
 	public void clickOnCreatedModel(String modelName) {
 		driver.findElement(By.id("requirement-" + modelName + "-show-model-button")).click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	public void clickOnCreatedProcess(String processName) {
 		driver.findElement(By.id("requirement-" + processName + "-show-process-button")).click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	public void clickOnDuplicateModel(String modelName) {
 		driver.findElement(By.id("requirement-Copy 1 of " + modelName + "-show-model-button")).click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	public void clickOnDuplicateProcess(String modelName) {
 		driver.findElement(By.id("requirement-Copy 1 of " + modelName + "-show-process-button")).click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	/** click on button to create new test specification */
 	public void createTestSpec() {
 		driver.findElement(createTestSpec).click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	public void deleteModel(String modelName) {
@@ -71,6 +76,7 @@ public class RequirementOverviewElements {
 				.visibilityOfElementLocated(By.id("requirement-" + modelName + "-deletemodel-button")));
 		driver.findElement(By.id("requirement-" + modelName + "-deletemodel-button")).click();
 		driver.findElement(discard).click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	public void deleteDuplicateModel(String modelName) {
@@ -80,6 +86,7 @@ public class RequirementOverviewElements {
 				.visibilityOfElementLocated(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button")));
 		driver.findElement(By.id("requirement-Copy 1 of " + modelName + "-deletemodel-button")).click();
 		driver.findElement(discard).click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	public void deleteModelbutCancel(String modelName) {
@@ -89,10 +96,12 @@ public class RequirementOverviewElements {
 
 	public void duplicateCEGModel(String cegModelName) {
 		driver.findElement(By.id("requirement-" + cegModelName + "-duplicatemodel-button")).click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	public void duplicateProcess(String processName) {
 		driver.findElement(By.id("requirement-" + processName + "-duplicateprocess-button")).click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	public void deleteProcess(String processName) {
@@ -102,6 +111,7 @@ public class RequirementOverviewElements {
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(discard));
 		driver.findElement(By.id("requirement-" + processName + "-deleteprocess-button")).click();
 		driver.findElement(discard).click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	public void deleteDuplicateProcess(String processName) {
@@ -110,15 +120,18 @@ public class RequirementOverviewElements {
 				.visibilityOfElementLocated(By.id("requirement-Copy 1 of " + processName + "-deleteprocess-button")));
 		driver.findElement(By.id("requirement-Copy 1 of " + processName + "-deleteprocess-button")).click();
 		driver.findElement(discard).click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	public void deleteTestSpec(String testSpecName) {
 		driver.findElement(By.id("requirement-" + testSpecName + "-deletetestspec-button")).click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	/** Generate test specification for a given model */
 	public void generateTestSpecification(String modelName) {
 		driver.findElement(By.id(modelName + "-generate-testspec-button")).click();
+		UITestUtil.waitForModalToDisappear(driver);
 	}
 
 	public boolean checkForRelatedRequirement() {
