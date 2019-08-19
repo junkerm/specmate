@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 
 public class UITestUtil {
@@ -21,12 +22,13 @@ public class UITestUtil {
     		try {
     			counter--;
     			modalDisplayed = ((counter>0) && driver.findElement(modalLocator).isDisplayed());
-    		} catch (NoSuchElementException e) {
+    		} catch (NoSuchElementException ne) {
+    			modalDisplayed = false;
+    		} catch (StaleElementReferenceException se) {
     			modalDisplayed = false;
     		}
     	} while(modalDisplayed);
     	// Change timeout back to the defined value
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		
 	}
 }
