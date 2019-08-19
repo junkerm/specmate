@@ -127,7 +127,7 @@ public class ProcessEditorElements extends EditorElements {
 		WebElement decisionFromList = decisionList.get(numberOfDecisions);
 		
 		List<WebElement> childs = decisionFromList.findElements(By.xpath(".//*"));
-		WebElement decisionRectangle = childs.get(2);
+		WebElement decisionRectangle = childs.get(1);
 
 		WebElement decisionTextfield = driver.findElement(propertiesName);
 		decisionTextfield.clear();
