@@ -26,7 +26,9 @@ public class UITestUtil {
     	do {
     		try {
     			counter--;
-    			modalDisplayed = ((counter>0) && driver.findElement(modalLocator).isDisplayed());
+    			// If element is not found, catch block is called
+    			driver.findElement(modalLocator).isDisplayed();
+    			modalDisplayed = counter>0;
     		} catch (NoSuchElementException | StaleElementReferenceException e) {
     			modalDisplayed = false;
     		}
