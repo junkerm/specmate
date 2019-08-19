@@ -1,24 +1,32 @@
 package com.specmate.uitests.pagemodel;
 
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UITestUtil {
 	public static void waitForModalToDisappear(WebDriver driver) {
 		By modalLocator = By.id("loading-modal");
-		try {
-			driver.findElement(modalLocator).isDisplayed();
-		} catch (TimeoutException te) {
-			// Modal did not appear
-			return;
-		} catch (NoSuchElementException ne) {
-			// Modal did not appear
-			return; 
-		}
-		new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(modalLocator));
+		/*
+		 * 	If modal is present, wait till it vanishes
+		 * 	If it modal is not present resume
+		 * */
+		
+		boolean modalDisplayed = true;
+    	int counter = 6;
+    	driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+    	do {
+    		try {
+    			counter--;
+    			modalDisplayed = ((counter>0) && driver.findElement(modalLocator).isDisplayed());
+    		} catch (NoSuchElementException e) {
+    			modalDisplayed = false;
+    		}
+    	} while(modalDisplayed);
+    	// Change timeout back to the defined value
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		
 	}
 }
