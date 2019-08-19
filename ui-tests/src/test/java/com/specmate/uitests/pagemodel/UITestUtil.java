@@ -10,23 +10,21 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class UITestUtil {
-	
 	/** 
-     * If the modal is displayed, we wait 3 seconds and then check again if the modal is still there
+     * If the modal is displayed, we wait 1 second and then check again if the modal is still there
      * The method checks for 10 seconds at intervals of 1 second (driver.findElement TimeOut 
      * (defined by implictlyWait) (3 seconds) * counter (5)) if the modal disappeared
      * 	*/
 	public static void waitForModalToDisappear(WebDriver driver) {
 		By modalLocator = By.id("loading-modal");
-		
-		
 		boolean modalDisplayed = true;
     	int counter = 11;
+    	
     	driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
     	do {
     		try {
     			counter--;
-    			// If element is not found, catch block is called
+    			// If modal is not displayed, exception is thrown
     			driver.findElement(modalLocator).isDisplayed();
     			modalDisplayed = counter>0;
     		} catch (NoSuchElementException | StaleElementReferenceException e) {
@@ -69,4 +67,25 @@ public class UITestUtil {
 		// Scroll the page till the element is found
 		js.executeScript("arguments[0].scrollIntoView();", Element);
 	}
+	
+	/** 
+     * If the projects are not loaded beforehand, Specmate will display 'Bad Gateway' till they are loaded.
+     * This method checks for 30 seconds (driver.findElement TimeOut (defined by implictlyWait) (5 seconds) * counter (6)) if the 
+     * loading is finished and refreshes the page each 5 seconds
+     * 	*/
+    public static void waitForProjectsToLoad(WebDriver driver) {
+    	boolean displayed = false;
+    	int counter = 5;
+    	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    	do {
+    		try {
+    			counter--;
+    			displayed = (counter<0) || driver.findElement(By.id("login-username-textfield")).isDisplayed();
+    		} catch (NoSuchElementException e) {
+    			driver.navigate().refresh();
+    		}
+    	} while(!displayed);
+    	// Change timeout back to the defined value
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    }
 }
