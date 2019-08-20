@@ -1,9 +1,8 @@
-package com.specmate.testspecification.internal.generators;
+package com.specmate.testspecification.internal.services;
 
 import java.util.Comparator;
 import java.util.TreeMap;
 
-import com.specmate.model.base.IContainer;
 import com.specmate.model.requirements.CEGNode;
 
 @SuppressWarnings("serial")

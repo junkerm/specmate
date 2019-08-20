@@ -13,7 +13,7 @@
     <td>
         <div class="input-group input-group-sm">
             <button *ngIf="!(testProcedure)" title="{{'createTestProcedure' | translate}}" class="btn btn-sm btn-outline-primary"
-                (click)="createTestProcedure()"><i class="fa fa-plus"></i>&nbsp;{{'createTestProcedure' | translate}}</button>
+                (click)="createTestProcedure()"><i class="fa fa-plus"></i></button>
             <button *ngIf="testProcedure" [navigationTarget]="testProcedure" class="btn btn-sm btn-outline-primary"><i class="fa fa-list-ol"
                     aria-hidden="true"></i></button>
         </div>

@@ -1,50 +1,62 @@
 import { Injectable } from '@angular/core';
-import { Folder } from '../../../../../model/Folder';
+import { TranslateService } from '@ngx-translate/core';
 import { IContainer } from '../../../../../model/IContainer';
 import { FieldMetaItem, MetaInfo } from '../../../../../model/meta/field-meta';
-import { Type } from '../../../../../util/type';
 import { ElementValidatorBase } from '../../../../../validation/element-validator-base';
 import { RequiredFieldsValidator } from '../../../../../validation/required-fields-validator';
 import { TextLengthValidator } from '../../../../../validation/text-length-validator';
 import { ValidNameValidator } from '../../../../../validation/valid-name-validator';
-import { ValidationErrorSeverity } from '../../../../../validation/validation-error-severity';
 import { ValidationResult } from '../../../../../validation/validation-result';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
-import { ValidationCache } from '../util/validation-cache';
+import { ValidationCache, ValidationPair } from '../util/validation-cache';
+import { ValidationErrorSeverity } from '../../../../../validation/validation-error-severity';
 
 @Injectable()
 export class ValidationService {
 
-    private static DISABLED_CHILD_VALIDATION_TYPES: { className: string }[] = [Folder];
     private validationCache: ValidationCache;
     private validNameValidator: ValidNameValidator = new ValidNameValidator();
     private textLengthValidator: TextLengthValidator = new TextLengthValidator();
 
-    constructor(private navigator: NavigatorService, private dataService: SpecmateDataService) {
-        this.validationCache = new ValidationCache();
-        dataService.elementChanged.subscribe( (url: string) => this.validationCache.removeEntry.call(this.validationCache, url));
+    constructor(private navigator: NavigatorService, translate: TranslateService) {
+        this.validationCache = new ValidationCache(translate);
+        navigator.hasNavigated.subscribe(() => this.validateCurrent());
     }
 
-    public findValidationResults( parentElement: IContainer, resultFilter?: (result: ValidationResult) => boolean) {
-        return this.validationCache.findValidationResults(parentElement, resultFilter);
+    public getValidationResults(parentElement: IContainer): ValidationPair[] {
+        return parentElement ? this.validationCache.getValidationResults(parentElement.url) : [];
     }
 
-    private static requiredFieldValidatorMap: {[className: string]: RequiredFieldsValidator};
+    private static requiredFieldValidatorMap: { [className: string]: RequiredFieldsValidator };
 
-    private static elementValidators: {[className: string]: ElementValidatorBase<IContainer>[]};
+    private static elementValidators: { [className: string]: ElementValidatorBase<IContainer>[] };
 
-    public validate(element: IContainer, contents: IContainer[] = []): ValidationResult[] {
-        return this.validateElement(element, contents).concat(this.validateAll(contents));
+    public validate(element: IContainer, contents: IContainer[] = []): ValidationPair[] {
+        return this.validateElement(element).concat(this.validateAll(contents));
     }
 
-    private validateElement(element: IContainer, contents: IContainer[] = []): ValidationResult[] {
+    public async validateCurrent(): Promise<void> {
+        const element = this.navigator.currentElement;
+        const contents = await this.navigator.currentContents;
+        this.refreshValidation(element, contents);
+    }
+
+    private validateElement(element: IContainer): ValidationPair[] {
         if (element === undefined) {
             return [];
         }
-        let contURLs = contents.map(c => c.url);
-        if (this.validationCache.isCached(element.url, contURLs)) {
-            return this.validationCache.getEntry(element.url);
+        return this.validationCache.getValidationResults(element.url);
+    }
+
+    private validateAll(elements: IContainer[]): ValidationPair[] {
+        return elements
+            .map((element: IContainer) => this.validateElement(element))
+            .reduce((a: ValidationPair[], b: ValidationPair[]) => a.concat(b), []);
+    }
+
+    public async refreshValidation(element: IContainer, contents: IContainer[] = [], clear = true): Promise<void> {
+        if (clear) {
+            this.validationCache.clear();
         }
         const requiredFieldsResults: ValidationResult = this.getRequiredFieldsValidator(element).validate(element);
         const validNameResult: ValidationResult = this.validNameValidator.validate(element);
@@ -52,34 +64,10 @@ export class ValidationService {
         const elementValidators = this.getElementValidators(element) || [];
         let elementResults: ValidationResult[] =
             elementValidators.map((validator: ElementValidatorBase<IContainer>) => validator.validate(element, contents))
-                             .concat(requiredFieldsResults)
-                             .concat(validNameResult)
-                             .concat(textLengthValidationResult);
-
-        this.validationCache.addEntriesToCache(element.url, contURLs, elementResults);
-        return elementResults;
-    }
-
-    private validateAll(elements: IContainer[]): ValidationResult[] {
-        return elements
-            .map((element: IContainer) => this.validateElement(element))
-            .reduce((a: ValidationResult[], b: ValidationResult[]) => a.concat(b), []);
-    }
-
-    public isValid(element: IContainer, contents: IContainer[] = []): boolean {
-        const validationResults: ValidationResult[] = this.validate(element, contents);
-        const isValid: boolean = !validationResults.some((validationResult: ValidationResult) => !validationResult.isValid);
-        const currentInvalidContainsElement: boolean =
-            this.currentInvalidElements.find((otherElement: IContainer) => otherElement === element) !== undefined;
-        return isValid && !currentInvalidContainsElement;
-    }
-
-    public get currentValid(): boolean {
-        const currentElement = this.navigator.currentElement;
-        const ignoreContents = ValidationService.DISABLED_CHILD_VALIDATION_TYPES
-            .find(disabledType => Type.is(currentElement, disabledType)) !== undefined;
-        const contents = ignoreContents ? [] : this.navigator.currentContents;
-        return this.isValid(this.navigator.currentElement, contents);
+                .concat(requiredFieldsResults)
+                .concat(validNameResult)
+                .concat(textLengthValidationResult);
+        this.validationCache.addValidationResultsToCache(elementResults);
     }
 
     public get currentSeverities(): ValidationErrorSeverity[] {
@@ -87,14 +75,13 @@ export class ValidationService {
             .map(validationResult => validationResult.severity);
     }
 
-    public get currentInvalidElements(): IContainer[] {
-        if (this.navigator.currentElement === undefined) {
-            return [];
-        }
-        return this.validate(this.navigator.currentElement, this.navigator.currentContents)
-            .filter((result: ValidationResult) => !result.isValid)
-            .map((result: ValidationResult) => result.elements)
-            .reduce((prev: IContainer[], cur: IContainer[]) => prev.concat(cur), []);
+    public isValid(element: IContainer): boolean {
+        const isValid = this.validationCache.isValid(element.url);
+        return isValid;
+    }
+
+    public get currentValid(): boolean {
+        return this.isValid(this.navigator.currentElement);
     }
 
     public allValid(contents: IContainer[]): boolean {
@@ -127,7 +114,7 @@ export class ValidationService {
         return ValidationService.elementValidators[element.className];
     }
 
-    public static registerElementValidator<TV extends Function & (typeof ElementValidatorBase), TE extends {className: string}>(
+    public static registerElementValidator<TV extends Function & (typeof ElementValidatorBase), TE extends { className: string }>(
         elementType: TE, validatorType: TV): void {
         if (ValidationService.elementValidators === undefined) {
             ValidationService.elementValidators = {};

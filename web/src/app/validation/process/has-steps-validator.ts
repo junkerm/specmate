@@ -22,7 +22,7 @@ export class HasStepsValidator extends ElementValidatorBase<Process> {
                 Type.is(element, ProcessStep)) as IModelNode[];
         let processSteps: IModelNode[] = processNodes.filter((element: IModelNode) => Type.is(element, ProcessStep));
         if (processSteps.length === 0) {
-            return new ValidationResult(ValidationMessage.ERROR_NO_STEPS, false, []);
+            return new ValidationResult(ValidationMessage.ERROR_NO_STEPS, false, [element]);
         }
         return ValidationResult.VALID;
     }

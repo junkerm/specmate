@@ -8,13 +8,13 @@
     </h5>
     <div class="card-body">
         <p class="card-text">
-            <short-model-error-message-display [model]="model"></short-model-error-message-display>
-            <span *ngIf="warnings && warnings.length == 0" class="text-success">
+            <span *ngIf="validationResults && validationResults.length == 0" class="text-success">
                 <i aria-hidden="true" class="fa fa-check"></i>&nbsp;{{'NoWarnings' | translate}}.
             </span>
+            <short-model-error-message-display [model]="model"></short-model-error-message-display>
         </p>
     </div>
-    <table *ngIf="warnings && warnings.length > 0" class="table">
+    <table *ngIf="validationResults && validationResults.length > 0" class="table">
         <colgroup>
             <col width="50%" />
             <col width="50%" />
@@ -25,6 +25,15 @@
                 <th>Message</th>
             </tr>
         </thead>
-        <tbody *ngFor="let warningList of warnings" warning [warnElements]="warningList"></tbody>
+        <tbody>
+            <tr *ngFor="let validationResult of validationResults">
+                <td>
+                    {{validationResult.name}}
+                </td>
+                <td>
+                    {{validationResult.message}}
+                </td>
+            </tr>
+        </tbody>
     </table>
 </div>
