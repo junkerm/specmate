@@ -49,7 +49,7 @@ public abstract class TestCaseGeneratorBase<M extends IContainer, N extends IMod
 
 	/**
 	 * Creates a test parameter
-	 * 
+	 *
 	 * @param name the name of the parameter
 	 * @param type the parameter's type
 	 * @return the new test parameter.
@@ -64,19 +64,20 @@ public abstract class TestCaseGeneratorBase<M extends IContainer, N extends IMod
 
 	/**
 	 * Creates a test parameter assignment
-	 * 
+	 *
 	 */
 	protected ParameterAssignment createParameterAssignment(TestCase tc, TestParameter parameter, String value) {
 		ParameterAssignment assignment = TestspecificationFactory.eINSTANCE.createParameterAssignment();
 		assignment.setId(SpecmateEcoreUtil.getIdForChild(tc, assignment.eClass()));
 		assignment.setName(parameter.getName());
 		assignment.setParameter(parameter);
+		assignment.setCondition(value);
 		return assignment;
 	}
 
 	/**
 	 * Creates a new test case
-	 * 
+	 *
 	 * @param specification the specification to create the test case in.
 	 * @return the new test case
 	 */
