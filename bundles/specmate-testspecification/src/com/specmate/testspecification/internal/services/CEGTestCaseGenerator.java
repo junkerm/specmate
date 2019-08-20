@@ -209,7 +209,6 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	 */
 	private Pair<SortedSet<CEGNodeEvaluation>, SortedSet<CEGNodeEvaluation>> computeEvaluations()
 			throws SpecmateException {
-		// TODO: fix ordering, SortedSet instead of Set
 		SortedSet<CEGNodeEvaluation> consistentEvaluations = getInitialEvaluations();
 		SortedSet<CEGNodeEvaluation> inconsistentEvaluations = new TreeSet<CEGNodeEvaluation>(nodeEvalSetComparator);
 		SortedSet<CEGNodeEvaluation> intermediateEvaluations = getIntermediateEvaluations(consistentEvaluations);
