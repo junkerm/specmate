@@ -129,8 +129,8 @@ public class UserMetricService implements IUserMetricsService {
 	 * @return Returns if the user with the userName has been logged in in the specified time difference 
 	 */
 	private boolean isNewUser(IView sessionView, String userName, long difference) {
-		
-		String query = "UserSession.allInstances()->select(u | u.userName='" + userName + "' and u.lastActive> " + difference + " )";
+		String query = "UserSession.allInstances()->select(u | u.lastActive-" + difference + ">0)";
+		//String query = "UserSession.allInstances()->select(u | u.userName='" + userName + "' and u.lastActive> " + difference + " )";
 		List<Object> results = sessionView.query(query,
 				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
 
@@ -165,8 +165,9 @@ public class UserMetricService implements IUserMetricsService {
 	}
 	
 	private void initializeGauge(long difference, IGauge gauge) {
-		// Use the session view to identify how many times we need to decrement the counter 
-		String query = "UserSession.allInstances()->select(u | u.lastActive>" + difference + "->forAll(user1 | user1 <> self implies user1.userName <> self.userName))";
+		// Use the session view to identify how many times we need to decrement the counter
+		String query = "UserSession.allInstances()->select(u | u.lastActive-" + difference + ">0)";
+		//String query = "UserSession.allInstances()->select(u | u.lastActive>" + difference + "->forAll(user1 | user1 <> self implies user1.userName <> self.userName))";
 		List<Object> results = sessionView.query(query,
 				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
 		int numberOfSessions = results.size();
