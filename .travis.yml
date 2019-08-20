@@ -22,7 +22,7 @@ script:
 - (cd bundles && ./gradlew --no-daemon export -x check)
 - (cd bundles && ./gradlew --no-daemon check)
 - (cd bundles/specmate-std-env/generated/distributions/executable/ && java -Xmx6000m -Djdk.crypto.KeyAgreement.legacyKDF=true -jar dev-specmate-all.jar &)
-- sleep 15
+- sleep 10
 - (cd ui-tests/ && mvn clean test)
 after_success:
 - DOCKER_TAG=$TRAVIS_BRANCH
