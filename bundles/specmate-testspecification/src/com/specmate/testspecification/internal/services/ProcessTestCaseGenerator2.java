@@ -233,41 +233,67 @@ public class ProcessTestCaseGenerator2 extends TestCaseGeneratorBase<Process, IM
 	/** Extracts a list of variable/condition pairs reflecting a certain path */
 	private List<AssigmentValues> extractVariablesAndConditionsFromPath(GraphPath<IModelNode, ProcessConnection> path) {
 		List<AssigmentValues> variableConditionList = new ArrayList<>();
+		iteratePath(path, new PathConsumer() {
+			@Override
+			public void consumeProcessStart(ProcessStart start, ProcessConnection outgoingConnection) {
+				consumeGenericConnection(outgoingConnection);
+			}
+
+			@Override
+			public void consumeProcessEnd(ProcessEnd end) {
+				// nothing to do
+			}
+
+			@Override
+			public void consumeProcessDecision(ProcessDecision decision, ProcessConnection outgoingConnection) {
+				if (!StringUtils.isEmpty(decision.getName())) {
+					String condition = outgoingConnection.getCondition();
+					if (StringUtils.isEmpty(condition)) {
+						condition = "is present";
+					}
+					variableConditionList.add(new AssigmentValues(decision.getName(), condition, ParameterType.INPUT));
+				}
+			}
+
+			@Override
+			public void consumeProcessStep(ProcessStep step, ProcessConnection outgoingConnection) {
+				if (!StringUtils.isEmpty(step.getExpectedOutcome())) {
+					AssigmentValues varCond = extractVariableAndConditionFromExpression(step.getExpectedOutcome());
+					varCond.type = ParameterType.OUTPUT;
+					variableConditionList.add(varCond);
+				}
+				consumeGenericConnection(outgoingConnection);
+			}
+
+			private void consumeGenericConnection(ProcessConnection outgoingConnection) {
+				if (outgoingConnection != null && !StringUtils.isEmpty(outgoingConnection.getCondition())) {
+					AssigmentValues varCond = extractVariableAndConditionFromExpression(
+							outgoingConnection.getCondition());
+					varCond.type = ParameterType.INPUT;
+					variableConditionList.add(varCond);
+				}
+			}
+		});
+		return variableConditionList;
+	}
+
+	private void iteratePath(GraphPath<IModelNode, ProcessConnection> path, PathConsumer consumer) {
 		for (int i = 0; i < path.getVertexList().size(); i++) {
 			IModelNode currentNode = path.getVertexList().get(i);
 			ProcessConnection currentConnection = null;
 			if (i < path.getEdgeList().size()) {
 				currentConnection = path.getEdgeList().get(i);
 			}
-
-			if (currentNode instanceof ProcessDecision) {
-				if (!StringUtils.isEmpty(currentNode.getName())) {
-					String condition = currentConnection.getCondition();
-					if (StringUtils.isEmpty(condition)) {
-						condition = "is present";
-					}
-					variableConditionList
-							.add(new AssigmentValues(currentNode.getName(), condition, ParameterType.INPUT));
-				}
-			} else {
-				if (currentNode instanceof ProcessStep) {
-					ProcessStep step = (ProcessStep) currentNode;
-					if (!StringUtils.isEmpty(step.getExpectedOutcome())) {
-						AssigmentValues varCond = extractVariableAndConditionFromExpression(step.getExpectedOutcome());
-						varCond.type = ParameterType.OUTPUT;
-						variableConditionList.add(varCond);
-					}
-				}
-				if (currentConnection != null && !StringUtils.isEmpty(currentConnection.getCondition())) {
-					AssigmentValues varCond = extractVariableAndConditionFromExpression(
-							currentConnection.getCondition());
-					varCond.type = ParameterType.INPUT;
-					variableConditionList.add(varCond);
-				}
-
+			if (currentNode instanceof ProcessStep) {
+				consumer.consumeProcessStep((ProcessStep) currentNode, currentConnection);
+			} else if (currentNode instanceof ProcessDecision) {
+				consumer.consumeProcessDecision((ProcessDecision) currentNode, currentConnection);
+			} else if (currentNode instanceof ProcessStart) {
+				consumer.consumeProcessStart((ProcessStart) currentNode, currentConnection);
+			} else if (currentNode instanceof ProcessEnd) {
+				consumer.consumeProcessEnd((ProcessEnd) currentNode);
 			}
 		}
-		return variableConditionList;
 	}
 
 	/**
@@ -430,5 +456,15 @@ public class ProcessTestCaseGenerator2 extends TestCaseGeneratorBase<Process, IM
 			this.condition = condition;
 		}
 
+	}
+
+	private interface PathConsumer {
+		void consumeProcessStart(ProcessStart start, ProcessConnection outgoingConnection);
+
+		void consumeProcessEnd(ProcessEnd end);
+
+		void consumeProcessDecision(ProcessDecision decision, ProcessConnection outgoingConnection);
+
+		void consumeProcessStep(ProcessStep step, ProcessConnection outgoingConnection);
 	}
 }
