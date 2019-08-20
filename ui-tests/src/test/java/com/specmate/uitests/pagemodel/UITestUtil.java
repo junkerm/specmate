@@ -13,7 +13,7 @@ public class UITestUtil {
 	/** 
      * If the modal is displayed, we wait 1 second and then check again if the modal is still there
      * The method checks for 10 seconds at intervals of 1 second (driver.findElement TimeOut 
-     * (defined by implictlyWait) (3 seconds) * counter (5)) if the modal disappeared
+     * (defined by implictlyWait) (1 seconds) * counter (10)) if the modal disappeared
      * 	*/
 	public static void waitForModalToDisappear(WebDriver driver) {
 		By modalLocator = By.id("loading-modal");
