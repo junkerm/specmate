@@ -16,7 +16,7 @@ import com.specmate.model.testspecification.ParameterAssignment;
 import com.specmate.model.testspecification.TestCase;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestspecificationFactory;
-import com.specmate.testspecification.internal.services.CEGTestCaseGenerator;
+import com.specmate.testspecification.internal.generators.CEGTestCaseGenerator;
 
 public class CEGTestGenerationTest {
 

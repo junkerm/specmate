@@ -128,6 +128,7 @@
 	"elementCouldNotBeUpdated": "Element konnte nicht geändert werden",
 	"errorLoggedOut": "Sie wurden aufgrund eines unbekannten Fehlers abgemeldet.",
 	"expand": "",
+	"exportAlm": "Nach ALM exportieren",
 	"exportTestprocedure": "Testprozedur exportieren",
 	"exportTestspecification": "Testspezifikation exportieren",
 	"failed": "Fehler",

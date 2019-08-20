@@ -28,19 +28,27 @@
             <test-specification-generator-button [model]="element"></test-specification-generator-button>
         </li>
         <li *ngIf="canExportTestprocedure" class="list-group-item">
-            <export-testprocedure-button [testProcedure]="element"></export-testprocedure-button>
+            {{'exportTestprocedure' | translate}}:<br />
+            <ul>
+                <li> 
+                    <export-testprocedure-button [testProcedure]="element"></export-testprocedure-button>
+                </li>
+                <li>
+                    <test-export-button [element]="element" language="CSV"></test-export-button>
+                </li>
+            </ul>
         </li>
         <li *ngIf="canExportTestspecification" class="list-group-item">
             {{'exportTestspecification' | translate}}:<br />
             <ul>
                 <li>
-                    <get-test-specification-skeleton-button [testspecification]="element" language="CSV"></get-test-specification-skeleton-button>
+                    <test-export-button [element]="element" language="CSV"></test-export-button>
                 </li>
                 <li>
-                    <get-test-specification-skeleton-button [testspecification]="element" language="Java"></get-test-specification-skeleton-button>
+                    <test-export-button [element]="element" language="Java"></test-export-button>
                 </li>
                 <li>
-                    <get-test-specification-skeleton-button [testspecification]="element" language="Javascript"></get-test-specification-skeleton-button>
+                    <test-export-button [element]="element" language="Javascript"></test-export-button>
                 </li>
             </ul>
         </li>
