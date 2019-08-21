@@ -37,7 +37,6 @@ public class UserMetricService implements IUserMetricsService {
 	
 	@Activate
 	public void start() throws SpecmateException {
-		this.sessionView = persistencyService.openView();
 		this.specmate_current_day = metricsService.
 				createGauge("specmate_login_counter_current_day", "Number of users logged in at the current day");
 		this.specmate_current_week = metricsService.
@@ -46,8 +45,8 @@ public class UserMetricService implements IUserMetricsService {
 				createGauge("specmate_login_counter_current_month", "Number of users logged in at the current month");
 		this.specmate_current_year = metricsService.
 				createGauge("specmate_login_counter_current_year", "Number of users logged in at the current year");
-		activeScheduler();
-		initializeAfterResart();
+		//activeScheduler();
+		//initializeAfterResart();
 	}
 	
 	@Deactivate
@@ -127,13 +126,25 @@ public class UserMetricService implements IUserMetricsService {
 	 * @param userName
 	 * @param difference 
 	 * @return Returns if the user with the userName has been logged in in the specified time difference 
+	 * @throws SpecmateException 
 	 */
 	private boolean isNewUser(IView sessionView, String userName, long difference) {
-		String query = "UserSession.allInstances()->select(u | u.lastActive-" + difference + ">0)";
+		try {
+			this.sessionView = persistencyService.openView();
+		} catch (SpecmateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//String query = "UserSession.allInstances()->select(u | u.userName='" + userName + "' and u.lastActive> " + difference + " )";
-		List<Object> results = sessionView.query(query,
+		
+		String sqlQuery = "SELECT DISTINCT username FROM UserSession WHERE username="+userName+" AND lastActive>"+difference;
+
+		List<Object> results = sessionView.querySQL(sqlQuery,
 				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
 
+		if (sessionView != null) {
+			sessionView.close();
+		}
 		if (results.size() > 0) {
 			return false;
 		}
@@ -165,16 +176,27 @@ public class UserMetricService implements IUserMetricsService {
 	}
 	
 	private void initializeGauge(long difference, IGauge gauge) {
+		try {
+			this.sessionView = persistencyService.openView();
+		} catch (SpecmateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// Use the session view to identify how many times we need to decrement the counter
-		String query = "UserSession.allInstances()->select(u | u.lastActive-" + difference + ">0)";
 		//String query = "UserSession.allInstances()->select(u | u.lastActive>" + difference + "->forAll(user1 | user1 <> self implies user1.userName <> self.userName))";
-		List<Object> results = sessionView.query(query,
+		
+		String sqlQuery = "SELECT DISTINCT username FROM UserSession WHERE lastActive>"+difference;
+
+		List<Object> results = sessionView.querySQL(sqlQuery,
 				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
 		int numberOfSessions = results.size();
 
 		while(numberOfSessions>0) {
 			gauge.inc();
 			numberOfSessions--;
+		}
+		if (sessionView != null) {
+			sessionView.close();
 		}
 	}
 	
@@ -218,8 +240,8 @@ public class UserMetricService implements IUserMetricsService {
 		this.metricsService = metricsService;
 	}
 
-	@Reference 
-	public void setPersistencyService(IPersistencyService persistencyService) {
-		this.persistencyService = persistencyService;
-	}
+	//@Reference 
+	//public void setPersistencyService(IPersistencyService persistencyService) {
+		//this.persistencyService = persistencyService;
+	//}
 }

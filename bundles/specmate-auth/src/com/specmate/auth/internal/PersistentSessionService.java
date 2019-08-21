@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -70,7 +75,7 @@ public class PersistentSessionService extends BaseSessionService {
 			}
 		});
 		
-		userMetricsService.loginCounter(sessionView, userName);
+		//userMetricsService.loginCounter(sessionView, userName);
 
 		return session;
 	}

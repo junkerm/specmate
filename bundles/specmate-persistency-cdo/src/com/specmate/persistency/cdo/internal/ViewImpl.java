@@ -56,6 +56,14 @@ public class ViewImpl implements IView {
 		CDOQuery cdoQuery = this.view.createQuery("ocl", queryString, context);
 		return cdoQuery.getResult();
 	}
+	
+	@Override
+	public List<Object> querySQL(String queryString, Object context) {
+		CDOQuery cdoSQLQuery = this.view.createQuery("sql", queryString);
+		//CDOQuery cdoSQLQuery = this.view.createQuery("sql", queryString, context);
+		cdoSQLQuery.setParameter("cdoObjectQuery", false);
+		return cdoSQLQuery.getResult();
+	}
 
 	public void update(CDOView view) {
 		this.view = view;
