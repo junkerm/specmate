@@ -59,7 +59,7 @@ public class TestGeneratorService extends RestServiceBase {
 			new CEGTestCaseGenerator(specification).generate();
 			testGenCounter.inc();
 		} else if (container instanceof Process) {
-			new ProcessTestCaseGenerator2(specification).generate();
+			new ProcessTestCaseGenerator(specification).generate();
 			testGenCounter.inc();
 		} else {
 			throw new SpecmateInternalException(ErrorCode.REST_SERVICE,
