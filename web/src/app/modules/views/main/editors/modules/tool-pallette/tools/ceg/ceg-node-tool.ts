@@ -10,6 +10,7 @@ export class CEGNodeTool extends CreateNodeToolBase<CEGNode> {
 
     public icon = 'plus';
     public name = 'tools.addCegNode';
+    public style = 'shape=rounded';
 
     protected getElementFactory(coords: { x: number; y: number; }): ElementFactoryBase<CEGNode> {
         return new CEGNodeFactory(coords, this.dataService);

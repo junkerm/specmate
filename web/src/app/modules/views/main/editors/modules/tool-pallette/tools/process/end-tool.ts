@@ -13,12 +13,12 @@ export class EndTool extends CreateNodeToolBase<ProcessEnd> {
 
     public name = 'tools.addEnd';
     public icon = 'plus';
-    public sticky = false;
+    public style = 'shape=circle';
 
     constructor(parent: IContainer,
         dataService: SpecmateDataService,
         selectedElementService: SelectedElementService) {
-        super(parent, dataService, selectedElementService);
+        super(dataService, selectedElementService, parent);
     }
 
     protected getElementFactory(coords: { x: number; y: number; }): ElementFactoryBase<ProcessEnd> {

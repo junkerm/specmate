@@ -14,11 +14,12 @@ export class StartTool extends CreateNodeToolBase<ProcessStart> {
     public name = 'tools.addStart';
     public icon = 'plus';
     public sticky = false;
+    public style = 'shape=ellipse';
 
     constructor(parent: IContainer,
         dataService: SpecmateDataService,
         selectedElementService: SelectedElementService) {
-        super(parent, dataService, selectedElementService);
+        super(dataService, selectedElementService, parent);
     }
 
     protected getElementFactory(coords: { x: number; y: number; }): ElementFactoryBase<ProcessStart> {

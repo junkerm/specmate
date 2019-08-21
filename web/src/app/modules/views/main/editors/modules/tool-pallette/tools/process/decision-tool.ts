@@ -13,11 +13,12 @@ export class DecisionTool extends CreateNodeToolBase<ProcessDecision> {
 
     public name = 'tools.addDecision';
     public icon = 'plus';
+    public style = 'shape=rhombus';
 
     constructor(parent: IContainer,
         dataService: SpecmateDataService,
         selectedElementService: SelectedElementService) {
-        super(parent, dataService, selectedElementService);
+        super(dataService, selectedElementService, parent);
     }
 
     protected getElementFactory(coords: { x: number; y: number; }): ElementFactoryBase<ProcessDecision> {

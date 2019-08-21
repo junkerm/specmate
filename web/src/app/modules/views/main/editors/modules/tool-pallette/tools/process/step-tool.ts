@@ -10,6 +10,7 @@ export class StepTool extends CreateNodeToolBase<ProcessStep> {
 
     public icon = 'plus';
     public name = 'tools.addStep';
+    public style = 'shape=rounded';
 
     protected getElementFactory(coords: { x: number; y: number; }): ElementFactoryBase<ProcessStep> {
         return new ProcessStepFactory(coords, this.dataService);

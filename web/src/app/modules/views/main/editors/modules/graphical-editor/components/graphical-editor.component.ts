@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit, Renderer, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { UUID } from 'angular2-uuid';
 import { mxgraph } from 'mxgraph'; // Typings only - no code!
@@ -6,8 +6,10 @@ import { Config } from '../../../../../../../config/config';
 import { CEGModel } from '../../../../../../../model/CEGModel';
 import { IContainer } from '../../../../../../../model/IContainer';
 import { IModelConnection } from '../../../../../../../model/IModelConnection';
+import { IModelNode } from '../../../../../../../model/IModelNode';
 import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISpecmatePositionableModelObject';
 import { Process } from '../../../../../../../model/Process';
+import { Arrays } from '../../../../../../../util/arrays';
 import { Type } from '../../../../../../../util/type';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { ValidationService } from '../../../../../../forms/modules/validation/services/validation.service';
@@ -16,16 +18,17 @@ import { SelectionRect } from '../../../../../side/modules/selected-element/util
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
 import { EditorToolsService } from '../../tool-pallette/services/editor-tools.service';
 import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
-import { IDoubleClickTool } from '../../tool-pallette/tools/IDoubleClickTool';
-import { IDragAndDropTool } from '../../tool-pallette/tools/IDragAndDropTool';
-import { IKeyboardTool } from '../../tool-pallette/tools/IKeyboardTool';
-import { ToolBase } from '../../tool-pallette/tools/tool-base';
 import { ConverterBase } from '../converters/converter-base';
 import { NodeNameConverterProvider } from '../providers/conversion/node-name-converter-provider';
 import { ElementProvider } from '../providers/properties/element-provider';
 import { NameProvider } from '../providers/properties/name-provider';
 import { ToolProvider } from '../providers/properties/tool-provider';
-import { Area, Line, Point, Square } from '../util/area';
+import { config } from 'rxjs';
+import { Url } from '../../../../../../../util/url';
+import { CEGConnection } from '../../../../../../../model/CEGConnection';
+import { ToolBase } from '../../tool-pallette/tools/tool-base';
+import { ConnectionToolBase } from '../../tool-pallette/tools/connection-tool-base';
+import { CreateNodeToolBase } from '../../tool-pallette/tools/create-node-tool-base';
 
 
 declare var require: any;
@@ -52,60 +55,81 @@ export class GraphicalEditor {
 
     public isGridShown = true;
 
-    protected zoom = 1;
-
-    private toolUseLock = false;
-
-    private visibleArea = new Square(0, 0, 500, 500);
-    private _focus = false;
     private _model: IContainer;
-
     private _contents: IContainer[];
+    private readonly VALID_STYLE_NAME = 'VALID';
+    private readonly INVALID_STYLE_NAME = 'INVALID';
 
-    private _editor: ElementRef;
-    @ViewChild('editorElement')
-    public set editorElement(editor: ElementRef) {
-        if (!editor) {
-            return;
-        }
-        this.setVisibleArea(editor.nativeElement);
-        this._editor = editor;
-    }
+    private preventDataUpdates = false;
 
     constructor(
         private dataService: SpecmateDataService,
-        protected editorToolsService: EditorToolsService,
         private selectedElementService: SelectedElementService,
         private validationService: ValidationService,
         private translate: TranslateService,
         public multiselectionService: MultiselectionService,
-        private clipboardService: ClipboardService,
-        private renderer: Renderer) { }
+        private clipboardService: ClipboardService) {
+        this.validationService.validationFinished.subscribe(() => {
+            this.updateValidities();
+        });
+    }
 
+
+    @ViewChild('mxGraphToolbar')
+    private toolbarElem: ElementRef;
 
     private graph: mxgraph.mxGraph;
+
     @ViewChild('mxGraphContainer')
     public set graphContainer(element: ElementRef) {
 
         if (element === undefined) {
             return;
         }
+
         this.graph = new mx.mxGraph(element.nativeElement);
         this.graph.setGridEnabled(true);
+        this.graph.setConnectable(true);
+        this.graph.setMultigraph(false);
         const rubberband = new mx.mxRubberband(this.graph);
         rubberband.reset();
-        const vertexStyle = this.graph.getStylesheet().getDefaultVertexStyle();
-        vertexStyle[mx.mxConstants.STYLE_ROUNDED] = false;
-        vertexStyle[mx.mxConstants.STYLE_STROKECOLOR] = '#000000';
-        vertexStyle[mx.mxConstants.STYLE_ROUNDED] = true;
-        vertexStyle[mx.mxConstants.STYLE_SHAPE] = mx.mxConstants.SHAPE_RECTANGLE;
 
-        this.graph.getStylesheet().getDefaultEdgeStyle()[mx.mxConstants.STYLE_STROKECOLOR] = '#000000';
+        this.createStyles();
+
+        mx.mxEvent.disableContextMenu(document.body);
+
+        mx.mxConstants.HANDLE_FILLCOLOR = '#99ccff';
+        mx.mxConstants.HANDLE_STROKECOLOR = '#0088cf';
+        mx.mxConstants.VERTEX_SELECTION_COLOR = '#00a8ff';
+
+        this.graph.setTooltips(true);
+
+        // Configures automatic expand on mouseover
+        this.graph.popupMenuHandler['autoExpand'] = true;
+
+        this.graph.popupMenuHandler['factoryMethod'] = function (menu: mxgraph.mxPopupMenu, cell: mxgraph.mxCell, evt: any) {
+            menu.createSubmenu(cell.getParent());
+            // tslint:disable-next-line:max-line-length
+            menu.addItem('Del 1', null, (args: any) => console.log(args), this.graph.getDefaultParent(), null, true, false);
+            // tslint:disable-next-line:max-line-length
+            menu.addItem('Del 2', null, (args: any) => console.log(args), this.graph.getDefaultParent(), null, true, false);
+            // tslint:disable-next-line:max-line-length
+            menu.addItem('Del 3', null, (args: any) => console.log(args), this.graph.getDefaultParent(), null, true, false);
+            // tslint:disable-next-line:max-line-length
+            menu.addItem('Del 4', null, (args: any) => console.log(args), this.graph.getDefaultParent(), null, true, false);
+        };
 
         this.graph.getModel().addListener(mx.mxEvent.CHANGE, (sender: mxgraph.mxEventSource, evt: mxgraph.mxEventObject) => {
-            const changes = evt.getProperty('edit').changes;
+            const edit = evt.getProperty('edit') as mxgraph.mxUndoableEdit;
+            const changes = edit.changes;
             for (const change of changes) {
-                this.translateChange(change);
+                try {
+                    this.translateArbitraryChange(change);
+                } catch (e) {
+                    this.preventDataUpdates = true;
+                    edit.undo();
+                    this.preventDataUpdates = false;
+                }
             }
         });
 
@@ -118,17 +142,51 @@ export class GraphicalEditor {
             }
         });
 
-        this.initGraphicalModel();
+        this.init();
     }
 
-    private async initGraphicalModel(): Promise<void> {
+    private createStyles() {
+        const stylesheet = this.graph.getStylesheet();
+        const validStyle: {
+            [key: string]: string;
+        } = {};
+        validStyle[mx.mxConstants.STYLE_SHAPE] = mx.mxConstants.SHAPE_RECTANGLE;
+        validStyle[mx.mxConstants.STYLE_OPACITY] = '75';
+        validStyle[mx.mxConstants.STYLE_FILLCOLOR] = '#c3d9ff';
+        validStyle[mx.mxConstants.STYLE_STROKE_OPACITY] = '100';
+        validStyle[mx.mxConstants.STYLE_STROKECOLOR] = '#c3d9ff';
+        stylesheet.putCellStyle(this.VALID_STYLE_NAME, validStyle);
+        const invalidStyle: {
+            [key: string]: string;
+        } = {};
+        invalidStyle[mx.mxConstants.STYLE_SHAPE] = mx.mxConstants.SHAPE_RECTANGLE;
+        invalidStyle[mx.mxConstants.STYLE_OPACITY] = '75';
+        invalidStyle[mx.mxConstants.STYLE_FILLCOLOR] = '#ffc3d9';
+        invalidStyle[mx.mxConstants.STYLE_STROKE_OPACITY] = '100';
+        invalidStyle[mx.mxConstants.STYLE_STROKECOLOR] = '#ffc3d9';
+        stylesheet.putCellStyle(this.INVALID_STYLE_NAME, invalidStyle);
+        const vertexStyle = this.graph.getStylesheet().getDefaultVertexStyle();
+        vertexStyle[mx.mxConstants.STYLE_ROUNDED] = false;
+        vertexStyle[mx.mxConstants.STYLE_STROKECOLOR] = '#000000';
+        vertexStyle[mx.mxConstants.STYLE_ROUNDED] = true;
+        vertexStyle[mx.mxConstants.STYLE_SHAPE] = mx.mxConstants.SHAPE_RECTANGLE;
+        this.graph.getStylesheet().getDefaultEdgeStyle()[mx.mxConstants.STYLE_STROKECOLOR] = '#000000';
+    }
+
+    private async init(): Promise<void> {
         if (this.graph === undefined || this.model === undefined) {
             return;
         }
+        this.initGraphicalModel();
+        this.initToolbar();
+    }
+
+    private async initGraphicalModel(): Promise<void> {
         this._contents = await this.dataService.readContents(this.model.url, true);
         this.elementProvider = new ElementProvider(this.model, this._contents);
         this.nodeNameConverter = new NodeNameConverterProvider(this.model).nodeNameConverter;
         const parent = this.graph.getDefaultParent();
+        this.preventDataUpdates = true;
         this.graph.getModel().beginUpdate();
         try {
 
@@ -150,18 +208,143 @@ export class GraphicalEditor {
 
         } finally {
             this.graph.getModel().endUpdate();
-            new mx.mxHierarchicalLayout(this.graph).execute(this.graph.getDefaultParent());
+            this.preventDataUpdates = false;
         }
     }
 
-    private translateChange(change: { cell: mxgraph.mxCell }): void {
-        if (change.cell === undefined) {
+    private async initToolbar(): Promise<void> {
+        const toolbar = new mx.mxToolbar(this.toolbarElem.nativeElement);
+        this.graph.setDropEnabled(true);
+        const width = Config.CEG_NODE_WIDTH;
+        const height = Config.CEG_NODE_HEIGHT;
+
+        const tools = this.toolProvider.tools;
+        for (const tool of tools.filter(t => t.isVertexTool)) {
+            if (tool.style !== undefined) {
+                const vertex = new mx.mxCell(null, new mx.mxGeometry(0, 0, width, height), tool.style);
+                vertex.setVertex(true);
+                this.addToolbarItem(this.graph, toolbar, vertex,
+                    'http://fa2png.io/media/icons/font-awesome/4-7-0/' + tool.icon + '/36/0/2f2f2f_none.png');
+            }
+        }
+    }
+
+    private addToolbarItem(graph: mxgraph.mxGraph, toolbar: mxgraph.mxToolbar, prototype: mxgraph.mxCell, image: string) {
+        // Function that is executed when the image is dropped on
+        // the graph. The cell argument points to the cell under
+        // the mousepointer if there is one.
+        const funct = (graph: mxgraph.mxGraph, evt: MouseEvent, cell: mxgraph.mxCell) => {
+            graph.stopEditing(false);
+
+            const pt = graph.getPointForEvent(evt);
+            /*            const vertex: mxgraph.mxCell = graph.getModel().cloneCell(prototype);
+                        vertex.geometry.x = pt.x;
+                        vertex.geometry.y = pt.y;
+                        vertex.setConnectable(true);
+
+                        const importCells = graph.importCells([vertex], 0, 0, cell, evt, null);
+                        graph.setSelectionCells(importCells);*/
+
+            const vertexUrl = Url.build([this.model.url, UUID.UUID()]);
+            this.graph.insertVertex(
+                this.graph.getDefaultParent(),
+                vertexUrl,
+                Config.CEG_NODE_NEW_VARIABLE + ': ' + Config.CEG_NODE_NEW_CONDITION,
+                pt.x, pt.y, Config.CEG_NODE_WIDTH, Config.CEG_NODE_HEIGHT);
+
+        };
+
+        // Creates the image which is used as the drag icon (preview)
+        const img = toolbar.addMode(null, image, funct);
+        mx.mxUtils.makeDraggable(img, graph, funct);
+    }
+
+    private updateValidities(): void {
+        if (this.graph === undefined) {
             return;
         }
+        const vertices = this.graph.getModel().getChildVertices(this.graph.getDefaultParent());
+        for (const vertex of vertices) {
+            this.graph.model.setStyle(vertex, this.VALID_STYLE_NAME);
+        }
+        const invalidNodes = this.validationService.getValidationResults(this.model);
+        for (const invalidNode of invalidNodes) {
+            const vertexId = invalidNode.element.url;
+            const vertex = vertices.find(vertex => vertex.id === vertexId);
+            this.graph.model.setStyle(vertex, this.INVALID_STYLE_NAME);
+        }
+    }
+
+    private determineTool(change: (mxgraph.mxTerminalChange | mxgraph.mxChildChange)): ToolBase {
+        if (change['cell'] !== undefined) {
+            // Change; Do nothing
+        } else if (change['child'] !== undefined) {
+            const childChange = change as mxgraph.mxChildChange;
+            if (childChange.child.edge) {
+                // edge change
+                const edgeTools = this.toolProvider.tools.filter(tool => !tool.isVertexTool);
+                if (edgeTools.length > 1) {
+                    return edgeTools.find(tool => tool.style === childChange.child.style);
+                }
+            } else {
+                const vertexTools = this.toolProvider.tools.filter(tool => tool.isVertexTool);
+                if (vertexTools.length > 1) {
+                    return vertexTools.find(tool => tool.style === childChange.child.style);
+                }
+            }
+        }
+        throw new Error('Could not determine tool');
+    }
+
+    private async translateArbitraryChange(change: (mxgraph.mxTerminalChange | mxgraph.mxChildChange)): Promise<void> {
+        if (this.preventDataUpdates) {
+            return;
+        }
+
+        if (change['cell'] === undefined) {
+            await this.translateAdd(change as mxgraph.mxChildChange);
+        } else {
+            this.translateChange(change as mxgraph.mxTerminalChange);
+        }
+    }
+
+
+    private async translateAdd(change: mxgraph.mxChildChange): Promise<void> {
+        console.log(change);
+        if (change.child.edge) {
+            this.translateEdgeAdd(change);
+        } else {
+            this.translateNodeAdd(change);
+        }
+    }
+
+    private async translateEdgeAdd(change: mxgraph.mxChildChange): Promise<void> {
+        const tool = this.determineTool(change) as ConnectionToolBase<any>;
+        tool.source = this.contents.find(element => element.url === change.child.source.id) as IModelNode;
+        tool.target = this.contents.find(element => element.url === change.child.target.id) as IModelNode;
+        const connection = await tool.perform();
+        change.child.id = connection.url;
+    }
+
+    private async translateNodeAdd(change: mxgraph.mxChildChange): Promise<void> {
+        const tool = this.determineTool(change) as CreateNodeToolBase<any>;
+        tool.coords = { x: change.child.geometry.x, y: change.child.geometry.y };
+        await tool.perform();
+    }
+
+    private translateChange(change: mxgraph.mxTerminalChange): void {
         const element = this.contents.find(element => element.url === change.cell.id);
         if (element === undefined) {
             return;
         }
+        if (change.cell.edge) {
+            this.translateEdgeChange(change, element as IModelConnection);
+        } else {
+            this.translateNodeChange(change, element as IModelNode);
+        }
+    }
+
+    private translateNodeChange(change: mxgraph.mxTerminalChange, element: IModelNode) {
         if (this.nodeNameConverter) {
             const elementValues = this.nodeNameConverter.convertFrom(change.cell.value);
             for (const key in elementValues) {
@@ -173,6 +356,51 @@ export class GraphicalEditor {
         element['x'] = change.cell.geometry.x;
         element['y'] = change.cell.geometry.y;
         this.dataService.updateElement(element, true, UUID.UUID());
+    }
+
+    private translateEdgeChange(change: mxgraph.mxTerminalChange, connection: IModelConnection) {
+        if (change.cell.target === undefined
+            || change.cell.target === null
+            || change.cell.source === undefined
+            || change.cell.source === null) {
+            throw new Error('Source or target not defined');
+        }
+
+        if (change.previous === null) {
+            return;
+        }
+
+        // The new source of the connection
+        const sourceUrl = change.cell.source.id;
+        // The new target of the connection
+        const targetUrl = change.cell.target.id;
+        // The new linked node
+        const terminalUrl = change.terminal.id;
+        const terminal = this.contents.find(element => element.url === terminalUrl) as IModelNode;
+        // The previously linked node
+        const previousUrl = change.previous.id;
+        const previous = this.contents.find(element => element.url === previousUrl) as IModelNode;
+
+        connection.source.url = sourceUrl;
+        connection.target.url = targetUrl;
+
+        let field: 'incomingConnections' | 'outgoingConnections';
+        if (sourceUrl === terminalUrl) {
+            // Source was changed
+            field = 'outgoingConnections';
+        } else if (targetUrl === terminalUrl) {
+            // Target was changed
+            field = 'incomingConnections';
+        }
+
+        const connectionProxy = previous[field].find(proxy => proxy.url === connection.url);
+        Arrays.remove(previous[field], connectionProxy);
+        terminal[field].push(connectionProxy);
+
+        const changeId = UUID.UUID();
+        this.dataService.updateElement(previous, true, changeId);
+        this.dataService.updateElement(terminal, true, changeId);
+        this.dataService.updateElement(connection, true, changeId);
     }
 
     public get model(): IContainer {
@@ -193,33 +421,14 @@ export class GraphicalEditor {
             model, this.dataService, this.selectedElementService, this.translate, this.multiselectionService, this.clipboardService);
         this.nameProvider = new NameProvider(model, this.translate);
         this._model = model;
-        this.initGraphicalModel();
+        this.init();
     }
 
     @Input()
     public set contents(contents: IContainer[]) {
         this._contents = contents;
         this.elementProvider = new ElementProvider(this.model, this._contents);
-        this.initGraphicalModel();
-    }
-
-    private set focus(newFocus: boolean) {
-        if (newFocus === this._focus) {
-            return;
-        }
-        this._focus = newFocus;
-        // Update Native Element
-        if (this._editor) {
-            if (newFocus) {
-                this.renderer.invokeElementMethod(this._editor.nativeElement, 'focus');
-            } else {
-                this.renderer.invokeElementMethod(this._editor.nativeElement, 'blur');
-            }
-        }
-    }
-
-    private get focus(): boolean {
-        return this._focus;
+        this.init();
     }
 
     public get contents(): IContainer[] {
@@ -231,27 +440,15 @@ export class GraphicalEditor {
     }
 
     public zoomIn(): void {
-        if (this.canZoomIn) {
-            this.zoom += Config.GRAPHICAL_EDITOR_ZOOM_STEP;
-        }
+        this.graph.zoomIn();
     }
 
     public zoomOut(): void {
-        if (this.canZoomOut) {
-            this.zoom -= Config.GRAPHICAL_EDITOR_ZOOM_STEP;
-        }
+        this.graph.zoomOut();
     }
 
     public resetZoom(): void {
-        this.zoom = 1;
-    }
-
-    public get canZoomIn(): boolean {
-        return this.zoom < Config.GRAPHICAL_EDITOR_ZOOM_MAX;
-    }
-
-    public get canZoomOut(): boolean {
-        return this.zoom > Config.GRAPHICAL_EDITOR_ZOOM_STEP * 2;
+        this.graph.zoomActual();
     }
 
     public showGrid(): void {
@@ -303,59 +500,11 @@ export class GraphicalEditor {
         return this.elementProvider.nodes;
     }
 
-    private isVisibleConnection(connection: IContainer): boolean {
-        let nodes = this.nodes;
-        let start = <any>nodes.find(node => node.url === (<any>connection).source.url);
-        let end = <any>nodes.find(node => node.url === (<any>connection).target.url);
-        if (!start || !end) {
-            return false;
-        }
-        return Area.checkLineInArea(this.visibleArea, new Line(start.x, start.y, end.x, end.y));
-    }
-
-    private isSelectedComparator(a: IContainer, b: IContainer): number {
-        if (this.selectedElementService.isSelected(a)) {
-            return 1;
-        }
-        if (this.selectedElementService.isSelected(b)) {
-            return -1;
-        }
-        return 0;
-    }
-
-    /**
-     * Returns all connections visible to the viewer.
-     * Since they are drawn in order and we want the elements that the user is currently moving to always be fully visible
-     * we sort the list so that all selected elements are drawn last (i.e. on top of the others).
-     */
-    public get visibleConnections(): IContainer[] {
-        let selectedConnections = this.connections.filter(connection => this.isVisibleConnection(connection));
-        // Sort the elements
-        selectedConnections.sort((a: IContainer, b: IContainer) => this.isSelectedComparator(a, b));
-        return selectedConnections;
-    }
-
-    /**
-     * Returns all nodes visible to the viewer.
-     * Since they are drawn in order and we want the elements that the user is currently moving to always be fully visible
-     * we sort the list so that all selected elements are drawn last (i.e. on top of the others).
-     */
-    public get visibleNodes(): IContainer[] {
-        let visibleNodes = this.nodes.filter(node => Area.checkPointInArea(this.visibleArea, new Point((<any>node).x, (<any>node).y)));
-        // Sort the elements
-        visibleNodes.sort((a: IContainer, b: IContainer) => this.isSelectedComparator(a, b));
-        return this.nodes;
-    }
-
     public get name(): string {
         if (!this.nameProvider) {
             return '';
         }
         return this.nameProvider.name;
-    }
-
-    public get cursor(): string {
-        return this.editorToolsService.cursor;
     }
 
     public get isCEGModel(): boolean {
@@ -364,148 +513,5 @@ export class GraphicalEditor {
 
     public get isProcessModel(): boolean {
         return Type.is(this.model, Process);
-    }
-
-    public onScroll(event: UIEvent): void {
-        let target = <any>event.target;
-        this.setVisibleArea(target);
-    }
-
-    private setVisibleArea(target: any) {
-        let eWidth = this.editorDimensions.width;
-        let eHeight = this.editorDimensions.height;
-
-        let xMin = eWidth * (target.scrollLeft / target.scrollWidth);
-        let xMax = xMin + (target.clientWidth / this.zoom);
-        let yMin = eHeight * (target.scrollTop / target.scrollHeight);
-        let yMax = yMin + (target.clientHeight / this.zoom);
-
-        xMin -= Config.GRAPHICAL_EDITOR_VISIBILITY_HORIZONTAL;
-        yMin -= Config.GRAPHICAL_EDITOR_VISIBILITY_VERTICAL;
-        xMax += Config.GRAPHICAL_EDITOR_VISIBILITY_HORIZONTAL;
-        yMax += Config.GRAPHICAL_EDITOR_VISIBILITY_VERTICAL;
-
-        this.visibleArea = new Square(xMin, yMin, xMax, yMax);
-    }
-
-    private checkAndReset(evt: MouseEvent | KeyboardEvent) {
-        if (this.editorToolsService.activeTool.done) {
-            this.toolUseLock = evt.shiftKey;
-            if (!this.toolUseLock && !this.editorToolsService.activeTool.sticky) {
-                this.editorToolsService.activateDefaultTool();
-            }
-        }
-        if (!this.selectedElementService.hasSelection) {
-            this.selectedElementService.select(this.model);
-        }
-    }
-
-    private select(element: IContainer, event: MouseEvent): void {
-        this.focus = true;
-        event.preventDefault();
-        event.stopPropagation();
-        if (this.editorToolsService.activeTool) {
-            this.editorToolsService.activeTool.select(element, event).then(() => {
-                this.checkAndReset(event);
-            });
-        }
-    }
-
-    private click(evt: MouseEvent): void {
-        this.focus = true;
-        if (this.editorToolsService.activeTool) {
-            this.editorToolsService.activeTool.click(evt, this.zoom).then(() => {
-                if (!this.selectedElementService.hasSelection) {
-                    // The selection tool has finished and nothing was selected -> Default to model
-                    this.selectedElementService.selectedElement = this.model;
-                }
-                this.checkAndReset(evt);
-            });
-        }
-    }
-
-    private isDoubleClickTool(tool: ToolBase): boolean {
-        return (tool as IDoubleClickTool).dblClick !== undefined;
-    }
-
-    private dblclick(element: IContainer, evt: MouseEvent) {
-        if (this.editorToolsService.activeTool && this.isDoubleClickTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as IDoubleClickTool).dblClick(element, evt).then(() => {
-                this.checkAndReset(evt);
-            });
-        }
-    }
-
-    private isDragDropTool(tool: ToolBase): boolean {
-        let iTool = tool as IDragAndDropTool;
-        let down = iTool.mouseDown !== undefined;
-        let up = iTool.mouseUp !== undefined;
-        let move = iTool.mouseDrag !== undefined;
-        return down && up && move;
-    }
-
-    private mousedown(evt: MouseEvent): void {
-        evt.preventDefault();
-        evt.stopPropagation();
-
-        if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as IDragAndDropTool).mouseDown(evt, this.zoom).then(() => {
-                this.checkAndReset(evt);
-            });
-        }
-    }
-
-    private mousemove(evt: MouseEvent): void {
-        // We only care about mousemovement when a button is pressed (i.e. drag & drop)
-        if (evt.buttons <= 0) {
-            return;
-        }
-
-        if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as IDragAndDropTool).mouseDrag(evt, this.zoom).then(() => {
-                this.checkAndReset(evt);
-            });
-        }
-    }
-
-    private mouseup(evt: MouseEvent): void {
-        this.focus = true;
-        evt.preventDefault();
-        evt.stopPropagation();
-
-        if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as IDragAndDropTool).mouseUp(evt, this.zoom).then(() => {
-                this.checkAndReset(evt);
-            });
-        }
-    }
-
-    private mouseleave(evt: MouseEvent): void {
-        if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as IDragAndDropTool).mouseUp(evt, this.zoom).then(() => {
-                this.checkAndReset(evt);
-            });
-        }
-    }
-
-    private isKeyboardShortcutTool(tool: ToolBase): boolean {
-        return (tool as IKeyboardTool).keydown !== undefined;
-    }
-
-    @HostListener('window:keydown', ['$event'])
-    hostKeyEvent(evt: KeyboardEvent) {
-        if (!this.focus) {
-            return;
-        }
-        if (this.editorToolsService.activeTool && this.isKeyboardShortcutTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as IKeyboardTool).keydown(evt).then(() => {
-                this.checkAndReset(evt);
-            });
-        }
-    }
-
-    @HostListener('window:mousedown')
-    hostMouseDown() {
-        this.focus = false;
     }
 }

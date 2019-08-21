@@ -9,36 +9,25 @@ export abstract class DeleteToolBase extends TypeAwareToolBase {
 
     public icon = 'eraser';
     public color = 'danger';
-    public cursor = 'alias';
     public name = 'tools.delete';
-    public done = false;
-    public sticky = false;
+    public style: string = undefined;
+    public isVertexTool = true;
 
-    public selectedElements: IContainer[];
     private graphTransformer: GraphTransformer;
 
-    constructor(private parent: IContainer,
-        private dataService: SpecmateDataService,
+    public element: IContainer;
+
+    constructor(parent: IContainer,
+        dataService: SpecmateDataService,
         selectedElementService: SelectedElementService) {
-        super(selectedElementService);
-        this.selectedElements = [];
+        super(dataService, selectedElementService, parent);
         this.graphTransformer = new GraphTransformer(dataService, selectedElementService, parent);
     }
 
-    activate(): void {
-        this.done = false;
-    }
-
-    deactivate(): void { }
-
-    click(event: MouseEvent, zoom: number): Promise<void> {
-        return Promise.resolve();
-    }
-
-    select(element: IContainer): Promise<void> {
-        let compoundId: string = Id.uuid;
-        return this.graphTransformer.deleteElementAndDeselect(element, compoundId).then(() => {
-            this.done = true;
-        });
+    public async perform(): Promise<any> {
+        if (this.element === undefined) {
+            throw new Error('Element undefined');
+        }
+        await this.graphTransformer.deleteElementAndDeselect(this.element, Id.uuid);
     }
 }

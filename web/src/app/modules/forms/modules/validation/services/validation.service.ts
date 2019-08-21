@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IContainer } from '../../../../../model/IContainer';
 import { FieldMetaItem, MetaInfo } from '../../../../../model/meta/field-meta';
@@ -17,6 +17,8 @@ export class ValidationService {
     private validationCache: ValidationCache;
     private validNameValidator: ValidNameValidator = new ValidNameValidator();
     private textLengthValidator: TextLengthValidator = new TextLengthValidator();
+
+    public validationFinished: EventEmitter<void> = new EventEmitter<void>();
 
     constructor(private navigator: NavigatorService, translate: TranslateService) {
         this.validationCache = new ValidationCache(translate);
@@ -68,6 +70,7 @@ export class ValidationService {
                 .concat(validNameResult)
                 .concat(textLengthValidationResult);
         this.validationCache.addValidationResultsToCache(elementResults);
+        this.validationFinished.emit();
     }
 
     public get currentSeverities(): ValidationErrorSeverity[] {

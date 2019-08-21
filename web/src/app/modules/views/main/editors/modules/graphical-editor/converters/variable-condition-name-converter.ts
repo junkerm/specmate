@@ -5,8 +5,13 @@ export class VariableConditionToNameConverter extends ConverterBase<{ variable: 
     static SEPARATOR = ':';
 
     public convertTo(item: { variable: string, condition: string }): string {
+        if (item.variable === undefined || item.condition === undefined) {
+            return name;
+        }
         return item.variable + VariableConditionToNameConverter.SEPARATOR + ' ' + item.condition;
-    } public convertFrom(value: string): { variable: string, condition: string } {
+    }
+
+    public convertFrom(value: string): { variable: string, condition: string } {
         const parts = value.split(VariableConditionToNameConverter.SEPARATOR);
         const variable = parts[0].trim();
         const condition = value.substring(parts[0].length + VariableConditionToNameConverter.SEPARATOR.length).trim();

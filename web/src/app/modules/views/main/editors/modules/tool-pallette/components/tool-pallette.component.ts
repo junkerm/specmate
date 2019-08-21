@@ -28,22 +28,8 @@ export class ToolPallette {
         return this.navigator.currentElement;
     }
 
-    public onClick(tool: ToolBase, event: MouseEvent): void {
-        event.preventDefault();
-        event.stopPropagation();
-        this.activate(tool);
-    }
-
     public get tools(): ToolBase[] {
         return this.editorToolsService.tools;
-    }
-
-    public isActive(tool: ToolBase): boolean {
-        return this.editorToolsService.isActive(tool);
-    }
-
-    public activate(tool: ToolBase): void {
-        this.editorToolsService.activate(tool);
     }
 
     public delete(event: MouseEvent): void {

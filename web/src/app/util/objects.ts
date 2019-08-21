@@ -70,6 +70,10 @@ export class Objects {
                 if (o2[field] && !Objects.areArraysEqual(o1[field], o2[field])) {
                     changedFields.push(field);
                 }
+            } else if (Objects.isProxy(o1[field])) {
+                if (o2[field] && Objects.changedFields(o1[field], o2[field]).length > 0) {
+                    changedFields.push(field);
+                }
             }
         }
         Objects.pushTheNotMatchingFields(o1, o2, changedFields);
@@ -138,6 +142,10 @@ export class Objects {
 
     private static isArray(element: any) {
         return Array.isArray(element);
+    }
+
+    private static isProxy(element: any) {
+        return element.hasOwnProperty('___proxy');
     }
 
     public static equals(o1: any, o2: any): boolean {

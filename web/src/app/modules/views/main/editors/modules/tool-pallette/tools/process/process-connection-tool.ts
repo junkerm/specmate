@@ -12,6 +12,7 @@ export class ProcessConnectionTool extends ConnectionToolBase<ProcessConnection>
 
     public name = 'tools.addProcessConnection';
     public icon = 'sitemap';
+    public style = '';
 
     protected getFactory(e1: IModelNode, e2: IModelNode): ElementFactoryBase<IModelConnection> {
         return new ProcessConnectionFactory(e1, e2, this.dataService);

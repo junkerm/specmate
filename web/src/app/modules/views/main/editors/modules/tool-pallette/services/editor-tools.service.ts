@@ -35,7 +35,6 @@ export class EditorToolsService {
             return;
         }
         this.model = model;
-        this.activateDefaultTool();
     }
 
     private get toolProvider(): ToolProvider {
@@ -57,46 +56,5 @@ export class EditorToolsService {
             return undefined;
         }
         return this.toolProvider.tools;
-    }
-
-    public isActive(tool: ToolBase): boolean {
-        return this.activeTool === tool;
-    }
-
-    public activate(tool: ToolBase): void {
-        if (!tool) {
-            return;
-        }
-        if (this.activeTool) {
-            this.activeTool.deactivate();
-        }
-        this.activeTool = tool;
-        this.activeTool.activate();
-    }
-
-    public deactivate(tool: ToolBase): void {
-        tool.deactivate();
-    }
-
-    public reset(): void {
-        if (this.activeTool) {
-            this.activeTool.deactivate();
-            this.activeTool.activate();
-        }
-    }
-
-    public activateDefaultTool(): void {
-        this.dataService.readContents(this.model.url, true)
-            .then((contents: IContainer[]) => {
-                let defaultTool: ToolBase = this.toolProvider.getDefaultTool(contents);
-                this.activate(defaultTool);
-            });
-    }
-
-    public get cursor(): string {
-        if (this.activeTool) {
-            return this.activeTool.cursor;
-        }
-        return 'auto';
     }
 }
