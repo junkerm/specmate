@@ -2,6 +2,7 @@ package com.specmate.persistency.cdo.internal;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -395,7 +396,9 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private void postEvent(CDOView eventView, CDOID id, String className, int version,
-			Map<EStructuralFeature, Object> featureMap, EChangeKind changeKind, int index) {
+			Map<EStructuralFeature, Object> featureMapOrig, EChangeKind changeKind, int index) {
+		Map<EStructuralFeature,Object> featureMap = new HashMap<>();
+		featureMap.putAll(featureMapOrig);
 
 		Optional<String> optUri;
 		if (changeKind == EChangeKind.DELETE) {
