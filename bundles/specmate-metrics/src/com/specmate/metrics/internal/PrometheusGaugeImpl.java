@@ -32,5 +32,14 @@ public class PrometheusGaugeImpl implements IGauge {
 	public void inc(double amt) {
 		prometheusGauge.inc(amt);
 	}
-
+	
+	@Override
+	public void set(double val) {
+		prometheusGauge.set(val);
+	}
+	
+	@Override
+	public double get() {
+		return prometheusGauge.get();
+	}
 }

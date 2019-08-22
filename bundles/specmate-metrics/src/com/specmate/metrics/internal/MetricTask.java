@@ -21,6 +21,8 @@ public class MetricTask extends SchedulerTask  {
 
 	@Override
 	public void run() {
+		System.err.println("Resetting gauge with sheduler: "+ gauge.toString() + " with value: " + Double.toString(gauge.get()));
+		gauge.set(0);
 		//resetCounter();
 	}
 	
@@ -44,17 +46,18 @@ public class MetricTask extends SchedulerTask  {
 	private void resetGauge(long difference) {
 		// Use the session view to identify how many times we need to decrement the counter 
 
-		String sqlQuery = "SELECT DISTINCT username FROM UserSession WHERE lastActive>"+difference;
+		String sqlQuery = "SELECT DISTINCT username FROM UserSession WHERE lastActive>:time";
 		//String query = "UserSession.allInstances()->select(u | (u.lastActive-" + difference +")>0)";
 
 		List<Object> results = sessionView.querySQL(sqlQuery,
-				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
+				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession(), difference);
 		int numberOfSessions = results.size();
 
 		while(numberOfSessions>0) {
 			gauge.dec();
 			numberOfSessions--;
 		}
+		System.err.println("Updating gauge: " + gauge.toString());
 	}
 	
 	public IGauge getGauge() {

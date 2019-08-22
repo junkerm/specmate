@@ -28,9 +28,8 @@ public class TimeUtil {
 	}
 	
 	public static long getDiffYear() {
-		int daysInCurrentMonth = getDaysInMonth();
 		int daysInCurrentYear = getDaysInYear();
-		long oneYear = 1000*60*60*24*7*daysInCurrentMonth*daysInCurrentYear;
+		long oneYear = 1000*60*60*24*7*daysInCurrentYear;
 		long now = new Date().getTime();
 		long difference = now - oneYear;
 		return difference;

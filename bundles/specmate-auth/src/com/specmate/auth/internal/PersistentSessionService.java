@@ -58,6 +58,8 @@ public class PersistentSessionService extends BaseSessionService {
 	@Override
 	public UserSession create(AccessRights source, AccessRights target, String userName, String projectName)
 			throws SpecmateException {
+		
+		userMetricsService.loginCounter(sessionView, userName);
 
 		UserSession session = createSession(source, target, userName, sanitize(projectName));
 
@@ -68,8 +70,6 @@ public class PersistentSessionService extends BaseSessionService {
 				return null;
 			}
 		});
-		
-		//userMetricsService.loginCounter(sessionView, userName);
 
 		return session;
 	}

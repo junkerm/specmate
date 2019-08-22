@@ -58,10 +58,21 @@ public class ViewImpl implements IView {
 	}
 	
 	@Override
-	public List<Object> querySQL(String queryString, Object context) {
+	public List<Object> querySQL(String queryString, Object context, long lastActive) {
 		CDOQuery cdoSQLQuery = this.view.createQuery("sql", queryString);
 		//CDOQuery cdoSQLQuery = this.view.createQuery("sql", queryString, context);
 		cdoSQLQuery.setParameter("cdoObjectQuery", false);
+		cdoSQLQuery.setParameter("time", lastActive);
+		return cdoSQLQuery.getResult();
+	}
+	
+	@Override 
+	public List<Object> querySQLWithName(String queryString, Object context, String userName, long lastActive) {
+		CDOQuery cdoSQLQuery = this.view.createQuery("sql", queryString);
+		//CDOQuery cdoSQLQuery = this.view.createQuery("sql", queryString, context);
+		cdoSQLQuery.setParameter("cdoObjectQuery", false);
+		cdoSQLQuery.setParameter("name", userName);
+		cdoSQLQuery.setParameter("time", lastActive);
 		return cdoSQLQuery.getResult();
 	}
 

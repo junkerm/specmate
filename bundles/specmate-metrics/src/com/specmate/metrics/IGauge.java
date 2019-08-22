@@ -11,4 +11,8 @@ public interface IGauge {
 	void dec(double amt);
 
 	void inc(double amt);
+	
+	void set(double value);
+	
+	double get();
 }

@@ -15,7 +15,9 @@ public interface IView {
 	/** Retreives objects by a ocl query */
 	List<Object> query(String queryString, Object context);
 	
-	List<Object> querySQL(String queryString, Object context);
+	List<Object> querySQL(String queryString, Object context, long lastActive);
+	
+	List<Object> querySQLWithName(String queryString, Object context, String userName, long lastActive);
 
 	public void close();
 }

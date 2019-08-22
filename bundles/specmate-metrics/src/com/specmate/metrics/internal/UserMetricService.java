@@ -37,6 +37,7 @@ public class UserMetricService implements IUserMetricsService {
 	
 	@Activate
 	public void start() throws SpecmateException {
+		this.sessionView = persistencyService.openView();
 		this.specmate_current_day = metricsService.
 				createGauge("specmate_login_counter_current_day", "Number of users logged in at the current day");
 		this.specmate_current_week = metricsService.
@@ -45,8 +46,8 @@ public class UserMetricService implements IUserMetricsService {
 				createGauge("specmate_login_counter_current_month", "Number of users logged in at the current month");
 		this.specmate_current_year = metricsService.
 				createGauge("specmate_login_counter_current_year", "Number of users logged in at the current year");
-		//activeScheduler();
-		//initializeAfterResart();
+		activeScheduler();
+		initializeAfterResart();
 	}
 	
 	@Deactivate
@@ -69,33 +70,33 @@ public class UserMetricService implements IUserMetricsService {
 		// Create different schedulers for the different counters
 		//TODO: change schedule Time
 		try {
-			String scheduleDay = "minute 2";
+			String scheduleDay = "minute 60";
 			SchedulerTask metricRunnable = new MetricTask(CounterType.CURRENTDAY, specmate_current_day, sessionView);
-			metricRunnable.run();
+			//metricRunnable.run();
 			Scheduler scheduler = new Scheduler();
 			scheduler.schedule(metricRunnable, SchedulerIteratorFactory.create(scheduleDay));
 			// Get the resetted counter back
 			specmate_current_day = ((MetricTask) metricRunnable).getGauge();
 			
-			String scheduleWeek = "minute 4";
+			String scheduleWeek = "minute 120";
 			SchedulerTask metricRunnableWeek = new MetricTask(CounterType.CURRENTWEEK, specmate_current_week, sessionView);
-			metricRunnable.run();
+			//metricRunnableWeek.run();
 			Scheduler schedulerWeek = new Scheduler();
 			schedulerWeek.schedule(metricRunnableWeek, SchedulerIteratorFactory.create(scheduleWeek));
 			// Get the resetted counter back
 			specmate_current_week = ((MetricTask) metricRunnableWeek).getGauge();
 
-			String scheduleMonth = "minute 6";
+			String scheduleMonth = "minute 180";
 			SchedulerTask metricRunnableMonth = new MetricTask(CounterType.CURRENTMONTH, specmate_current_month, sessionView);
-			metricRunnableMonth.run();
+			//metricRunnableMonth.run();
 			Scheduler schedulerMonth = new Scheduler();
 			schedulerMonth.schedule(metricRunnableMonth, SchedulerIteratorFactory.create(scheduleMonth));
 			// Get the resetted counter back
 			specmate_current_month = ((MetricTask) metricRunnableMonth).getGauge();
 			
-			String scheduleYear = "minute 8";
+			String scheduleYear = "minute 240";
 			SchedulerTask metricRunnableYear = new MetricTask(CounterType.CURRENTYEAR, specmate_current_year, sessionView);
-			metricRunnableYear.run();
+			//metricRunnableYear.run();
 			Scheduler schedulerYear = new Scheduler();
 			schedulerYear.schedule(metricRunnableYear, SchedulerIteratorFactory.create(scheduleYear));
 			// Get the resetted counter back
@@ -129,22 +130,17 @@ public class UserMetricService implements IUserMetricsService {
 	 * @throws SpecmateException 
 	 */
 	private boolean isNewUser(IView sessionView, String userName, long difference) {
-		try {
-			this.sessionView = persistencyService.openView();
-		} catch (SpecmateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		//String query = "UserSession.allInstances()->select(u | u.userName='" + userName + "' and u.lastActive> " + difference + " )";
 		
-		String sqlQuery = "SELECT DISTINCT username FROM UserSession WHERE username="+userName+" AND lastActive>"+difference;
+		String sqlQuery = "SELECT DISTINCT username FROM UserSession WHERE username=:name AND lastActive> :time";
 
-		List<Object> results = sessionView.querySQL(sqlQuery,
-				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
-
-		if (sessionView != null) {
-			sessionView.close();
+		List<Object> results = sessionView.querySQLWithName(sqlQuery,
+				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession(), userName, difference);
+		
+		for(int i = 0; i<results.size(); i++) {
+			System.err.println(results.get(i));
 		}
+
 		if (results.size() > 0) {
 			return false;
 		}
@@ -176,28 +172,21 @@ public class UserMetricService implements IUserMetricsService {
 	}
 	
 	private void initializeGauge(long difference, IGauge gauge) {
-		try {
-			this.sessionView = persistencyService.openView();
-		} catch (SpecmateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// Use the session view to identify how many times we need to decrement the counter
+		// Use the session view to identify how many session existed before startup of system and set the counter correspondingly 
 		//String query = "UserSession.allInstances()->select(u | u.lastActive>" + difference + "->forAll(user1 | user1 <> self implies user1.userName <> self.userName))";
 		
-		String sqlQuery = "SELECT DISTINCT username FROM UserSession WHERE lastActive>"+difference;
+		String sqlQuery = "SELECT DISTINCT username FROM UserSession WHERE lastActive>:time";
 
 		List<Object> results = sessionView.querySQL(sqlQuery,
-				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
+				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession(), difference);
 		int numberOfSessions = results.size();
-
-		while(numberOfSessions>0) {
-			gauge.inc();
-			numberOfSessions--;
+		
+		for(int i = 0; i<results.size(); i++) {
+			System.err.println(gauge.toString());
+			System.err.println(results.get(i));
 		}
-		if (sessionView != null) {
-			sessionView.close();
-		}
+	 
+		gauge.set(numberOfSessions);
 	}
 	
 	private void initializeGaugeCurrentDay() {
@@ -240,8 +229,8 @@ public class UserMetricService implements IUserMetricsService {
 		this.metricsService = metricsService;
 	}
 
-	//@Reference 
-	//public void setPersistencyService(IPersistencyService persistencyService) {
-		//this.persistencyService = persistencyService;
-	//}
+	@Reference 
+	public void setPersistencyService(IPersistencyService persistencyService) {
+		this.persistencyService = persistencyService;
+	}
 }
