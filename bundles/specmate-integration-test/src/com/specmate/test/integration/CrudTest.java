@@ -530,14 +530,13 @@ public class CrudTest extends EmfRestTest {
 		// Expect 2 tests should be generated
 		Assert.assertEquals(2, testCases.size());
 
-		// Expect 4 children: two test cases and two test parameters
-		Assert.assertEquals(4, retrievedTestChilds.length());
+		// Expect 3 children: two test cases and one test parameter
+		Assert.assertEquals(3, retrievedTestChilds.length());
 		getResult.getResponse().close();
 	}
 
-	
-	@Test 
-	public void testGenerateTestsWithMutExConstraint() { 
+	@Test
+	public void testGenerateTestsWithMutExConstraint() {
 
 		JSONObject requirement = postRequirementToRoot();
 		String requirementId = getId(requirement);
@@ -595,9 +594,8 @@ public class CrudTest extends EmfRestTest {
 				numberOfInconsistentTests++;
 			}
 		}
-		Assert.assertEquals(1, numberOfInconsistentTests); 
+		Assert.assertEquals(1, numberOfInconsistentTests);
 	}
-	 
 
 	/**
 	 * Generates a model with contradictory constraints and trys to generate test
