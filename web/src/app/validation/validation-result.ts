@@ -4,9 +4,9 @@ import { ValidationErrorSeverity } from './validation-error-severity';
 
 export class ValidationResult {
     public message: ValidationMessage;
-    constructor(message: string|ValidationMessage,
+    constructor(message: string | ValidationMessage,
         public isValid: boolean, public elements: IContainer[],
-            public severity: ValidationErrorSeverity = ValidationErrorSeverity.SAVE_ENABLED) {
+        public severity: ValidationErrorSeverity = ValidationErrorSeverity.SAVE_ENABLED) {
         if (typeof message === 'string') {
             this.message = new ValidationMessage(message);
         } else {

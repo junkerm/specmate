@@ -5,28 +5,29 @@ import { saveAs } from 'file-saver';
 import { TestSpecification } from '../../../../../model/TestSpecification';
 import { TestSpecificationSkeleton } from '../../../../../model/TestSpecificationSkeleton';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { IContainer } from '../../../../../model/IContainer';
 
 @Component({
     moduleId: module.id.toString(),
-    selector: 'get-test-specification-skeleton-button',
-    templateUrl: 'get-test-specification-skeleton-button.component.html',
-    styleUrls: ['get-test-specification-skeleton-button.component.css']
+    selector: 'test-export-button',
+    templateUrl: 'test-export-button.component.html',
+    styleUrls: ['test-export-button.component.css']
 })
 
-export class GetTestSpecificationSkeletonButton {
+export class TestExportButton {
 
-    private _testspecification: TestSpecification;
+    private _element: IContainer;
 
     private _lang: string;
 
     private static UTF8_BOM = '\ufeff';
 
     @Input()
-    public set testspecification(testspecification: TestSpecification) {
-        if (!testspecification) {
+    public set element(element: IContainer) {
+        if (!element) {
             return;
         }
-        this._testspecification = testspecification;
+        this._element = element;
     }
 
     @Input()
@@ -42,14 +43,14 @@ export class GetTestSpecificationSkeletonButton {
             return;
         }
 
-        const data: TestSpecificationSkeleton = await this.dataService.performQuery(this._testspecification.url, 'generateTestSkeleton',
+        const data: TestSpecificationSkeleton = await this.dataService.performQuery(this._element.url, 'export',
             { language: new LowerCasePipe().transform(this._lang)});
 
         if (data === undefined) {
             throw new Error('Could not load test specification skeleton for ' + this._lang);
         }
 
-        saveAs(new Blob([GetTestSpecificationSkeletonButton.UTF8_BOM + data.code], {type: 'text/plain;charset=utf-8'}), data.name);
+        saveAs(new Blob([TestExportButton.UTF8_BOM + data.code], {type: 'text/plain;charset=utf-8'}), data.name);
     }
 
     public get language(): string {
@@ -57,7 +58,7 @@ export class GetTestSpecificationSkeletonButton {
     }
 
     public get enabled(): boolean {
-        if (this._testspecification === undefined) {
+        if (this._element === undefined) {
             return false;
         }
 

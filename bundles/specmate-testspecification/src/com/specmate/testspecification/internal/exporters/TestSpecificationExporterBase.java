@@ -1,10 +1,11 @@
-package com.specmate.testspecification.internal.testskeleton;
+package com.specmate.testspecification.internal.exporters;
+
+import static com.specmate.testspecification.internal.exporters.ExportUtil.replaceInvalidChars;
 
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -14,28 +15,43 @@ import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestSpecificationSkeleton;
 import com.specmate.model.testspecification.TestspecificationFactory;
+import com.specmate.testspecification.api.ITestExporter;
 
 /** Base class for Test Specification Exporters (aka "Skeletons") */
-public abstract class BaseSkeleton {
+public abstract class TestSpecificationExporterBase implements ITestExporter {
 
+	/** the language for the export */
 	protected String language;
-
-	private static Pattern startsNumerical = Pattern.compile("^[0-9]");
-	private static Pattern invalidChars = Pattern.compile("[^a-zA-Z_0-9\\_]");
 
 	Comparator<TestParameter> parameterComparator = (p1, p2) -> compareParameter(p1, p2);
 	Comparator<ParameterAssignment> assignmentComparator = (a1, a2) -> compareParameter(a1.getParameter(),
 			a2.getParameter());
 
-	public BaseSkeleton(String language) {
+	/** constructor */
+	public TestSpecificationExporterBase(String language) {
 		this.language = language;
 	}
 
-	private static int compareParameter(TestParameter p1, TestParameter p2) {
-		return p1.getType().compareTo(p2.getType()) * 10 + Integer.signum(p1.getName().compareTo(p2.getName()));
+	/** getter for language */
+	@Override
+	public String getLanguage() {
+		return language;
 	}
 
-	public TestSpecificationSkeleton generate(TestSpecification testSpecification) {
+	@Override
+	public boolean canExportTestProcedure() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportTestSpecification() {
+		return true;
+	}
+
+	/** Generates an export for the test specification */
+	@Override
+	public TestSpecificationSkeleton generate(Object obj) {
+		TestSpecification testSpecification = (TestSpecification) obj;
 		StringBuilder sb = new StringBuilder();
 
 		TestSpecificationSkeleton tss = TestspecificationFactory.eINSTANCE.createTestSpecificationSkeleton();
@@ -57,6 +73,10 @@ public abstract class BaseSkeleton {
 		return tss;
 	}
 
+	private static int compareParameter(TestParameter p1, TestParameter p2) {
+		return p1.getType().compareTo(p2.getType()) * 10 + Integer.signum(p1.getName().compareTo(p2.getName()));
+	}
+
 	/**
 	 * Return Test parameter assignments sorted by type (input before output)
 	 */
@@ -73,11 +93,6 @@ public abstract class BaseSkeleton {
 
 	private List<TestCase> getTestCases(TestSpecification testSpecification) {
 		return SpecmateEcoreUtil.pickInstancesOf(testSpecification.getContents(), TestCase.class);
-	}
-
-	protected String replaceInvalidChars(String name) {
-		name = startsNumerical.matcher(name).replaceAll("");
-		return invalidChars.matcher(name).replaceAll("_");
 	}
 
 	protected void appendParameterValue(StringBuilder sb, ParameterAssignment pa) {

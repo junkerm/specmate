@@ -101,6 +101,6 @@ export class TestSpecificationGeneratorButton {
         if (this.model === undefined) {
             return false;
         }
-        return this.validator.isValid(this.model, this.contents);
+        return this.validator.isValid(this.model);
     }
 }

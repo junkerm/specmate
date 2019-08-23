@@ -128,6 +128,7 @@
 	"elementCouldNotBeUpdated": "Could nto update element",
 	"errorLoggedOut": "You were logged out due to an unknown error.",
 	"expand": "",
+	"exportAlm": "Export to ALM",
 	"exportTestprocedure": "Export test procedure",
 	"exportTestspecification": "Export test specification",
 	"failed": "Failed",
@@ -137,6 +138,7 @@
 	"invalidCharacter": "Invalid Characters: , ; |",
 	"library": "Library",
 	"loadMore": "Load more",
+	"loading": "Loading...",
 	"log": {
 		"dataError": "Data error",
 		"delete": "Delete",
@@ -153,6 +155,7 @@
 	"logout": "Log Out",
 	"logoutFailed": "Log out failed.",
 	"maximize": "Maximize",
+	"modelGenerationFailed": "No model could be extracted.",
 	"name": "Name",
 	"navigate": {
 		"back": "Back",
@@ -235,6 +238,7 @@
 	"unknownError": "An unknown error occurred on the server",
 	"unreferenced": "unreferenced",
 	"username": "Username",
+	"validate": "validate",
 	"validationResult": {
 		"errorCircularCauses": "Circular cause dependency.",
 		"errorContradictoryModel": "Effect has contradictory causes.",

@@ -18,6 +18,8 @@ import com.specmate.model.processes.Process;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.rest.RestResult;
+import com.specmate.testspecification.internal.generators.CEGTestCaseGenerator;
+import com.specmate.testspecification.internal.generators.ProcessTestCaseGenerator;
 
 /**
  * Service for generating test cases for a test specification that is linked to

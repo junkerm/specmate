@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { SpecmateSharedModule } from '../../../specmate/specmate.shared.module';
 import { OperationMonitor } from './components/operation-monitor.component';
+import { ModalsModule } from '../modals/modals.module';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
     BrowserModule,
-    SpecmateSharedModule
+    SpecmateSharedModule,
+    ModalsModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

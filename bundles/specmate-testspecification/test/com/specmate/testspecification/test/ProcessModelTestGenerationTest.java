@@ -26,7 +26,7 @@ import com.specmate.model.testspecification.TestCase;
 import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestspecificationFactory;
-import com.specmate.testspecification.internal.services.ProcessTestCaseGenerator;
+import com.specmate.testspecification.internal.generators.ProcessTestCaseGenerator;
 
 public class ProcessModelTestGenerationTest {
 
