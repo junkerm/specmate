@@ -4,7 +4,6 @@ import { DuplicateIOVariableValidator } from './ceg/duplicate-io-variable-valida
 import { DuplicateNodeValidator } from './ceg/duplicate-node-validator';
 import { EmptyModelValidator } from './ceg/empty-model-validator';
 import { NodeCycleValidator } from './ceg/node-cycle-validator';
-import { SingleIndegreeNodesValidator } from './ceg/single-indegree-nodes-validator';
 import { SingleNodesValidator } from './ceg/single-nodes-validator';
 import { DecisionMultipleOutgoingConnectionsValidator } from './process/decision-multiple-outgoing-connections-validator';
 import { EndNodeNoOutgoingConnectionValidator } from './process/end-node-no-outgoing-connection-validator';
@@ -36,7 +35,6 @@ import { InvalidNodeVariableValidator } from './ceg/invalid-node-variable-valida
     DuplicateIOVariableValidator,
     EmptyModelValidator,
     SingleNodesValidator,
-    SingleIndegreeNodesValidator,
     EndNodeValidator,
     EndNodeNoOutgoingConnectionValidator,
     HasStepsValidator,
