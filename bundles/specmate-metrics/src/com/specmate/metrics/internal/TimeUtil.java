@@ -6,48 +6,65 @@ import java.util.Date;
 public class TimeUtil {
 	
 	public static long getDiffDay() {
-		long oneDay = 1000L*60*60*24;
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		
 		long now = new Date().getTime();
-		long difference = now - oneDay;
-		System.err.println("Difference one day:" + difference);
-		return difference;
+		// get start of this week in milliseconds
+		long startOfDay = cal.getTimeInMillis();
+		System.err.println("Start of Day:" + startOfDay);
+		System.err.println("Current time:" + now);
+		return startOfDay;
 	}
 	
 	public static long getDiffWeek() {
-		long oneWeek = 1000L*60*60*24*7;
+		Calendar cal = Calendar.getInstance();
+		// Reset hour of day separately
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.clear(Calendar.MINUTE);
+		cal.clear(Calendar.SECOND);
+		cal.clear(Calendar.MILLISECOND);
+		
 		long now = new Date().getTime();
-		long difference = now - oneWeek;
-		System.err.println("Difference one week:" + difference);
-		return difference;
+
+		// get start of this week in milliseconds
+		cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+		long startOfWeek = cal.getTimeInMillis();
+		System.err.println("Start of week:" + startOfWeek);
+		System.err.println("Current time:" + now);
+		return startOfWeek;
 	}
 	
 	public static long getDiffMonth() {
-		int daysInCurrentMonth = getDaysInMonth();
-		long oneMonth = 1000L*60*60*24*7*daysInCurrentMonth;
-		long now = new Date().getTime();
-		long difference = now - oneMonth;
-		System.err.println("Difference one month:" + difference);
-		return difference;
+		Calendar cal = Calendar.getInstance();
+		// Reset hour of day separately
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.clear(Calendar.MINUTE);
+		cal.clear(Calendar.SECOND);
+		cal.clear(Calendar.MILLISECOND);
+
+		// get start of this month in milliseconds
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		long startOfMonth = cal.getTimeInMillis();
+		System.err.println("Start of month:" + startOfMonth);
+		return startOfMonth;
 	}
 	
 	public static long getDiffYear() {
-		int daysInCurrentYear = getDaysInYear();
-		long oneYear = 1000L*60*60*24*7*daysInCurrentYear;
-		long now = new Date().getTime();
-		long difference = now - oneYear;
-		System.err.println("Difference one year:" + difference);
-		return difference;
-	}
-	
-	private static int getDaysInMonth() {
-		Calendar c = Calendar.getInstance();
-		c.setTime(new Date());
-		return c.getActualMaximum(Calendar.DAY_OF_MONTH);
-	}
-	
-	private static int getDaysInYear() {
-		Calendar c = Calendar.getInstance();
-		c.setTime(new Date());
-		return c.getActualMaximum(Calendar.DAY_OF_YEAR);
+		Calendar cal = Calendar.getInstance();
+		// Reset hour of day separately
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.clear(Calendar.MINUTE);
+		cal.clear(Calendar.SECOND);
+		cal.clear(Calendar.MILLISECOND);
+
+		// get start of this week in milliseconds
+		cal.set(Calendar.DAY_OF_YEAR, 1);
+		long startOfYear = cal.getTimeInMillis();
+		System.err.println("Start of year:" + startOfYear);
+		return startOfYear;
 	}
 }
