@@ -308,8 +308,8 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 	}
 
 	/**
-	 * Creates a testcase from a a list of variables and conditions reflecting a
-	 * certain path thorugh the model
+	 * Creates a test case from a a list of variables and conditions reflecting a
+	 * certain path through the model
 	 */
 	private TestCase createTestCaseFromVariableConditionList(List<AssigmentValues> variableConditionList) {
 		List<String> seenParameterNames = new ArrayList<>();
@@ -405,12 +405,12 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		return "Establish precondition: " + connection.getCondition();
 	}
 
-	/** Creates an action text from a process tep */
+	/** Creates an action text from a process step */
 	private String makeAction(ProcessStep step) {
 		return step.getName();
 	}
 
-	/** Creates an action text from a process decision and a following conneciton */
+	/** Creates an action text from a process decision and a following connection */
 	private String makeAction(ProcessDecision decision, ProcessConnection connection) {
 		if (!hasCondition(connection)) {
 			return "";
@@ -418,7 +418,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		return "Establish condition: " + decision.getName() + "=" + connection.getCondition();
 	}
 
-	/** Creates an expected outcome text from a step and a following conneciton */
+	/** Creates an expected outcome text from a step and a following connection */
 	private String makeExpectedOutcome(ProcessStep step, ProcessConnection connection) {
 		List<String> checkParts = new ArrayList<>();
 
