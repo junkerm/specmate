@@ -39,14 +39,15 @@ public class UITestUtil {
     	} while(modalDisplayed);
     	// Change timeout back to the defined value
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);*/
+		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 		try {
 			new WebDriverWait(driver, 2).until(
 			        ExpectedConditions.visibilityOfElementLocated(modalLocator));
-		} catch (TimeoutException te) {
+		} catch (TimeoutException | NoSuchElementException e) {
 			return;
 		}
 		new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(modalLocator));
-		
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 	
 	
