@@ -52,9 +52,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <parallel>classes</parallel>
-                    <threadCount>40</threadCount>
-
+                    <forkCount>1</forkCount>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                 </configuration>
                 <version>2.12.4</version>
