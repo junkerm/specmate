@@ -89,7 +89,7 @@ public class UITestUtil {
      * loading is finished and refreshes the page each 5 seconds
      * 	*/
     public static void waitForProjectsToLoad(WebDriver driver) {
-    	/*boolean displayed = false;
+    	boolean displayed = false;
     	int counter = 5;
     	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     	do {
@@ -101,17 +101,6 @@ public class UITestUtil {
     		}
     	} while(!displayed);
     	// Change timeout back to the defined value
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);*/
-        
-        
-    	Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-    			.ignoring(NoSuchElementException.class);
-
-    	wait.until(new Function<WebDriver, WebElement>() {
-    		public WebElement apply(WebDriver driver) {
-    			driver.navigate().refresh();
-    			return driver.findElement(By.id("foo"));
-    		}
-    	});
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 }
