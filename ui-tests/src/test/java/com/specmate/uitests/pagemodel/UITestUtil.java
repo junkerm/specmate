@@ -13,39 +13,22 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UITestUtil {
 	/** 
-     * If the modal is displayed, we wait 1 second and then check again if the modal is still there
-     * The method checks for 10 seconds at intervals of 1 second (driver.findElement TimeOut 
-     * (defined by implictlyWait) (1 seconds) * counter (10)) if the modal disappeared
+     * If modal is visible we wait for a maximum of 10 seconds for the modal to become invisible again. 
+     * If modal is not visible in the first place, we simply return 
      * 	*/
 	public static void waitForModalToDisappear(WebDriver driver) {
 		By modalLocator = By.id("loading-modal");
-		/*boolean modalDisplayed = true;
-    	int counter = 11;
-    	
-    	driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-    	do {
-    		try {
-    			counter--;
-    			// If modal is not displayed, exception is thrown
-    			driver.findElement(modalLocator).isDisplayed();
-    			modalDisplayed = counter>0;
-    		} catch (NoSuchElementException | StaleElementReferenceException e) {
-    			modalDisplayed = false;
-    		}
-    	} while(modalDisplayed);
-    	// Change timeout back to the defined value
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);*/
 		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 		try {
 			new WebDriverWait(driver, 2).until(
 			        ExpectedConditions.visibilityOfElementLocated(modalLocator));
-		} catch (TimeoutException | NoSuchElementException e) {
+		} catch (TimeoutException te) {
+			// no modal displayed
 			return;
 		}
 		new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(modalLocator));
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
-	
 	
 	/**
 	 * Checks if the element is present or absent
