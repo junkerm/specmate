@@ -214,12 +214,16 @@ public class UserMetricService implements IUserMetricsService {
 		switch (counterType) {
 		case CURRENTDAY:
 			gauge = specmate_current_day;
+			break;
 		case CURRENTMONTH:
 			gauge = specmate_current_week;
+			break;
 		case CURRENTWEEK:
 			gauge = specmate_current_month;
+			break;
 		case CURRENTYEAR:
 			gauge = specmate_current_year; 
+			break;
 		}
 		return gauge;
 	}
