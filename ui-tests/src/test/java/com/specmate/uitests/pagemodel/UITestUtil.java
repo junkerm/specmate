@@ -6,8 +6,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UITestUtil {
 	/** 
@@ -17,7 +20,7 @@ public class UITestUtil {
      * 	*/
 	public static void waitForModalToDisappear(WebDriver driver) {
 		By modalLocator = By.id("loading-modal");
-		boolean modalDisplayed = true;
+		/*boolean modalDisplayed = true;
     	int counter = 11;
     	
     	driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
@@ -32,7 +35,15 @@ public class UITestUtil {
     		}
     	} while(modalDisplayed);
     	// Change timeout back to the defined value
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);*/
+		try {
+			new WebDriverWait(driver, 2).until(
+			        ExpectedConditions.visibilityOfElementLocated(modalLocator));
+		} catch (TimeoutException te) {
+			return;
+		}
+		new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(modalLocator));
+		
 	}
 	
 	
