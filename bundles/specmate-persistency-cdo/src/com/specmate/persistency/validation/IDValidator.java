@@ -41,7 +41,8 @@ public class IDValidator extends ValidatorBase {
 
 	private String validateID(EObject obj, Object objID) throws SpecmateValidationException {
 		if (objID == null) {
-			throw new SpecmateValidationException("Object does not have a valid Id.", getValidatorName(),
+			throw new SpecmateValidationException(
+					"Object of type " + obj.eClass().getName() + " does not have a valid Id.", getValidatorName(),
 					getObjectName(obj));
 		}
 

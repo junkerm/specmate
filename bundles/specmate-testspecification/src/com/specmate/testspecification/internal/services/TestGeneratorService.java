@@ -29,15 +29,15 @@ import com.specmate.testspecification.internal.generators.ProcessTestCaseGenerat
  */
 @Component(immediate = true, service = IRestService.class)
 public class TestGeneratorService extends RestServiceBase {
-	
+
 	private IMetricsService metricsService;
 	private ICounter testGenCounter;
-	
+
 	@Activate
 	public void activate() throws SpecmateException {
-		this.testGenCounter = metricsService.createCounter("test_generation_counter", "Total number of generated test specifications");
+		testGenCounter = metricsService.createCounter("test_generation_counter",
+				"Total number of generated test specifications");
 	}
-	
 
 	/** {@inheritDoc} */
 	@Override
@@ -59,10 +59,10 @@ public class TestGeneratorService extends RestServiceBase {
 		EObject container = specification.eContainer();
 		if (container instanceof CEGModel) {
 			new CEGTestCaseGenerator(specification).generate();
-			this.testGenCounter.inc();
+			testGenCounter.inc();
 		} else if (container instanceof Process) {
 			new ProcessTestCaseGenerator(specification).generate();
-			this.testGenCounter.inc();
+			testGenCounter.inc();
 		} else {
 			throw new SpecmateInternalException(ErrorCode.REST_SERVICE,
 					"You can only generate test cases from ceg models or processes. The supplied element is of class "
@@ -70,7 +70,7 @@ public class TestGeneratorService extends RestServiceBase {
 		}
 		return new RestResult<>(Response.Status.NO_CONTENT);
 	}
-	
+
 	@Reference
 	public void setMetricsService(IMetricsService metricsService) {
 		this.metricsService = metricsService;
