@@ -1,6 +1,10 @@
 package com.specmate.scheduler.iterators;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -8,33 +12,35 @@ import java.util.Date;
  * representing the same time each day.
  */
 public class HourlyIterator implements ScheduleIterator {
-	private final Calendar calendar = Calendar.getInstance();
+	private ZonedDateTime zoneDate;
 
 	public HourlyIterator(Date date, int... time) {
 		this(getMinute(time), getSecond(time), date);
 	}
 
 	public HourlyIterator(int minute, int second, Date date) {
-		calendar.setTime(date);
-		calendar.set(Calendar.MINUTE, minute);
-		calendar.set(Calendar.SECOND, second);
-		calendar.set(Calendar.MILLISECOND, 0);
-		if (!calendar.getTime().before(date)) {
-			calendar.add(Calendar.HOUR_OF_DAY, -1);
-		}
+
+		// Convert LocalDate to LocalDateTime with parameter of method  
+		LocalDateTime localDT = LocalDateTime.of(LocalDate.now(), LocalTime.now());
+		localDT = localDT.withMinute(minute).withSecond(second).withNano(0);
+
+		ZoneId currentZone = ZoneId.systemDefault();
+		zoneDate = ZonedDateTime.of(localDT, currentZone);
 	}
 
 	@Override
 	public Date next() {
-		calendar.add(Calendar.HOUR_OF_DAY, 1);
-		return calendar.getTime();
+		zoneDate = zoneDate.plusHours(1);
+		return Date.from(zoneDate.toInstant());
 	}
 
 	private static int getMinute(int... time) {
-		return SchedulerUtils.getNumberIfExistsOrZero(0, time);
+		int temp = SchedulerUtils.getNumberIfExistsOrZero(0, time);
+		return SchedulerUtils.normalizeInput(temp, 60);
 	}
 
 	private static int getSecond(int... time) {
-		return SchedulerUtils.getNumberIfExistsOrZero(1, time);
+		int temp = SchedulerUtils.getNumberIfExistsOrZero(1, time);
+		return SchedulerUtils.normalizeInput(temp, 60);
 	}
 }

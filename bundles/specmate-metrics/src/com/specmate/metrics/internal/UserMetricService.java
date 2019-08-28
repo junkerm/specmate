@@ -70,7 +70,7 @@ public class UserMetricService implements IUserMetricsService {
 		// Create different schedulers for the different counters
 		//TODO: change schedule Time
 		try {
-			String scheduleDay = "minute 60";
+			String scheduleDay = "minute 15";
 			SchedulerTask metricRunnable = new MetricTask(CounterType.CURRENTDAY, specmate_current_day, sessionView);
 			//metricRunnable.run();
 			Scheduler scheduler = new Scheduler();
@@ -78,7 +78,7 @@ public class UserMetricService implements IUserMetricsService {
 			// Get the resetted counter back
 			specmate_current_day = ((MetricTask) metricRunnable).getGauge();
 			
-			String scheduleWeek = "minute 120";
+			String scheduleWeek = "minute 30";
 			SchedulerTask metricRunnableWeek = new MetricTask(CounterType.CURRENTWEEK, specmate_current_week, sessionView);
 			//metricRunnableWeek.run();
 			Scheduler schedulerWeek = new Scheduler();
@@ -86,7 +86,7 @@ public class UserMetricService implements IUserMetricsService {
 			// Get the resetted counter back
 			specmate_current_week = ((MetricTask) metricRunnableWeek).getGauge();
 
-			String scheduleMonth = "minute 180";
+			String scheduleMonth = "minute 45";
 			SchedulerTask metricRunnableMonth = new MetricTask(CounterType.CURRENTMONTH, specmate_current_month, sessionView);
 			//metricRunnableMonth.run();
 			Scheduler schedulerMonth = new Scheduler();
@@ -94,7 +94,7 @@ public class UserMetricService implements IUserMetricsService {
 			// Get the resetted counter back
 			specmate_current_month = ((MetricTask) metricRunnableMonth).getGauge();
 			
-			String scheduleYear = "minute 240";
+			String scheduleYear = "minute 60";
 			SchedulerTask metricRunnableYear = new MetricTask(CounterType.CURRENTYEAR, specmate_current_year, sessionView);
 			//metricRunnableYear.run();
 			Scheduler schedulerYear = new Scheduler();
