@@ -19,8 +19,13 @@ public class MinuteIterator implements ScheduleIterator {
 	}
 
 	public MinuteIterator(int second, Date date) {
+		
+		// Get the specified date
+		LocalDate localDate = date.toInstant()
+				.atZone(ZoneId.systemDefault())
+				.toLocalDate();
 		// Convert LocalDate to LocalDateTime with parameter of method  
-		LocalDateTime localDT = LocalDateTime.of(LocalDate.now(), LocalTime.now());
+		LocalDateTime localDT = LocalDateTime.of(localDate, LocalTime.now());
 		second = second%60;
 		localDT = localDT.withSecond(second).withNano(0);
 

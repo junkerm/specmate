@@ -1,12 +1,10 @@
 package com.specmate.scheduler.iterators;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
 /**
@@ -17,18 +15,20 @@ public class WeeklyIterator implements ScheduleIterator {
 	private ZonedDateTime zoneDate;
 
 	public WeeklyIterator(Date date, int... time) {
-		this(getDayOfWeek(time), getHourOfDay(time), getMinute(time), getSecond(time), date);
+		this(getHourOfDay(time), getMinute(time), getSecond(time), date);
 	}
 
-	public WeeklyIterator(int dayOfWeek, int hourOfDay, int minute, int second, Date date) {
+	public WeeklyIterator(int hourOfDay, int minute, int second, Date date) {
 		
-		// Get the current date
-		LocalDate localDate = LocalDate.now();
+		// Get the specified date
+		LocalDate localDate = date.toInstant()
+			      .atZone(ZoneId.systemDefault())
+			      .toLocalDate();
 		// Set the date to the corresponding day in the week 1=Monday etc. 
-		DayOfWeek dow = DayOfWeek.of(dayOfWeek);
+		//DayOfWeek dow = DayOfWeek.of(dayOfWeek);
 		// We get the next date where the day of the week is specified with the parameter dayOfWeek
 		// ATTENTION: if the current date is the specified dayOfWeek the date 7 days from the current day will be returned 
-		localDate = localDate.with(TemporalAdjusters.next(dow));
+		//localDate = localDate.with(TemporalAdjusters.next(dow));
 		
 		
 		// Convert LocalDate to LocalDateTime with parameter of method  
@@ -40,28 +40,23 @@ public class WeeklyIterator implements ScheduleIterator {
 
 	@Override
 	public Date next() {
-		// Add one week to the current day of the week
+		// Add one week to the set day of the week
 		zoneDate = zoneDate.plusWeeks(1);
 		return Date.from(zoneDate.toInstant());
 	}
-	
-	private static int getDayOfWeek(int... time) {
-		int temp = SchedulerUtils.getNumberIfExistsOrZero(0, time);
-		return SchedulerUtils.normalizeInput(temp, 7);
-	}
 
 	private static int getHourOfDay(int... time) {
-		int temp = SchedulerUtils.getNumberIfExistsOrZero(1, time);
+		int temp = SchedulerUtils.getNumberIfExistsOrZero(0, time);
 		return SchedulerUtils.normalizeInput(temp, 24);
 	}
 
 	private static int getMinute(int... time) {
-		int temp = SchedulerUtils.getNumberIfExistsOrZero(2, time);
+		int temp = SchedulerUtils.getNumberIfExistsOrZero(1, time);
 		return SchedulerUtils.normalizeInput(temp, 60);
 	}
 
 	private static int getSecond(int... time) {
-		int temp = SchedulerUtils.getNumberIfExistsOrZero(3, time);
+		int temp = SchedulerUtils.getNumberIfExistsOrZero(2, time);
 		return SchedulerUtils.normalizeInput(temp, 60);
 	}
 }

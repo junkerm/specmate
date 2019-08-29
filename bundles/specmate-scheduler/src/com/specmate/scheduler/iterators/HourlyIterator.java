@@ -19,9 +19,14 @@ public class HourlyIterator implements ScheduleIterator {
 	}
 
 	public HourlyIterator(int minute, int second, Date date) {
+		
+		// Get the specified date
+		LocalDate localDate = date.toInstant()
+				.atZone(ZoneId.systemDefault())
+				.toLocalDate();
 
 		// Convert LocalDate to LocalDateTime with parameter of method  
-		LocalDateTime localDT = LocalDateTime.of(LocalDate.now(), LocalTime.now());
+		LocalDateTime localDT = LocalDateTime.of(localDate, LocalTime.now());
 		localDT = localDT.withMinute(minute).withSecond(second).withNano(0);
 
 		ZoneId currentZone = ZoneId.systemDefault();

@@ -8,34 +8,35 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
- * A <code>DailyIterator</code> returns a sequence of dates on subsequent days
- * representing the same time each day.
+ * A <code>WeeklyIterator</code> returns a sequence of dates on subsequent weeks
+ * representing the same time each week.
  */
-public class DailyIterator implements ScheduleIterator {
+public class MonthlyIterator implements ScheduleIterator {
 	private ZonedDateTime zoneDate;
 
-	public DailyIterator(Date date, int... time) {
+	public MonthlyIterator(Date date, int... time) {
 		this(getHourOfDay(time), getMinute(time), getSecond(time), date);
 	}
 
-	public DailyIterator(int hourOfDay, int minute, int second, Date date) {
+	public MonthlyIterator(int hourOfDay, int minute, int second, Date date) {
 		
 		// Get the specified date
 		LocalDate localDate = date.toInstant()
-				.atZone(ZoneId.systemDefault())
-				.toLocalDate();
-
+			      .atZone(ZoneId.systemDefault())
+			      .toLocalDate();
+		
+		
 		// Convert LocalDate to LocalDateTime with parameter of method  
-		LocalDateTime localDT = LocalDateTime.of(localDate, LocalTime.now());
-		localDT = localDT.withHour(hourOfDay).withMinute(minute).withSecond(second).withNano(0);
-
+		LocalDateTime localDT = LocalDateTime.of(localDate, LocalTime.of(hourOfDay, minute, second, 0));
+		
 		ZoneId currentZone = ZoneId.systemDefault();
 		zoneDate = ZonedDateTime.of(localDT, currentZone);
 	}
 
 	@Override
 	public Date next() {
-		zoneDate = zoneDate.plusDays(1);
+		// Add one month to the set date
+		zoneDate = zoneDate.plusMonths(1);
 		return Date.from(zoneDate.toInstant());
 	}
 
