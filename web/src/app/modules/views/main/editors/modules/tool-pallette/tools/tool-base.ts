@@ -14,4 +14,8 @@ export abstract class ToolBase {
     constructor(protected dataService: SpecmateDataService,
         protected selectedElementService: SelectedElementService,
         protected parent: IContainer) { }
+
+    public get elementId(): string {
+        return 'toolbar-' + name + '-button';
+    }
 }

@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { UUID } from 'angular2-uuid';
 import { mxgraph } from 'mxgraph'; // Typings only - no code!
 import { Config } from '../../../../../../../config/config';
 import { CEGModel } from '../../../../../../../model/CEGModel';
@@ -10,25 +9,23 @@ import { IModelNode } from '../../../../../../../model/IModelNode';
 import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISpecmatePositionableModelObject';
 import { Process } from '../../../../../../../model/Process';
 import { Arrays } from '../../../../../../../util/arrays';
+import { Id } from '../../../../../../../util/id';
 import { Type } from '../../../../../../../util/type';
+import { Url } from '../../../../../../../util/url';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { ValidationService } from '../../../../../../forms/modules/validation/services/validation.service';
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 import { SelectionRect } from '../../../../../side/modules/selected-element/util/selection-rect';
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
-import { EditorToolsService } from '../../tool-pallette/services/editor-tools.service';
 import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
+import { ConnectionToolBase } from '../../tool-pallette/tools/connection-tool-base';
+import { CreateNodeToolBase } from '../../tool-pallette/tools/create-node-tool-base';
+import { ToolBase } from '../../tool-pallette/tools/tool-base';
 import { ConverterBase } from '../converters/converter-base';
 import { NodeNameConverterProvider } from '../providers/conversion/node-name-converter-provider';
 import { ElementProvider } from '../providers/properties/element-provider';
 import { NameProvider } from '../providers/properties/name-provider';
 import { ToolProvider } from '../providers/properties/tool-provider';
-import { config } from 'rxjs';
-import { Url } from '../../../../../../../util/url';
-import { CEGConnection } from '../../../../../../../model/CEGConnection';
-import { ToolBase } from '../../tool-pallette/tools/tool-base';
-import { ConnectionToolBase } from '../../tool-pallette/tools/connection-tool-base';
-import { CreateNodeToolBase } from '../../tool-pallette/tools/create-node-tool-base';
 
 
 declare var require: any;
@@ -79,9 +76,14 @@ export class GraphicalEditor {
     private toolbarElem: ElementRef;
 
     private graph: mxgraph.mxGraph;
+    private keyHandler: mxgraph.mxKeyHandler;
 
     @ViewChild('mxGraphContainer')
     public set graphContainer(element: ElementRef) {
+
+        mx.mxConnectionHandler.prototype.connectImage = new mx.mxImage('assets/img/editor-tools/connector.png', 16, 16);
+        mx.mxEvent.disableContextMenu(document.body);
+        mx.mxGraphHandler.prototype['guidesEnabled'] = true;
 
         if (element === undefined) {
             return;
@@ -91,16 +93,11 @@ export class GraphicalEditor {
         this.graph.setGridEnabled(true);
         this.graph.setConnectable(true);
         this.graph.setMultigraph(false);
-        const rubberband = new mx.mxRubberband(this.graph);
-        rubberband.reset();
+        const rubberBand = new mx.mxRubberband(this.graph);
+        rubberBand.reset();
 
         this.createStyles();
 
-        mx.mxEvent.disableContextMenu(document.body);
-
-        mx.mxConstants.HANDLE_FILLCOLOR = '#99ccff';
-        mx.mxConstants.HANDLE_STROKECOLOR = '#0088cf';
-        mx.mxConstants.VERTEX_SELECTION_COLOR = '#00a8ff';
 
         this.graph.setTooltips(true);
 
@@ -135,10 +132,18 @@ export class GraphicalEditor {
 
         this.graph.getSelectionModel().addListener(mx.mxEvent.CHANGE, async (args: any) => {
             if (this.graph.getSelectionCount() === 1) {
-                const selectedElement = await this.dataService.readElement(this.graph.getSelectionModel().cells[0].getId());
+                const selectedElement = await this.dataService.readElement(this.graph.getSelectionModel().cells[0].getId(), true);
                 this.selectedElementService.select(selectedElement);
             } else {
                 this.selectedElementService.deselect();
+            }
+        });
+
+        this.keyHandler = new mx.mxKeyHandler(this.graph);
+        this.keyHandler.bindKey(46, (evt: KeyboardEvent) => {
+            if (this.graph.isEnabled()) {
+                const selectedCells = this.graph.getSelectionCells().filter(cell => !cell.edge);
+                this.graph.removeCells(selectedCells, true);
             }
         });
 
@@ -146,6 +151,12 @@ export class GraphicalEditor {
     }
 
     private createStyles() {
+
+        mx.mxConstants.HANDLE_FILLCOLOR = '#99ccff';
+        mx.mxConstants.HANDLE_STROKECOLOR = '#0088cf';
+        mx.mxConstants.VERTEX_SELECTION_COLOR = '#00a8ff';
+        mx.mxConstants.EDGE_SELECTION_COLOR = '#00a8ff';
+
         const stylesheet = this.graph.getStylesheet();
         const validStyle: {
             [key: string]: string;
@@ -223,40 +234,28 @@ export class GraphicalEditor {
             if (tool.style !== undefined) {
                 const vertex = new mx.mxCell(null, new mx.mxGeometry(0, 0, width, height), tool.style);
                 vertex.setVertex(true);
-                this.addToolbarItem(this.graph, toolbar, vertex,
-                    'http://fa2png.io/media/icons/font-awesome/4-7-0/' + tool.icon + '/36/0/2f2f2f_none.png');
+                // this.addToolbarItem(this.graph, toolbar, vertex,
+                //     '/assets/img/editor-tools/' + tool.icon + '.png', this.translate.instant('addNode'));
             }
         }
-    }
 
-    private addToolbarItem(graph: mxgraph.mxGraph, toolbar: mxgraph.mxToolbar, prototype: mxgraph.mxCell, image: string) {
-        // Function that is executed when the image is dropped on
-        // the graph. The cell argument points to the cell under
-        // the mousepointer if there is one.
-        const funct = (graph: mxgraph.mxGraph, evt: MouseEvent, cell: mxgraph.mxCell) => {
-            graph.stopEditing(false);
-
-            const pt = graph.getPointForEvent(evt);
-            /*            const vertex: mxgraph.mxCell = graph.getModel().cloneCell(prototype);
-                        vertex.geometry.x = pt.x;
-                        vertex.geometry.y = pt.y;
-                        vertex.setConnectable(true);
-
-                        const importCells = graph.importCells([vertex], 0, 0, cell, evt, null);
-                        graph.setSelectionCells(importCells);*/
-
-            const vertexUrl = Url.build([this.model.url, UUID.UUID()]);
-            this.graph.insertVertex(
-                this.graph.getDefaultParent(),
-                vertexUrl,
-                Config.CEG_NODE_NEW_VARIABLE + ': ' + Config.CEG_NODE_NEW_CONDITION,
-                pt.x, pt.y, Config.CEG_NODE_WIDTH, Config.CEG_NODE_HEIGHT);
-
-        };
-
-        // Creates the image which is used as the drag icon (preview)
-        const img = toolbar.addMode(null, image, funct);
-        mx.mxUtils.makeDraggable(img, graph, funct);
+        for (const tool of tools.filter(t => t.isVertexTool)) {
+            const vertex = new mx.mxCell(null, new mx.mxGeometry(0, 0, width, height), tool.style);
+            vertex.setVertex(true);
+            const onDrop = (graph: mxgraph.mxGraph, evt: MouseEvent, cell: mxgraph.mxCell) => {
+                this.graph.stopEditing(false);
+                const pt = graph.getPointForEvent(evt);
+                const vertexUrl = Url.build([this.model.url, Id.uuid]);
+                this.graph.startEditing(evt);
+                this.graph.insertVertex(
+                    this.graph.getDefaultParent(),
+                    vertexUrl,
+                    Config.CEG_NODE_NEW_VARIABLE + ': ' + Config.CEG_NODE_NEW_CONDITION + ' style: ' + tool.style + ' tool: ' + tool.name,
+                    pt.x, pt.y, Config.CEG_NODE_WIDTH, Config.CEG_NODE_HEIGHT, vertex.style);
+                this.graph.stopEditing(true);
+            };
+            mx.mxUtils.makeDraggable(document.getElementById(tool.elementId), this.graph, onDrop);
+        }
     }
 
     private updateValidities(): void {
@@ -285,11 +284,15 @@ export class GraphicalEditor {
                 const edgeTools = this.toolProvider.tools.filter(tool => !tool.isVertexTool);
                 if (edgeTools.length > 1) {
                     return edgeTools.find(tool => tool.style === childChange.child.style);
+                } else if (edgeTools.length === 1) {
+                    return edgeTools[0];
                 }
             } else {
                 const vertexTools = this.toolProvider.tools.filter(tool => tool.isVertexTool);
                 if (vertexTools.length > 1) {
                     return vertexTools.find(tool => tool.style === childChange.child.style);
+                } else if (vertexTools.length === 1) {
+                    return vertexTools[0];
                 }
             }
         }
@@ -301,35 +304,45 @@ export class GraphicalEditor {
             return;
         }
 
-        if (change['cell'] === undefined) {
+        if (change['cell'] === undefined && change['child'] !== undefined) {
             await this.translateAdd(change as mxgraph.mxChildChange);
-        } else {
+        } else if (change['cell'] !== undefined) {
             this.translateChange(change as mxgraph.mxTerminalChange);
+        } else if (change['style']) {
+            // We have a mxStyleChange
         }
     }
-
 
     private async translateAdd(change: mxgraph.mxChildChange): Promise<void> {
-        console.log(change);
-        if (change.child.edge) {
-            this.translateEdgeAdd(change);
-        } else {
-            this.translateNodeAdd(change);
+        if (this.contents.find(element => element.url === change.child.id) !== undefined) {
+            console.log('Child already addded');
+            return;
         }
+        let addedElement: IContainer = undefined;
+        if (change.child.edge) {
+            addedElement = await this.translateEdgeAdd(change);
+        } else {
+            addedElement = await this.translateNodeAdd(change);
+        }
+        change.child.setId(addedElement.url);
     }
 
-    private async translateEdgeAdd(change: mxgraph.mxChildChange): Promise<void> {
+    private async translateEdgeAdd(change: mxgraph.mxChildChange): Promise<IModelConnection> {
         const tool = this.determineTool(change) as ConnectionToolBase<any>;
         tool.source = this.contents.find(element => element.url === change.child.source.id) as IModelNode;
         tool.target = this.contents.find(element => element.url === change.child.target.id) as IModelNode;
         const connection = await tool.perform();
+        // this.contents = await this.dataService.readContents(this.model.url, true);
         change.child.id = connection.url;
+        return connection;
     }
 
-    private async translateNodeAdd(change: mxgraph.mxChildChange): Promise<void> {
-        const tool = this.determineTool(change) as CreateNodeToolBase<any>;
+    private async translateNodeAdd(change: mxgraph.mxChildChange): Promise<IModelNode> {
+        const tool = this.determineTool(change) as CreateNodeToolBase<IModelNode>;
         tool.coords = { x: change.child.geometry.x, y: change.child.geometry.y };
-        await tool.perform();
+        const node = await tool.perform();
+        // this.contents = await this.dataService.readContents(this.model.url, true);
+        return node;
     }
 
     private translateChange(change: mxgraph.mxTerminalChange): void {
@@ -355,10 +368,10 @@ export class GraphicalEditor {
         }
         element['x'] = change.cell.geometry.x;
         element['y'] = change.cell.geometry.y;
-        this.dataService.updateElement(element, true, UUID.UUID());
+        this.dataService.updateElement(element, true, Id.uuid);
     }
 
-    private translateEdgeChange(change: mxgraph.mxTerminalChange, connection: IModelConnection) {
+    private async translateEdgeChange(change: mxgraph.mxTerminalChange, connection: IModelConnection): Promise<void> {
         if (change.cell.target === undefined
             || change.cell.target === null
             || change.cell.source === undefined
@@ -376,10 +389,18 @@ export class GraphicalEditor {
         const targetUrl = change.cell.target.id;
         // The new linked node
         const terminalUrl = change.terminal.id;
-        const terminal = this.contents.find(element => element.url === terminalUrl) as IModelNode;
+        let terminal = this.contents.find(element => element.url === terminalUrl) as IModelNode;
+        if (terminal === undefined) {
+            terminal = await this.dataService.readElement(terminalUrl, true) as IModelNode;
+            this.contents = await this.dataService.readContents(this.model.url, true);
+        }
         // The previously linked node
         const previousUrl = change.previous.id;
-        const previous = this.contents.find(element => element.url === previousUrl) as IModelNode;
+        let previous = this.contents.find(element => element.url === previousUrl) as IModelNode;
+        if (previous === undefined) {
+            previous = await this.dataService.readElement(previousUrl, true) as IModelNode;
+            this.contents = await this.dataService.readContents(this.model.url, true);
+        }
 
         connection.source.url = sourceUrl;
         connection.target.url = targetUrl;
@@ -397,7 +418,7 @@ export class GraphicalEditor {
         Arrays.remove(previous[field], connectionProxy);
         terminal[field].push(connectionProxy);
 
-        const changeId = UUID.UUID();
+        const changeId = Id.uuid;
         this.dataService.updateElement(previous, true, changeId);
         this.dataService.updateElement(terminal, true, changeId);
         this.dataService.updateElement(connection, true, changeId);
@@ -421,14 +442,12 @@ export class GraphicalEditor {
             model, this.dataService, this.selectedElementService, this.translate, this.multiselectionService, this.clipboardService);
         this.nameProvider = new NameProvider(model, this.translate);
         this._model = model;
-        this.init();
     }
 
     @Input()
     public set contents(contents: IContainer[]) {
         this._contents = contents;
         this.elementProvider = new ElementProvider(this.model, this._contents);
-        this.init();
     }
 
     public get contents(): IContainer[] {

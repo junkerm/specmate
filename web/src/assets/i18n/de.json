@@ -88,6 +88,7 @@
 	"Variable": "Variable",
 	"addARequirement": "Anforderung hinzufügen",
 	"addInputColumn": "Eingabespalte hinzufügen",
+	"addNode": "",
 	"addOutputColumn": "Ausgabespalte hinzufügen",
 	"attentionNumberOfTestCasesWillBeDeleted": "Achtung: {{num}} Testfälle werden gelöscht!",
 	"cancel": "Abbrechen",

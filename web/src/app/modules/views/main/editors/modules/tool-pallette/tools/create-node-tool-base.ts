@@ -13,17 +13,18 @@ export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToo
 
     public coords: { x: number, y: number };
 
-    public async perform(): Promise<any> {
+    public async perform(): Promise<T> {
         if (this.coords === undefined) {
             throw new Error('Coords undefined');
         }
-        await this.createNewNodeAtCoords();
+        return await this.createNewNodeAtCoords();
     }
 
-    private async createNewNodeAtCoords(): Promise<void> {
+    private async createNewNodeAtCoords(): Promise<T> {
         const factory = this.getElementFactory(this.coords);
         const node = await factory.create(this.parent, false);
         this.selectedElementService.select(node);
+        return node;
     }
 
     protected abstract getElementFactory(coords: { x: number, y: number }): ElementFactoryBase<T>;

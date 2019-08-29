@@ -3,7 +3,7 @@
         <div class="pull-right">
             <!-- ZOOM -->
             <button id="editor-zoomout-button" (click)="zoomOut()" class="btn btn-sm btn-secondary pull-left" [class.disabled]="!canZoomOut" title="{{'zoomOut' | translate}}"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
-            <button (click)="resetZoom()" class="btn btn-sm btn-secondary pull-left zoom-indicator" title="{{'restoreZoom' | translate}}">{{zoom * 100 | number: '1.0-0'}}%</button>
+            <button (click)="resetZoom()" class="btn btn-sm btn-secondary pull-left zoom-indicator" title="{{'restoreZoom' | translate}}">100%</button>
             <button id="editor-zoomin-button" (click)="zoomIn()" class="btn btn-sm btn-secondary pull-left" [class.disabled]="!canZoomIn" title="{{'zoomIn' | translate}}"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
             <!-- GRID -->
             <button  *ngIf="!isGridShown" (click)="showGrid()" class="btn btn-sm btn-secondary pull-left" title="{{'showGrid' | translate}}"><i class="fa fa-th" aria-hidden="true"></i></button>
@@ -12,6 +12,7 @@
         </div>
     </h5>
     <div class="card-body">
+        <tool-pallette></tool-pallette>
         <div #mxGraphToolbar id="mxGraphToolbar"></div>
         <div #mxGraphContainer id="mxGraphContainer"></div>
     </div>
