@@ -79,7 +79,7 @@ public class CEGEditorElements extends EditorElements {
 		connection.click();
 		
 		// Assert, that the connection is selected 
-		if(!isElementPresent(By.cssSelector(".form-check-input"))){
+		if(!UITestUtil.isElementPresent(By.cssSelector(".form-check-input"), driver)){
 			connection.click();
 		}
 			
@@ -98,7 +98,7 @@ public class CEGEditorElements extends EditorElements {
 	}
 	
 	public boolean negationDisplayed() {
-		return isElementPresent(By.cssSelector(".tilde"));
+		return UITestUtil.isElementPresent(By.cssSelector(".tilde"), driver);
 	}
 	
 	public boolean checkUndoConnection() {
