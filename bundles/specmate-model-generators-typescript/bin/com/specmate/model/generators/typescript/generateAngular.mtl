@@ -1,0 +1,144 @@
+[comment encoding = UTF-8 /]
+[module generateAngular('http://www.eclipse.org/emf/2002/Ecore')]
+
+[template public generateElement(aClass : EClass)]
+[comment @main/]
+
+[file (aClass.name.concat('.ts'), false)]
+	import './support/gentypes';
+	import { Proxy } from './support/proxy';
+
+	[comment imports for referenced classes /]
+	[if ((aClass.ePackage.name='history') or (aClass.ePackage.name='batch'))]
+		[for (r: EString | aClass.eAllReferences.eType.name->asSet())]
+			import { [r /] } from './[r/]';
+		[/for]
+	[/if]
+
+	[if (aClass.interface)]
+	export interface [aClass.name.toUpperFirst()/] {
+	[else]
+	export class [aClass.name.toUpperFirst()/]  {
+	[/if]
+
+		___nsuri: string[if not (aClass.interface)] = "[aClass.ePackage.nsURI /]"[/if];
+		[if not (aClass.interface)]public[/if] url: string;
+		[if not (aClass.interface)]public[/if] className: string[if not (aClass.interface)] = "[aClass.name.toUpperFirst()/]"[/if];
+		[if not (aClass.interface)]public static className: string = "[aClass.name.toUpperFirst()/]";[/if]
+
+		// Attributes
+		[for (a: EAttribute | aClass.eAllAttributes)]
+		[if not (aClass.interface)]public[/if] [a.name/]: [a.eType.name/][if (a.many)]['['/][']'/][/if];
+		[/for]
+
+		// References
+		[for (r: EReference | aClass.eAllReferences)]
+		[if not (r.containment)][if (not (aClass.interface))]public[/if] [r.name/]: Proxy[if (r.many)]['['/][']'/][/if];[/if]
+		[/for]
+
+		// Containment
+		[comment Containment for history package /]
+		[if ((aClass.ePackage.name='history') or (aClass.ePackage.name='batch'))]
+		[for (r: EReference | aClass.eAllReferences)]
+		[if (r.containment)][if (not (aClass.interface))]public[/if] [r.name/]: [r.eType.name/][if (r.many)]['['/][']'/][/if];[/if]
+		[/for]
+		[/if]
+
+		[comment Fetch icon string from model annotation /]
+		[if (aClass.eAnnotations.details->exists(entry|entry.key='icon'))]
+		// Icon
+		public iconClass:string = "[aClass.getEAnnotation('http://specmate.com/gen').details
+			->select(entry|entry.key='icon')->first().value/]";
+		[/if]
+
+	}
+
+ [/file]
+[/template]
+
+[template public generateEnum(aEnum: EEnum)]
+[comment @main/]
+[file (aEnum.name.concat('.ts'), false)]
+export enum [aEnum.name/] {
+	[for (el: EEnumLiteral | aEnum.eLiterals) separator(',\n')][el.literal.toUpperCase()/] = [el.value/][/for]
+}
+[/file]
+[/template]
+
+[template public generateMeta(aPackage: EPackage)]
+[comment @main/]
+[if (aPackage.name.equalsIgnoreCase('model'))]
+	[file ('meta/field-meta.ts', false)]
+
+export class FieldMetaItem {
+	public name: string;
+    public shortDesc: string;
+    public longDesc: string;
+    public type: string;
+    public required?: boolean;
+    public values?: string;
+	public rows?: string;
+	public position?: string;
+    public allowedPattern?: string;
+}
+
+export class MetaInfo {
+	[for (aClass: EClass | aPackage.eSubpackages.eClassifiers->filter(EClass))]
+	public static [aClass.name/]: FieldMetaItem['['/][']'/] = ['['/]
+		[for (attribute: EAttribute | 
+			aClass.eAllAttributes->select(attr: EAttribute | not attr.eAnnotations.getEAnnotation('http://specmate.com/form_meta')->isEmpty() and
+			aClass.eAnnotations.details->select(detail: EStringToStringMapEntry | detail.key.startsWith('disabled') and detail.value.equalsIgnoreCase(attr.name))->isEmpty())
+		) separator(',')]
+			{
+			name: "[attribute.name/]",
+				[for (detail: EStringToStringMapEntry | attribute.eAnnotations.details) separator(',\n')]
+			[detail.key/]: [if (not (detail.value.equalsIgnoreCase('true') or detail.value.equalsIgnoreCase('false')))]'[/if][detail.value.replaceAll('\'', '\\\\' + '\'')/][if (not (detail.value.equalsIgnoreCase('true') or detail.value.equalsIgnoreCase('false')))]'[/if][/for]
+		
+		}[/for]
+	[']'/];
+	[/for]
+}
+
+	[/file]
+[/if]
+[/template]
+
+[template public generateGentypes(aPackage: EPackage)]
+[comment @main/]
+
+	[if (aPackage.eContainer() = null)]
+		[file ('support/gentypes.ts', false)]
+type EInt = number;
+type EDouble = number;
+type EString = string;
+type EBoolean = boolean;
+type NodeType = string;
+type OperationType = string;
+type EDate = Date;
+type ParameterType = string;
+type AccessRights = string;
+type ErrorCode = string;
+type ELong = number;
+		[/file]
+
+		[file ('support/proxy.ts',false)]
+			export class Proxy {
+				public ___proxy = true;
+				public url:string;
+			}
+		[/file]
+	[/if]
+
+[/template]
+
+
+[query public default(type: String) : String = 
+	if type='EString' then '""'
+ 	else if type='EInt' then  'Number(0)'
+	else if type='EBoolean' then 'false'
+	else 'undefined'
+	endif
+	endif
+	endif
+/]
+

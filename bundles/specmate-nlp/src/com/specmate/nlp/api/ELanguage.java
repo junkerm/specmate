@@ -1,7 +1,7 @@
 package com.specmate.nlp.api;
 
 public enum ELanguage {
-	DE("de", "SUBJ"), EN("en", "subj");
+	DE("de", "SUBJ"), EN("en", "subj"), PSEUDO("pseudo", "subj");
 
 	private String language;
 	private String subjectDependencyType;
