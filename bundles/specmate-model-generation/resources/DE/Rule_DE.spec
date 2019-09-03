@@ -1,25 +1,86 @@
 import DE.DEP.CDG.*
 import DE.POS.STTS.*
 
-def subtrees Cause, Effect, TMP
+def subtrees Cause, Effect, Cause_SubA, Effect_SubA, TMP, TMP_SubA
 
 // Wenn/Falls das Werkzeug einen Fehler erkennt, zeigt es ein Fenster an.
 // Das Werkzeug zeigt ein Fenster an, wenn es einen Fehler erkennt.
 // Weil das Werkzeug einen Fehler erkennt, zeigt es ein Fenster an.
 // Ein Fenster wird vom Werkzeug angezeigt, wenn es einen Fehler erkennt.
 def rule Condition1_1 {
-	[Effect] - NEB -> [Cause] - KONJ -> KOUS:'(wenn)|(falls)'
+	[Effect] - NEB -> [Cause] - KONJ -> KOUS:'(wenn)|(falls)|(da)'
 	[Effect] - ADV -> ADV:'(so)|(dann)'	
 }
 
 def rule Condition1_2 {
-	[Effect] - NEB -> [Cause] - KONJ -> KOUS:'(wenn)|(falls)|(weil)|(sofern)|(damit)|(obwohl)|(obgleich)|(obschon)|(obzwar)|(wenngleich)|(wiewohl)'	
+	[Effect] - NEB -> [Cause] - KONJ -> KOUS:'(wenn)|(falls)|(weil)|(sofern)|(obwohl)|(obgleich)|(obschon)|(obzwar)|(wenngleich)|(wiewohl)'	
+}
+
+def rule Condition1_3 {
+	[Effect] - OBJC -> [Cause] - KONJ -> KOUS:'(wenn)|(falls)|(weil)|(sofern)|(damit)|(obwohl)|(obgleich)|(obschon)|(obzwar)|(wenngleich)|(wiewohl)'	
 }
 
 // Das Werkzeug zeigt ein Fenster an, weil es einen Fehler erkannt hat.
 // Das Werkzeug zeigt ein Fenster an, sofern es einen Fehler findet.
-def rule Condition1_3 {
+def rule Condition1_4 {
 	[Effect] - OBJC -> [Cause] - KONJ -> KOUS:'(weil)|(sofern)|(obwohl)|(obgleich)|(obschon)|(obzwar)|(wenngleich)|(wiewohl)'	
+}
+
+def rule Condition1_5 {
+	[Effect] - OBJC -> [Cause] - SUBJ -> [Cause_SubA] - ADV -> 'obzwar' 
+}
+
+def rule Condition1_6 {
+	[Cause] - NEB -> [Effect] - KONJ -> KOUS:'damit'	
+}
+
+def rule Condition1_7 {
+	[Cause] - SUBJC -> [Effect] - SUBJ -> [Effect_SubA] - PP -> 'damit'	
+}
+
+// Für den Fall dass der Benutzer die Schaltfläche drückt lädt Specmate das Modell.
+def rule Condition19 {
+	[Effect] - PP -> 'für' - PN -> 'Fall' - OBJC -> [Cause] - KONJ -> 'dass'
+}
+
+// Unter der Voraussetzung dass das Modell korrekt ist speichert das Tool das Modell.
+def rule Condition22 {
+	[Effect] - PP -> 'unter' - PN -> 'Voraussetzung' - OBJC -> [Cause] - KONJ -> 'dass':[TMP]
+}
+
+// Unter der Voraussetzung dass das Modell korrekt ist speichert das Tool das Modell.
+def rule Condition23 {
+	[Cause] - OBJA -> [Effect] - REL -> [Effect_SubA] - ADV -> 'weswegen'
+}
+
+// Ein Klick auf die Schaltfläche hat zur Folge dass ein Backend-Aufruf ausgeführt wird.
+def rule Condition24 {
+	'hat':[TMP] - NEB -> [Effect]
+	'hat':[TMP] - SUBJ -> [Cause]
+	'hat':[TMP] - PP -> 'zur' - PN -> 'Folge'
+	[Effect] - KONJ -> 'dass':[TMP_SubA]
+}
+
+// Gesetzt den Fall dass die Validierung erfolgreich ist wird die Speicher-Schaltfläche aktiviert.
+def rule Condition24 {
+	[Effect] - SUBJ -> 'Fall':[TMP] - OBJC -> [Cause]  
+	'Fall':[TMP] - ADV -> 'gesetzt'
+	[Cause] - KONJ -> 'dass'
+}
+
+// Infolge einer falschen Eingabe wird ein Hinweis angezeigt.
+def rule Condition25 {
+	[Effect] - PP -> 'infolge' - PN -> [Cause]
+}
+
+// Ein Fehler tritt auf aufgrund dessen Specmate abstürzt.
+def rule Condition26 {
+	[Cause] - KON -> [Effect] - PP -> 'aufgrund'
+}
+
+// Specmate zeigt das Modell an nachdem der Nutzer den Link angeklickt hat.
+def rule Condition27 {
+	[Effect] - OBJC -> [Cause] - KONJ -> 'nachdem'
 }
 
 // Das Werkzeug zeigt ein Fenster an, unter der Bedingung, dass es einen Fehler findet.
@@ -31,6 +92,11 @@ def rule Condition2_1 {
 // Das Werkzeug erkennt einen Fehler, weswegen es ein Fenster anzeigt.
 def rule Condition2_2 {
 	[Effect] - NEB -> [Cause] - PP -> PWAV:'weswegen'	
+}
+
+// Für den Fall dass der Benutzer die Schaltfläche drückt lädt Specmate das Modell.
+def rule Condition21 {
+	[Effect] - PP -> 'unter' - PN -> 'Bedingung' - OBJC -> [Cause] - KONJ -> 'dass'
 }
 
 def rule Condition2_3 {
@@ -51,6 +117,7 @@ def rule Condition3_1 {
 def rule Condition3_2 {
 	[Cause] - KON -> VAFIN:'hat'- OBJA -> [Effect] - PP -> APPRART:'zur'	
 }
+
 
 // Das Werkzeug zeigt ein Fenster an, gesetzt den Fall das es einen Fehler gefunden hat.
 def rule Condition4_1 {
@@ -75,11 +142,29 @@ def rule Condition6_1 {
 	[Effect] - ADV -> ADV:'(so)|(dann)'	
 }
 
+// Der Fehler tritt auf, so dass Specmate abstürzt.
+def rule Condition6_2 {
+	[Cause] - NEB -> [Effect]	
+	[Effect] - KONJ -> 'dass' - ADV -> 'so'
+}
+
+// Da der Benutzer auf den Link klickt, öffnet Specmate das Modell.
+def rule Condition6_3 {
+	[Effect] - NEB -> [Cause]	
+	[Cause] - KONJ -> 'da'
+}
+
+// Angenommen die Verbindung schlägt fehl wird eine lokale Version geladen.
+def rule Condition6_4 {
+	[Effect] - NEB -> [Cause] - ADV -> 'Angenommen':[TMP]
+}
+
 // Wird ein Fehler vom Werkzeug erkannt, wird ein Fenster von ihm angezeigt.
 // Sollte ein Fehler vom Werkzeug erkannt werden, zeigt es ein Fenster an.
-def rule Condition6_2 {
+def rule Condition6_5 {
 	[Effect] - NEB -> [Cause]	
 }
+
 
 // Aufgrund, das das Werkzeug einen Fehler erkennt, zeigt es ein Fenster an.
 def rule Condition7 {
@@ -111,6 +196,10 @@ def rule Condition11_1 {
 // Wegen des vom Werkzeug erkannten Fehlers, zeigt es ein Fenster an.
 def rule Condition11_2 {
 	[Effect] - PP -> APPR:'(aufgrund)|(dank)|(wegen)' - PN -> [Cause] 	
+}
+
+def rule Condition11_3 {
+	[Effect] - OBJA -> [Effect_SubA] - PP -> '(aufgrund)|(dank)|(wegen)' - PN -> [Cause] 	
 }
 
 // Das Anzeigen eines Fensers durch das Werkzeug, ist zurückzuführen auf das Erkennen eines Fehlers durch das Werkzeug.
@@ -147,6 +236,35 @@ def rule Condition14_2 {
 def rule Condition15 {
 	[Effect] - PP -> APPR:'für' - PN -> [Cause] - DET -> PIAT:'alle'
 }
+
+// Der Benutzer klickt auf die Schaltfläche, aus diesem Grund öffnet Specmate das Modell.
+def rule Condition16 {
+	[Cause] - KON -> [Effect]
+	[Effect] - PP -> 'aus' - PN -> 'Grund' - DET -> 'diesem'
+}
+
+// Specmate zeigt das Fehlerfenster als Ergebnis ungültiger Login-Daten an.
+def rule Condition17 {
+	[Effect] - KOM -> 'als' - CJ -> 'Ergebnis' - GMOD -> [Cause] 
+}
+
+// Specmate zeigt das Fehlerfenster als Ergebnis ungültiger Login-Daten an.
+def rule Condition18 {
+	[Effect] - PP -> 'wegen' - PN -> [Cause] 
+}
+
+// Das Problem hat etwas/viel mit der Verbindung zu tun.
+def rule Condition20 {
+	'hat':[TMP] - SUBJ -> [Effect] 
+	[TMP] - AUX -> 'tun' - PP -> 'mit' - PN -> [Cause]
+}
+//	[TMP] - AUX -> 'tun' - ADV -> '(etwas|viel)'
+//	[TMP] - AUX -> 'tun' - PART -> 'zu'
+
+
+
+
+
 
 // TODO Das Werkzeug zeigt ein Fenster an, auch wenn das Werkzeug einen Fehler findet.
 // TODO Auch wenn das Werkzeug einen Fehler findet, zeigt das Werkzeug einen Fehler an.
@@ -223,6 +341,10 @@ def subtrees Variable, Condition
 
 def rule CondVar {
 	[Condition] - SUBJ -> [Variable]
+}
+
+def rule CondVar_2 {
+	[Variable] - REL ->[Condition]
 }
 
 def subtrees Verb, Verb_SubA, Object
